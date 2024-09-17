@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Chapter and Verse Selector</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Quran Chapter and Verse Selector</h1>
+
+    <!-- Dropdown for Quran Chapters -->
+    <label for="chapterSelect">Select Chapter (Surah):</label>
+    <select id="chapterSelect" onchange="onChapterChange()">
+        <!-- Chapters will be dynamically populated -->
+    </select>
+
+    <!-- Dropdown for Quran Verses -->
+    <label for="verseSelect">Select Verse (Ayah):</label>
+    <select id="verseSelect" onchange="displayVerse()">
+        <!-- Verse options will be dynamically populated -->
+    </select>
+
+    <!-- Section to display selected verse -->
+    <p id="verseDisplay">Select a verse to see its content here.</p>
+
+    <!-- Add button below displayed verse -->
+    <button onclick="addVerse()">+</button>
+
+    <!-- Hidden section to display the file path for debugging -->
+    <div id="filePathDisplay" style="display: none;"></div>
+
+    <!-- Horizontal line to separate sections -->
+    <hr>
+
+    <!-- Section where stacked verses will be added -->
+    <div id="stackedVerses"></div>
+
+    <script src="js/helpers.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/dom.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

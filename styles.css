@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+}
+h1 {
+    color: #3498db;
+}
+select, button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+}
+p, .verse {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #2c3e50;
+}
+hr {
+    border: none;
+    border-top: 5px solid #333;  /* Double line to 5 solid lines */
+    margin: 20px 0;
+}
+.dashed-line {
+    border-top: 1px dashed #333;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
