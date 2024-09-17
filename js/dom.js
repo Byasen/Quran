@@ -51,9 +51,48 @@ async function displayVerse() {
             <strong>Arabic:</strong> ${verseData.text.ar}<br>
             <strong>English:</strong> ${verseData.text.en}
         `;
+
+        // Display the corresponding Quran page based on the page number in the JSON
+        displayQuranPage(verseData.page);
+
     } else {
         verseDisplay.textContent = 'Verse not available.';
     }
+}
+
+// Function to display the corresponding Quran page (SVG)
+function displayQuranPage(pageNumber) {
+    if (pageNumber) {
+        // Build the file path for the SVG
+        const svgFilePath = `data/SVG/${padNumber(pageNumber)}.svg`;
+
+        // Create an <img> element to display the SVG
+        const svgContainer = document.getElementById('svgContainer');
+        svgContainer.innerHTML = `<img src="${svgFilePath}" alt="Quran Page ${pageNumber}" style="max-width: 100%; height: auto;">`;
+    } else {
+        // Handle the case where the page number is not found
+        const svgContainer = document.getElementById('svgContainer');
+        svgContainer.innerHTML = `<p>Page not found for this verse.</p>`;
+    }
+}
+
+// Helper function to fetch the verse data
+async function fetchVerse(chapterNumber, verseNumber) {
+    try {
+        const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
+        if (!response.ok) {
+            throw new Error('Verse file not found');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+// Helper function to pad the number with leading zeros (for filenames)
+function padNumber(num) {
+    return String(num).padStart(3, '0');
 }
 
 // Add the selected verse to the stacked section
