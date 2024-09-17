@@ -32,6 +32,18 @@
     <input type="file" id="fileInput" onchange="loadState(event)" />
     <button onclick="document.getElementById('fileInput').click()">Load</button>
 
+    <!-- Container to display the Quran pages (previous, current, next) -->
+    <div class="quran-pages">
+        <!-- Left: Previous page -->
+        <div id="nextPage" class="page"></div>
+
+        <!-- Center: Current page -->
+        <div id="currentPage" class="page"></div>
+
+        <!-- Right: Next page -->
+        <div id="previousPage" class="page"></div>
+    </div>
+
     <!-- Horizontal line above the text area -->
     <hr class="horizontal-line">
 
@@ -43,9 +55,6 @@
 
     <!-- Section where stacked verses will be added -->
     <div id="stackedVerses"></div>
-
-    <!-- Section where the Quran page (SVG) will be displayed -->
-    <div id="svgContainer" style="margin-top: 20px;"></div>
 
     <!-- Log Section -->
     <div id="filePathDisplay" class="log-box"></div>

@@ -52,28 +52,60 @@ async function displayVerse() {
             <strong>English:</strong> ${verseData.text.en}
         `;
 
-        // Display the corresponding Quran page based on the page number in the JSON
-        displayQuranPage(verseData.page);
+        // Display the corresponding Quran pages based on the page number in the JSON and highlight the selected verse
+        displayQuranPagesWithHighlight(verseData.page, selectedVerse);
 
     } else {
         verseDisplay.textContent = 'Verse not available.';
     }
 }
 
-// Function to display the corresponding Quran page (SVG)
-function displayQuranPage(pageNumber) {
+// Function to display the corresponding Quran pages (SVG) and highlight the selected verse
+function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
     if (pageNumber) {
-        // Build the file path for the SVG
-        const svgFilePath = `data/SVG/${padNumber(pageNumber)}.svg`;
+        // Display the current page and highlight the verse
+        const currentPagePath = `data/SVG/${padNumber(pageNumber)}.svg`;
+        fetch(currentPagePath)
+            .then(response => response.text())
+            .then(svgText => {
+                const parser = new DOMParser();
+                const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+                const svgElement = svgDoc.documentElement;
 
-        // Create an <img> element to display the SVG
-        const svgContainer = document.getElementById('svgContainer');
-        svgContainer.innerHTML = `<img src="${svgFilePath}" alt="Quran Page ${pageNumber}" style="max-width: 100%; height: auto;">`;
+                // Find the verse element inside the SVG and highlight it (assuming each verse has an ID like 'verse-1', 'verse-2', etc.)
+                const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
+                if (verseElement) {
+                    verseElement.setAttribute("style", "fill: blue;"); // Apply blue color to the verse text
+                }
+
+                const currentPageContainer = document.getElementById('currentPage');
+                currentPageContainer.innerHTML = ''; // Clear the previous content
+                currentPageContainer.appendChild(svgElement); // Append the modified SVG
+            });
+
+        // Load the previous and next pages as normal
+        displayPreviousNextPages(pageNumber);
     } else {
-        // Handle the case where the page number is not found
-        const svgContainer = document.getElementById('svgContainer');
-        svgContainer.innerHTML = `<p>Page not found for this verse.</p>`;
+        const currentPageContainer = document.getElementById('currentPage');
+        currentPageContainer.innerHTML = `<p>Page not found for this verse.</p>`;
     }
+}
+
+// Function to display the previous and next Quran pages (SVG)
+function displayPreviousNextPages(pageNumber) {
+    // Display the previous page
+    const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
+    const previousPageContainer = document.getElementById('previousPage');
+    if (pageNumber > 1) {
+        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="max-width: 100%; height: auto;">`;
+    } else {
+        previousPageContainer.innerHTML = `<p>No previous page</p>`;
+    }
+
+    // Display the next page
+    const nextPagePath = `data/SVG/${padNumber(pageNumber + 1)}.svg`;
+    const nextPageContainer = document.getElementById('nextPage');
+    nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
 }
 
 // Helper function to fetch the verse data
@@ -138,7 +170,7 @@ function removeVerse(element) {
     }
 }
 
-// Save the current state to a file, including user input
+// Save the current state to a file with a specific name
 function saveState() {
     const stackedVerses = document.getElementById('stackedVerses').children;
     const state = [];
@@ -162,13 +194,16 @@ function saveState() {
         userInput: userInput
     };
 
+    // Convert the state to a JSON string
+    const jsonData = JSON.stringify(fullState, null, 2);
+
     // Create a downloadable file with the state
-    const blob = new Blob([JSON.stringify(fullState, null, 2)], { type: 'application/json' });
+    const blob = new Blob([jsonData], { type: 'application/json' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'quran_state.json';  // The filename for the saved file
+    link.download = 'quran_state.json';  // You can rename it or let the user rename it manually
 
-    // Append link to body, click it to start download, and then remove it
+    // Append the link, click it to start download, and then remove it
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
