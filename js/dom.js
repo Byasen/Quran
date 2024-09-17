@@ -98,3 +98,62 @@ function removeVerse(element) {
         dashedLine.remove(); // Remove the dashed line
     }
 }
+
+// Save the current state to a file
+function saveState() {
+    const stackedVerses = document.getElementById('stackedVerses').children;
+    const state = [];
+
+    // Loop through stacked verses and save the Surah and Verse numbers
+    for (let i = 0; i < stackedVerses.length; i += 2) {
+        const verseDiv = stackedVerses[i];
+        const surahInfo = verseDiv.querySelector('strong').textContent.match(/Surah (\d+): .* Ayah (\d+)/);
+        if (surahInfo) {
+            const [_, surahNumber, verseNumber] = surahInfo;
+            state.push({ surahNumber, verseNumber });
+        }
+    }
+
+    // Convert the state object to JSON string
+    const stateJson = JSON.stringify(state, null, 2);
+
+    // Create a downloadable file with the state
+    const blob = new Blob([stateJson], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'quran_state.json';  // The filename for the saved file
+
+    // Append link to body, click it to start download, and then remove it
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Load a saved state from a file
+function loadState(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        const state = JSON.parse(e.target.result);
+        restoreState(state);
+    };
+
+    if (file) {
+        reader.readAsText(file);
+    }
+}
+
+// Restore the saved state
+async function restoreState(state) {
+    // Clear current stacked verses
+    document.getElementById('stackedVerses').innerHTML = '';
+
+    for (const { surahNumber, verseNumber } of state) {
+        // Set the dropdown to the correct Surah and Verse, and add them to the stack
+        document.getElementById('chapterSelect').value = surahNumber;
+        await fetchSurahVerses(surahNumber); // Populate the verses for the Surah
+        document.getElementById('verseSelect').value = verseNumber;
+        addVerse(); // Add the verse to the stacked section
+    }
+}

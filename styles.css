@@ -18,7 +18,7 @@ p, .verse {
 }
 hr {
     border: none;
-    border-top: 5px solid #333;  /* Double line to 5 solid lines */
+    border-top: 5px solid #333;
     margin: 20px 0;
 }
 .dashed-line {

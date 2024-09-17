@@ -27,6 +27,11 @@
     <!-- Add button below displayed verse -->
     <button onclick="addVerse()">+</button>
 
+    <!-- Save and Load buttons -->
+    <button onclick="saveState()">Save</button>
+    <input type="file" id="fileInput" onchange="loadState(event)" />
+    <button onclick="document.getElementById('fileInput').click()">Load</button>
+
     <!-- Hidden section to display the file path for debugging -->
     <div id="filePathDisplay" style="display: none;"></div>
 

@@ -13,4 +13,12 @@ function appendFilePath(filePath) {
     filePathDisplay.appendChild(logEntry);  // Append to the log section
 }
 
-// Append an
+// Append an error message to the existing error log (hidden by default)
+function appendError(message) {
+    const verseDisplay = document.getElementById('verseDisplay');
+    const logEntry = document.createElement('div');
+    logEntry.classList.add('log-entry');
+    logEntry.textContent = message;
+    verseDisplay.style.display = 'none'; // Hide by default
+    verseDisplay.appendChild(logEntry);  // Append to the log section
+}
