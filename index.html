@@ -32,14 +32,20 @@
     <input type="file" id="fileInput" onchange="loadState(event)" />
     <button onclick="document.getElementById('fileInput').click()">Load</button>
 
-    <!-- Hidden section to display the file path for debugging -->
-    <div id="filePathDisplay" style="display: none;"></div>
+    <!-- Horizontal line above the text area -->
+    <hr class="horizontal-line">
 
-    <!-- Horizontal line to separate sections -->
-    <hr>
+    <!-- Text area for user input -->
+    <textarea id="userInput" placeholder="Enter your notes here" rows="4" cols="50"></textarea>
+
+    <!-- Horizontal line below the text area -->
+    <hr class="horizontal-line">
 
     <!-- Section where stacked verses will be added -->
     <div id="stackedVerses"></div>
+
+    <!-- Log Section -->
+    <div id="filePathDisplay" class="log-box"></div>
 
     <script src="js/helpers.js"></script>
     <script src="js/data.js"></script>

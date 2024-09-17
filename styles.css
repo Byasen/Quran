@@ -6,7 +6,7 @@ body {
 h1 {
     color: #3498db;
 }
-select, button {
+select, button, textarea {
     padding: 10px;
     margin: 10px;
     font-size: 16px;
@@ -18,11 +18,18 @@ p, .verse {
 }
 hr {
     border: none;
-    border-top: 5px solid #333;
+    border-top: 1px solid #333;
     margin: 20px 0;
 }
 .dashed-line {
     border-top: 1px dashed #333;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+.log-box {
+    border: 1px solid red;
+    padding: 10px;
+    color: red;
+    margin-top: 20px;
+    display: none; /* Initially hidden */
 }

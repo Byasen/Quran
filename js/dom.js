@@ -99,7 +99,7 @@ function removeVerse(element) {
     }
 }
 
-// Save the current state to a file
+// Save the current state to a file, including user input
 function saveState() {
     const stackedVerses = document.getElementById('stackedVerses').children;
     const state = [];
@@ -114,11 +114,17 @@ function saveState() {
         }
     }
 
-    // Convert the state object to JSON string
-    const stateJson = JSON.stringify(state, null, 2);
+    // Get the text box content
+    const userInput = document.getElementById('userInput').value;
+
+    // Save both the verses and the text box content to the state
+    const fullState = {
+        verses: state,
+        userInput: userInput
+    };
 
     // Create a downloadable file with the state
-    const blob = new Blob([stateJson], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(fullState, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = 'quran_state.json';  // The filename for the saved file
@@ -135,8 +141,11 @@ function loadState(event) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
-        const state = JSON.parse(e.target.result);
-        restoreState(state);
+        const fullState = JSON.parse(e.target.result);
+
+        // Restore the stacked verses and the text box content
+        restoreState(fullState.verses);
+        document.getElementById('userInput').value = fullState.userInput || '';
     };
 
     if (file) {
@@ -144,7 +153,7 @@ function loadState(event) {
     }
 }
 
-// Restore the saved state
+// Restore the saved state (for the verses)
 async function restoreState(state) {
     // Clear current stacked verses
     document.getElementById('stackedVerses').innerHTML = '';

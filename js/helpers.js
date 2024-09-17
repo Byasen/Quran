@@ -3,22 +3,24 @@ function padNumber(num) {
     return String(num).padStart(3, '0');
 }
 
-// Append the file path being fetched (for debugging) to the existing log (hidden by default)
+// Append the file path being fetched (for debugging) to the existing log (now in red box)
 function appendFilePath(filePath) {
     const filePathDisplay = document.getElementById('filePathDisplay');
     const logEntry = document.createElement('div');
     logEntry.classList.add('log-entry');
     logEntry.innerHTML = `Fetching from: ${filePath}`;
-    filePathDisplay.style.display = 'none'; // Hide by default
+//   filePathDisplay.style.display = 'block'; // Show the log box
+filePathDisplay.style.display = 'none'; // Hide the log box
     filePathDisplay.appendChild(logEntry);  // Append to the log section
 }
 
-// Append an error message to the existing error log (hidden by default)
+// Append an error message to the existing error log (now in red box)
 function appendError(message) {
-    const verseDisplay = document.getElementById('verseDisplay');
+    const filePathDisplay = document.getElementById('filePathDisplay');
     const logEntry = document.createElement('div');
     logEntry.classList.add('log-entry');
     logEntry.textContent = message;
-    verseDisplay.style.display = 'none'; // Hide by default
-    verseDisplay.appendChild(logEntry);  // Append to the log section
+//   filePathDisplay.style.display = 'block'; // Show the log box
+    filePathDisplay.style.display = 'none'; // Hide the log box
+    filePathDisplay.appendChild(logEntry);  // Append to the log section
 }
