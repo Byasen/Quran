@@ -15,11 +15,14 @@ function saveState() {
         }
     }
 
-    const userInput = document.getElementById('userInput').value;
+    // Capture content of the main text areas
+    const questionInput = document.getElementById('questionInput').value;
+    const answerInput = document.getElementById('answerInput').value;
 
     const fullState = {
         verses: state,
-        userInput: userInput
+        questionInput: questionInput,
+        answerInput: answerInput // Save new text area content
     };
 
     const jsonData = JSON.stringify(fullState, null, 2);
@@ -28,25 +31,4 @@ function saveState() {
     newTab.document.title = 'Quran State JSON';
 }
 
-// Restore the saved state (for the verses only)
-async function restoreState(state) {
-    if (state && Array.isArray(state)) {
-        document.getElementById('stackedVerses').innerHTML = '';
 
-        for (const { surahNumber, verseNumber, verseNotes } of state) {
-            document.getElementById('chapterSelect').value = surahNumber;
-            await fetchSurahVerses(surahNumber);
-            document.getElementById('verseSelect').value = verseNumber;
-            await addVerse();
-
-            const stackedVerses = document.getElementById('stackedVerses').children;
-            const lastVerseDiv = stackedVerses[stackedVerses.length - 2];
-            const textArea = lastVerseDiv.querySelector('textarea');
-            if (textArea) {
-                textArea.value = verseNotes || "";
-            }
-        }
-    } else {
-        console.error("Invalid state structure:", state);
-    }
-}

@@ -1,15 +1,11 @@
 {
   "verses": [
     {
-      "surahNumber": "1",
+      "surahNumber": "9",
       "verseNumber": "1",
-      "verseNotes": "شغال "
-    },
-    {
-      "surahNumber": "22",
-      "verseNumber": "42",
-      "verseNotes": "هاي مناسبة"
+      "verseNotes": "333"
     }
   ],
-  "userInput": "أما هذه الشبهه"
+  "questionInput": "1",
+  "answerInput": "22"
 }
