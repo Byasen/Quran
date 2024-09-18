@@ -1,5 +1,5 @@
-// Fetch a specific verse including its meaning from ar_ma3any.json
-async function fetchVerseWithMeaning(chapterNumber, verseNumber) {
+// Fetch a specific verse, including its meaning from ar_ma3any.json and grammar analysis from e3rab.json
+async function fetchVerseWithMeaningAndGrammar(chapterNumber, verseNumber) {
     try {
         // Fetch the verse as usual
         const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
@@ -15,14 +15,27 @@ async function fetchVerseWithMeaning(chapterNumber, verseNumber) {
         }
         const meanings = await meaningResponse.json();
 
+        // Fetch the grammar analysis from e3rab.json
+        const e3rabResponse = await fetch('data/eaarab/e3rab.json');
+        if (!e3rabResponse.ok) {
+            throw new Error('Grammar file not found');
+        }
+        const e3rab = await e3rabResponse.json();
+
         // Find the corresponding meaning for this verse
         const verseMeaning = meanings.find(
             meaning => meaning.sura == chapterNumber && meaning.aya == verseNumber
         );
 
+        // Find the corresponding grammar analysis for this verse
+        const verseGrammar = e3rab.find(
+            grammar => grammar.sura == chapterNumber && grammar.aya == verseNumber
+        );
+
         return {
             verseData,
-            meaningText: verseMeaning ? verseMeaning.text : 'No meaning available'
+            meaningText: verseMeaning ? verseMeaning.text : 'No meaning available',
+            grammarText: verseGrammar ? verseGrammar.text : 'No grammar analysis available'
         };
     } catch (error) {
         console.error(error);
@@ -30,7 +43,7 @@ async function fetchVerseWithMeaning(chapterNumber, verseNumber) {
     }
 }
 
-// Display the verse and its meaning in the UI
+// Display the verse, its meaning, and its grammar analysis in the UI
 async function displayVerseWithMeaning() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -39,18 +52,19 @@ async function displayVerseWithMeaning() {
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
 
-    const verseWithMeaning = await fetchVerseWithMeaning(selectedChapter, selectedVerse);
-    if (verseWithMeaning) {
+    const verseWithMeaningAndGrammar = await fetchVerseWithMeaningAndGrammar(selectedChapter, selectedVerse);
+    if (verseWithMeaningAndGrammar) {
         verseDisplay.innerHTML = `
-            <strong>Arabic:</strong> ${verseWithMeaning.verseData.text.ar}<br>
-            <strong>English:</strong> ${verseWithMeaning.verseData.text.en}<br>
-            <strong>Meaning:</strong> ${verseWithMeaning.meaningText}
+            <strong>Arabic:</strong> ${verseWithMeaningAndGrammar.verseData.text.ar}<br>
+            <strong>English:</strong> ${verseWithMeaningAndGrammar.verseData.text.en}<br>
+            <strong>Meaning:</strong> ${verseWithMeaningAndGrammar.meaningText}<br>
+            <strong>Grammar Analysis:</strong> ${verseWithMeaningAndGrammar.grammarText}
         `;
 
         // Display the corresponding Quran pages based on the page number in the JSON and highlight the selected verse
-        displayQuranPagesWithHighlight(verseWithMeaning.verseData.page, selectedVerse);
+        displayQuranPagesWithHighlight(verseWithMeaningAndGrammar.verseData.page, selectedVerse);
     } else {
-        verseDisplay.textContent = 'Verse or meaning not available.';
+        verseDisplay.textContent = 'Verse, meaning, or grammar analysis not available.';
     }
 }
 
