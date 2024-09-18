@@ -1,12 +1,12 @@
 {
   "verses": [
     {
-      "surahNumber": "11",
+      "surahNumber": "1",
       "verseNumber": "1"
     },
     {
-      "surahNumber": "32",
-      "verseNumber": "24"
+      "surahNumber": "23",
+      "verseNumber": "1"
     }
   ],
   "userInput": ""
