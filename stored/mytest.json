@@ -2,12 +2,14 @@
   "verses": [
     {
       "surahNumber": "1",
-      "verseNumber": "1"
+      "verseNumber": "1",
+      "verseNotes": "mytest"
     },
     {
-      "surahNumber": "23",
-      "verseNumber": "1"
+      "surahNumber": "44",
+      "verseNumber": "1",
+      "verseNotes": "بسنتبنشتلمنشتسكب "
     }
   ],
-  "userInput": ""
+  "userInput": "يمسنشتيمنشستمنب "
 }
