@@ -3,29 +3,35 @@ body {
     text-align: center;
     padding: 50px;
 }
+
 h1 {
     color: #3498db;
 }
+
 select, button, textarea {
     padding: 10px;
     margin: 10px;
     font-size: 16px;
 }
+
 p, .verse {
     font-size: 18px;
     margin-top: 20px;
     color: #2c3e50;
 }
+
 hr {
     border: none;
     border-top: 1px solid #333;
     margin: 20px 0;
 }
+
 .dashed-line {
     border-top: 1px dashed #333;
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
 .log-box {
     border: 1px solid red;
     padding: 10px;
@@ -69,4 +75,22 @@ hr {
 textarea {
     width: 100%; /* Make the text box span the full width */
     box-sizing: border-box; /* Include padding and border in the element's width */
+}
+
+/* New styles for control container and button alignment */
+.controls-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.controls-container select,
+.controls-container button {
+    margin-right: 10px; /* Adds space between elements */
+}
+
+.controls-container button {
+    flex-shrink: 0; /* Prevents buttons from shrinking */
 }

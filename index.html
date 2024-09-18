@@ -9,30 +9,31 @@
 <body>
     <h1>Quran Chapter and Verse Selector</h1>
 
-    <!-- Dropdown for Quran Chapters -->
-    <label for="chapterSelect">Select Chapter (Surah):</label>
-    <select id="chapterSelect" onchange="onChapterChange()">
-        <!-- Chapters will be dynamically populated -->
-    </select>
+    <!-- Container to group dropdowns and buttons -->
+    <div class="controls-container">
+        <!-- Dropdown for Quran Chapters -->
+        <label for="chapterSelect">Select Chapter (Surah):</label>
+        <select id="chapterSelect" onchange="onChapterChange()">
+            <!-- Chapters will be dynamically populated -->
+        </select>
 
-    <!-- Dropdown for Quran Verses -->
-    <label for="verseSelect">Select Verse (Ayah):</label>
-    <select id="verseSelect">
-        <!-- Verse options will be dynamically populated -->
-    </select>
+        <!-- Dropdown for Quran Verses -->
+        <label for="verseSelect">Select Verse (Ayah):</label>
+        <select id="verseSelect">
+            <!-- Verse options will be dynamically populated -->
+        </select>
 
-    <!-- Dedicated Select button to trigger verse display -->
-    <button onclick="displayVerseWithMeaning()">Select</button>
+        <!-- Dedicated Select button to trigger verse display -->
+        <button onclick="displayVerseWithMeaning()">Select</button>
+
+        <!-- Buttons for adding, saving, and loading state -->
+        <button onclick="addVerse()">+</button>
+        <button onclick="saveState()">Save</button>
+        <button onclick="loadState()">Load</button>
+    </div>
 
     <!-- Section to display selected verse -->
     <p id="verseDisplay">Select a verse to see its content here.</p>
-
-    <!-- Add button below displayed verse -->
-    <button onclick="addVerse()">+</button>
-
-    <!-- Save and Load buttons -->
-    <button onclick="saveState()">Save</button>
-    <button onclick="loadState()">Load</button>
 
     <!-- Container to display the Quran pages (previous, current, next) -->
     <div class="quran-pages">
