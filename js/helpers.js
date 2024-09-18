@@ -9,8 +9,8 @@ function appendFilePath(filePath) {
     const logEntry = document.createElement('div');
     logEntry.classList.add('log-entry');
     logEntry.innerHTML = `Fetching from: ${filePath}`;
-//   filePathDisplay.style.display = 'block'; // Show the log box
-filePathDisplay.style.display = 'none'; // Hide the log box
+    //filePathDisplay.style.display = 'block'; // Show the log box
+    filePathDisplay.style.display = 'none'; // Hide the log box
     filePathDisplay.appendChild(logEntry);  // Append to the log section
 }
 
@@ -20,7 +20,7 @@ function appendError(message) {
     const logEntry = document.createElement('div');
     logEntry.classList.add('log-entry');
     logEntry.textContent = message;
-//   filePathDisplay.style.display = 'block'; // Show the log box
+    //filePathDisplay.style.display = 'block'; // Show the log box
     filePathDisplay.style.display = 'none'; // Hide the log box
     filePathDisplay.appendChild(logEntry);  // Append to the log section
 }

@@ -143,6 +143,7 @@ async function addVerse() {
             <strong>Surah ${selectedSurah.number}: ${selectedSurah.name.en} (${selectedSurah.name.ar}), Ayah ${selectedVerse}</strong><br>
             <strong>Arabic:</strong> ${verseData.text.ar}
             <br><button onclick="removeVerse(this)">Remove</button>
+            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">Select</button>
         `;
 
         // Add a dashed line between verses
@@ -153,6 +154,16 @@ async function addVerse() {
         stackedVerses.appendChild(newVerseDiv);
         stackedVerses.appendChild(dashedLine);
     }
+}
+
+// Function to handle selecting a stacked verse
+function selectStackedVerse(chapterNumber, verseNumber) {
+    // Set the dropdowns to the correct Surah and Verse
+    document.getElementById('chapterSelect').value = chapterNumber;
+    fetchSurahVerses(chapterNumber).then(() => {
+        document.getElementById('verseSelect').value = verseNumber;
+        displayVerse(); // Display the selected verse in the top section
+    });
 }
 
 // Remove a verse from the stacked section
@@ -195,32 +206,6 @@ function saveState() {
     const newTab = window.open();
     newTab.document.write(`<pre>${jsonData}</pre>`);
     newTab.document.title = 'Quran State JSON';
-}
-
-// Load a saved state from a file
-function loadState() {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.json';
-    
-    fileInput.onchange = function(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const fullState = JSON.parse(e.target.result);
-
-            // Restore the stacked verses and the text box content
-            restoreState(fullState.verses);
-            document.getElementById('userInput').value = fullState.userInput || '';
-        };
-
-        if (file) {
-            reader.readAsText(file);
-        }
-    };
-
-    fileInput.click();
 }
 
 // Restore the saved state (for the verses)
