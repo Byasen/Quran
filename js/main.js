@@ -15,17 +15,23 @@ function loadState(event) {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.json';
-    
+
     fileInput.onchange = function(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
 
-        reader.onload = function (e) {
-            const fullState = JSON.parse(e.target.result);
+        reader.onload = async function (e) {
+            try {
+                const fullState = JSON.parse(e.target.result);
 
-            // Restore the stacked verses and the text box content
-            restoreState(fullState.verses);
-            document.getElementById('userInput').value = fullState.userInput || '';
+                // Log the parsed JSON to verify the structure
+                console.log("Parsed JSON:", fullState);
+
+                // Call restoreState to restore the state from the JSON
+                await restoreState(fullState);
+            } catch (error) {
+                console.error("Error parsing or restoring state:", error.message);
+            }
         };
 
         if (file) {

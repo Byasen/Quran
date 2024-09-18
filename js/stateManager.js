@@ -32,3 +32,41 @@ function saveState() {
 }
 
 
+// Restore the saved state (for the verses only)
+async function restoreState(state) {
+    // Log the state to check its structure
+    console.log("Loaded state:", state);
+
+    // Check if the state object contains a valid 'verses' array
+    if (state && Array.isArray(state.verses)) {
+        document.getElementById('stackedVerses').innerHTML = '';
+
+        for (const { surahNumber, verseNumber, verseNotes } of state.verses) {
+            document.getElementById('chapterSelect').value = surahNumber;
+            await fetchSurahVerses(surahNumber);
+            document.getElementById('verseSelect').value = verseNumber;
+            await addVerse();
+
+            const stackedVerses = document.getElementById('stackedVerses').children;
+            const lastVerseDiv = stackedVerses[stackedVerses.length - 2];
+            const textArea = lastVerseDiv.querySelector('textarea');
+            if (textArea) {
+                textArea.value = verseNotes || "";
+            }
+        }
+
+        if (state.questionInput !== undefined) {
+            document.getElementById('questionInput').value = state.questionInput || '';
+        }
+
+        if (state.answerInput !== undefined) {
+            document.getElementById('answerInput').value = state.answerInput || '';
+        }
+
+    } else {
+        console.error("Invalid state structure:", state);
+    }
+}
+
+
+
