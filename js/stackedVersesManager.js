@@ -20,7 +20,7 @@ async function addVerse() {
         `;
 
         const notesTextArea = document.createElement('textarea');
-        notesTextArea.placeholder = "Add your notes here...";
+        notesTextArea.placeholder = "أدخل سبب إستعمال هذه الآية";
         notesTextArea.rows = 3;
         notesTextArea.style.width = '100%';
 
