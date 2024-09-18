@@ -33,23 +33,16 @@
 
     <!-- Container to display the Quran pages (previous, current, next) -->
     <div class="quran-pages">
-        <!-- Left: Previous page -->
         <div id="nextPage" class="page"></div>
-
-        <!-- Center: Current page -->
         <div id="currentPage" class="page"></div>
-
-        <!-- Right: Next page -->
         <div id="previousPage" class="page"></div>
     </div>
 
-    <!-- Horizontal line above the text area -->
     <hr class="horizontal-line">
 
     <!-- Text area for user input -->
     <textarea id="userInput" placeholder="Enter your notes here" rows="4" cols="50"></textarea>
 
-    <!-- Horizontal line below the text area -->
     <hr class="horizontal-line">
 
     <!-- Section where stacked verses will be added -->
@@ -58,9 +51,13 @@
     <!-- Log Section -->
     <div id="filePathDisplay" class="log-box"></div>
 
+    <!-- New script references for split JavaScript files -->
     <script src="js/helpers.js"></script>
     <script src="js/data.js"></script>
-    <script src="js/dom.js"></script>
+    <script src="js/chapterVerseManager.js"></script>
+    <script src="js/verseDisplayManager.js"></script>
+    <script src="js/stackedVersesManager.js"></script>
+    <script src="js/stateManager.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
