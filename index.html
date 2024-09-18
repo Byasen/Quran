@@ -17,9 +17,12 @@
 
     <!-- Dropdown for Quran Verses -->
     <label for="verseSelect">Select Verse (Ayah):</label>
-    <select id="verseSelect" onchange="displayVerseWithMeaning()">
+    <select id="verseSelect">
         <!-- Verse options will be dynamically populated -->
     </select>
+
+    <!-- Dedicated Select button to trigger verse display -->
+    <button onclick="displayVerseWithMeaning()">Select</button>
 
     <!-- Section to display selected verse -->
     <p id="verseDisplay">Select a verse to see its content here.</p>
