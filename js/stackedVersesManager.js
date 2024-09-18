@@ -47,9 +47,12 @@ function removeVerse(element) {
 
 // Function to handle selecting a stacked verse
 function selectStackedVerse(chapterNumber, verseNumber) {
+    // Set the dropdowns to the correct Surah and Verse
     document.getElementById('chapterSelect').value = chapterNumber;
     fetchSurahVerses(chapterNumber).then(() => {
         document.getElementById('verseSelect').value = verseNumber;
-        displayVerse();
+
+        // Call displayVerseWithMeaning to update the verse and meaning automatically
+        displayVerseWithMeaning(); // Update the verse display
     });
 }

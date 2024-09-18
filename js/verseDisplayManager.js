@@ -1,5 +1,37 @@
-// Display the selected verse in the upper section
-async function displayVerse() {
+// Fetch a specific verse including its meaning from ar_ma3any.json
+async function fetchVerseWithMeaning(chapterNumber, verseNumber) {
+    try {
+        // Fetch the verse as usual
+        const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
+        if (!response.ok) {
+            throw new Error('Verse file not found');
+        }
+        const verseData = await response.json();
+
+        // Fetch the meaning from ar_ma3any.json
+        const meaningResponse = await fetch('data/maany/ar_ma3any.json');
+        if (!meaningResponse.ok) {
+            throw new Error('Meaning file not found');
+        }
+        const meanings = await meaningResponse.json();
+
+        // Find the corresponding meaning for this verse
+        const verseMeaning = meanings.find(
+            meaning => meaning.sura == chapterNumber && meaning.aya == verseNumber
+        );
+
+        return {
+            verseData,
+            meaningText: verseMeaning ? verseMeaning.text : 'No meaning available'
+        };
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+// Display the verse and its meaning in the UI
+async function displayVerseWithMeaning() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
     const verseDisplay = document.getElementById('verseDisplay');
@@ -7,16 +39,18 @@ async function displayVerse() {
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
 
-    const verseData = await fetchVerse(selectedChapter, selectedVerse);
-    if (verseData) {
+    const verseWithMeaning = await fetchVerseWithMeaning(selectedChapter, selectedVerse);
+    if (verseWithMeaning) {
         verseDisplay.innerHTML = `
-            <strong>Arabic:</strong> ${verseData.text.ar}<br>
-            <strong>English:</strong> ${verseData.text.en}
+            <strong>Arabic:</strong> ${verseWithMeaning.verseData.text.ar}<br>
+            <strong>English:</strong> ${verseWithMeaning.verseData.text.en}<br>
+            <strong>Meaning:</strong> ${verseWithMeaning.meaningText}
         `;
 
-        displayQuranPagesWithHighlight(verseData.page, selectedVerse);
+        // Display the corresponding Quran pages based on the page number in the JSON and highlight the selected verse
+        displayQuranPagesWithHighlight(verseWithMeaning.verseData.page, selectedVerse);
     } else {
-        verseDisplay.textContent = 'Verse not available.';
+        verseDisplay.textContent = 'Verse or meaning not available.';
     }
 }
 
@@ -34,14 +68,15 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 // Find the verse element inside the SVG and highlight it
                 const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
                 if (verseElement) {
-                    verseElement.setAttribute("style", "fill: blue;");
+                    verseElement.setAttribute("style", "fill: blue;"); // Apply blue color to the verse text
                 }
 
                 const currentPageContainer = document.getElementById('currentPage');
-                currentPageContainer.innerHTML = '';
-                currentPageContainer.appendChild(svgElement);
+                currentPageContainer.innerHTML = ''; // Clear the previous content
+                currentPageContainer.appendChild(svgElement); // Append the modified SVG
             });
 
+        // Load the previous and next pages as normal
         displayPreviousNextPages(pageNumber);
     } else {
         const currentPageContainer = document.getElementById('currentPage');

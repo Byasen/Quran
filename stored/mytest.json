@@ -1,15 +1,10 @@
 {
   "verses": [
     {
-      "surahNumber": "14",
-      "verseNumber": "1",
-      "verseNotes": "Test"
-    },
-    {
-      "surahNumber": "48",
-      "verseNumber": "1",
-      "verseNotes": "وهذه كذلك"
+      "surahNumber": "9",
+      "verseNumber": "37",
+      "verseNotes": "تحياتي"
     }
   ],
-  "userInput": "الشبهة هنا"
+  "userInput": "Test "
 }
