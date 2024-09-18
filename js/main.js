@@ -41,3 +41,26 @@ function loadState(event) {
 
     fileInput.click();
 }
+
+// Add event listener to handle keyboard navigation for page changes
+document.addEventListener('keydown', function(event) {
+    const currentPageContainer = document.getElementById('currentPage');
+    const svgElement = currentPageContainer.querySelector('svg');
+
+    // Check if an SVG is currently displayed
+    if (svgElement) {
+        const currentPageNumber = parseInt(svgElement.getAttribute('data-page-number')); // Assuming the SVG has a custom attribute for the page number
+
+        // If the left arrow key is pressed
+        if (event.key === 'ArrowLeft') {
+            displayQuranPagesWithHighlight(currentPageNumber + 1); // Move to the next page on left arrow
+        }
+
+        // If the right arrow key is pressed
+        if (event.key === 'ArrowRight') {
+            if (currentPageNumber > 1) {
+                displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page on right arrow
+            }
+        }
+    }
+});
