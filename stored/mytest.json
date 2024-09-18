@@ -3,13 +3,8 @@
     {
       "surahNumber": "1",
       "verseNumber": "1",
-      "verseNotes": "mytest"
-    },
-    {
-      "surahNumber": "44",
-      "verseNumber": "1",
-      "verseNotes": "بسنتبنشتلمنشتسكب "
+      "verseNotes": "mysubfile"
     }
   ],
-  "userInput": "يمسنشتيمنشستمنب "
+  "userInput": "myfile"
 }

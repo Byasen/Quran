@@ -186,6 +186,7 @@ function removeVerse(element) {
     }
 }
 
+
 // Save the current state and display JSON in a new tab
 function saveState() {
     const stackedVerses = document.getElementById('stackedVerses').children;
@@ -210,10 +211,10 @@ function saveState() {
     // Save both the verses and the text box content to the state
     const fullState = {
         verses: state,
-        userInput: userInput
+        userInput: userInput // Ensure this is saved as part of the state
     };
 
-    // Log the full state to check if the structure is correct
+    // Log the full state to verify the structure
     console.log("Saved State:", fullState);
 
     // Convert the state to a JSON string and open it in a new tab
@@ -223,46 +224,32 @@ function saveState() {
     newTab.document.title = 'Quran State JSON';
 }
 
-// Restore the saved state (for the verses and text)
+
+// Restore the saved state (for the verses only)
 async function restoreState(state) {
-    // Log the state being loaded
+    // Log the state being loaded to check the structure
     console.log("Loaded State:", state);
 
-    // Check if the state is an array of verses (i.e., no wrapping object)
-    if (Array.isArray(state)) {
-        state = { verses: state };  // If it's an array, wrap it in an object with a 'verses' property
-    }
-
-    // Clear current stacked verses
-    document.getElementById('stackedVerses').innerHTML = '';
-
     // Check if the state contains the correct structure
-    if (state.verses && Array.isArray(state.verses)) {
-        for (const { surahNumber, verseNumber, verseNotes } of state.verses) {
+    if (state && Array.isArray(state)) {
+        // Clear current stacked verses
+        document.getElementById('stackedVerses').innerHTML = '';
+
+        for (const { surahNumber, verseNumber, verseNotes } of state) {
             // Set the dropdown to the correct Surah and Verse, and add them to the stack
             document.getElementById('chapterSelect').value = surahNumber;
             await fetchSurahVerses(surahNumber); // Populate the verses for the Surah
             document.getElementById('verseSelect').value = verseNumber;
-            await addVerse(); // Wait for the verse to be added to the stacked section
+            await addVerse(); // Add the verse to the stacked section
 
-            // After adding the verse, ensure the DOM is fully updated before accessing the text area
+            // After adding the verse, populate the corresponding text area with the saved notes
             const stackedVerses = document.getElementById('stackedVerses').children;
             const lastVerseDiv = stackedVerses[stackedVerses.length - 2]; // Get the last added verse div
-
-            if (lastVerseDiv) {
-                const textArea = lastVerseDiv.querySelector('textarea');
-                if (textArea) {
-                    textArea.value = verseNotes || ""; // Restore the saved notes or empty string
-                } else {
-                    console.warn("Text area not found for stacked verse.");
-                }
-            } else {
-                console.warn("Verse div not found for stacked verse.");
+            const textArea = lastVerseDiv.querySelector('textarea');
+            if (textArea) {
+                textArea.value = verseNotes || ""; // Restore the saved notes or empty string
             }
         }
-
-        // Restore the user input
-        document.getElementById('userInput').value = state.userInput || '';
     } else {
         console.error("Invalid state structure:", state);
     }
