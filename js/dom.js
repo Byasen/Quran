@@ -63,7 +63,6 @@ async function displayVerse() {
 // Function to display the corresponding Quran pages (SVG) and highlight the selected verse
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
     if (pageNumber) {
-        // Display the current page and highlight the verse
         const currentPagePath = `data/SVG/${padNumber(pageNumber)}.svg`;
         fetch(currentPagePath)
             .then(response => response.text())
@@ -72,7 +71,7 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
                 const svgElement = svgDoc.documentElement;
 
-                // Find the verse element inside the SVG and highlight it (assuming each verse has an ID like 'verse-1', 'verse-2', etc.)
+                // Find the verse element inside the SVG and highlight it
                 const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
                 if (verseElement) {
                     verseElement.setAttribute("style", "fill: blue;"); // Apply blue color to the verse text
@@ -93,7 +92,6 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 
 // Function to display the previous and next Quran pages (SVG)
 function displayPreviousNextPages(pageNumber) {
-    // Display the previous page
     const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
     const previousPageContainer = document.getElementById('previousPage');
     if (pageNumber > 1) {
@@ -102,7 +100,6 @@ function displayPreviousNextPages(pageNumber) {
         previousPageContainer.innerHTML = `<p>No previous page</p>`;
     }
 
-    // Display the next page
     const nextPagePath = `data/SVG/${padNumber(pageNumber + 1)}.svg`;
     const nextPageContainer = document.getElementById('nextPage');
     nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
@@ -144,8 +141,7 @@ async function addVerse() {
         newVerseDiv.classList.add('verse');
         newVerseDiv.innerHTML = `
             <strong>Surah ${selectedSurah.number}: ${selectedSurah.name.en} (${selectedSurah.name.ar}), Ayah ${selectedVerse}</strong><br>
-            <strong>Arabic:</strong> ${verseData.text.ar}<br>
-            <strong>English:</strong> ${verseData.text.en}
+            <strong>Arabic:</strong> ${verseData.text.ar}
             <br><button onclick="removeVerse(this)">Remove</button>
         `;
 
@@ -170,7 +166,7 @@ function removeVerse(element) {
     }
 }
 
-// Save the current state to a file with a specific name
+// Save the current state and display JSON in a new tab
 function saveState() {
     const stackedVerses = document.getElementById('stackedVerses').children;
     const state = [];
@@ -194,37 +190,37 @@ function saveState() {
         userInput: userInput
     };
 
-    // Convert the state to a JSON string
+    // Convert the state to a JSON string and open it in a new tab
     const jsonData = JSON.stringify(fullState, null, 2);
-
-    // Create a downloadable file with the state
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'quran_state.json';  // You can rename it or let the user rename it manually
-
-    // Append the link, click it to start download, and then remove it
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const newTab = window.open();
+    newTab.document.write(`<pre>${jsonData}</pre>`);
+    newTab.document.title = 'Quran State JSON';
 }
 
 // Load a saved state from a file
-function loadState(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+function loadState() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
+    
+    fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
-    reader.onload = function (e) {
-        const fullState = JSON.parse(e.target.result);
+        reader.onload = function (e) {
+            const fullState = JSON.parse(e.target.result);
 
-        // Restore the stacked verses and the text box content
-        restoreState(fullState.verses);
-        document.getElementById('userInput').value = fullState.userInput || '';
+            // Restore the stacked verses and the text box content
+            restoreState(fullState.verses);
+            document.getElementById('userInput').value = fullState.userInput || '';
+        };
+
+        if (file) {
+            reader.readAsText(file);
+        }
     };
 
-    if (file) {
-        reader.readAsText(file);
-    }
+    fileInput.click();
 }
 
 // Restore the saved state (for the verses)
