@@ -9,7 +9,7 @@
 <body>
     <h1>Quran Chapter and Verse Selector</h1>
 
-    <!-- Container to group dropdowns and buttons -->
+    <!-- Container to group dropdowns, buttons, and checkboxes -->
     <div class="controls-container">
         <!-- Dropdown for Quran Chapters -->
         <label for="chapterSelect">Select Chapter (Surah):</label>
@@ -30,6 +30,14 @@
         <button onclick="addVerse()">+</button>
         <button onclick="saveState()">Save</button>
         <button onclick="loadState()">Load</button>
+    </div>
+
+    <!-- Checkboxes to toggle the display of different verse content -->
+    <div class="checkbox-container">
+        <label><input type="checkbox" id="toggleArabic" checked> Arabic</label>
+        <label><input type="checkbox" id="toggleEnglish" checked> English</label>
+        <label><input type="checkbox" id="toggleMeaning" checked> Meaning</label>
+        <label><input type="checkbox" id="toggleGrammar" checked> Grammar Analysis</label>
     </div>
 
     <!-- Section to display selected verse -->

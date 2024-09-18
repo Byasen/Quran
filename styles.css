@@ -94,3 +94,15 @@ textarea {
 .controls-container button {
     flex-shrink: 0; /* Prevents buttons from shrinking */
 }
+
+/* Checkbox container styles */
+.checkbox-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Ensure checkboxes are displayed in a row */
+.checkbox-container label {
+    margin-right: 20px;
+    font-size: 16px;
+}

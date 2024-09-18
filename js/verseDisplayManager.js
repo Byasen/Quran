@@ -54,12 +54,33 @@ async function displayVerseWithMeaning() {
 
     const verseWithMeaningAndGrammar = await fetchVerseWithMeaningAndGrammar(selectedChapter, selectedVerse);
     if (verseWithMeaningAndGrammar) {
-        verseDisplay.innerHTML = `
-            <strong>Arabic:</strong> ${verseWithMeaningAndGrammar.verseData.text.ar}<br>
-            <strong>English:</strong> ${verseWithMeaningAndGrammar.verseData.text.en}<br>
-            <strong>Meaning:</strong> ${verseWithMeaningAndGrammar.meaningText}<br>
-            <strong>Grammar Analysis:</strong> ${verseWithMeaningAndGrammar.grammarText}
-        `;
+        // Fetch the states of the checkboxes
+        const showArabic = document.getElementById('toggleArabic').checked;
+        const showEnglish = document.getElementById('toggleEnglish').checked;
+        const showMeaning = document.getElementById('toggleMeaning').checked;
+        const showGrammar = document.getElementById('toggleGrammar').checked;
+
+        // Build the display content based on which checkboxes are checked
+        let displayContent = '';
+
+        if (showArabic) {
+            displayContent += `<strong>Arabic:</strong> ${verseWithMeaningAndGrammar.verseData.text.ar}<br>`;
+        }
+
+        if (showEnglish) {
+            displayContent += `<strong>English:</strong> ${verseWithMeaningAndGrammar.verseData.text.en}<br>`;
+        }
+
+        if (showMeaning) {
+            displayContent += `<strong>Meaning:</strong> ${verseWithMeaningAndGrammar.meaningText}<br>`;
+        }
+
+        if (showGrammar) {
+            displayContent += `<strong>Grammar Analysis:</strong> ${verseWithMeaningAndGrammar.grammarText}<br>`;
+        }
+
+        // Update the verse display
+        verseDisplay.innerHTML = displayContent || 'No content selected.';
 
         // Display the corresponding Quran pages based on the page number in the JSON and highlight the selected verse
         displayQuranPagesWithHighlight(verseWithMeaningAndGrammar.verseData.page, selectedVerse);
