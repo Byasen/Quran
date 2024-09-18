@@ -15,8 +15,11 @@ async function addVerse() {
         newVerseDiv.innerHTML = `
             <strong>Surah ${selectedSurah.number}: ${selectedSurah.name.en} (${selectedSurah.name.ar}), Ayah ${selectedVerse}</strong><br>
             <strong>Arabic:</strong> ${verseData.text.ar}
-            <br><button onclick="removeVerse(this)">Remove</button>
-            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">Select</button>
+            <br>
+            <button onclick="removeVerse(this)">Remove</button>
+            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">Display</button>
+            <button onclick="moveVerseUp(this)">Up</button>
+            <button onclick="moveVerseDown(this)">Down</button>
         `;
 
         const notesTextArea = document.createElement('textarea');
@@ -34,13 +37,14 @@ async function addVerse() {
     }
 }
 
-// Remove a verse from the stacked section
-function removeVerse(element) {
-    const verseDiv = element.parentElement;
+// Function to remove a verse from the stacked section
+function removeVerse(button) {
+    const verseDiv = button.parentElement;
     const dashedLine = verseDiv.nextElementSibling;
 
+    // Remove both the verse div and its dashed line
     verseDiv.remove();
-    if (dashedLine) {
+    if (dashedLine && dashedLine.classList.contains('dashed-line')) {
         dashedLine.remove();
     }
 }
@@ -55,4 +59,28 @@ function selectStackedVerse(chapterNumber, verseNumber) {
         // Call displayVerseWithMeaning to update the verse and meaning automatically
         displayVerseWithMeaning(); // Update the verse display
     });
+}
+
+// Function to move a verse up
+function moveVerseUp(button) {
+    const verseDiv = button.parentElement;
+    const dashedLine = verseDiv.nextElementSibling;
+    const previousVerseDiv = verseDiv.previousElementSibling?.previousElementSibling;
+
+    if (previousVerseDiv) {
+        verseDiv.parentElement.insertBefore(verseDiv, previousVerseDiv);
+        dashedLine.parentElement.insertBefore(dashedLine, verseDiv);
+    }
+}
+
+// Function to move a verse down
+function moveVerseDown(button) {
+    const verseDiv = button.parentElement;
+    const dashedLine = verseDiv.nextElementSibling;
+    const nextVerseDiv = dashedLine?.nextElementSibling;
+
+    if (nextVerseDiv && nextVerseDiv.classList.contains('verse')) {
+        verseDiv.parentElement.insertBefore(verseDiv, nextVerseDiv.nextElementSibling);
+        dashedLine.parentElement.insertBefore(dashedLine, nextVerseDiv.nextElementSibling);
+    }
 }
