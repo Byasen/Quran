@@ -146,11 +146,20 @@ async function addVerse() {
             <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">Select</button>
         `;
 
+        // Add a text area for user notes
+        const notesTextArea = document.createElement('textarea');
+        notesTextArea.placeholder = "Add your notes here...";
+        notesTextArea.rows = 3;
+        notesTextArea.style.width = '100%'; // Make it span the full width
+
+        // Add the text area below the verse
+        newVerseDiv.appendChild(notesTextArea);
+
         // Add a dashed line between verses
         const dashedLine = document.createElement('hr');
         dashedLine.classList.add('dashed-line');
 
-        // Append the new verse and dashed line to the stacked section
+        // Append the new verse, text area, and dashed line to the stacked section
         stackedVerses.appendChild(newVerseDiv);
         stackedVerses.appendChild(dashedLine);
     }

@@ -64,3 +64,9 @@ hr {
     border: 1px solid #ddd;
     background-color: #f9f9f9;
 }
+
+/* Extend the main textarea to be page wide */
+textarea {
+    width: 100%; /* Make the text box span the full width */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+}
