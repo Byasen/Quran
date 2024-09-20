@@ -10,8 +10,8 @@ function onChapterChange() {
 // Initialize the page by loading metadata
 window.onload = loadMetadata;
 
-// Load a saved state from a file (fixed to work on first click)
-function loadState(event) {
+// Load a saved state from a file (modified for topics)
+function loadState() {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.json';
@@ -27,8 +27,18 @@ function loadState(event) {
                 // Log the parsed JSON to verify the structure
                 console.log("Parsed JSON:", fullState);
 
-                // Call restoreState to restore the state from the JSON
-                await restoreState(fullState);
+                // Assign the loaded topics to the global topics array
+                topics = fullState.topics || [];  // Ensure topics are populated
+                console.log("Loaded topics:", topics);
+
+                // Populate the topics dropdown with the newly loaded topics
+                populateTopicsDropdown();
+
+                // Optionally, you can auto-select the first topic after loading
+                if (topics.length > 0) {
+                    document.getElementById('topicSelect').value = topics[0].topicName;
+                    await restoreState(); // Restore the first topic's state
+                }
             } catch (error) {
                 console.error("Error parsing or restoring state:", error.message);
             }
