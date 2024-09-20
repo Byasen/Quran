@@ -7,13 +7,13 @@ async function fetchVerseWithMeaningAndGrammar(chapterNumber, verseNumber) {
         }
         const verseData = await response.json();
 
-        const meaningResponse = await fetch('data/maany/ar_ma3any.json');
+        const meaningResponse = await fetch('data/tafseer/ar_ma3any.json');
         if (!meaningResponse.ok) {
             throw new Error('Meaning file not found');
         }
         const meanings = await meaningResponse.json();
 
-        const e3rabResponse = await fetch('data/eaarab/e3rab.json');
+        const e3rabResponse = await fetch('data/tafseer/e3rab.json');
         if (!e3rabResponse.ok) {
             throw new Error('Grammar file not found');
         }
