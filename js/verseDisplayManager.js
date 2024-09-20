@@ -1,5 +1,5 @@
-// Fetch a specific verse, including its meaning from ar_ma3any.json and grammar analysis from e3rab.json
-async function fetchVerseWithMeaningAndGrammar(chapterNumber, verseNumber) {
+// Fetch a specific verse, including its ar_ma3any from ar_ma3any.json and e3rab analysis from e3rab.json
+async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
     try {
         const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
         if (!response.ok) {
@@ -7,30 +7,23 @@ async function fetchVerseWithMeaningAndGrammar(chapterNumber, verseNumber) {
         }
         const verseData = await response.json();
 
-        const meaningResponse = await fetch('data/tafseer/ar_ma3any.json');
-        if (!meaningResponse.ok) {
-            throw new Error('Meaning file not found');
+        const analyses = {};
+
+        const sources = ['ar_ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'ar_muyassar', 'tanweer'];
+
+        for (let source of sources) {
+            const sourceResponse = await fetch(`data/tafseer/${source}.json`);
+            if (sourceResponse.ok) {
+                const analysisData = await sourceResponse.json();
+                analyses[source] = analysisData.find(item => item.sura == chapterNumber && item.aya == verseNumber)?.text || `No ${source} analysis available`;
+            } else {
+                analyses[source] = `No ${source} analysis available`;
+            }
         }
-        const meanings = await meaningResponse.json();
-
-        const e3rabResponse = await fetch('data/tafseer/e3rab.json');
-        if (!e3rabResponse.ok) {
-            throw new Error('Grammar file not found');
-        }
-        const e3rab = await e3rabResponse.json();
-
-        const verseMeaning = meanings.find(
-            meaning => meaning.sura == chapterNumber && meaning.aya == verseNumber
-        );
-
-        const verseGrammar = e3rab.find(
-            grammar => grammar.sura == chapterNumber && grammar.aya == verseNumber
-        );
 
         return {
             verseData,
-            meaningText: verseMeaning ? verseMeaning.text : 'No meaning available',
-            grammarText: verseGrammar ? verseGrammar.text : 'No grammar analysis available'
+            analyses
         };
     } catch (error) {
         console.error(error);
@@ -38,8 +31,8 @@ async function fetchVerseWithMeaningAndGrammar(chapterNumber, verseNumber) {
     }
 }
 
-// Display the verse, its meaning, and its grammar analysis in the UI
-async function displayVerseWithMeaning() {
+// Display the verse, its ar_ma3any, and its e3rab analysis in the UI
+async function displayVerseWithAnalyses() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
     const verseDisplay = document.getElementById('verseDisplay');
@@ -47,30 +40,26 @@ async function displayVerseWithMeaning() {
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
 
-    const verseWithMeaningAndGrammar = await fetchVerseWithMeaningAndGrammar(selectedChapter, selectedVerse);
-    if (verseWithMeaningAndGrammar) {
-        const showArabic = document.getElementById('toggleArabic').checked;
-        const showMeaning = document.getElementById('toggleMeaning').checked;
-        const showGrammar = document.getElementById('toggleGrammar').checked;
-
+    const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
+    if (verseWithAnalyses) {
         let displayContent = '<hr class="dashed-line">'; // Start with a dashed line
 
-        if (showArabic) {
-            displayContent += `<strong>Arabic:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.verseData.text.ar}</div><br><hr class="dashed-line">`;
+        if (document.getElementById('toggleArabic').checked) {
+            displayContent += `<strong>Arabic:</strong><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
         }
 
-        if (showMeaning) {
-            displayContent += `<strong>Meaning:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.meaningText}</div><br><hr class="dashed-line">`;
-        }
+        const analysesToShow = ['ar_ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'ar_muyassar', 'Tanweer'];
 
-        if (showGrammar) {
-            displayContent += `<strong>Grammar Analysis:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.grammarText}</div><br><hr class="dashed-line">`;
-        }
+        analysesToShow.forEach(analysisType => {
+            if (document.getElementById(`toggle${analysisType}`).checked) {
+                displayContent += `<strong>${analysisType}:</strong><br><div class="rtl-text">${verseWithAnalyses.analyses[analysisType.toLowerCase()]}</div><br><hr class="dashed-line">`;
+            }
+        });
 
         verseDisplay.innerHTML = displayContent || 'No content selected.';
-        displayQuranPagesWithHighlight(verseWithMeaningAndGrammar.verseData.page, selectedVerse);
+        displayQuranPagesWithHighlight(verseWithAnalyses.verseData.page, selectedVerse);
     } else {
-        verseDisplay.textContent = 'Verse, meaning, or grammar analysis not available.';
+        verseDisplay.textContent = 'Verse or analyses not available.';
     }
 }
 

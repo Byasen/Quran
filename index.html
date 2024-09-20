@@ -11,8 +11,7 @@
 
     <div class="controls-container">
         <label for="topicSelect">Select Topic:</label>
-        <select id="topicSelect" onchange="onTopicChange()">
-        </select>
+        <select id="topicSelect" onchange="onTopicChange()"></select>
         <input type="text" id="newTopicInput" placeholder="Enter new topic name">
         <button onclick="addOrEditTopic()">Add Topic</button>
         <button onclick="removeTopic()">Remove Topic</button>
@@ -27,15 +26,23 @@
         <select id="chapterSelect" onchange="onChapterChange()"></select>
         <label for="verseSelect">Select Verse (Ayah):</label>
         <select id="verseSelect"></select>
-        <button onclick="displayVerseWithMeaning()">Display Verse</button>
+        <button onclick="displayVerseWithAnalyses()">Display Verse</button>
         <button onclick="hideVerse()">Hide Verse</button> <!-- New Hide Verse button -->
         <button onclick="addVerse()">Add Verse</button>
     </div>
 
     <div class="checkbox-container">
         <label><input type="checkbox" id="toggleArabic" checked> Arabic</label> <!-- Default checked -->
-        <label><input type="checkbox" id="toggleMeaning"> Meaning</label>
-        <label><input type="checkbox" id="toggleGrammar"> Grammar Analysis</label>
+        <label><input type="checkbox" id="togglear_ma3any"> ar_ma3any</label>
+        <label><input type="checkbox" id="togglee3rab"> e3rab</label>
+        <label><input type="checkbox" id="toggleBaghawy"> Baghawy</label>
+        <label><input type="checkbox" id="toggleKatheer"> Katheer</label>
+        <label><input type="checkbox" id="toggleQortoby"> Qortoby</label>
+        <label><input type="checkbox" id="toggleSa3dy"> Sa3dy</label>
+        <label><input type="checkbox" id="toggleTabary"> Tabary</label>
+        <label><input type="checkbox" id="toggleWaseet"> Waseet</label>
+        <label><input type="checkbox" id="togglear_muyassar"> ar_muyassar</label>
+        <label><input type="checkbox" id="toggleTanweer"> Tanweer</label>
     </div>
 
     <p id="verseDisplay">إختر آية</p>

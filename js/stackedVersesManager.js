@@ -56,8 +56,8 @@ function selectStackedVerse(chapterNumber, verseNumber) {
     fetchSurahVerses(chapterNumber).then(() => {
         document.getElementById('verseSelect').value = verseNumber;
 
-        // Call displayVerseWithMeaning to update the verse and meaning automatically
-        displayVerseWithMeaning(); // Update the verse display
+        // Call displayVerseWithar_ma3any to update the verse and ar_ma3any automatically
+        displayVerseWithar_ma3any(); // Update the verse display
     });
 }
 
