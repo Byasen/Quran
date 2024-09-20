@@ -34,6 +34,38 @@ function saveState() {
     newTab.document.title = 'Quran State JSON';
 }
 
+// Save the current state without opening a new tab
+function saveStateNoNewTab() {
+    const selectedTopic = document.getElementById('topicSelect').value;
+    const topic = topics.find(topic => topic.topicName === selectedTopic);
+
+    if (topic) {
+        const stackedVerses = document.getElementById('stackedVerses').children;
+        const state = [];
+
+        for (let i = 0; i < stackedVerses.length; i += 2) {
+            const verseDiv = stackedVerses[i];
+            const surahInfo = verseDiv.querySelector('strong').textContent.match(/Surah (\d+): .* Ayah (\d+)/);
+            const textArea = verseDiv.querySelector('textarea');
+
+            if (surahInfo) {
+                const [_, surahNumber, verseNumber] = surahInfo;
+                const verseNotes = textArea ? textArea.value : "";
+                state.push({ surahNumber, verseNumber, verseNotes });
+            }
+        }
+
+        // Update the selected topic's data
+        topic.verses = state;
+        topic.questionInput = document.getElementById('questionInput').value;
+        topic.answerInput = document.getElementById('answerInput').value;
+    }
+
+    // Save the data without opening a new tab (only log it)
+    const jsonData = JSON.stringify({ topics }, null, 2);
+    console.log("State saved (Ctrl+S):", jsonData);
+}
+
 // Restore the saved state (for the selected topic only)
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;

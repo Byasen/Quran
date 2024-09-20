@@ -52,12 +52,12 @@ function loadState() {
     fileInput.click();
 }
 
-// Enable Ctrl+S for saving the state
+// Enable Ctrl+S for saving the state without opening a new tab
 document.addEventListener('keydown', function(event) {
     if (event.ctrlKey && event.key === 's') {
         event.preventDefault(); // Prevent the default browser save dialog
-        saveState(); // Trigger the save state (export) function
-        console.log("Ctrl+S pressed: State exported.");
+        saveStateNoNewTab(); // Call the new function without opening a tab
+        console.log("Ctrl+S pressed: State saved (no new tab).");
     }
 });
 
