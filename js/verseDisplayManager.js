@@ -50,7 +50,6 @@ async function displayVerseWithMeaning() {
     const verseWithMeaningAndGrammar = await fetchVerseWithMeaningAndGrammar(selectedChapter, selectedVerse);
     if (verseWithMeaningAndGrammar) {
         const showArabic = document.getElementById('toggleArabic').checked;
-        const showEnglish = document.getElementById('toggleEnglish').checked;
         const showMeaning = document.getElementById('toggleMeaning').checked;
         const showGrammar = document.getElementById('toggleGrammar').checked;
 
@@ -58,10 +57,6 @@ async function displayVerseWithMeaning() {
 
         if (showArabic) {
             displayContent += `<strong>Arabic:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.verseData.text.ar}</div><br><hr class="dashed-line">`;
-        }
-
-        if (showEnglish) {
-            displayContent += `<strong>English:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.verseData.text.en}</div><br><hr class="dashed-line">`;
         }
 
         if (showMeaning) {
