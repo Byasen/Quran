@@ -70,14 +70,14 @@ document.addEventListener('keydown', function(event) {
     if (svgElement) {
         const currentPageNumber = parseInt(svgElement.getAttribute('data-page-number')); // Assuming the SVG has a custom attribute for the page number
 
-        // If the left arrow key is pressed
-        if (event.key === 'ArrowLeft') {
-            displayQuranPagesWithHighlight(currentPageNumber + 1); // Move to the next page on left arrow
+        // If the left arrow key is pressed (move to the previous page)
+        if (event.key === 'ArrowLeft' && currentPageNumber > 1) {
+            displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page
         }
 
-        // If the right arrow key is pressed
-        if (currentPageNumber > 1) {
-            displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page on right arrow
+        // If the right arrow key is pressed (move to the next page)
+        if (event.key === 'ArrowRight') {
+            displayQuranPagesWithHighlight(currentPageNumber + 1); // Move to the next page
         }
     }
 });
