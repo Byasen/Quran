@@ -57,19 +57,19 @@ async function displayVerseWithMeaning() {
         let displayContent = '<hr class="dashed-line">'; // Start with a dashed line
 
         if (showArabic) {
-            displayContent += `<strong>Arabic:</strong><br>${verseWithMeaningAndGrammar.verseData.text.ar}<br><hr class="dashed-line">`;
+            displayContent += `<strong>Arabic:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.verseData.text.ar}</div><br><hr class="dashed-line">`;
         }
 
         if (showEnglish) {
-            displayContent += `<strong>English:</strong><br>${verseWithMeaningAndGrammar.verseData.text.en}<br><hr class="dashed-line">`;
+            displayContent += `<strong>English:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.verseData.text.en}</div><br><hr class="dashed-line">`;
         }
 
         if (showMeaning) {
-            displayContent += `<strong>Meaning:</strong><br>${verseWithMeaningAndGrammar.meaningText}<br><hr class="dashed-line">`;
+            displayContent += `<strong>Meaning:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.meaningText}</div><br><hr class="dashed-line">`;
         }
 
         if (showGrammar) {
-            displayContent += `<strong>Grammar Analysis:</strong><br>${verseWithMeaningAndGrammar.grammarText}<br><hr class="dashed-line">`;
+            displayContent += `<strong>Grammar Analysis:</strong><br><div class="rtl-text">${verseWithMeaningAndGrammar.grammarText}</div><br><hr class="dashed-line">`;
         }
 
         verseDisplay.innerHTML = displayContent || 'No content selected.';

@@ -116,3 +116,11 @@ input[type="text"] {
     margin-right: 20px;
     font-size: 16px;
 }
+
+
+/* Common class for RTL justification for all text types */
+.rtl-text {
+    direction: rtl;
+    text-align: right;
+    font-family: "Arial", sans-serif;
+}
