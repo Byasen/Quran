@@ -52,6 +52,15 @@ function loadState() {
     fileInput.click();
 }
 
+// Enable Ctrl+S for saving the state
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 's') {
+        event.preventDefault(); // Prevent the default browser save dialog
+        saveState(); // Trigger the save state (export) function
+        console.log("Ctrl+S pressed: State exported.");
+    }
+});
+
 // Add event listener to handle keyboard navigation for page changes
 document.addEventListener('keydown', function(event) {
     const currentPageContainer = document.getElementById('currentPage');
