@@ -76,10 +76,14 @@ document.addEventListener('keydown', function(event) {
         }
 
         // If the right arrow key is pressed
-        if (event.key === 'ArrowRight') {
-            if (currentPageNumber > 1) {
-                displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page on right arrow
-            }
+        if (currentPageNumber > 1) {
+            displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page on right arrow
         }
     }
+});
+
+// Automatically export state to local storage on tab/browser close without warning
+window.addEventListener('beforeunload', function () {
+    exportToLocal(); // Automatically export to local storage
+    // No event.preventDefault() or event.returnValue to suppress "Leave Site" dialog
 });
