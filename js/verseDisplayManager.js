@@ -54,125 +54,30 @@ async function displayVerseWithMeaning() {
         const showMeaning = document.getElementById('toggleMeaning').checked;
         const showGrammar = document.getElementById('toggleGrammar').checked;
 
-        let displayContent = '';
+        let displayContent = `<hr class="dashed-line">`; // Dashed line at the top
 
         if (showArabic) {
             displayContent += `<strong>Arabic:</strong> ${verseWithMeaningAndGrammar.verseData.text.ar}<br>`;
+            displayContent += `<hr class="dashed-line">`; // Dashed line after Arabic text
         }
 
         if (showEnglish) {
             displayContent += `<strong>English:</strong> ${verseWithMeaningAndGrammar.verseData.text.en}<br>`;
+            displayContent += `<hr class="dashed-line">`; // Dashed line after English text
         }
 
         if (showMeaning) {
             displayContent += `<strong>Meaning:</strong> ${verseWithMeaningAndGrammar.meaningText}<br>`;
+            displayContent += `<hr class="dashed-line">`; // Dashed line after meaning
         }
 
         if (showGrammar) {
             displayContent += `<strong>Grammar Analysis:</strong> ${verseWithMeaningAndGrammar.grammarText}<br>`;
+            displayContent += `<hr class="dashed-line">`; // Dashed line after grammar analysis
         }
 
         verseDisplay.innerHTML = displayContent || 'No content selected.';
 
-        displayQuranPagesWithHighlight(verseWithMeaningAndGrammar.verseData.page, selectedVerse);
-    } else {
-        verseDisplay.textContent = 'Verse, meaning, or grammar analysis not available.';
-    }
-}
-
-// Function to display the corresponding Quran pages (SVG) and highlight the selected verse
-function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
-    if (pageNumber) {
-        const currentPagePath = `data/SVG/${padNumber(pageNumber)}.svg`;
-        fetch(currentPagePath)
-            .then(response => response.text())
-            .then(svgText => {
-                const parser = new DOMParser();
-                const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
-                const svgElement = svgDoc.documentElement;
-
-                svgElement.setAttribute('data-page-number', pageNumber);
-
-                const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
-                if (verseElement) {
-                    verseElement.setAttribute("style", "fill: blue;");
-                }
-
-                const currentPageContainer = document.getElementById('currentPage');
-                currentPageContainer.innerHTML = '';
-                currentPageContainer.appendChild(svgElement);
-            });
-
-        displayPreviousNextPages(pageNumber);
-    } else {
-        const currentPageContainer = document.getElementById('currentPage');
-        currentPageContainer.innerHTML = `<p>Page not found for this verse.</p>`;
-    }
-}
-
-// Function to display the previous and next Quran pages (SVG)
-function displayPreviousNextPages(pageNumber) {
-    const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
-    const nextPagePath = `data/SVG/${padNumber(pageNumber + 1)}.svg`;
-
-    const previousPageContainer = document.getElementById('previousPage');
-    const nextPageContainer = document.getElementById('nextPage');
-
-    if (pageNumber > 1) {
-        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="max-width: 100%; height: auto;">`;
-    } else {
-        previousPageContainer.innerHTML = `<p>No previous page</p>`;
-    }
-
-    nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
-}
-
-// Function to hide Quran pages
-function hideVerse() {
-    const nextPageContainer = document.getElementById('nextPage');
-    const currentPageContainer = document.getElementById('currentPage');
-    const previousPageContainer = document.getElementById('previousPage');
-
-    nextPageContainer.innerHTML = '';
-    currentPageContainer.innerHTML = '';
-    previousPageContainer.innerHTML = '';
-}
-
-// Display the verse, its meaning, and its grammar analysis in the UI
-async function displayVerseWithMeaning() {
-    const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
-    const verseDisplay = document.getElementById('verseDisplay');
-
-    const selectedChapter = chapterSelect.value;
-    const selectedVerse = verseSelect.value;
-
-    const verseWithMeaningAndGrammar = await fetchVerseWithMeaningAndGrammar(selectedChapter, selectedVerse);
-    if (verseWithMeaningAndGrammar) {
-        const showArabic = document.getElementById('toggleArabic').checked;
-        const showEnglish = document.getElementById('toggleEnglish').checked;
-        const showMeaning = document.getElementById('toggleMeaning').checked;
-        const showGrammar = document.getElementById('toggleGrammar').checked;
-
-        let displayContent = '';
-
-        if (showArabic) {
-            displayContent += `<strong>Arabic:</strong> ${verseWithMeaningAndGrammar.verseData.text.ar}<br>`;
-        }
-
-        if (showEnglish) {
-            displayContent += `<strong>English:</strong> ${verseWithMeaningAndGrammar.verseData.text.en}<br>`;
-        }
-
-        if (showMeaning) {
-            displayContent += `<strong>Meaning:</strong> ${verseWithMeaningAndGrammar.meaningText}<br>`;
-        }
-
-        if (showGrammar) {
-            displayContent += `<strong>Grammar Analysis:</strong> ${verseWithMeaningAndGrammar.grammarText}<br>`;
-        }
-
-        verseDisplay.innerHTML = displayContent || 'No content selected.';
         displayQuranPagesWithHighlight(verseWithMeaningAndGrammar.verseData.page, selectedVerse);
     } else {
         verseDisplay.textContent = 'Verse, meaning, or grammar analysis not available.';
