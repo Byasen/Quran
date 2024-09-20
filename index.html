@@ -9,7 +9,25 @@
 <body>
     <h1>الفرقان</h1> <!-- Changed displayed title -->
 
-    <!-- Container to group dropdowns, buttons, and checkboxes -->
+    <!-- New section to manage topics (moved this section above the chapter/verse section) -->
+    <div class="controls-container">
+        <!-- Dropdown for selecting topics -->
+        <label for="topicSelect">Select Topic:</label>
+        <select id="topicSelect" onchange="onTopicChange()">
+            <!-- Topics will be dynamically populated -->
+        </select>
+
+        <!-- Input and buttons for managing topics -->
+        <input type="text" id="newTopicInput" placeholder="Enter new topic name">
+        <button onclick="addOrEditTopic()">Add Topic</button>
+        <button onclick="removeTopic()">Remove Topic</button>
+
+        <!-- Buttons for Exporting and Importing state -->
+        <button onclick="saveState()">Export All</button> <!-- Changed from Save to Export -->
+        <button onclick="loadState()">Import All</button> <!-- Changed from Load to Import -->
+    </div>
+
+    <!-- Container to group dropdowns, buttons, and checkboxes (Chapter/Verse menus now below topic selection) -->
     <div class="controls-container">
         <!-- Dropdown for Quran Chapters -->
         <label for="chapterSelect">Select Chapter (Surah):</label>
@@ -24,26 +42,10 @@
         </select>
 
         <!-- Dedicated Select button to trigger verse display -->
-        <button onclick="displayVerseWithMeaning()">Display</button>
+        <button onclick="displayVerseWithMeaning()">Display Verse</button>
 
-        <!-- Buttons for adding, saving, and loading state -->
-        <button onclick="addVerse()">Add</button>
-        <button onclick="saveState()">Export</button>
-        <button onclick="loadState()">Import</button>
-    </div>
-
-    <!-- New section to manage topics -->
-    <div class="controls-container">
-        <!-- Dropdown for selecting topics -->
-        <label for="topicSelect">Select Topic:</label>
-        <select id="topicSelect" onchange="onTopicChange()">
-            <!-- Topics will be dynamically populated -->
-        </select>
-
-        <!-- Input and buttons for managing topics -->
-        <input type="text" id="newTopicInput" placeholder="Enter new topic name">
-        <button onclick="addOrEditTopic()">Add Topic</button>
-        <button onclick="removeTopic()">Remove Topic</button>
+        <!-- Button for adding verse -->
+        <button onclick="addVerse()">Add Verse</button>
     </div>
 
     <!-- Checkboxes to toggle the display of different verse content -->

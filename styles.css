@@ -87,12 +87,22 @@ textarea {
 }
 
 .controls-container select,
-.controls-container button {
+.controls-container button,
+input[type="text"] {
     margin-right: 10px; /* Adds space between elements */
 }
 
 .controls-container button {
     flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+/* Ensure the input has the same height as buttons */
+input[type="text"] {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    height: 40px; /* Match the height of the buttons */
+    box-sizing: border-box; /* Ensure padding is included in the height */
 }
 
 /* Checkbox container styles */
