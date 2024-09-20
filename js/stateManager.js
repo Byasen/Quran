@@ -1,6 +1,6 @@
 let topics = []; // This will hold the topics
 
-// Save the current state and display JSON in a new tab
+// Save the current state and display JSON in a new tab (for Export All button)
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
     const topic = topics.find(topic => topic.topicName === selectedTopic);
@@ -27,7 +27,7 @@ function saveState() {
         topic.answerInput = document.getElementById('answerInput').value;
     }
 
-    // Show saved state in new tab
+    // Show saved state in new tab (old Export All functionality)
     const jsonData = JSON.stringify({ topics }, null, 2);
     const newTab = window.open();
     newTab.document.write(`<pre>${jsonData}</pre>`);
@@ -64,6 +64,71 @@ function saveStateNoNewTab() {
     // Save the data without opening a new tab (only log it)
     const jsonData = JSON.stringify({ topics }, null, 2);
     console.log("State saved (Ctrl+S):", jsonData);
+}
+
+// Export the current state to local storage (for Export Local button)
+function exportToLocal() {
+    const selectedTopic = document.getElementById('topicSelect').value;
+    const topic = topics.find(topic => topic.topicName === selectedTopic);
+
+    if (topic) {
+        const stackedVerses = document.getElementById('stackedVerses').children;
+        const state = [];
+
+        for (let i = 0; i < stackedVerses.length; i += 2) {
+            const verseDiv = stackedVerses[i];
+            const surahInfo = verseDiv.querySelector('strong').textContent.match(/Surah (\d+): .* Ayah (\d+)/);
+            const textArea = verseDiv.querySelector('textarea');
+
+            if (surahInfo) {
+                const [_, surahNumber, verseNumber] = surahInfo;
+                const verseNotes = textArea ? textArea.value : "";
+                state.push({ surahNumber, verseNumber, verseNotes });
+            }
+        }
+
+        // Update the selected topic's data
+        topic.verses = state;
+        topic.questionInput = document.getElementById('questionInput').value;
+        topic.answerInput = document.getElementById('answerInput').value;
+    }
+
+    // Save data to localStorage
+    const jsonData = JSON.stringify({ topics });
+    localStorage.setItem('quranData', jsonData);
+    console.log("Data exported to local storage.");
+}
+
+// Import state from local storage (for Import Local button)
+function importFromLocal() {
+    const jsonData = localStorage.getItem('quranData');
+    if (!jsonData) {
+        console.error("No data found in local storage.");
+        return;
+    }
+
+    try {
+        const fullState = JSON.parse(jsonData);
+
+        // Log the parsed JSON to verify the structure
+        console.log("Parsed JSON from local storage:", fullState);
+
+        // Assign the loaded topics to the global topics array
+        topics = fullState.topics || [];
+
+        // Populate the topics dropdown with the newly loaded topics
+        populateTopicsDropdown();
+
+        // Optionally, auto-select the first topic after loading
+        if (topics.length > 0) {
+            document.getElementById('topicSelect').value = topics[0].topicName;
+            restoreState(); // Restore the first topic's state
+        }
+
+        console.log("Data imported from local storage.");
+    } catch (error) {
+        console.error("Error parsing or restoring state from local storage:", error.message);
+    }
 }
 
 // Restore the saved state (for the selected topic only)
