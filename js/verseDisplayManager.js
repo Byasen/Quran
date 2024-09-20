@@ -126,3 +126,55 @@ function displayPreviousNextPages(pageNumber) {
 
     nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
 }
+
+// Function to hide Quran pages
+function hideVerse() {
+    const nextPageContainer = document.getElementById('nextPage');
+    const currentPageContainer = document.getElementById('currentPage');
+    const previousPageContainer = document.getElementById('previousPage');
+
+    nextPageContainer.innerHTML = '';
+    currentPageContainer.innerHTML = '';
+    previousPageContainer.innerHTML = '';
+}
+
+// Display the verse, its meaning, and its grammar analysis in the UI
+async function displayVerseWithMeaning() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+    const verseDisplay = document.getElementById('verseDisplay');
+
+    const selectedChapter = chapterSelect.value;
+    const selectedVerse = verseSelect.value;
+
+    const verseWithMeaningAndGrammar = await fetchVerseWithMeaningAndGrammar(selectedChapter, selectedVerse);
+    if (verseWithMeaningAndGrammar) {
+        const showArabic = document.getElementById('toggleArabic').checked;
+        const showEnglish = document.getElementById('toggleEnglish').checked;
+        const showMeaning = document.getElementById('toggleMeaning').checked;
+        const showGrammar = document.getElementById('toggleGrammar').checked;
+
+        let displayContent = '';
+
+        if (showArabic) {
+            displayContent += `<strong>Arabic:</strong> ${verseWithMeaningAndGrammar.verseData.text.ar}<br>`;
+        }
+
+        if (showEnglish) {
+            displayContent += `<strong>English:</strong> ${verseWithMeaningAndGrammar.verseData.text.en}<br>`;
+        }
+
+        if (showMeaning) {
+            displayContent += `<strong>Meaning:</strong> ${verseWithMeaningAndGrammar.meaningText}<br>`;
+        }
+
+        if (showGrammar) {
+            displayContent += `<strong>Grammar Analysis:</strong> ${verseWithMeaningAndGrammar.grammarText}<br>`;
+        }
+
+        verseDisplay.innerHTML = displayContent || 'No content selected.';
+        displayQuranPagesWithHighlight(verseWithMeaningAndGrammar.verseData.page, selectedVerse);
+    } else {
+        verseDisplay.textContent = 'Verse, meaning, or grammar analysis not available.';
+    }
+}
