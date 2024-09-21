@@ -68,7 +68,7 @@ async function displayVerseWithAnalyses() {
 // Function to display the corresponding Quran pages (SVG) and highlight the selected verse
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
     if (pageNumber) {
-        const currentPagePath = `data/SVG/${padNumber(pageNumber)}.svg`;
+        const currentPagePath = `./data/SVG/${padNumber(pageNumber)}.svg`;
         fetch(currentPagePath)
             .then(response => response.text())
             .then(svgText => {
