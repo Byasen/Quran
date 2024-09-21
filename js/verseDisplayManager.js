@@ -68,7 +68,7 @@ async function displayVerseWithAnalyses() {
 // Function to display the corresponding Quran pages (SVG) and highlight the selected verse
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
     if (pageNumber) {
-        const currentPagePath = `data/SVG/${padNumber(pageNumber)}.svg`;
+        const currentPagePath = `data/svg/${padNumber(pageNumber)}.svg`;
         fetch(currentPagePath)
             .then(response => response.text())
             .then(svgText => {
@@ -98,8 +98,8 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 
 // Function to display the next and previous Quran pages (SVG) in reversed order
 function displayNextPreviousPages(pageNumber) {
-    const nextPagePath = `data/SVG/${padNumber(pageNumber + 1)}.svg`;
-    const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
+    const nextPagePath = `data/svg/${padNumber(pageNumber + 1)}.svg`;
+    const previousPagePath = `data/svg/${padNumber(pageNumber - 1)}.svg`;
 
     const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
