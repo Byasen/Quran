@@ -13,13 +13,13 @@ async function addVerse() {
         const newVerseDiv = document.createElement('div');
         newVerseDiv.classList.add('verse');
         newVerseDiv.innerHTML = `
-            <strong>Surah ${selectedSurah.number}: ${selectedSurah.name.en} (${selectedSurah.name.ar}), Ayah ${selectedVerse}</strong><br>
-            <strong>Arabic:</strong> ${verseData.text.ar}
+            <strong>سورة ${selectedSurah.number}: ${selectedSurah.name.ar} (آية ${selectedVerse})</strong><br>
+            <strong>العربية:</strong> ${verseData.text.ar}
             <br>
-            <button onclick="removeVerse(this)">Remove</button>
-            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">Display</button>
-            <button onclick="moveVerseUp(this)">Up</button>
-            <button onclick="moveVerseDown(this)">Down</button>
+            <button onclick="removeVerse(this)">إزالة</button>
+            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
+            <button onclick="moveVerseUp(this)">أعلى</button>
+            <button onclick="moveVerseDown(this)">أسفل</button>
         `;
 
         const notesTextArea = document.createElement('textarea');
@@ -56,8 +56,8 @@ function selectStackedVerse(chapterNumber, verseNumber) {
     fetchSurahVerses(chapterNumber).then(() => {
         document.getElementById('verseSelect').value = verseNumber;
 
-        // Call displayVerseWithar_ma3any to update the verse and ar_ma3any automatically
-        displayVerseWithar_ma3any(); // Update the verse display
+        // Call displayVerseWithAnalyses to update the verse and analyses automatically
+        displayVerseWithAnalyses(); // Update the verse display
     });
 }
 
