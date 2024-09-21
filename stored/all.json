@@ -26,7 +26,23 @@
     },
     {
       "topicName": "المغالطات",
-      "verses": [],
+      "verses": [
+        {
+          "surahNumber": "112",
+          "verseNumber": "1",
+          "verseNotes": ""
+        },
+        {
+          "surahNumber": "87",
+          "verseNumber": "1",
+          "verseNotes": ""
+        },
+        {
+          "surahNumber": "79",
+          "verseNumber": "1",
+          "verseNotes": ""
+        }
+      ],
       "questionInput": "",
       "answerInput": ""
     }
