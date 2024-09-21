@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     padding: 50px;
+    direction: rtl; /* Make body text RTL */
 }
 
 h1 {
@@ -18,6 +19,8 @@ p, .verse {
     font-size: 18px;
     margin-top: 20px;
     color: #2c3e50;
+    direction: rtl; /* RTL text */
+    text-align: right; /* Align text to the right */
 }
 
 hr {
@@ -65,7 +68,7 @@ hr {
 /* Stacked Verses Section */
 #stackedVerses {
     margin-top: 20px;
-    text-align: left;
+    text-align: right; /* Align stacked verses text to the right */
     padding: 10px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
@@ -75,6 +78,8 @@ hr {
 textarea {
     width: 100%; /* Make the text box span the full width */
     box-sizing: border-box; /* Include padding and border in the element's width */
+    direction: rtl; /* RTL text in textareas */
+    text-align: right; /* Align text to the right */
 }
 
 /* New styles for control container and button alignment */
@@ -103,6 +108,8 @@ input[type="text"] {
     font-size: 16px;
     height: 40px; /* Match the height of the buttons */
     box-sizing: border-box; /* Ensure padding is included in the height */
+    direction: rtl; /* RTL input field */
+    text-align: right; /* Align input text to the right */
 }
 
 /* Checkbox container styles */
@@ -115,8 +122,9 @@ input[type="text"] {
 .checkbox-container label {
     margin-right: 20px;
     font-size: 16px;
+    direction: rtl;
+    text-align: right;
 }
-
 
 /* Common class for RTL justification for all text types */
 .rtl-text {

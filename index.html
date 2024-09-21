@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar"> <!-- Changed to Arabic language code -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,42 +10,42 @@
     <h1>الفرقان</h1>
 
     <div class="controls-container">
-        <label for="topicSelect">Select Topic:</label>
+        <label for="topicSelect">اختر الموضوع:</label> <!-- Changed text to Arabic -->
         <select id="topicSelect" onchange="onTopicChange()"></select>
-        <input type="text" id="newTopicInput" placeholder="Enter new topic name">
-        <button onclick="addOrEditTopic()">Add Topic</button>
-        <button onclick="removeTopic()">Remove Topic</button>
-        <button onclick="saveState()">Export File</button>
-        <button onclick="loadState()">Import File</button>
-        <button onclick="exportToLocal()">Save Local</button> <!-- New Export Local button -->
-        <button onclick="importFromLocal()">Load Local</button> <!-- New Import Local button -->
+        <input type="text" id="newTopicInput" placeholder="أدخل اسم الموضوع الجديد"> <!-- Arabic placeholder -->
+        <button onclick="addOrEditTopic()">أضف الموضوع</button> <!-- Arabic button text -->
+        <button onclick="removeTopic()">احذف الموضوع</button> <!-- Arabic button text -->
+        <button onclick="saveState()">تصدير الملف</button> <!-- Arabic button text -->
+        <button onclick="loadState()">استيراد الملف</button> <!-- Arabic button text -->
+        <button onclick="exportToLocal()">احفظ محليا</button> <!-- Arabic button text -->
+        <button onclick="importFromLocal()">تحميل محليا</button> <!-- Arabic button text -->
     </div>
 
     <div class="controls-container">
-        <label for="chapterSelect">Select Chapter (Surah):</label>
+        <label for="chapterSelect">اختر السورة:</label> <!-- Arabic label -->
         <select id="chapterSelect" onchange="onChapterChange()"></select>
-        <label for="verseSelect">Select Verse (Ayah):</label>
+        <label for="verseSelect">اختر الآية:</label> <!-- Arabic label -->
         <select id="verseSelect"></select>
-        <button onclick="displayVerseWithAnalyses()">Display Verse</button>
-        <button onclick="hideVerse()">Hide Verse</button> <!-- New Hide Verse button -->
-        <button onclick="addVerse()">Add Verse</button>
+        <button onclick="displayVerseWithAnalyses()">عرض الآية</button> <!-- Arabic button text -->
+        <button onclick="hideVerse()">إخفاء الآية</button> <!-- Arabic button text -->
+        <button onclick="addVerse()">أضف الآية</button> <!-- Arabic button text -->
     </div>
 
     <div class="checkbox-container">
-        <label><input type="checkbox" id="toggleArabic" checked> Arabic</label> <!-- Default checked -->
-        <label><input type="checkbox" id="togglear_ma3any"> ar_ma3any</label>
-        <label><input type="checkbox" id="togglee3rab"> e3rab</label>
-        <label><input type="checkbox" id="toggleBaghawy"> Baghawy</label>
-        <label><input type="checkbox" id="toggleKatheer"> Katheer</label>
-        <label><input type="checkbox" id="toggleQortoby"> Qortoby</label>
-        <label><input type="checkbox" id="toggleSa3dy"> Sa3dy</label>
-        <label><input type="checkbox" id="toggleTabary"> Tabary</label>
-        <label><input type="checkbox" id="toggleWaseet"> Waseet</label>
-        <label><input type="checkbox" id="togglear_muyassar"> ar_muyassar</label>
-        <label><input type="checkbox" id="toggleTanweer"> Tanweer</label>
+        <label><input type="checkbox" id="toggleArabic" checked> عربي</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="togglema3any"> معاني</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="togglee3rab"> إعراب</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleBaghawy"> البغوي</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleKatheer"> ابن كثير</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleQortoby"> القرطبي</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleSa3dy"> السعدي</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleTabary"> الطبري</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleWaseet"> الوسيط</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleMuyassar"> الميسر</label> <!-- Arabic label -->
+        <label><input type="checkbox" id="toggleTanweer"> التنوير</label> <!-- Arabic label -->
     </div>
 
-    <p id="verseDisplay">إختر آية</p>
+    <p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
 
     <div class="quran-pages">
         <div id="nextPage" class="page"></div>
@@ -55,9 +55,9 @@
 
     <hr class="horizontal-line">
 
-    <textarea id="questionInput" placeholder="أدخل الفكرة أو السؤال المراد مناقشته" rows="4" cols="50"></textarea>
+    <textarea id="questionInput" placeholder="أدخل الفكرة أو السؤال المراد مناقشته" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
     <hr class="horizontal-line">
-    <textarea id="answerInput" placeholder="أدخل الإجابة العامة أو الأولية" rows="4" cols="50"></textarea>
+    <textarea id="answerInput" placeholder="أدخل الإجابة العامة أو الأولية" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
     <hr class="horizontal-line">
     <div id="stackedVerses"></div>
 

@@ -1,4 +1,4 @@
-// Fetch a specific verse, including its ar_ma3any from ar_ma3any.json and e3rab analysis from e3rab.json
+// Fetch a specific verse, including its ma3any from ar_ma3any.json and e3rab analysis from e3rab.json
 async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
     try {
         const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
@@ -9,7 +9,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
 
         const analyses = {};
 
-        const sources = ['ar_ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'ar_muyassar', 'tanweer'];
+        const sources = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
 
         for (let source of sources) {
             const sourceResponse = await fetch(`data/tafseer/${source}.json`);
@@ -31,7 +31,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
     }
 }
 
-// Display the verse, its ar_ma3any, and its e3rab analysis in the UI
+// Display the verse, its ma3any, and its e3rab analysis in the UI
 async function displayVerseWithAnalyses() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -48,7 +48,7 @@ async function displayVerseWithAnalyses() {
             displayContent += `<strong>Arabic:</strong><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
         }
 
-        const analysesToShow = ['ar_ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'ar_muyassar', 'Tanweer'];
+        const analysesToShow = ['ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'Muyassar', 'Tanweer'];
 
         analysesToShow.forEach(analysisType => {
             if (document.getElementById(`toggle${analysisType}`).checked) {
