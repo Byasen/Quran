@@ -98,8 +98,8 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 
 // Function to display the next and previous Quran pages (SVG) in reversed order
 function displayNextPreviousPages(pageNumber) {
-    const nextPagePath = `data/SVG/${padNumber(pageNumber + 1)}.svg`;
-    const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
+    const nextPagePath = `data/svg/${padNumber(pageNumber + 1)}.svg`;
+    const previousPagePath = `data/svg/${padNumber(pageNumber - 1)}.svg`;
 
     const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
