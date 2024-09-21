@@ -9,32 +9,38 @@ function saveState() {
         const stackedVerses = document.getElementById('stackedVerses').children;
         const state = [];
 
-        for (let i = 0; i < stackedVerses.length; i += 2) {
+        // Iterate through the stacked verses and collect the relevant information
+        for (let i = 0; i < stackedVerses.length; i += 2) { // Skipping the dashed lines (hr elements)
             const verseDiv = stackedVerses[i];
-            const surahInfo = verseDiv.querySelector('strong').textContent.match(/Surah (\d+): .* Ayah (\d+)/);
-            const textArea = verseDiv.querySelector('textarea');
+            
+            // Use regex to match and extract surah and verse information
+            const surahInfo = verseDiv.querySelector('strong')?.textContent.match(/سورة (\d+): .* \(آية (\d+)\)/);
 
             if (surahInfo) {
                 const [_, surahNumber, verseNumber] = surahInfo;
+                
+                // Retrieve the notes from the textarea
+                const textArea = verseDiv.querySelector('textarea');
                 const verseNotes = textArea ? textArea.value : "";
-                state.push({ surahNumber, verseNumber, verseNotes });
+
+                state.push({ surahNumber, verseNumber, verseNotes }); // Save verse information and notes
             }
         }
 
-        // Update the selected topic's data
+        // Save the notes for the topic (question and answer input fields)
         topic.verses = state;
         topic.questionInput = document.getElementById('questionInput').value;
         topic.answerInput = document.getElementById('answerInput').value;
     }
 
-    // Show saved state in new tab (old Export All functionality)
+    // Show saved state in new tab (Export All)
     const jsonData = JSON.stringify({ topics }, null, 2);
     const newTab = window.open();
     newTab.document.write(`<pre>${jsonData}</pre>`);
     newTab.document.title = 'Quran State JSON';
 }
 
-// Save the current state without opening a new tab
+// Save the current state without opening a new tab (for Ctrl+S)
 function saveStateNoNewTab() {
     const selectedTopic = document.getElementById('topicSelect').value;
     const topic = topics.find(topic => topic.topicName === selectedTopic);
@@ -43,19 +49,25 @@ function saveStateNoNewTab() {
         const stackedVerses = document.getElementById('stackedVerses').children;
         const state = [];
 
-        for (let i = 0; i < stackedVerses.length; i += 2) {
+        // Iterate through the stacked verses and collect the relevant information
+        for (let i = 0; i < stackedVerses.length; i += 2) { // Skipping the dashed lines (hr elements)
             const verseDiv = stackedVerses[i];
-            const surahInfo = verseDiv.querySelector('strong').textContent.match(/Surah (\d+): .* Ayah (\d+)/);
-            const textArea = verseDiv.querySelector('textarea');
+            
+            // Use regex to match and extract surah and verse information
+            const surahInfo = verseDiv.querySelector('strong')?.textContent.match(/سورة (\d+): .* \(آية (\d+)\)/);
 
             if (surahInfo) {
                 const [_, surahNumber, verseNumber] = surahInfo;
+                
+                // Retrieve the notes from the textarea
+                const textArea = verseDiv.querySelector('textarea');
                 const verseNotes = textArea ? textArea.value : "";
-                state.push({ surahNumber, verseNumber, verseNotes });
+
+                state.push({ surahNumber, verseNumber, verseNotes }); // Save verse information and notes
             }
         }
 
-        // Update the selected topic's data
+        // Save the notes for the topic (question and answer input fields)
         topic.verses = state;
         topic.questionInput = document.getElementById('questionInput').value;
         topic.answerInput = document.getElementById('answerInput').value;
@@ -75,19 +87,25 @@ function exportToLocal() {
         const stackedVerses = document.getElementById('stackedVerses').children;
         const state = [];
 
-        for (let i = 0; i < stackedVerses.length; i += 2) {
+        // Iterate through the stacked verses and collect the relevant information
+        for (let i = 0; i < stackedVerses.length; i += 2) { // Skipping the dashed lines (hr elements)
             const verseDiv = stackedVerses[i];
-            const surahInfo = verseDiv.querySelector('strong').textContent.match(/Surah (\d+): .* Ayah (\d+)/);
-            const textArea = verseDiv.querySelector('textarea');
+            
+            // Use regex to match and extract surah and verse information
+            const surahInfo = verseDiv.querySelector('strong')?.textContent.match(/سورة (\d+): .* \(آية (\d+)\)/);
 
             if (surahInfo) {
                 const [_, surahNumber, verseNumber] = surahInfo;
+                
+                // Retrieve the notes from the textarea
+                const textArea = verseDiv.querySelector('textarea');
                 const verseNotes = textArea ? textArea.value : "";
-                state.push({ surahNumber, verseNumber, verseNotes });
+
+                state.push({ surahNumber, verseNumber, verseNotes }); // Save verse information and notes
             }
         }
 
-        // Update the selected topic's data
+        // Save the notes for the topic (question and answer input fields)
         topic.verses = state;
         topic.questionInput = document.getElementById('questionInput').value;
         topic.answerInput = document.getElementById('answerInput').value;
@@ -109,9 +127,6 @@ function importFromLocal() {
 
     try {
         const fullState = JSON.parse(jsonData);
-
-        // Log the parsed JSON to verify the structure
-        console.log("Parsed JSON from local storage:", fullState);
 
         // Assign the loaded topics to the global topics array
         topics = fullState.topics || [];
@@ -135,7 +150,6 @@ function importFromLocal() {
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
 
-    // Check if the selected topic is valid
     if (!selectedTopic) {
         console.error("No topic selected.");
         return;
@@ -143,10 +157,9 @@ async function restoreState() {
 
     const topic = topics.find(topic => topic.topicName === selectedTopic);
 
-    // Debugging log to ensure the topic is being found
     if (!topic) {
         console.error("Selected topic not found:", selectedTopic);
-        return; // Exit early if the topic is not found
+        return;
     }
 
     console.log("Restoring state for topic:", topic);
@@ -159,61 +172,35 @@ async function restoreState() {
         document.getElementById('chapterSelect').value = surahNumber;
 
         // Fetch verses for the selected surah
-        await fetchSurahVerses(surahNumber); // Ensure it completes before proceeding
+        await fetchSurahVerses(surahNumber);
 
         // Set the verse dropdown to the selected verse
         document.getElementById('verseSelect').value = verseNumber;
 
         // Add the verse to the stacked verses
-        await addVerse(); // Ensure it completes before proceeding
+        await addVerse();
 
-        // Get the last added verse in the stack and update its notes
+        // Update the notes for the last stacked verse
         const stackedVerses = document.getElementById('stackedVerses').children;
-        const lastVerseDiv = stackedVerses[stackedVerses.length - 2]; // Get the last added verse (skip dashed line)
+        const lastVerseDiv = stackedVerses[stackedVerses.length - 2];
         const textArea = lastVerseDiv.querySelector('textarea');
         if (textArea) {
-            textArea.value = verseNotes || ""; // Set notes if available
+            textArea.value = verseNotes || "";
         }
     }
 
-    // Restore question and answer input fields
-    if (topic.questionInput !== undefined) {
-        document.getElementById('questionInput').value = topic.questionInput || '';
-    }
-
-    if (topic.answerInput !== undefined) {
-        document.getElementById('answerInput').value = topic.answerInput || '';
-    }
+    // Restore the question and answer input fields
+    document.getElementById('questionInput').value = topic.questionInput || '';
+    document.getElementById('answerInput').value = topic.answerInput || '';
 
     console.log("State restored successfully for topic:", selectedTopic);
-}
-
-// Add a new topic or edit an existing one
-function addOrEditTopic() {
-    const topicInput = document.getElementById('newTopicInput').value;
-    const existingTopic = topics.find(topic => topic.topicName === topicInput);
-
-    if (existingTopic) {
-        alert("Topic already exists. You can edit the existing topic.");
-    } else {
-        topics.push({ topicName: topicInput, verses: [], questionInput: '', answerInput: '' });
-        populateTopicsDropdown(); // Update the dropdown list with new topics
-    }
-}
-
-// Remove an existing topic
-function removeTopic() {
-    const selectedTopic = document.getElementById('topicSelect').value;
-    topics = topics.filter(topic => topic.topicName !== selectedTopic);
-    populateTopicsDropdown();
 }
 
 // Populate the topic dropdown
 function populateTopicsDropdown() {
     const topicSelect = document.getElementById('topicSelect');
-    topicSelect.innerHTML = ''; // Clear previous options
+    topicSelect.innerHTML = '';
 
-    // Check if topics array has content
     if (topics.length === 0) {
         console.warn("No topics available to populate.");
         return;
@@ -226,7 +213,6 @@ function populateTopicsDropdown() {
         topicSelect.appendChild(option);
     });
 
-    // Optionally, you can auto-select the first topic
     if (topics.length > 0) {
         topicSelect.value = topics[0].topicName;
     }
@@ -235,4 +221,24 @@ function populateTopicsDropdown() {
 // When a topic is selected, load its state
 function onTopicChange() {
     restoreState(); // Restore the state based on the selected topic
+}
+
+// Add a new topic or edit an existing one
+function addOrEditTopic() {
+    const topicInput = document.getElementById('newTopicInput').value;
+    const existingTopic = topics.find(topic => topic.topicName === topicInput);
+
+    if (existingTopic) {
+        alert("Topic already exists. You can edit the existing topic.");
+    } else {
+        topics.push({ topicName: topicInput, verses: [], questionInput: '', answerInput: '' });
+        populateTopicsDropdown();
+    }
+}
+
+// Remove an existing topic
+function removeTopic() {
+    const selectedTopic = document.getElementById('topicSelect').value;
+    topics = topics.filter(topic => topic.topicName !== selectedTopic);
+    populateTopicsDropdown();
 }
