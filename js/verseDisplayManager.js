@@ -86,28 +86,31 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 currentPageContainer.appendChild(svgElement);
             });
 
-        displayPreviousNextPages(pageNumber);
+        // Reverse the order: show Current+1 on the left, Current in the center, and Current-1 on the right
+        displayNextPreviousPages(pageNumber);
     } else {
         const currentPageContainer = document.getElementById('currentPage');
         currentPageContainer.innerHTML = `<p>Page not found for this verse.</p>`;
     }
 }
 
-// Function to display the previous and next Quran pages (SVG)
-function displayPreviousNextPages(pageNumber) {
-    const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
+// Function to display the next and previous Quran pages (SVG) in reversed order
+function displayNextPreviousPages(pageNumber) {
     const nextPagePath = `data/SVG/${padNumber(pageNumber + 1)}.svg`;
+    const previousPagePath = `data/SVG/${padNumber(pageNumber - 1)}.svg`;
 
     const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
 
+    // Display Current+1 (next) on the left
+    nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
+
+    // Display Current-1 (previous) on the right
     if (pageNumber > 1) {
         previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="max-width: 100%; height: auto;">`;
     } else {
         previousPageContainer.innerHTML = `<p>No previous page</p>`;
     }
-
-    nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
 }
 
 // Function to hide Quran pages

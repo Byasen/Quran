@@ -70,13 +70,12 @@ document.addEventListener('keydown', function(event) {
     if (svgElement) {
         const currentPageNumber = parseInt(svgElement.getAttribute('data-page-number')); // Assuming the SVG has a custom attribute for the page number
 
-        // If the left arrow key is pressed (move to the previous page)
-        if (event.key === 'ArrowLeft' && currentPageNumber > 1) {
+        // Flip the arrow key actions: Right key now moves to the previous page, Left key moves to the next page
+        if (event.key === 'ArrowRight' && currentPageNumber > 1) {
             displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page
         }
 
-        // If the right arrow key is pressed (move to the next page)
-        if (event.key === 'ArrowRight') {
+        if (event.key === 'ArrowLeft') {
             displayQuranPagesWithHighlight(currentPageNumber + 1); // Move to the next page
         }
     }

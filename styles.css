@@ -49,6 +49,7 @@ hr {
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+    flex-direction: row-reverse; /* Reverse the order for RTL */
 }
 
 /* Style for all pages (equal size and large) */
