@@ -14,7 +14,7 @@ async function addVerse() {
         newVerseDiv.classList.add('verse');
         newVerseDiv.innerHTML = `
             <strong>سورة ${selectedSurah.number}: ${selectedSurah.name.ar} (آية ${selectedVerse})</strong><br>
-            <strong>العربية:</strong> ${verseData.text.ar}
+            ${verseData.text.ar}
             <br>
             <button onclick="removeVerse(this)">إزالة</button>
             <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">عرض</button>

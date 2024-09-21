@@ -15,7 +15,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
             const sourceResponse = await fetch(`data/tafseer/${source}.json`);
             if (sourceResponse.ok) {
                 const analysisData = await sourceResponse.json();
-                analyses[source] = analysisData.find(item => item.sura == chapterNumber && item.aya == verseNumber)?.text || `No ${source} analysis available`;
+                analyses[source] = analysisData.find(item => item.sura == chapterNumber && item.aya == verseNumber)?.text || `لا يوجد مدخل لهذه الآية`;
             } else {
                 analyses[source] = `No ${source} analysis available`;
             }
@@ -45,14 +45,16 @@ async function displayVerseWithAnalyses() {
         let displayContent = '<hr class="dashed-line">'; // Start with a dashed line
 
         if (document.getElementById('toggleArabic').checked) {
-            displayContent += `<strong>Arabic:</strong><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
+            displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
         }
 
         const analysesToShow = ['ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'Muyassar', 'Tanweer'];
+        const analysesName = ['المعاني', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
-        analysesToShow.forEach(analysisType => {
+        analysesToShow.forEach((analysisType, index) => {
             if (document.getElementById(`toggle${analysisType}`).checked) {
-                displayContent += `<strong>${analysisType}:</strong><br><div class="rtl-text">${verseWithAnalyses.analyses[analysisType.toLowerCase()]}</div><br><hr class="dashed-line">`;
+                // Use the corresponding name from the analysesName array
+                displayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${verseWithAnalyses.analyses[analysisType.toLowerCase()]}</div><br><hr class="dashed-line">`;
             }
         });
 
@@ -103,7 +105,11 @@ function displayNextPreviousPages(pageNumber) {
     const nextPageContainer = document.getElementById('nextPage');
 
     // Display Current+1 (next) on the left
-    nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
+    if (pageNumber < 604) {
+        nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
+    } else {
+        nextPageContainer.innerHTML = `<p>No next page</p>`; // Display No next page at the end
+    }
 
     // Display Current-1 (previous) on the right
     if (pageNumber > 1) {
