@@ -7,8 +7,7 @@ function onChapterChange() {
     fetchSurahVerses(selectedChapter);
 }
 
-// Initialize the page by loading metadata
-window.onload = loadMetadata;
+
 
 // Check all checkboxes
 function checkAll() {
@@ -98,3 +97,57 @@ window.addEventListener('beforeunload', function () {
     exportToLocal(); // Automatically export to local storage
     // No event.preventDefault() or event.returnValue to suppress "Leave Site" dialog
 });
+
+
+
+// Main JS file that handles page initialization and events
+
+// Check if the site is initiated for the first time and import the template
+function checkFirstTimeInit() {
+    if (!localStorage.getItem('quranData')) {
+        console.log("First-time visit detected. Loading template data...");
+        importTemplateData();
+    } else {
+        console.log("Existing data found. No need to load template.");
+        importFromLocal(); // Load existing data from local storage
+    }
+}
+
+// Import the template data from "data/researches/template.json"
+function importTemplateData() {
+    fetch('data/researches/template.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Template file not found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Save the template data to localStorage
+            localStorage.setItem('quranData', JSON.stringify(data));
+            console.log("Template data loaded and saved to localStorage.");
+
+            // Populate the topics dropdown with the newly loaded template data
+            topics = data.topics || [];
+            populateTopicsDropdown();
+
+            // Optionally, auto-select the first topic after loading
+            if (topics.length > 0) {
+                document.getElementById('topicSelect').value = topics[0].topicName;
+                restoreState(); // Restore the first topic's state
+            }
+        })
+        .catch(error => {
+            console.error("Error loading template data:", error.message);
+        });
+}
+
+// Call the checkFirstTimeInit function when the window loads
+window.onload = function () {
+    
+    loadMetadata(); // Initialize the page by loading metadata
+    checkFirstTimeInit(); // Check and load template data if first time
+    setupTextboxBlurEvents(); // Setup blur events for all textboxes
+};
+
+// Other existing functions (saveState, addVerse, etc.) remain unchanged...
