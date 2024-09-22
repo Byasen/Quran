@@ -42,18 +42,16 @@ async function displayVerseWithAnalyses() {
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
     if (verseWithAnalyses) {
-        let displayContent = '<hr class="dashed-line">'; // Start with a dashed line
+        let displayContent = '<hr class="dashed-line">';
 
-        if (document.getElementById('toggleArabic').checked) {
-            displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
-        }
+        // النص should always be displayed
+        displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
 
         const analysesToShow = ['ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'Muyassar', 'Tanweer'];
         const analysesName = ['المعاني', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
         analysesToShow.forEach((analysisType, index) => {
             if (document.getElementById(`toggle${analysisType}`).checked) {
-                // Use the corresponding name from the analysesName array
                 displayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${verseWithAnalyses.analyses[analysisType.toLowerCase()]}</div><br><hr class="dashed-line">`;
             }
         });

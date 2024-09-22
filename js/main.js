@@ -10,6 +10,18 @@ function onChapterChange() {
 // Initialize the page by loading metadata
 window.onload = loadMetadata;
 
+// Check all checkboxes
+function checkAll() {
+    const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = true);
+}
+
+// Uncheck all checkboxes
+function uncheckAll() {
+    const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
+}
+
 // Load a saved state from a file (modified for topics)
 function loadState() {
     const fileInput = document.createElement('input');
