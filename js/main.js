@@ -8,24 +8,18 @@ function onChapterChange() {
 }
 
 // Initialize the page by loading metadata
-window.onload = function () {
-    loadMetadata();
-    setupTextboxBlurEvents(); // Setup blur events for all textboxes
-};
+window.onload = loadMetadata;
 
-// Automatically save when exiting any textbox (blur event)
-function setupTextboxBlurEvents() {
-    const textboxes = document.querySelectorAll('textarea, input[type="text"]');
-    textboxes.forEach(textbox => {
-        textbox.addEventListener('blur', function() {
-            saveStateAndUpdate(); // Automatically save to local storage after exiting textbox
-        });
-    });
+// Check all checkboxes
+function checkAll() {
+    const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = true);
 }
 
-// Automatically save state to local storage after modifying topics
-function saveStateAndUpdate() {
-    exportToLocal(); // Save state to local storage
+// Uncheck all checkboxes
+function uncheckAll() {
+    const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
 }
 
 // Load a saved state from a file (modified for topics)
@@ -57,7 +51,6 @@ function loadState() {
                     document.getElementById('topicSelect').value = topics[0].topicName;
                     await restoreState(); // Restore the first topic's state
                 }
-                saveStateAndUpdate(); // Save state automatically after loading
             } catch (error) {
                 console.error("Error parsing or restoring state:", error.message);
             }
@@ -71,112 +64,37 @@ function loadState() {
     fileInput.click();
 }
 
-// Automatically save state after selecting a topic
-function onTopicChange() {
-    restoreState(); // Restore the state based on the selected topic
-    saveStateAndUpdate(); // Save state automatically after selecting a topic
-}
-
-// Add a new topic or edit an existing one
-function addOrEditTopic() {
-    const topicInput = document.getElementById('newTopicInput').value;
-    const existingTopic = topics.find(topic => topic.topicName === topicInput);
-
-    if (existingTopic) {
-        alert("Topic already exists. You can edit the existing topic.");
-    } else {
-        topics.push({ topicName: topicInput, verses: [], questionInput: '', answerInput: '' });
-        populateTopicsDropdown();
-        saveStateAndUpdate(); // Automatically save after adding a topic
+// Enable Ctrl+S for saving the state without opening a new tab
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 's') {
+        event.preventDefault(); // Prevent the default browser save dialog
+        saveStateNoNewTab(); // Call the new function without opening a tab
+        console.log("Ctrl+S pressed: State saved (no new tab).");
     }
-}
+});
 
-// Remove an existing topic
-function removeTopic() {
-    const selectedTopic = document.getElementById('topicSelect').value;
-    topics = topics.filter(topic => topic.topicName !== selectedTopic);
-    populateTopicsDropdown();
-    saveStateAndUpdate(); // Automatically save after removing a topic
-}
+// Add event listener to handle keyboard navigation for page changes
+document.addEventListener('keydown', function(event) {
+    const currentPageContainer = document.getElementById('currentPage');
+    const svgElement = currentPageContainer.querySelector('svg');
 
-// Automatically save state after adding or removing stacked verses
-async function addVerse() {
-    const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
-    const stackedVerses = document.getElementById('stackedVerses');
+    // Check if an SVG is currently displayed
+    if (svgElement) {
+        const currentPageNumber = parseInt(svgElement.getAttribute('data-page-number')); // Assuming the SVG has a custom attribute for the page number
 
-    const selectedChapter = chapterSelect.value;
-    const selectedVerse = verseSelect.value;
-    const selectedSurah = quranMetadata.find(surah => surah.number == selectedChapter);
+        // Flip the arrow key actions: Right key now moves to the previous page, Left key moves to the next page
+        if (event.key === 'ArrowRight' && currentPageNumber > 1) {
+            displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page
+        }
 
-    const verseData = await fetchVerse(selectedChapter, selectedVerse);
-    if (verseData) {
-        const newVerseDiv = document.createElement('div');
-        newVerseDiv.classList.add('verse');
-        newVerseDiv.innerHTML = `
-            <strong>سورة ${selectedSurah.number}: ${selectedSurah.name.ar} (آية ${selectedVerse})</strong><br>
-            ${verseData.text.ar}
-            <br>
-            <button onclick="removeVerse(this)">إزالة</button>
-            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
-            <button onclick="moveVerseUp(this)">أعلى</button>
-            <button onclick="moveVerseDown(this)">أسفل</button>
-        `;
-
-        const notesTextArea = document.createElement('textarea');
-        notesTextArea.placeholder = "أدخل سبب إستعمال هذه الآية";
-        notesTextArea.rows = 3;
-        notesTextArea.style.width = '100%';
-
-        newVerseDiv.appendChild(notesTextArea);
-
-        const dashedLine = document.createElement('hr');
-        dashedLine.classList.add('dashed-line');
-
-        stackedVerses.appendChild(newVerseDiv);
-        stackedVerses.appendChild(dashedLine);
-
-        saveStateAndUpdate(); // Automatically save after adding a verse
+        if (event.key === 'ArrowLeft') {
+            displayQuranPagesWithHighlight(currentPageNumber + 1); // Move to the next page
+        }
     }
-}
+});
 
-// Automatically save after removing a stacked verse
-function removeVerse(button) {
-    const verseDiv = button.parentElement;
-    const dashedLine = verseDiv.nextElementSibling;
-
-    // Remove both the verse div and its dashed line
-    verseDiv.remove();
-    if (dashedLine && dashedLine.classList.contains('dashed-line')) {
-        dashedLine.remove();
-    }
-
-    saveStateAndUpdate(); // Automatically save after removing a verse
-}
-
-// Automatically save state after moving verses up or down
-function moveVerseUp(button) {
-    const verseDiv = button.parentElement;
-    const dashedLine = verseDiv.nextElementSibling;
-    const previousVerseDiv = verseDiv.previousElementSibling?.previousElementSibling;
-
-    if (previousVerseDiv) {
-        verseDiv.parentElement.insertBefore(verseDiv, previousVerseDiv);
-        dashedLine.parentElement.insertBefore(dashedLine, verseDiv);
-    }
-
-    saveStateAndUpdate(); // Automatically save after moving verse up
-}
-
-function moveVerseDown(button) {
-    const verseDiv = button.parentElement;
-    const dashedLine = verseDiv.nextElementSibling;
-    const nextVerseDiv = dashedLine?.nextElementSibling;
-
-    if (nextVerseDiv && nextVerseDiv.classList.contains('verse')) {
-        verseDiv.parentElement.insertBefore(verseDiv, nextVerseDiv.nextElementSibling);
-        dashedLine.parentElement.insertBefore(dashedLine, nextVerseDiv.nextElementSibling);
-    }
-
-    saveStateAndUpdate(); // Automatically save after moving verse down
-}
+// Automatically export state to local storage on tab/browser close without warning
+window.addEventListener('beforeunload', function () {
+    exportToLocal(); // Automatically export to local storage
+    // No event.preventDefault() or event.returnValue to suppress "Leave Site" dialog
+});
