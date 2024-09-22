@@ -119,6 +119,7 @@ function exportToLocal() {
 
 // Import state from local storage (for Import Local button)
 function importFromLocal() {
+    document.getElementById('stackedVerses').innerHTML = '';
     const jsonData = localStorage.getItem('quranData');
     if (!jsonData) {
         console.error("No data found in local storage.");
