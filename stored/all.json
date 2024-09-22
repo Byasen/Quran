@@ -20,7 +20,18 @@
     },
     {
       "topicName": "الإرادة",
-      "verses": [],
+      "verses": [
+        {
+          "surahNumber": "17",
+          "verseNumber": "13",
+          "verseNotes": ""
+        },
+        {
+          "surahNumber": "17",
+          "verseNumber": "14",
+          "verseNotes": ""
+        }
+      ],
       "questionInput": "",
       "answerInput": ""
     },
@@ -43,6 +54,18 @@
           "verseNotes": ""
         }
       ],
+      "questionInput": "",
+      "answerInput": ""
+    },
+    {
+      "topicName": "القرآن يصف نفسه",
+      "verses": [],
+      "questionInput": "",
+      "answerInput": ""
+    },
+    {
+      "topicName": "الدعاء",
+      "verses": [],
       "questionInput": "",
       "answerInput": ""
     }
