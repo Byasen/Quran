@@ -223,18 +223,26 @@ function onTopicChange() {
     restoreState(); // Restore the state based on the selected topic
 }
 
-// Add a new topic or edit an existing one
 function addOrEditTopic() {
-    const topicInput = document.getElementById('newTopicInput').value;
-    const existingTopic = topics.find(topic => topic.topicName === topicInput);
+    const topicInput = document.getElementById('newTopicInput').value.trim();  // Get the topic name and remove extra spaces
+    
+    // Check if the topic name is empty
+    if (!topicInput) {
+        alert("Please enter a valid topic name.");  // Display an alert or error message
+        return;  // Stop the function from proceeding further
+    }
 
+    // Check if the topic already exists
+    const existingTopic = topics.find(topic => topic.topicName === topicInput);
+    
     if (existingTopic) {
         alert("Topic already exists. You can edit the existing topic.");
     } else {
         topics.push({ topicName: topicInput, verses: [], questionInput: '', answerInput: '' });
-        populateTopicsDropdown();
+        populateTopicsDropdown();  // Assuming you have a function to refresh the dropdown
     }
 }
+
 
 // Remove an existing topic
 function removeTopic() {
