@@ -240,6 +240,7 @@ function addOrEditTopic() {
     } else {
         topics.push({ topicName: topicInput, verses: [], questionInput: '', answerInput: '' });
         populateTopicsDropdown();  // Assuming you have a function to refresh the dropdown
+        saveStateAndUpdate();  // Automatically save after adding a topic
     }
 }
 
