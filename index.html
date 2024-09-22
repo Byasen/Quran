@@ -32,7 +32,6 @@
     </div>
 
     <div class="checkbox-container">
-        <!-- Removed النص checkbox -->
         <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
         <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
         <label><input type="checkbox" id="togglema3any"> معاني</label>
@@ -45,6 +44,12 @@
         <label><input type="checkbox" id="toggleWaseet"> الوسيط</label>
         <label><input type="checkbox" id="toggleMuyassar"> الميسر</label>
         <label><input type="checkbox" id="toggleTanweer"> التنوير</label>
+    </div>
+
+    <!-- Loading Bar (placed under checkboxes) -->
+    <div id="loadingBarContainer">
+        <progress id="loadingBar" value="0" max="100"></progress>
+        <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
     </div>
 
     <p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
