@@ -147,7 +147,6 @@ window.onload = function () {
     
     loadMetadata(); // Initialize the page by loading metadata
     checkFirstTimeInit(); // Check and load template data if first time
-    setupTextboxBlurEvents(); // Setup blur events for all textboxes
 };
 
 // Other existing functions (saveState, addVerse, etc.) remain unchanged...
