@@ -104,18 +104,12 @@ window.addEventListener('beforeunload', function () {
 
 // Check if the site is initiated for the first time and import the template
 function checkFirstTimeInit() {
-    if (!localStorage.getItem('quranData')) {
-        console.log("First-time visit detected. Loading template data...");
         importTemplateData();
-    } else {
-        console.log("Existing data found. No need to load template.");
-        importFromLocal(); // Load existing data from local storage
     }
-}
 
 // Import the template data from "data/researches/template.json"
 function importTemplateData() {
-    fetch('data/researches/template.json')
+    fetch('stored/all.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Template file not found');
