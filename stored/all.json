@@ -37,20 +37,16 @@
     },
     {
       "topicName": "المغالطات",
+      "verses": [],
+      "questionInput": "",
+      "answerInput": ""
+    },
+    {
+      "topicName": "القرآن يصف نفسه",
       "verses": [
         {
-          "surahNumber": "112",
-          "verseNumber": "1",
-          "verseNotes": ""
-        },
-        {
-          "surahNumber": "87",
-          "verseNumber": "1",
-          "verseNotes": ""
-        },
-        {
-          "surahNumber": "79",
-          "verseNumber": "1",
+          "surahNumber": "17",
+          "verseNumber": "9",
           "verseNotes": ""
         }
       ],
@@ -58,14 +54,26 @@
       "answerInput": ""
     },
     {
-      "topicName": "القرآن يصف نفسه",
-      "verses": [],
+      "topicName": "الدعاء",
+      "verses": [
+        {
+          "surahNumber": "17",
+          "verseNumber": "11",
+          "verseNotes": ""
+        }
+      ],
       "questionInput": "",
       "answerInput": ""
     },
     {
-      "topicName": "الدعاء",
-      "verses": [],
+      "topicName": "سنن الله",
+      "verses": [
+        {
+          "surahNumber": "17",
+          "verseNumber": "16",
+          "verseNotes": ""
+        }
+      ],
       "questionInput": "",
       "answerInput": ""
     }
