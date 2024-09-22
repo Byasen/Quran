@@ -1,6 +1,28 @@
+// Show the loading bar and status
+function showLoadingStatus(message) {
+    const loadingBar = document.getElementById('loadingBar');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+
+    loadingBarContainer.style.display = 'block';
+    loadingStatus.textContent = message;
+
+    // Simulate progress (for demonstration, you can adjust it)
+    loadingBar.value += 10;
+    if (loadingBar.value > 100) loadingBar.value = 0; // Reset if it exceeds 100
+}
+
+// Hide the loading bar once loading is complete
+function hideLoadingStatus() {
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    loadingBarContainer.style.display = 'none';
+}
+
 // Fetch a specific verse, including its ma3any from ar_ma3any.json and e3rab analysis from e3rab.json
 async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
     try {
+        showLoadingStatus(`Loading verse ${verseNumber} of chapter ${chapterNumber}`);
+
         const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
         if (!response.ok) {
             throw new Error('Verse file not found');
@@ -12,6 +34,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
         const sources = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
 
         for (let source of sources) {
+            showLoadingStatus(`Loading ${source} for verse ${verseNumber}`);
             const sourceResponse = await fetch(`data/tafseer/${source}.json`);
             if (sourceResponse.ok) {
                 const analysisData = await sourceResponse.json();
@@ -21,11 +44,14 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
             }
         }
 
+        hideLoadingStatus(); // Hide the loading bar once loading is complete
+
         return {
             verseData,
             analyses
         };
     } catch (error) {
+        hideLoadingStatus(); // Hide the loading bar in case of error
         console.error(error);
         return null;
     }
@@ -42,18 +68,16 @@ async function displayVerseWithAnalyses() {
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
     if (verseWithAnalyses) {
-        let displayContent = '<hr class="dashed-line">'; // Start with a dashed line
+        let displayContent = '<hr class="dashed-line">';
 
-        if (document.getElementById('toggleArabic').checked) {
-            displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
-        }
+        // النص should always be displayed
+        displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
 
         const analysesToShow = ['ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'Muyassar', 'Tanweer'];
         const analysesName = ['المعاني', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
         analysesToShow.forEach((analysisType, index) => {
             if (document.getElementById(`toggle${analysisType}`).checked) {
-                // Use the corresponding name from the analysesName array
                 displayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${verseWithAnalyses.analyses[analysisType.toLowerCase()]}</div><br><hr class="dashed-line">`;
             }
         });
@@ -117,15 +141,4 @@ function displayNextPreviousPages(pageNumber) {
     } else {
         previousPageContainer.innerHTML = `<p>No previous page</p>`;
     }
-}
-
-// Function to hide Quran pages
-function hideVerse() {
-    const nextPageContainer = document.getElementById('nextPage');
-    const currentPageContainer = document.getElementById('currentPage');
-    const previousPageContainer = document.getElementById('previousPage');
-
-    nextPageContainer.innerHTML = '';
-    currentPageContainer.innerHTML = '';
-    previousPageContainer.innerHTML = '';
 }
