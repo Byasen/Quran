@@ -1,81 +1,283 @@
 {
   "topics": [
-    {
-      "topicName": "الألوهية",
-      "verses": [
-        {
-          "surahNumber": "112",
-          "verseNumber": "1",
-          "verseNotes": ""
-        }
-      ],
-      "questionInput": "",
-      "answerInput": ""
-    },
-    {
-      "topicName": "الربوبية",
-      "verses": [],
-      "questionInput": "",
-      "answerInput": ""
-    },
-    {
-      "topicName": "الإرادة",
-      "verses": [
-        {
-          "surahNumber": "17",
-          "verseNumber": "13",
-          "verseNotes": ""
-        },
-        {
-          "surahNumber": "17",
-          "verseNumber": "14",
-          "verseNotes": ""
-        }
-      ],
-      "questionInput": "",
-      "answerInput": ""
-    },
-    {
-      "topicName": "المغالطات",
-      "verses": [],
-      "questionInput": "",
-      "answerInput": ""
-    },
-    {
-      "topicName": "القرآن يصف نفسه",
-      "verses": [
-        {
-          "surahNumber": "17",
-          "verseNumber": "9",
-          "verseNotes": ""
-        }
-      ],
-      "questionInput": "",
-      "answerInput": ""
-    },
-    {
-      "topicName": "الدعاء",
-      "verses": [
-        {
-          "surahNumber": "17",
-          "verseNumber": "11",
-          "verseNotes": ""
-        }
-      ],
-      "questionInput": "",
-      "answerInput": ""
-    },
-    {
-      "topicName": "سنن الله",
-      "verses": [
-        {
-          "surahNumber": "17",
-          "verseNumber": "16",
-          "verseNotes": ""
-        }
-      ],
-      "questionInput": "",
-      "answerInput": ""
-    }
+      {
+          "topicName": "الألوهية",
+          "verses": [
+              {
+                  "surahNumber": "112",
+                  "verseNumber": "1",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "112",
+                  "verseNumber": "2",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "112",
+                  "verseNumber": "3",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "112",
+                  "verseNumber": "4",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "2",
+                  "verseNumber": "255",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "21",
+                  "verseNumber": "25",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "39",
+                  "verseNumber": "67",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "57",
+                  "verseNumber": "3",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "ما هي صفات الله التي تؤكد ألوهيته المطلقة؟",
+          "answerInput": "الألوهية تعني أن الله وحده مستحق للعبادة وهو الخالق المدبر لكل شيء. القرآن يصف الله بأنه ليس كمثله شيء وأنه القادر على كل شيء. ومن صفاته الألوهية القدرة، العلم، الإرادة، والخلق من العدم."
+      },
+      {
+          "topicName": "الربوبية",
+          "verses": [
+              {
+                  "surahNumber": "7",
+                  "verseNumber": "54",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "39",
+                  "verseNumber": "62",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "1",
+                  "verseNumber": "2",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "6",
+                  "verseNumber": "102",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "10",
+                  "verseNumber": "31",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "16",
+                  "verseNumber": "78",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "67",
+                  "verseNumber": "15",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "ما هو معنى الربوبية في القرآن وكيف يشرح القرآن مفهوم ربوبية الله؟",
+          "answerInput": "الربوبية تعني أن الله هو الخالق والرازق والمدبر، وهو الذي يسير الكون ويضبطه بإرادته وعلمه. يذكر القرآن الربوبية في عدة مواضع ليؤكد أن الله وحده هو رب السماوات والأرض وما فيهما."
+      },
+      {
+          "topicName": "الإرادة والقدر",
+          "verses": [
+              {
+                  "surahNumber": "54",
+                  "verseNumber": "49",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "76",
+                  "verseNumber": "30",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "9",
+                  "verseNumber": "51",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "33",
+                  "verseNumber": "38",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "57",
+                  "verseNumber": "22",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "57",
+                  "verseNumber": "23",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "كيف يشرح القرآن مفهوم الإرادة الإلهية والقدر؟ وكيف يمكن للمسلم أن يفهم مشيئة الله وقدره؟",
+          "answerInput": "الإرادة والقدر يعنيان أن الله قدّر كل شيء في هذا الكون بإرادته وعلمه السابق، وكل ما يحدث هو وفق خطته الإلهية. يدعو القرآن المسلمين للإيمان بأن كل شيء بيد الله، مع الأخذ بالأسباب والعمل."
+      },
+      {
+          "topicName": "المغالطات المنطقية",
+          "verses": [
+              {
+                  "surahNumber": "43",
+                  "verseNumber": "22",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "43",
+                  "verseNumber": "31",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "2",
+                  "verseNumber": "170",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "18",
+                  "verseNumber": "36",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "28",
+                  "verseNumber": "76",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "10",
+                  "verseNumber": "15",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "ما هي المغالطات المنطقية التي يعرضها القرآن في حجج المشركين والكافرين؟",
+          "answerInput": "القرآن يفضح العديد من المغالطات المنطقية التي يستخدمها الكافرون والمشركون لتبرير عدم إيمانهم. ومن هذه المغالطات مغالطة الشخصنة، مغالطة السبب الزائف، والمغالطة الدائرية."
+      },
+      {
+          "topicName": "القرآن يصف نفسه",
+          "verses": [
+              {
+                  "surahNumber": "2",
+                  "verseNumber": "2",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "17",
+                  "verseNumber": "82",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "15",
+                  "verseNumber": "9",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "41",
+                  "verseNumber": "44",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "3",
+                  "verseNumber": "138",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "6",
+                  "verseNumber": "155",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "16",
+                  "verseNumber": "89",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "كيف يصف القرآن نفسه وما هي صفاته كما وردت في القرآن؟",
+          "answerInput": "يصف القرآن نفسه بأنه هدى ورحمة ونور وشفاء للمؤمنين، وأنه كتاب لا ريب فيه، وأنه ذكر للعالمين. يؤكد القرآن على أن مصدره إلهي وأنه محفوظ من التحريف."
+      },
+      {
+          "topicName": "الدعاء",
+          "verses": [
+              {
+                  "surahNumber": "40",
+                  "verseNumber": "60",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "2",
+                  "verseNumber": "186",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "25",
+                  "verseNumber": "77",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "6",
+                  "verseNumber": "41",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "27",
+                  "verseNumber": "62",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "10",
+                  "verseNumber": "12",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "كيف يشجع القرآن على الدعاء وما هي شروط استجابة الدعاء؟",
+          "answerInput": "القرآن يدعو الناس إلى الدعاء والاستعانة بالله، ويوضح أن الله قريب من عباده ويستجيب لمن يدعوه بإخلاص. يجب أن يكون الدعاء مقروناً بالإيمان والصبر والالتزام بأوامر الله."
+      },
+      {
+          "topicName": "سنن الله",
+          "verses": [
+              {
+                  "surahNumber": "13",
+                  "verseNumber": "11",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "3",
+                  "verseNumber": "140",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "35",
+                  "verseNumber": "43",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "33",
+                  "verseNumber": "62",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "48",
+                  "verseNumber": "23",
+                  "verseNotes": ""
+              },
+              {
+                  "surahNumber": "28",
+                  "verseNumber": "59",
+                  "verseNotes": ""
+              }
+          ],
+          "questionInput": "ما هي السنن الإلهية في الكون وكيف يشرح القرآن هذه السنن؟",
+          "answerInput": "السنن الإلهية هي القوانين التي وضعها الله في الكون لتسييره، ومنها سنن النصر والهزيمة، والتغيير، والجزاء. يوضح القرآن أن هذه السنن ثابتة ولا تتغير، ويجب على الناس فهمها والعمل بما يتوافق معها."
+      }
   ]
 }
