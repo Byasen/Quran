@@ -93,6 +93,7 @@ window.addEventListener('beforeunload', function () {
 
 // Main JS file that handles page initialization and events
 
+
 // Import the template data from "data/researches/template.json"
 function importTemplateData() {
     fetch('stored/all.json')
@@ -120,6 +121,8 @@ function importTemplateData() {
 
 // Call the checkFirstTimeInit function when the window loads
 window.onload = function () {
+    
+    loadMetadata(); // Initialize the page by loading metadata
     importTemplateData();
 };
 
