@@ -120,6 +120,9 @@ function exportToLocal() {
 // Import state from local storage (for Import Local button)
 function importFromLocal() {
     document.getElementById('stackedVerses').innerHTML = '';
+    // Restore the question and answer input fields
+    document.getElementById('questionInput').value = topic.questionInput || '';
+    document.getElementById('answerInput').value = topic.answerInput || '';
     const jsonData = localStorage.getItem('quranData');
     if (!jsonData) {
         console.error("No data found in local storage.");
