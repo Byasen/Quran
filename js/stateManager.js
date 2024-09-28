@@ -156,28 +156,32 @@ function importFromLocal() {
 
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
-
+    
     if (!selectedTopic) {
         console.error("No topic selected.");
         return;
     }
-
+    
     const topic = topics.find(topic => topic.topicName === selectedTopic);
-
+    
     if (!topic) {
         console.error("Selected topic not found:", selectedTopic);
         return;
     }
-
+    
     console.log("Restoring state for topic:", topic);
-
+    
+    // Restore the question and answer input fields
+    document.getElementById('questionInput').value = topic.questionInput || '';
+    document.getElementById('answerInput').value = topic.answerInput || '';
+    
     // Clear current stacked verses
     document.getElementById('stackedVerses').innerHTML = '';
-
+    
     for (const { surahNumber, verseNumber, verseNotes } of topic.verses) {
         // Set the chapter dropdown to the selected surah
         document.getElementById('chapterSelect').value = surahNumber;
-
+        
         // Fetch verses for the selected surah
         await fetchSurahVerses(surahNumber);
 
@@ -196,9 +200,6 @@ async function restoreState() {
         }
     }
 
-    // Restore the question and answer input fields
-    document.getElementById('questionInput').value = topic.questionInput || '';
-    document.getElementById('answerInput').value = topic.answerInput || '';
 
     // Restore the previously selected chapter and verse
     if (previousChapter && previousVerse) {
