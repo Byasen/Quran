@@ -1,6 +1,6 @@
 let topics = []; // This will hold the topics
 
-// Save the current state and display JSON in a new tab (for Export All button)
+// Save the current state and download as a file
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
     const topic = topics.find(topic => topic.topicName === selectedTopic);
@@ -33,11 +33,19 @@ function saveState() {
         topic.answerInput = document.getElementById('answerInput').value;
     }
 
-    // Show saved state in new tab (Export All)
+    // Prepare data for download
     const jsonData = JSON.stringify({ topics }, null, 2);
-    const newTab = window.open();
-    newTab.document.write(`<pre>${jsonData}</pre>`);
-    newTab.document.title = 'Quran State JSON';
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    // Create a download link
+    a.href = url;
+    a.download = 'quran_state.json'; // Specify the file name
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // Save the current state without opening a new tab (for Ctrl+S)
@@ -146,7 +154,6 @@ function importFromLocal() {
     }
 }
 
-// Restore the saved state (for the selected topic only)
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
 
@@ -193,6 +200,13 @@ async function restoreState() {
     document.getElementById('questionInput').value = topic.questionInput || '';
     document.getElementById('answerInput').value = topic.answerInput || '';
 
+    // Restore the previously selected chapter and verse
+    if (previousChapter && previousVerse) {
+        document.getElementById('chapterSelect').value = previousChapter;
+        await fetchSurahVerses(previousChapter);
+        document.getElementById('verseSelect').value = previousVerse;
+    }
+
     console.log("State restored successfully for topic:", selectedTopic);
 }
 
@@ -218,9 +232,17 @@ function populateTopicsDropdown() {
     }
 }
 
-// When a topic is selected, load its state
+// Store the currently selected chapter and verse
+let previousChapter = null;
+let previousVerse = null;
+
 function onTopicChange() {
-    restoreState(); // Restore the state based on the selected topic
+    // Store the currently selected chapter and verse
+    previousChapter = document.getElementById('chapterSelect').value;
+    previousVerse = document.getElementById('verseSelect').value;
+    
+    // Restore the state based on the selected topic
+    restoreState();
 }
 
 // Add a new topic or edit an existing one

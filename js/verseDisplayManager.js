@@ -93,6 +93,7 @@ async function displayVerseWithAnalyses() {
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
     if (pageNumber) {
         const currentPagePath = `data/svg/${padNumber(pageNumber)}.svg`;
+
         fetch(currentPagePath)
             .then(response => response.text())
             .then(svgText => {
@@ -101,18 +102,29 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 const svgElement = svgDoc.documentElement;
 
                 svgElement.setAttribute('data-page-number', pageNumber);
+                svgElement.style.width = '100%'; // Set SVG to fit the container width
+                svgElement.style.height = 'auto'; // Maintain aspect ratio
+                svgElement.style.objectFit = 'contain'; // Fit the SVG within its container
 
+                // Highlight the selected verse
                 const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
                 if (verseElement) {
                     verseElement.setAttribute("style", "fill: blue;");
                 }
 
                 const currentPageContainer = document.getElementById('currentPage');
-                currentPageContainer.innerHTML = '';
+                currentPageContainer.innerHTML = ''; // Clear current content
                 currentPageContainer.appendChild(svgElement);
+
+                // Set container styles
+                currentPageContainer.style.width = '100%';
+                currentPageContainer.style.boxSizing = 'border-box';
+
+                // Adjust the heights of all containers after SVG is loaded
+                adjustContainerHeights();
             });
 
-        // Reverse the order: show Current+1 on the left, Current in the center, and Current-1 on the right
+        // Display the next and previous pages
         displayNextPreviousPages(pageNumber);
     } else {
         const currentPageContainer = document.getElementById('currentPage');
@@ -130,15 +142,45 @@ function displayNextPreviousPages(pageNumber) {
 
     // Display Current+1 (next) on the left
     if (pageNumber < 604) {
-        nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="max-width: 100%; height: auto;">`;
+        nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
     } else {
-        nextPageContainer.innerHTML = `<p>No next page</p>`; // Display No next page at the end
+        nextPageContainer.innerHTML = `<p>No next page</p>`; // Display "No next page" at the end
     }
 
     // Display Current-1 (previous) on the right
     if (pageNumber > 1) {
-        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="max-width: 100%; height: auto;">`;
+        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
     } else {
         previousPageContainer.innerHTML = `<p>No previous page</p>`;
     }
+
+    // Set container styles
+    previousPageContainer.style.width = '100%';
+    previousPageContainer.style.boxSizing = 'border-box';
+
+    nextPageContainer.style.width = '100%';
+    nextPageContainer.style.boxSizing = 'border-box';
+
+    // Adjust the heights of all containers after images are loaded
+    adjustContainerHeights();
+}
+
+// Function to adjust the heights of all containers based on the tallest element
+function adjustContainerHeights() {
+    const previousPageContainer = document.getElementById('previousPage');
+    const currentPageContainer = document.getElementById('currentPage');
+    const nextPageContainer = document.getElementById('nextPage');
+
+    // Get the heights of the content inside each container
+    const previousHeight = previousPageContainer.scrollHeight;
+    const currentHeight = currentPageContainer.scrollHeight;
+    const nextHeight = nextPageContainer.scrollHeight;
+
+    // Find the maximum height
+    const maxHeight = Math.max(previousHeight, currentHeight, nextHeight);
+
+    // Set all containers to the maximum height
+    previousPageContainer.style.height = `${maxHeight}px`;
+    currentPageContainer.style.height = `${maxHeight}px`;
+    nextPageContainer.style.height = `${maxHeight}px`;
 }
