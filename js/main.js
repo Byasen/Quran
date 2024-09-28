@@ -117,10 +117,6 @@ function importTemplateData() {
             return response.json();
         })
         .then(data => {
-            // Save the template data to localStorage
-            localStorage.setItem('quranData', JSON.stringify(data));
-            console.log("Template data loaded and saved to localStorage.");
-
             // Populate the topics dropdown with the newly loaded template data
             topics = data.topics || [];
             populateTopicsDropdown();
