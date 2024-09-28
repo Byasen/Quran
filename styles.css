@@ -58,12 +58,16 @@ hr {
     max-width: 30%; /* Ensure each page takes up about 1/3 of the container */
     text-align: center;
     opacity: 1;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+    padding: 0; /* Reset padding to avoid inconsistencies */
+    margin: 0; /* Reset margin to avoid inconsistencies */
 }
 
 /* Ensure all images are large but fit within their containers */
 .page img {
     max-width: 100%;
     height: auto;
+    display: block; /* Prevents extra spacing caused by inline images */
 }
 
 /* Stacked Verses Section */
@@ -132,4 +136,17 @@ input[type="text"] {
     direction: rtl;
     text-align: right;
     font-family: "Arial", sans-serif;
+}
+
+/* Media query for screens where three pages can no longer fit without overlap */
+@media (max-width: 1200px) {
+    .quran-pages {
+        flex-direction: column; /* Stack pages vertically */
+        align-items: center; /* Center the items */
+    }
+
+    .page {
+        max-width: 100%; /* Make each page take the full width */
+        margin-bottom: 20px; /* Add some space between each page */
+    }
 }
