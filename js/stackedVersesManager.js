@@ -32,8 +32,9 @@ async function addVerse() {
         const dashedLine = document.createElement('hr');
         dashedLine.classList.add('dashed-line');
 
-        stackedVerses.appendChild(newVerseDiv);
-        stackedVerses.appendChild(dashedLine);
+        // Add the new verse to the top of the stacked verses
+        stackedVerses.insertBefore(dashedLine, stackedVerses.firstChild);
+        stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
     }
 }
 
