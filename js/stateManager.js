@@ -146,7 +146,6 @@ function importFromLocal() {
     }
 }
 
-// Restore the saved state (for the selected topic only)
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
 
@@ -193,6 +192,13 @@ async function restoreState() {
     document.getElementById('questionInput').value = topic.questionInput || '';
     document.getElementById('answerInput').value = topic.answerInput || '';
 
+    // Restore the previously selected chapter and verse
+    if (previousChapter && previousVerse) {
+        document.getElementById('chapterSelect').value = previousChapter;
+        await fetchSurahVerses(previousChapter);
+        document.getElementById('verseSelect').value = previousVerse;
+    }
+
     console.log("State restored successfully for topic:", selectedTopic);
 }
 
@@ -218,9 +224,17 @@ function populateTopicsDropdown() {
     }
 }
 
-// When a topic is selected, load its state
+// Store the currently selected chapter and verse
+let previousChapter = null;
+let previousVerse = null;
+
 function onTopicChange() {
-    restoreState(); // Restore the state based on the selected topic
+    // Store the currently selected chapter and verse
+    previousChapter = document.getElementById('chapterSelect').value;
+    previousVerse = document.getElementById('verseSelect').value;
+    
+    // Restore the state based on the selected topic
+    restoreState();
 }
 
 // Add a new topic or edit an existing one
