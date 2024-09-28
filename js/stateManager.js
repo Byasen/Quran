@@ -187,9 +187,9 @@ async function restoreState() {
         // Add the verse to the stacked verses
         await addVerse();
 
-        // Update the notes for the last stacked verse
+        // Update the notes for the newly added verse
         const stackedVerses = document.getElementById('stackedVerses').children;
-        const lastVerseDiv = stackedVerses[stackedVerses.length - 2];
+        const lastVerseDiv = stackedVerses[0]; // Get the most recently added verse
         const textArea = lastVerseDiv.querySelector('textarea');
         if (textArea) {
             textArea.value = verseNotes || "";
