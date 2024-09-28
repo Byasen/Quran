@@ -63,6 +63,15 @@ function loadState() {
     fileInput.click();
 }
 
+// Enable Ctrl+S for saving the state without opening a new tab
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 's') {
+        event.preventDefault(); // Prevent the default browser save dialog
+        saveStateNoNewTab(); // Call the new function without opening a tab
+        console.log("Ctrl+S pressed: State saved (no new tab).");
+    }
+});
+
 // Add event listener to handle keyboard navigation for page changes
 document.addEventListener('keydown', function(event) {
     const currentPageContainer = document.getElementById('currentPage');
@@ -93,6 +102,10 @@ window.addEventListener('beforeunload', function () {
 
 // Main JS file that handles page initialization and events
 
+// Check if the site is initiated for the first time and import the template
+function checkFirstTimeInit() {
+        importTemplateData();
+    }
 
 // Import the template data from "data/researches/template.json"
 function importTemplateData() {
@@ -104,6 +117,10 @@ function importTemplateData() {
             return response.json();
         })
         .then(data => {
+            // Save the template data to localStorage
+            localStorage.setItem('quranData', JSON.stringify(data));
+            console.log("Template data loaded and saved to localStorage.");
+
             // Populate the topics dropdown with the newly loaded template data
             topics = data.topics || [];
             populateTopicsDropdown();
@@ -123,7 +140,7 @@ function importTemplateData() {
 window.onload = function () {
     
     loadMetadata(); // Initialize the page by loading metadata
-    importTemplateData();
+    checkFirstTimeInit(); // Check and load template data if first time
 };
 
 // Other existing functions (saveState, addVerse, etc.) remain unchanged...
