@@ -156,28 +156,32 @@ function importFromLocal() {
 
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
-
+    
     if (!selectedTopic) {
         console.error("No topic selected.");
         return;
     }
-
+    
     const topic = topics.find(topic => topic.topicName === selectedTopic);
-
+    
     if (!topic) {
         console.error("Selected topic not found:", selectedTopic);
         return;
     }
-
+    
     console.log("Restoring state for topic:", topic);
-
+    
+    // Restore the question and answer input fields
+    document.getElementById('questionInput').value = topic.questionInput || '';
+    document.getElementById('answerInput').value = topic.answerInput || '';
+    
     // Clear current stacked verses
     document.getElementById('stackedVerses').innerHTML = '';
-
+    
     for (const { surahNumber, verseNumber, verseNotes } of topic.verses) {
         // Set the chapter dropdown to the selected surah
         document.getElementById('chapterSelect').value = surahNumber;
-
+        
         // Fetch verses for the selected surah
         await fetchSurahVerses(surahNumber);
 
@@ -196,9 +200,6 @@ async function restoreState() {
         }
     }
 
-    // Restore the question and answer input fields
-    document.getElementById('questionInput').value = topic.questionInput || '';
-    document.getElementById('answerInput').value = topic.answerInput || '';
 
     // Restore the previously selected chapter and verse
     if (previousChapter && previousVerse) {
@@ -258,9 +259,30 @@ function addOrEditTopic() {
     }
 }
 
-// Remove an existing topic
 function removeTopic() {
-    const selectedTopic = document.getElementById('topicSelect').value;
+    const topicSelect = document.getElementById('topicSelect');
+    const selectedTopicIndex = topicSelect.selectedIndex;
+
+    // Remove the selected topic from the topics array
+    const selectedTopic = topicSelect.value;
     topics = topics.filter(topic => topic.topicName !== selectedTopic);
+
+    // Repopulate the topics dropdown
     populateTopicsDropdown();
+
+    // Determine the next topic to select
+    if (topics.length > 0) {
+        const nextIndex = selectedTopicIndex >= topics.length ? topics.length - 1 : selectedTopicIndex;
+        topicSelect.selectedIndex = nextIndex;
+
+        // Restore the state for the new selected topic
+        restoreState();
+    } else {
+        // Clear the UI if no topics are available
+        document.getElementById('stackedVerses').innerHTML = '';
+        document.getElementById('questionInput').value = '';
+        document.getElementById('answerInput').value = '';
+        console.log("No topics available.");
+    }
 }
+
