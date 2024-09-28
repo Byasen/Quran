@@ -1,6 +1,6 @@
 let topics = []; // This will hold the topics
 
-// Save the current state and display JSON in a new tab (for Export All button)
+// Save the current state and download as a file
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
     const topic = topics.find(topic => topic.topicName === selectedTopic);
@@ -33,11 +33,19 @@ function saveState() {
         topic.answerInput = document.getElementById('answerInput').value;
     }
 
-    // Show saved state in new tab (Export All)
+    // Prepare data for download
     const jsonData = JSON.stringify({ topics }, null, 2);
-    const newTab = window.open();
-    newTab.document.write(`<pre>${jsonData}</pre>`);
-    newTab.document.title = 'Quran State JSON';
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    // Create a download link
+    a.href = url;
+    a.download = 'quran_state.json'; // Specify the file name
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // Save the current state without opening a new tab (for Ctrl+S)
