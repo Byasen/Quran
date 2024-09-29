@@ -1,5 +1,15 @@
 let topics = []; // This will hold the topics
 
+// Function to batch fetch verses
+async function fetchVersesBatch(versesToFetch) {
+    const fetchPromises = versesToFetch.map(({ surahNumber, verseNumber }) => {
+        // Fetch the verse
+        return fetchVerse(surahNumber, verseNumber);
+    });
+
+    return Promise.all(fetchPromises);
+}
+
 // Save the current state and download as a file
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
@@ -156,60 +166,67 @@ function importFromLocal() {
 
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
-    
+
     if (!selectedTopic) {
         console.error("No topic selected.");
         return;
     }
-    
+
     const topic = topics.find(topic => topic.topicName === selectedTopic);
-    
+
     if (!topic) {
         console.error("Selected topic not found:", selectedTopic);
         return;
     }
-    
+
     console.log("Restoring state for topic:", topic);
-    
+
     // Restore the question and answer input fields
     document.getElementById('questionInput').value = topic.questionInput || '';
     document.getElementById('answerInput').value = topic.answerInput || '';
-    
+
     // Clear current stacked verses
     document.getElementById('stackedVerses').innerHTML = '';
-    
-    for (const { surahNumber, verseNumber, verseNotes } of topic.verses) {
-        // Set the chapter dropdown to the selected surah
-        document.getElementById('chapterSelect').value = surahNumber;
-        
-        // Fetch verses for the selected surah
-        await fetchSurahVerses(surahNumber);
 
-        // Set the verse dropdown to the selected verse
-        document.getElementById('verseSelect').value = verseNumber;
+    // Prepare the verses to fetch
+    const versesToFetch = topic.verses.map(({ surahNumber, verseNumber }) => ({ surahNumber, verseNumber }));
 
-        // Add the verse to the stacked verses
-        await addVerse();
+    // Batch fetch the verses
+    const fetchedVerses = await fetchVersesBatch(versesToFetch);
 
-        // Update the notes for the newly added verse
-        const stackedVerses = document.getElementById('stackedVerses').children;
-        const lastVerseDiv = stackedVerses[0]; // Get the most recently added verse
-        const textArea = lastVerseDiv.querySelector('textarea');
-        if (textArea) {
-            textArea.value = verseNotes || "";
+    // Iterate through the fetched verses and add them to the stack
+    for (let i = 0; i < fetchedVerses.length; i++) {
+        const { surahNumber, verseNumber, verseNotes } = topic.verses[i];
+        const verseData = fetchedVerses[i];
+
+        if (verseData) {
+            // Set the chapter dropdown to the selected Surah
+            document.getElementById('chapterSelect').value = surahNumber;
+
+            // Fetch verses for the selected Surah to update the verse dropdown
+            await fetchSurahVerses(surahNumber);
+
+            // Set the verse dropdown to the selected verse
+            document.getElementById('verseSelect').value = verseNumber;
+
+            // Add the verse to the stacked verses
+            await addVerse();
+
+            // Update the notes for the newly added verse
+            const stackedVerses = document.getElementById('stackedVerses').children;
+            const lastVerseDiv = stackedVerses[0]; // Get the most recently added verse
+            const textArea = lastVerseDiv.querySelector('textarea');
+            if (textArea) {
+                textArea.value = verseNotes || "";
+            }
         }
-    }
-
-
-    // Restore the previously selected chapter and verse
-    if (previousChapter && previousVerse) {
-        document.getElementById('chapterSelect').value = previousChapter;
-        await fetchSurahVerses(previousChapter);
-        document.getElementById('verseSelect').value = previousVerse;
     }
 
     console.log("State restored successfully for topic:", selectedTopic);
 }
+
+// Other existing functions (saveState, addVerse, etc.) remain unchanged...
+
 
 // Populate the topic dropdown
 function populateTopicsDropdown() {
