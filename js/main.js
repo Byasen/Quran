@@ -100,12 +100,6 @@ window.addEventListener('beforeunload', function () {
 
 
 
-// Main JS file that handles page initialization and events
-
-// Check if the site is initiated for the first time and import the template
-function checkFirstTimeInit() {
-        importTemplateData();
-    }
 
 // Import the template data from "data/researches/template.json"
 function importTemplateData() {
@@ -132,11 +126,12 @@ function importTemplateData() {
         });
 }
 
-// Call the checkFirstTimeInit function when the window loads
-window.onload = function () {
-    
-    loadMetadata(); // Initialize the page by loading metadata
-    checkFirstTimeInit(); // Check and load template data if first time
-};
 
-// Other existing functions (saveState, addVerse, etc.) remain unchanged...
+    
+window.onload = async function () {
+    await loadMetadata(); // Initialize the page by loading metadata
+    await importTemplateData();
+    const randomChapter = Math.floor(Math.random() * 114) + 1;
+    selectStackedVerse(randomChapter, 1);
+
+};
