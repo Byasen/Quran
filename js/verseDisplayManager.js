@@ -18,52 +18,76 @@ function hideLoadingStatus() {
     loadingBarContainer.style.display = 'none';
 }
 
-// Fetch a specific verse, including its ma3any from ar_ma3any.json and e3rab analysis from e3rab.json
+// Fetch a specific analysis for a verse (individual fetch)
+async function fetchAnalysis(chapterNumber, verseNumber, source) {
+    try {
+        const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
+        console.log(`Fetching analysis from: ${filePath}`); // Debugging line
+
+        const response = await fetch(filePath);
+        if (response.ok) {
+            const analysisData = await response.json();
+            console.log(`Fetched data for ${source}:`, analysisData); // Debugging line
+            return analysisData.text || `لا يوجد مدخل لهذه الآية`;
+        } else {
+            console.error(`Failed to fetch ${source} analysis for ${chapterNumber}:${verseNumber}`);
+            return `No ${source} analysis available`;
+        }
+    } catch (error) {
+        console.error(`Error fetching ${source}:`, error);
+        return `No ${source} analysis available`;
+    }
+}
+
+
 async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
     try {
         showLoadingStatus(`Loading verse ${verseNumber} of chapter ${chapterNumber}`);
-
+        
+        // Fetch the main verse data
         const response = await fetch(`data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`);
         if (!response.ok) {
             throw new Error('Verse file not found');
         }
         const verseData = await response.json();
 
-        const analyses = {};
-
         const sources = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-
-        for (let source of sources) {
-            showLoadingStatus(`Loading ${source} for verse ${verseNumber}`);
-            try {
-                const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
-                const sourceResponse = await fetch(filePath);
-                if (sourceResponse.ok) {
-                    const analysisData = await sourceResponse.json();
-                    analyses[source] = analysisData.text || `لا يوجد مدخل لهذه الآية`;
-                } else {
-                    analyses[source] = `No ${source} analysis available`;
-                }
-            } catch (error) {
-                console.error(`Error loading ${source}:`, error);
-                analyses[source] = `No ${source} analysis available`;
+        
+        // Fetch selected analyses and log their status
+        const selectedSources = sources.filter(source => {
+            const checkbox = document.getElementById(`toggle${source}`);
+            if (!checkbox) {
+                console.warn(`Checkbox not found for: ${source}`);
+            } else {
+                console.log(`Checkbox for ${source}: ${checkbox.checked}`);
             }
-        }
+            return checkbox ? checkbox.checked : false;
+        });
 
-        hideLoadingStatus(); // Hide the loading bar once loading is complete
+        // Fetch analyses in parallel using Promise.all
+        const fetchPromises = selectedSources.map(source => fetchAnalysis(chapterNumber, verseNumber, source));
+        const analysesResults = await Promise.all(fetchPromises);
+
+        const analyses = selectedSources.reduce((acc, source, index) => {
+            acc[source] = analysesResults[index];
+            return acc;
+        }, {});
+
+        hideLoadingStatus();
 
         return {
             verseData,
             analyses
         };
     } catch (error) {
-        hideLoadingStatus(); // Hide the loading bar in case of error
+        hideLoadingStatus();
         console.error(error);
         return null;
     }
 }
 
-// Display the verse, its ma3any, and its e3rab analysis in the UI
+
+// Display the verse and analyses
 async function displayVerseWithAnalyses() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -73,18 +97,26 @@ async function displayVerseWithAnalyses() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
+    console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
+
     if (verseWithAnalyses) {
         let displayContent = '<hr class="dashed-line">';
 
-        // النص should always be displayed
+        // Always display the main verse text
         displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
 
-        const analysesToShow = ['ma3any', 'e3rab', 'Baghawy', 'Katheer', 'Qortoby', 'Sa3dy', 'Tabary', 'Waseet', 'Muyassar', 'Tanweer'];
+        const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
         const analysesName = ['المعاني', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
         analysesToShow.forEach((analysisType, index) => {
-            if (document.getElementById(`toggle${analysisType}`).checked) {
-                displayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${verseWithAnalyses.analyses[analysisType.toLowerCase()]}</div><br><hr class="dashed-line">`;
+            const checkbox = document.getElementById(`toggle${analysisType}`);
+            if (checkbox && checkbox.checked) {
+                const lowerCaseKey = analysisType.toLowerCase(); // Convert analysisType to lowercase
+                console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
+
+                // Use the lowercase key to access the analysis data
+                const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
+                displayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${analysisContent || 'لا يوجد مدخل لهذه الآية'}</div><br><hr class="dashed-line">`;
             }
         });
 
@@ -94,6 +126,7 @@ async function displayVerseWithAnalyses() {
         verseDisplay.textContent = 'Verse or analyses not available.';
     }
 }
+
 
 // Function to display the corresponding Quran pages (SVG) and highlight the selected verse
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
@@ -110,7 +143,6 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 svgElement.setAttribute('data-page-number', pageNumber);
                 svgElement.style.width = '100%'; // Set SVG to fit the container width
                 svgElement.style.height = 'auto'; // Maintain aspect ratio
-                svgElement.style.objectFit = 'contain'; // Fit the SVG within its container
 
                 // Highlight the selected verse
                 const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
@@ -121,13 +153,6 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 const currentPageContainer = document.getElementById('currentPage');
                 currentPageContainer.innerHTML = ''; // Clear current content
                 currentPageContainer.appendChild(svgElement);
-
-                // Set container styles
-                currentPageContainer.style.width = '100%';
-                currentPageContainer.style.boxSizing = 'border-box';
-
-                // Adjust the heights of all containers after SVG is loaded
-                adjustContainerHeights();
             });
 
         // Display the next and previous pages
@@ -159,34 +184,9 @@ function displayNextPreviousPages(pageNumber) {
     } else {
         previousPageContainer.innerHTML = `<p>No previous page</p>`;
     }
-
-    // Set container styles
-    previousPageContainer.style.width = '100%';
-    previousPageContainer.style.boxSizing = 'border-box';
-
-    nextPageContainer.style.width = '100%';
-    nextPageContainer.style.boxSizing = 'border-box';
-
-    // Adjust the heights of all containers after images are loaded
-    adjustContainerHeights();
 }
 
-// Function to adjust the heights of all containers based on the tallest element
-function adjustContainerHeights() {
-    const previousPageContainer = document.getElementById('previousPage');
-    const currentPageContainer = document.getElementById('currentPage');
-    const nextPageContainer = document.getElementById('nextPage');
-
-    // Get the heights of the content inside each container
-    const previousHeight = previousPageContainer.scrollHeight;
-    const currentHeight = currentPageContainer.scrollHeight;
-    const nextHeight = nextPageContainer.scrollHeight;
-
-    // Find the maximum height
-    const maxHeight = Math.max(previousHeight, currentHeight, nextHeight);
-
-    // Set all containers to the maximum height
-    previousPageContainer.style.height = `${maxHeight}px`;
-    currentPageContainer.style.height = `${maxHeight}px`;
-    nextPageContainer.style.height = `${maxHeight}px`;
+// Helper function to pad numbers with leading zeros
+function padNumber(num) {
+    return String(num).padStart(3, '0');
 }
