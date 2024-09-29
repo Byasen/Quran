@@ -263,16 +263,36 @@ function onTopicChange() {
     restoreState();
 }
 
-// Add a new topic or edit an existing one
+// Function to toggle the topic input box and add the topic if applicable
 function addOrEditTopic() {
-    const topicInput = document.getElementById('newTopicInput').value;
-    const existingTopic = topics.find(topic => topic.topicName === topicInput);
+    const topicInput = document.getElementById('newTopicInput');
+    const addTopicButton = document.querySelector('button[onclick="addOrEditTopic()"]');
 
-    if (existingTopic) {
-        alert("Topic already exists. You can edit the existing topic.");
+    if (topicInput.style.display === 'none' || topicInput.style.display === '') {
+        // Show the topic input box and change button text to 'Add Topic'
+        topicInput.style.display = 'block';
+        addTopicButton.textContent = 'ادخل الموضوع للقائمة';
     } else {
-        topics.push({ topicName: topicInput, verses: [], questionInput: '', answerInput: '' });
-        populateTopicsDropdown();
+        // Hide the topic input box
+        topicInput.style.display = 'none';
+        
+        // Add the topic if input is not empty
+        if (topicInput.value.trim() !== '') {
+            const existingTopic = topics.find(topic => topic.topicName === topicInput.value.trim());
+
+            if (existingTopic) {
+                alert("Topic already exists. You can edit the existing topic.");
+            } else {
+                topics.push({ topicName: topicInput.value.trim(), verses: [], questionInput: '', answerInput: '' });
+                populateTopicsDropdown();
+            }
+
+            // Clear the input field
+            topicInput.value = '';
+        }
+
+        // Change button text to 'Add New Topic'
+        addTopicButton.textContent = 'ابدأ موضوعا جديداً';
     }
 }
 

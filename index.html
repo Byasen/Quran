@@ -12,8 +12,8 @@
     <div class="controls-container">
         <label for="topicSelect">اختر الموضوع:</label> <!-- Changed text to Arabic -->
         <select id="topicSelect" onchange="onTopicChange()"></select>
-        <input type="text" id="newTopicInput" placeholder="أدخل اسم الموضوع الجديد"> <!-- Arabic placeholder -->
-        <button onclick="addOrEditTopic()">أضف الموضوع</button> <!-- Arabic button text -->
+        <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">
+        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
         <button onclick="removeTopic()">احذف الموضوع</button> <!-- Arabic button text -->
         <button onclick="saveState()">تصدير ملف</button> <!-- Arabic button text -->
         <button onclick="loadState()">استيراد ملف</button> <!-- Arabic button text -->
@@ -36,7 +36,7 @@
         <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
         <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
         <label><input type="checkbox" id="togglema3any" checked> معاني</label>
-        <label><input type="checkbox" id="togglee3rab" checked> إعراب</label>
+        <label><input type="checkbox" id="togglee3rab"> إعراب</label>
         <label><input type="checkbox" id="togglebaghawy"> البغوي</label>
         <label><input type="checkbox" id="togglekatheer"> ابن كثير</label>
         <label><input type="checkbox" id="toggleqortoby"> القرطبي</label>
