@@ -35,11 +35,17 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
 
         for (let source of sources) {
             showLoadingStatus(`Loading ${source} for verse ${verseNumber}`);
-            const sourceResponse = await fetch(`data/tafseer/${source}.json`);
-            if (sourceResponse.ok) {
-                const analysisData = await sourceResponse.json();
-                analyses[source] = analysisData.find(item => item.sura == chapterNumber && item.aya == verseNumber)?.text || `لا يوجد مدخل لهذه الآية`;
-            } else {
+            try {
+                const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
+                const sourceResponse = await fetch(filePath);
+                if (sourceResponse.ok) {
+                    const analysisData = await sourceResponse.json();
+                    analyses[source] = analysisData.text || `لا يوجد مدخل لهذه الآية`;
+                } else {
+                    analyses[source] = `No ${source} analysis available`;
+                }
+            } catch (error) {
+                console.error(`Error loading ${source}:`, error);
                 analyses[source] = `No ${source} analysis available`;
             }
         }
