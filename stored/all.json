@@ -1,6 +1,19 @@
 {
     "topics": [
-        {
+      {
+        "topicName": "",
+        "verses": [
+          {
+            "surahNumber": "0",
+            "verseNumber": "0",
+            "verseNotes": ""
+          }
+        ],
+        "questionInput": "",
+        "answerInput": ""
+      },
+      
+      {
             "topicName": "الألوهية",
             "verses": [
               {

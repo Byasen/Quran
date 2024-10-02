@@ -27,7 +27,7 @@ function populateVerses(verses) {
         verses.forEach(verse => {
             const option = document.createElement('option');
             option.value = verse.number;
-            option.textContent = `Verse ${verse.number}`;
+            option.textContent = `${verse.number}`;
             verseSelect.appendChild(option);
         });
 
