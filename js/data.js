@@ -57,6 +57,7 @@ async function fetchSurahVerses(surahNumber) {
         hideLoadingStatus(); // Hide the loading text in case of error
         appendError(`Error loading Surah ${surahNumber}: ` + error.message);
     }
+
 }
 
 // Fetch a specific verse (padding for verse number only)

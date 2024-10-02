@@ -132,6 +132,11 @@ window.onload = async function () {
     await loadMetadata(); // Initialize the page by loading metadata
     await importTemplateData();
     const randomChapter = Math.floor(Math.random() * 114) + 1;
-    selectStackedVerse(randomChapter, 1);
+    const tempPath = `data/surah/surah_${randomChapter}.json`;
+    const response = await fetch(tempPath);
+    tempSurah = await response.json();
+    const tempVerseCount =  tempSurah.verses.length;
+    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
+    selectStackedVerse(randomChapter, randomVerse);
 
 };

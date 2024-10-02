@@ -166,22 +166,7 @@ function importFromLocal() {
 
 async function restoreState() {
     const selectedTopic = document.getElementById('topicSelect').value;
-
-    if (!selectedTopic) {
-        console.error("No topic selected.");
-        return;
-    }
-
     const topic = topics.find(topic => topic.topicName === selectedTopic);
-
-    if (!topic) {
-        console.error("Selected topic not found:", selectedTopic);
-        return;
-    }
-
-    console.log("Restoring state for topic:", topic);
-
-    // Restore the question and answer input fields
     document.getElementById('questionInput').value = topic.questionInput || '';
     document.getElementById('answerInput').value = topic.answerInput || '';
 
@@ -200,15 +185,9 @@ async function restoreState() {
         const verseData = fetchedVerses[i];
 
         if (verseData) {
-            // Set the chapter dropdown to the selected Surah
-            document.getElementById('chapterSelect').value = surahNumber;
 
             // Fetch verses for the selected Surah to update the verse dropdown
             await fetchSurahVerses(surahNumber);
-
-            // Set the verse dropdown to the selected verse
-            document.getElementById('verseSelect').value = verseNumber;
-
             // Add the verse to the stacked verses
             await addVerse();
 
@@ -277,7 +256,7 @@ function addOrEditTopic() {
         topicInput.style.display = 'none';
         
         // Add the topic if input is not empty
-        if (topicInput.value.trim() !== '') {
+
             const existingTopic = topics.find(topic => topic.topicName === topicInput.value.trim());
 
             if (existingTopic) {
@@ -289,7 +268,6 @@ function addOrEditTopic() {
 
             // Clear the input field
             topicInput.value = '';
-        }
 
         // Change button text to 'Add New Topic'
         addTopicButton.textContent = 'ابدأ موضوعا جديداً';
