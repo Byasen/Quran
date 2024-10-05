@@ -82,18 +82,59 @@ function loadState() {
                 // Log the parsed JSON to verify the structure
                 console.log("Parsed JSON:", fullState);
 
-                // Assign the loaded topics to the global topics array
-                topics = fullState.topics || [];  // Ensure topics are populated
-                console.log("Loaded topics:", topics);
-
-                // Populate the topics dropdown with the newly loaded topics
+                // Restore the topics
+                topics = fullState.topics || [];
                 populateTopicsDropdown();
 
-                // Optionally, you can auto-select the first topic after loading
-                if (topics.length > 0) {
-                    document.getElementById('topicSelect').value = topics[0].topicName;
-                    await restoreState(); // Restore the first topic's state
+                // Restore the current topic
+                const currentTopic = fullState.currentTopic || '';
+                document.getElementById('topicSelect').value = currentTopic;
+
+                const topic = topics.find(topic => topic.topicName === currentTopic);
+                if (topic) {
+                    document.getElementById('questionInput').value = topic.questionInput || '';
+                    document.getElementById('answerInput').value = topic.answerInput || '';
+
+                    // Clear current stacked verses
+                    document.getElementById('stackedVerses').innerHTML = '';
+
+                    // Prepare the verses to fetch
+                    const versesToFetch = topic.verses.map(({ surahNumber, verseNumber }) => ({ surahNumber, verseNumber }));
+
+                    // Batch fetch the verses
+                    const fetchedVerses = await fetchVersesBatch(versesToFetch);
+
+                    // Iterate through the fetched verses and add them to the stack
+                    for (i = fetchedVerses.length - 1; i >= 0; i--){
+                        const { surahNumber, verseNumber, verseNotes } = topic.verses[i];
+                        const verseData = fetchedVerses[i];
+
+                        if (verseData) {
+                            // Add the verse to the stacked verses
+                            await addVerse(surahNumber, verseNumber);
+
+                            // Update the notes for the newly added verse
+                            const stackedVerses = document.getElementById('stackedVerses').children;
+                            const lastVerseDiv = stackedVerses[0]; // Get the most recently added verse
+                            const textArea = lastVerseDiv.querySelector('textarea');
+                            if (textArea) {
+                                textArea.value = verseNotes || "";
+                            }
+                        }
+                    }
                 }
+
+                // Restore the current chapter and verse
+                const currentChapter = fullState.currentChapter || '';
+                const currentVerse = fullState.currentVerse || '';
+                document.getElementById('chapterSelect').value = currentChapter;
+                await fetchSurahVerses(currentChapter);
+                document.getElementById('verseSelect').value = currentVerse;
+
+                // Display the verse with analyses
+                displayVerseWithAnalyses();
+
+                console.log("State loaded successfully.");
             } catch (error) {
                 console.error("Error parsing or restoring state:", error.message);
             }
@@ -106,6 +147,7 @@ function loadState() {
 
     fileInput.click();
 }
+
 
 // Enable Ctrl+S for saving the state without opening a new tab
 document.addEventListener('keydown', function(event) {

@@ -88,8 +88,13 @@ function saveState() {
         topic.answerInput = document.getElementById('answerInput').value;
     }
 
+    // Add the current chapter, verse, and topic to the saved data
+    const currentChapter = document.getElementById('chapterSelect').value;
+    const currentVerse = document.getElementById('verseSelect').value;
+    const currentTopic = document.getElementById('topicSelect').value;
+
     // Prepare data for download
-    const jsonData = JSON.stringify({ topics }, null, 2);
+    const jsonData = JSON.stringify({ topics, currentChapter, currentVerse, currentTopic }, null, 2);
     const blob = new Blob([jsonData], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -101,45 +106,10 @@ function saveState() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+    exportToLocal();
 }
 
-// Save the current state without opening a new tab (for Ctrl+S)
-function saveStateNoNewTab() {
-    const selectedTopic = document.getElementById('topicSelect').value;
-    const topic = topics.find(topic => topic.topicName === selectedTopic);
-
-    if (topic) {
-        const stackedVerses = document.getElementById('stackedVerses').children;
-        const state = [];
-
-        // Iterate through the stacked verses and collect the relevant information
-        for (let i = 0; i < stackedVerses.length; i += 2) { // Skipping the dashed lines (hr elements)
-            const verseDiv = stackedVerses[i];
-            
-            // Use regex to match and extract surah and verse information
-            const surahInfo = verseDiv.querySelector('strong')?.textContent.match(/سورة (\d+): .* \(آية (\d+)\)/);
-
-            if (surahInfo) {
-                const [_, surahNumber, verseNumber] = surahInfo;
-                
-                // Retrieve the notes from the textarea
-                const textArea = verseDiv.querySelector('textarea');
-                const verseNotes = textArea ? textArea.value : "";
-
-                state.push({ surahNumber, verseNumber, verseNotes }); // Save verse information and notes
-            }
-        }
-
-        // Save the notes for the topic (question and answer input fields)
-        topic.verses = state;
-        topic.questionInput = document.getElementById('questionInput').value;
-        topic.answerInput = document.getElementById('answerInput').value;
-    }
-
-    // Save the data without opening a new tab (only log it)
-    const jsonData = JSON.stringify({ topics }, null, 2);
-    console.log("State saved (Ctrl+S):", jsonData);
-}
 
 // Export the current state to local storage (for Export Local button)
 function exportToLocal() {
