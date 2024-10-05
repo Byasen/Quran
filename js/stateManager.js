@@ -10,6 +10,14 @@ async function fetchVersesBatch(versesToFetch) {
     return Promise.all(fetchPromises);
 }
 
+
+// Save the current chapter and verse to local storage
+function saveCurrentTopic() {
+    const topicCurrent = document.getElementById('topicSelect').value;
+    localStorage.setItem('quranTopic', JSON.stringify(topicCurrent));
+}
+
+
 // Save the current chapter and verse to local storage
 function saveCurrentVerse() {
     const chapterSelect = document.getElementById('chapterSelect').value;
@@ -172,11 +180,13 @@ function exportToLocal() {
     console.log("Data exported to local storage.");
 
     saveCurrentVerse();
+    saveCurrentTopic();  
 }
 
 // Import state from local storage (for Import Local button)
 function importFromLocal() {
     const jsonData = localStorage.getItem('quranData');
+    const topicData = localStorage.getItem('quranTopic');
     if (!jsonData) {
         console.error("No data found in local storage.");
         return;
@@ -184,6 +194,7 @@ function importFromLocal() {
 
     try {
         const fullState = JSON.parse(jsonData);
+        const restoredTopic = JSON.parse(topicData);
 
         // Assign the loaded topics to the global topics array
         topics = fullState.topics || [];
@@ -191,11 +202,8 @@ function importFromLocal() {
         // Populate the topics dropdown with the newly loaded topics
         populateTopicsDropdown();
 
-        // Optionally, auto-select the first topic after loading
-        if (topics.length > 0) {
-            document.getElementById('topicSelect').value = topics[0].topicName;
-            restoreState(); // Restore the first topic's state
-        }
+        topicSelect.value = restoredTopic;
+        restoreState(); // Restore the first topic's state
 
         console.log("Data imported from local storage.");
     } catch (error) {
