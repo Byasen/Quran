@@ -238,7 +238,7 @@ async function restoreState() {
             // Fetch verses for the selected Surah to update the verse dropdown
             await fetchSurahVerses(surahNumber);
             // Add the verse to the stacked verses
-            await addVerse();
+            await addVerse(surahNumber,verseNumber);
 
             // Update the notes for the newly added verse
             const stackedVerses = document.getElementById('stackedVerses').children;

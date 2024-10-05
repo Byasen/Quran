@@ -1,11 +1,11 @@
 // Add the selected verse to the stacked section
-async function addVerse() {
-    const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
+async function addVerse(chapterNumberLoc, verseNumberLoc) {
+    const chapterSelect = chapterNumberLoc;
+    const verseSelect = verseNumberLoc;
     const stackedVerses = document.getElementById('stackedVerses');
 
-    const selectedChapter = chapterSelect.value;
-    const selectedVerse = verseSelect.value;
+    const selectedChapter = chapterSelect;
+    const selectedVerse = verseSelect;
     const selectedSurah = quranMetadata.find(surah => surah.number == selectedChapter);
 
     const verseData = await fetchVerse(selectedChapter, selectedVerse);
