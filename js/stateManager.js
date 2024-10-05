@@ -10,6 +10,51 @@ async function fetchVersesBatch(versesToFetch) {
     return Promise.all(fetchPromises);
 }
 
+
+// Save the current chapter and verse to local storage
+function saveCurrentTopic() {
+    const topicCurrent = document.getElementById('topicSelect').value;
+    localStorage.setItem('quranTopic', JSON.stringify(topicCurrent));
+}
+
+
+// Save the current chapter and verse to local storage
+function saveCurrentVerse() {
+    const chapterSelect = document.getElementById('chapterSelect').value;
+    const verseSelect = document.getElementById('verseSelect').value;
+
+    const state = {
+        currentChapter: chapterSelect,
+        currentVerse: verseSelect
+    };
+
+    localStorage.setItem('quranVerse', JSON.stringify(state));
+}
+
+// Load the current chapter and verse from local storage
+function loadCurrentVerse() {
+    const savedState = localStorage.getItem('quranVerse');
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        
+        const chapterSelect = document.getElementById('chapterSelect');
+        const verseSelect = document.getElementById('verseSelect');
+        
+        // Set the chapter and verse dropdowns to the saved state
+        chapterSelect.value = state.currentChapter;
+        
+        // Trigger chapter change to populate the verse dropdown
+        onChapterChange();
+
+        // Set the verse once the dropdown is populated
+        setTimeout(() => {
+            verseSelect.value = state.currentVerse;
+            displayVerseWithAnalyses(); // Display the verse with analyses
+        }, 100);
+    }
+}
+
+
 // Save the current state and download as a file
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
@@ -133,11 +178,15 @@ function exportToLocal() {
     const jsonData = JSON.stringify({ topics });
     localStorage.setItem('quranData', jsonData);
     console.log("Data exported to local storage.");
+
+    saveCurrentVerse();
+    saveCurrentTopic();  
 }
 
 // Import state from local storage (for Import Local button)
 function importFromLocal() {
     const jsonData = localStorage.getItem('quranData');
+    const topicData = localStorage.getItem('quranTopic');
     if (!jsonData) {
         console.error("No data found in local storage.");
         return;
@@ -145,6 +194,7 @@ function importFromLocal() {
 
     try {
         const fullState = JSON.parse(jsonData);
+        const restoredTopic = JSON.parse(topicData);
 
         // Assign the loaded topics to the global topics array
         topics = fullState.topics || [];
@@ -152,16 +202,15 @@ function importFromLocal() {
         // Populate the topics dropdown with the newly loaded topics
         populateTopicsDropdown();
 
-        // Optionally, auto-select the first topic after loading
-        if (topics.length > 0) {
-            document.getElementById('topicSelect').value = topics[0].topicName;
-            restoreState(); // Restore the first topic's state
-        }
+        topicSelect.value = restoredTopic;
+        loadCurrentVerse();
+        restoreState(); // Restore the first topic's state
 
         console.log("Data imported from local storage.");
     } catch (error) {
         console.error("Error parsing or restoring state from local storage:", error.message);
     }
+
 }
 
 async function restoreState() {
@@ -180,16 +229,14 @@ async function restoreState() {
     const fetchedVerses = await fetchVersesBatch(versesToFetch);
 
     // Iterate through the fetched verses and add them to the stack
-    for (let i = 0; i < fetchedVerses.length; i++) {
+    for (i = fetchedVerses.length - 1; i >= 0; i--) {
         const { surahNumber, verseNumber, verseNotes } = topic.verses[i];
         const verseData = fetchedVerses[i];
 
         if (verseData) {
 
-            // Fetch verses for the selected Surah to update the verse dropdown
-            await fetchSurahVerses(surahNumber);
             // Add the verse to the stacked verses
-            await addVerse();
+            await addVerse(surahNumber,verseNumber);
 
             // Update the notes for the newly added verse
             const stackedVerses = document.getElementById('stackedVerses').children;
@@ -230,8 +277,6 @@ function populateTopicsDropdown() {
 }
 
 // Store the currently selected chapter and verse
-let previousChapter = null;
-let previousVerse = null;
 
 function onTopicChange() {
     // Store the currently selected chapter and verse
@@ -240,6 +285,7 @@ function onTopicChange() {
     
     // Restore the state based on the selected topic
     restoreState();
+
 }
 
 // Function to toggle the topic input box and add the topic if applicable

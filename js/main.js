@@ -44,6 +44,11 @@ function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
     const selectedChapter = chapterSelect.value;
     fetchSurahVerses(selectedChapter);
+    displayVerseWithAnalyses();    
+}
+
+function onVerseChange() {
+    displayVerseWithAnalyses();
 }
 
 
@@ -122,14 +127,6 @@ document.addEventListener('keydown', function(event) {
             incrementVerse(); // Move to the previous page
         }
 });
-
-// Automatically export state to local storage on tab/browser close without warning
-window.addEventListener('beforeunload', function () {
-    exportToLocal(); // Automatically export to local storage
-    // No event.preventDefault() or event.returnValue to suppress "Leave Site" dialog
-});
-
-
 
 
 // Import the template data from "data/researches/template.json"
