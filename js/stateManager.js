@@ -235,8 +235,6 @@ async function restoreState() {
 
         if (verseData) {
 
-            // Fetch verses for the selected Surah to update the verse dropdown
-            await fetchSurahVerses(surahNumber);
             // Add the verse to the stacked verses
             await addVerse(surahNumber,verseNumber);
 
@@ -279,8 +277,6 @@ function populateTopicsDropdown() {
 }
 
 // Store the currently selected chapter and verse
-let previousChapter = null;
-let previousVerse = null;
 
 function onTopicChange() {
     // Store the currently selected chapter and verse
@@ -289,6 +285,7 @@ function onTopicChange() {
     
     // Restore the state based on the selected topic
     restoreState();
+
 }
 
 // Function to toggle the topic input box and add the topic if applicable
