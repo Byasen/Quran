@@ -32,6 +32,6 @@ function populateVerses(verses) {
         });
 
         // Auto-display the first verse
-        displayVerse();
+        displayVerseWithAnalyses();
     }
 }
