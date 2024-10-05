@@ -1,5 +1,44 @@
 // Main JS file that handles page initialization and events
 
+// Function to filter chapters based on the search input
+function filterChapters() {
+    const searchInput = document.getElementById('chapterSearchInput').value.toLowerCase();
+    const chapterSelect = document.getElementById('chapterSelect');
+    const options = chapterSelect.options;
+
+    for (let i = 0; i < options.length; i++) {
+        const optionText = options[i].textContent.toLowerCase();
+        // Show or hide options based on the search input
+        options[i].style.display = optionText.includes(searchInput) ? '' : 'none';
+    }
+}
+
+// Function to increment the verse
+function incrementVerse() {
+    const verseSelect = document.getElementById('verseSelect');
+    const currentVerseIndex = verseSelect.selectedIndex;
+    
+    if (currentVerseIndex < verseSelect.options.length - 1) {
+        // Move to the next verse
+        verseSelect.selectedIndex = currentVerseIndex + 1;
+        displayVerseWithAnalyses();
+    }
+}
+
+// Function to decrement the verse
+function decrementVerse() {
+    const verseSelect = document.getElementById('verseSelect');
+    const currentVerseIndex = verseSelect.selectedIndex;
+    
+    if (currentVerseIndex > 0) {
+        // Move to the previous verse
+        verseSelect.selectedIndex = currentVerseIndex - 1;
+        displayVerseWithAnalyses();
+    }
+}
+
+
+
 // Event triggered when the Surah (chapter) changes
 function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
@@ -74,22 +113,14 @@ document.addEventListener('keydown', function(event) {
 
 // Add event listener to handle keyboard navigation for page changes
 document.addEventListener('keydown', function(event) {
-    const currentPageContainer = document.getElementById('currentPage');
-    const svgElement = currentPageContainer.querySelector('svg');
-
-    // Check if an SVG is currently displayed
-    if (svgElement) {
-        const currentPageNumber = parseInt(svgElement.getAttribute('data-page-number')); // Assuming the SVG has a custom attribute for the page number
-
         // Flip the arrow key actions: Right key now moves to the previous page, Left key moves to the next page
-        if (event.key === 'ArrowRight' && currentPageNumber > 1) {
-            displayQuranPagesWithHighlight(currentPageNumber - 1); // Move to the previous page
+        if (event.key === 'ArrowRight') {
+            decrementVerse(); // Move to the next page
         }
-
+        
         if (event.key === 'ArrowLeft') {
-            displayQuranPagesWithHighlight(currentPageNumber + 1); // Move to the next page
+            incrementVerse(); // Move to the previous page
         }
-    }
 });
 
 // Automatically export state to local storage on tab/browser close without warning

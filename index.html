@@ -26,9 +26,11 @@
         <label for="chapterSelect">اختر السورة:</label> <!-- Arabic label -->
         <select id="chapterSelect" onchange="onChapterChange()"></select>
         <label for="verseSelect">اختر الآية:</label> <!-- Arabic label -->
+        <button onclick="decrementVerse()">&#60;</button> 
         <select id="verseSelect"></select>
+        <!-- Add the increment button -->
+        <button onclick="incrementVerse()">&#62;</button> 
         <button onclick="displayVerseWithAnalyses()">عرض الآية</button> <!-- Arabic button text -->
-        <button onclick="hideVerse()">إخفاء الآية</button> <!-- Arabic button text -->
         <button onclick="addVerse()">أضف الآية للموضوع</button> <!-- Arabic button text -->
     </div>
 
@@ -43,7 +45,7 @@
         <label><input type="checkbox" id="togglesa3dy"> السعدي</label>
         <label><input type="checkbox" id="toggletabary"> الطبري</label>
         <label><input type="checkbox" id="togglewaseet"> الوسيط</label>
-        <label><input type="checkbox" id="togglemuyassar"> الميسر</label>
+        <label><input type="checkbox" id="togglemuyassar" checked> الميسر</label>
         <label><input type="checkbox" id="toggletanweer"> التنوير</label>
     </div>
 
