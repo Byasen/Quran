@@ -203,6 +203,7 @@ function importFromLocal() {
         populateTopicsDropdown();
 
         topicSelect.value = restoredTopic;
+        loadCurrentVerse();
         restoreState(); // Restore the first topic's state
 
         console.log("Data imported from local storage.");
@@ -210,7 +211,6 @@ function importFromLocal() {
         console.error("Error parsing or restoring state from local storage:", error.message);
     }
 
-    loadCurrentVerse();
 }
 
 async function restoreState() {
@@ -229,7 +229,7 @@ async function restoreState() {
     const fetchedVerses = await fetchVersesBatch(versesToFetch);
 
     // Iterate through the fetched verses and add them to the stack
-    for (let i = 0; i < fetchedVerses.length; i++) {
+    for (i = fetchedVerses.length - 1; i >= 0; i--) {
         const { surahNumber, verseNumber, verseNotes } = topic.verses[i];
         const verseData = fetchedVerses[i];
 
