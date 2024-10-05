@@ -105,7 +105,7 @@ function loadState() {
                     const fetchedVerses = await fetchVersesBatch(versesToFetch);
 
                     // Iterate through the fetched verses and add them to the stack
-                    for (let i = 0; i < fetchedVerses.length; i++) {
+                    for (i = fetchedVerses.length - 1; i >= 0; i--){
                         const { surahNumber, verseNumber, verseNotes } = topic.verses[i];
                         const verseData = fetchedVerses[i];
 
