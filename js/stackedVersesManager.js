@@ -64,24 +64,34 @@ function selectStackedVerse(chapterNumber, verseNumber) {
 
 // Function to move a verse up
 function moveVerseUp(button) {
-    const verseDiv = button.parentElement;
-    const dashedLine = verseDiv.nextElementSibling;
-    const previousVerseDiv = verseDiv.previousElementSibling?.previousElementSibling;
+    const verseDiv = button.parentElement; // The current verse div
+    const dashedLine = verseDiv.previousElementSibling; // The dashed line before the verse
+    const previousVerseDiv = dashedLine?.previousElementSibling; // The previous verse div
 
-    if (previousVerseDiv) {
-        verseDiv.parentElement.insertBefore(verseDiv, previousVerseDiv);
-        dashedLine.parentElement.insertBefore(dashedLine, verseDiv);
+    if (previousVerseDiv && previousVerseDiv.classList.contains('verse')) {
+        // Move the dashed line and the verse div before the previous verse div
+        verseDiv.parentElement.insertBefore(dashedLine, previousVerseDiv);
+        verseDiv.parentElement.insertBefore(verseDiv, dashedLine);
     }
 }
+
 
 // Function to move a verse down
+// Function to move a verse down
+// Function to move a verse down
 function moveVerseDown(button) {
-    const verseDiv = button.parentElement;
-    const dashedLine = verseDiv.nextElementSibling;
-    const nextVerseDiv = dashedLine?.nextElementSibling;
+    const verseDiv = button.parentElement; // The current verse div
+    const dashedLine = verseDiv.nextElementSibling; // The dashed line after the verse
+    const nextVerseDiv = dashedLine?.nextElementSibling; // The next verse div
 
     if (nextVerseDiv && nextVerseDiv.classList.contains('verse')) {
-        verseDiv.parentElement.insertBefore(verseDiv, nextVerseDiv.nextElementSibling);
-        dashedLine.parentElement.insertBefore(dashedLine, nextVerseDiv.nextElementSibling);
+        const nextDashedLine = nextVerseDiv.nextElementSibling; // The next dashed line
+
+        // Move the current verse and dashed line after the next verse and its dashed line
+        verseDiv.parentElement.insertBefore(dashedLine, nextDashedLine?.nextSibling);
+        verseDiv.parentElement.insertBefore(verseDiv, dashedLine);
     }
 }
+
+
+
