@@ -10,6 +10,43 @@ async function fetchVersesBatch(versesToFetch) {
     return Promise.all(fetchPromises);
 }
 
+// Save the current chapter and verse to local storage
+function saveCurrentVerse() {
+    const chapterSelect = document.getElementById('chapterSelect').value;
+    const verseSelect = document.getElementById('verseSelect').value;
+
+    const state = {
+        currentChapter: chapterSelect,
+        currentVerse: verseSelect
+    };
+
+    localStorage.setItem('quranVerse', JSON.stringify(state));
+}
+
+// Load the current chapter and verse from local storage
+function loadCurrentVerse() {
+    const savedState = localStorage.getItem('quranVerse');
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        
+        const chapterSelect = document.getElementById('chapterSelect');
+        const verseSelect = document.getElementById('verseSelect');
+        
+        // Set the chapter and verse dropdowns to the saved state
+        chapterSelect.value = state.currentChapter;
+        
+        // Trigger chapter change to populate the verse dropdown
+        onChapterChange();
+
+        // Set the verse once the dropdown is populated
+        setTimeout(() => {
+            verseSelect.value = state.currentVerse;
+            displayVerseWithAnalyses(); // Display the verse with analyses
+        }, 100);
+    }
+}
+
+
 // Save the current state and download as a file
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
@@ -133,6 +170,8 @@ function exportToLocal() {
     const jsonData = JSON.stringify({ topics });
     localStorage.setItem('quranData', jsonData);
     console.log("Data exported to local storage.");
+
+    saveCurrentVerse();
 }
 
 // Import state from local storage (for Import Local button)
@@ -162,6 +201,8 @@ function importFromLocal() {
     } catch (error) {
         console.error("Error parsing or restoring state from local storage:", error.message);
     }
+
+    loadCurrentVerse();
 }
 
 async function restoreState() {

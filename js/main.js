@@ -44,6 +44,11 @@ function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
     const selectedChapter = chapterSelect.value;
     fetchSurahVerses(selectedChapter);
+    displayVerseWithAnalyses();    
+}
+
+function onVerseChange() {
+    displayVerseWithAnalyses();
 }
 
 
