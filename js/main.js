@@ -43,9 +43,21 @@ function decrementVerse() {
 function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
     const selectedChapter = chapterSelect.value;
-    fetchSurahVerses(selectedChapter);
-    displayVerseWithAnalyses();    
+    
+    // Fetch the verses of the selected chapter
+    fetchSurahVerses(selectedChapter).then(() => {
+        const verseSelect = document.getElementById('verseSelect');
+        
+        // Reset the verse to the first one in the list
+        if (verseSelect.options.length > 0) {
+            verseSelect.selectedIndex = 0;
+        }
+
+        // Display the selected verse with analyses (the first verse)
+        displayVerseWithAnalyses();
+    });
 }
+
 
 function onVerseChange() {
     displayVerseWithAnalyses();
@@ -57,12 +69,14 @@ function onVerseChange() {
 function checkAll() {
     const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
     checkboxes.forEach(checkbox => checkbox.checked = true);
+    displayVerseWithAnalyses();
 }
 
 // Uncheck all checkboxes
 function uncheckAll() {
     const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
     checkboxes.forEach(checkbox => checkbox.checked = false);
+    displayVerseWithAnalyses();
 }
 
 // Load a saved state from a file (modified for topics)
@@ -210,3 +224,31 @@ window.onload = async function () {
     selectStackedVerse(randomChapter, randomVerse);
 
 };
+
+
+
+// Function to filter chapters based on the search input and select the first filtered chapter
+function filterChapters() {
+    const searchInput = document.getElementById('chapterSearchInput').value.toLowerCase();
+    const chapterSelect = document.getElementById('chapterSelect');
+    const options = chapterSelect.options;
+    let firstVisibleOption = null;
+
+    for (let i = 0; i < options.length; i++) {
+        const optionText = options[i].textContent.toLowerCase();
+        if (optionText.includes(searchInput)) {
+            options[i].style.display = '';  // Show the matching option
+            if (!firstVisibleOption) {
+                firstVisibleOption = options[i];
+            }
+        } else {
+            options[i].style.display = 'none';  // Hide non-matching option
+        }
+    }
+
+    // Automatically select the first filtered chapter if available
+    if (firstVisibleOption) {
+        firstVisibleOption.selected = true;
+        onChapterChange();  // Trigger chapter change to load verses for the first filtered chapter
+    }
+}

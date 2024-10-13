@@ -141,7 +141,7 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 const svgElement = svgDoc.documentElement;
 
                 svgElement.setAttribute('data-page-number', pageNumber);
-                svgElement.style.width = '100%'; // Set SVG to fit the container width
+                svgElement.style.width = '125%'; // Set SVG to fit the container width
                 svgElement.style.height = 'auto'; // Maintain aspect ratio
 
                 // Highlight the selected verse

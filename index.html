@@ -23,7 +23,8 @@
     </div>
 
     <div class="controls-container">
-        <label for="chapterSelect">اختر السورة:</label> <!-- Arabic label -->
+        <label for="chapterSearchInput">ابحث في اسماء السور:</label>
+        <input type="text" id="chapterSearchInput" oninput="filterChapters()">
         <select id="chapterSelect" onchange="onChapterChange()"></select>
         <label for="verseSelect">اختر الآية:</label> <!-- Arabic label -->
         <button onclick="decrementVerse()">&#60;</button> 
@@ -36,16 +37,16 @@
     <div class="checkbox-container">
         <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
         <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-        <label><input type="checkbox" id="togglema3any" checked> معاني</label>
-        <label><input type="checkbox" id="togglee3rab"> إعراب</label>
-        <label><input type="checkbox" id="togglebaghawy"> البغوي</label>
-        <label><input type="checkbox" id="togglekatheer"> ابن كثير</label>
-        <label><input type="checkbox" id="toggleqortoby"> القرطبي</label>
-        <label><input type="checkbox" id="togglesa3dy"> السعدي</label>
-        <label><input type="checkbox" id="toggletabary"> الطبري</label>
-        <label><input type="checkbox" id="togglewaseet"> الوسيط</label>
-        <label><input type="checkbox" id="togglemuyassar" checked> الميسر</label>
-        <label><input type="checkbox" id="toggletanweer"> التنوير</label>
+        <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
+        <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
+        <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
+        <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
+        <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
+        <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
+        <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
+        <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
+        <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+        <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
     </div>
 
     <!-- Loading Bar (placed under checkboxes) -->
