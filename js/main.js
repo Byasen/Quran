@@ -43,9 +43,21 @@ function decrementVerse() {
 function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
     const selectedChapter = chapterSelect.value;
-    fetchSurahVerses(selectedChapter);
-    displayVerseWithAnalyses();    
+    
+    // Fetch the verses of the selected chapter
+    fetchSurahVerses(selectedChapter).then(() => {
+        const verseSelect = document.getElementById('verseSelect');
+        
+        // Reset the verse to the first one in the list
+        if (verseSelect.options.length > 0) {
+            verseSelect.selectedIndex = 0;
+        }
+
+        // Display the selected verse with analyses (the first verse)
+        displayVerseWithAnalyses();
+    });
 }
+
 
 function onVerseChange() {
     displayVerseWithAnalyses();
