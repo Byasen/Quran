@@ -23,7 +23,8 @@
     </div>
 
     <div class="controls-container">
-        <label for="chapterSelect">اختر السورة:</label> <!-- Arabic label -->
+        <label for="chapterSearchInput">ابحث في اسماء السور:</label>
+        <input type="text" id="chapterSearchInput" oninput="filterChapters()">
         <select id="chapterSelect" onchange="onChapterChange()"></select>
         <label for="verseSelect">اختر الآية:</label> <!-- Arabic label -->
         <button onclick="decrementVerse()">&#60;</button> 

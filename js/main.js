@@ -222,3 +222,31 @@ window.onload = async function () {
     selectStackedVerse(randomChapter, randomVerse);
 
 };
+
+
+
+// Function to filter chapters based on the search input and select the first filtered chapter
+function filterChapters() {
+    const searchInput = document.getElementById('chapterSearchInput').value.toLowerCase();
+    const chapterSelect = document.getElementById('chapterSelect');
+    const options = chapterSelect.options;
+    let firstVisibleOption = null;
+
+    for (let i = 0; i < options.length; i++) {
+        const optionText = options[i].textContent.toLowerCase();
+        if (optionText.includes(searchInput)) {
+            options[i].style.display = '';  // Show the matching option
+            if (!firstVisibleOption) {
+                firstVisibleOption = options[i];
+            }
+        } else {
+            options[i].style.display = 'none';  // Hide non-matching option
+        }
+    }
+
+    // Automatically select the first filtered chapter if available
+    if (firstVisibleOption) {
+        firstVisibleOption.selected = true;
+        onChapterChange();  // Trigger chapter change to load verses for the first filtered chapter
+    }
+}
