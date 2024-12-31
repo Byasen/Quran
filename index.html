@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="topBar" class="top-bar">
+        <label for="chapterSelect">Chapter:</label>
+        <select id="chapterSelect" onchange="onChapterChange()"></select>
+        <label for="verseSelect">Verse:</label>
+        <button onclick="decrementVerse()">&#60;</button> 
+        <select id="verseSelect" onchange="onVerseChange()"></select>
+        <button onclick="incrementVerse()">&#62;</button>
+    </div>
     <h1>مذكرة القرآن الكريم</h1>
 
     <div class="controls-container">
@@ -23,14 +31,7 @@
     </div>
 
     <div class="controls-container">
-        <label for="chapterSearchInput">ابحث في اسماء السور:</label>
         <input type="text" id="chapterSearchInput" oninput="filterChapters()">
-        <select id="chapterSelect" onchange="onChapterChange()"></select>
-        <label for="verseSelect">اختر الآية:</label> <!-- Arabic label -->
-        <button onclick="decrementVerse()">&#60;</button> 
-        <select id="verseSelect" onchange="onVerseChange()"></select>
-        <!-- Add the increment button -->
-        <button onclick="incrementVerse()">&#62;</button> 
         <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية للموضوع</button> <!-- Arabic button text -->
     </div>
 
