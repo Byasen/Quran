@@ -155,34 +155,9 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
                 currentPageContainer.appendChild(svgElement);
             });
 
-        // Display the next and previous pages
-        displayNextPreviousPages(pageNumber);
     } else {
         const currentPageContainer = document.getElementById('currentPage');
         currentPageContainer.innerHTML = `<p>Page not found for this verse.</p>`;
-    }
-}
-
-// Function to display the next and previous Quran pages (SVG) in reversed order
-function displayNextPreviousPages(pageNumber) {
-    const nextPagePath = `data/svg/${padNumber(pageNumber + 1)}.svg`;
-    const previousPagePath = `data/svg/${padNumber(pageNumber - 1)}.svg`;
-
-    const previousPageContainer = document.getElementById('previousPage');
-    const nextPageContainer = document.getElementById('nextPage');
-
-    // Display Current+1 (next) on the left
-    if (pageNumber < 604) {
-        nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-    } else {
-        nextPageContainer.innerHTML = `<p>No next page</p>`; // Display "No next page" at the end
-    }
-
-    // Display Current-1 (previous) on the right
-    if (pageNumber > 1) {
-        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-    } else {
-        previousPageContainer.innerHTML = `<p>No previous page</p>`;
     }
 }
 

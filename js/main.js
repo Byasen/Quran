@@ -369,3 +369,17 @@ function selectSearchedVerseFromSearchResults(chapter, verse) {
         displayVerseWithAnalyses(); // Display the selected verse with analyses
     });
 }
+
+
+function toggleQuranPages() {
+    const quranPagesContainer = document.getElementById('quranPagesContainer');
+    const toggleBtn = document.getElementById('toggleQuranPagesBtn');
+
+    if (quranPagesContainer.style.display === 'none') {
+        quranPagesContainer.style.display = 'flex';
+        toggleBtn.textContent = 'إخفاء صفحات القرآن';
+    } else {
+        quranPagesContainer.style.display = 'none';
+        toggleBtn.textContent = 'عرض صفحات القرآن';
+    }
+}

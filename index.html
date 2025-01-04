@@ -22,70 +22,70 @@
 <div id="searchResultsContainer" class="search-results-container">
     <!-- Search results will appear here -->
 </div>
-    <h1>مذكرة القرآن الكريم</h1>
+<h1>مذكرة القرآن الكريم</h1>
 
-    <div class="controls-container">
-        <label for="topicSelect">اختر الموضوع:</label> <!-- Changed text to Arabic -->
-        <select id="topicSelect" onchange="onTopicChange()"></select>
-        <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">
-        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-        <button onclick="removeTopic()">احذف الموضوع</button> <!-- Arabic button text -->
-        <button onclick="saveState()">الحفظ بملف</button> <!-- Arabic button text -->
-        <button onclick="loadState()">استرجاع من ملف</button> <!-- Arabic button text -->
-        <button onclick="exportToLocal()">حفظ بالمتصفح</button> <!-- Arabic button text -->
-        <button onclick="importFromLocal()">استرجاع من المتصفح</button> <!-- Arabic button text -->
-        
-    </div>
+<div class="controls-container">
+    <label for="topicSelect">اختر الموضوع:</label> <!-- Changed text to Arabic -->
+    <select id="topicSelect" onchange="onTopicChange()"></select>
+    <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">
+    <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
+    <button onclick="removeTopic()">احذف الموضوع</button> <!-- Arabic button text -->
+    <button onclick="saveState()">الحفظ بملف</button> <!-- Arabic button text -->
+    <button onclick="loadState()">استرجاع من ملف</button> <!-- Arabic button text -->
+    <button onclick="exportToLocal()">حفظ بالمتصفح</button> <!-- Arabic button text -->
+    <button onclick="importFromLocal()">استرجاع من المتصفح</button> <!-- Arabic button text -->
+</div>
 
-    <div class="controls-container">
-        <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية للموضوع</button> <!-- Arabic button text -->
-    </div>
+<div class="controls-container">
+    <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية للموضوع</button> <!-- Arabic button text -->
+    <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض صفحات القرآن</button>
+</div>
 
-    <div class="checkbox-container">
-        <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
-        <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-        <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-        <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
-        <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
-        <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
-        <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
-        <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
-        <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
-        <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
-        <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
-        <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
-    </div>
+<div class="checkbox-container">
+    <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
+    <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
+    <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
+    <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
+    <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
+    <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
+    <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
+    <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
+    <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
+    <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
+    <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+    <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
+</div>
 
-    <!-- Loading Bar (placed under checkboxes) -->
-    <div id="loadingBarContainer">
-        <progress id="loadingBar" value="0" max="100"></progress>
-        <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
-    </div>
+<!-- Loading Bar (placed under checkboxes) -->
+<div id="loadingBarContainer">
+    <progress id="loadingBar" value="0" max="100"></progress>
+    <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
+</div>
 
-    <p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
+<p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
 
-    <div class="quran-pages">
-        <div id="nextPage" class="page"></div>
-        <div id="currentPage" class="page"></div>
-        <div id="previousPage" class="page"></div>
-    </div>
+<div id="quranPagesContainer" class="quran-pages" style="display: none;">
+    <div id="nextPage" class="page"></div>
+    <div id="currentPage" class="page"></div>
+    <div id="previousPage" class="page"></div>
+</div>
 
-    <hr class="horizontal-line">
+<hr class="horizontal-line">
 
-    <textarea id="questionInput" placeholder="أدخل الفكرة أو السؤال المراد مناقشته" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
-    <hr class="horizontal-line">
-    <textarea id="answerInput" placeholder="أدخل الإجابة العامة أو الأولية" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
-    <hr class="horizontal-line">
-    <div id="stackedVerses"></div>
+<textarea id="questionInput" placeholder="أدخل الفكرة أو السؤال المراد مناقشته" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
+<hr class="horizontal-line">
+<textarea id="answerInput" placeholder="أدخل الإجابة العامة أو الأولية" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
+<hr class="horizontal-line">
+<div id="stackedVerses"></div>
 
-    <div id="filePathDisplay" class="log-box"></div>
+<div id="filePathDisplay" class="log-box"></div>
 
-    <script src="js/helpers.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/chapterVerseManager.js"></script>
-    <script src="js/verseDisplayManager.js"></script>
-    <script src="js/stackedVersesManager.js"></script>
-    <script src="js/stateManager.js"></script>
-    <script src="js/main.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/data.js"></script>
+<script src="js/chapterVerseManager.js"></script>
+<script src="js/verseDisplayManager.js"></script>
+<script src="js/stackedVersesManager.js"></script>
+<script src="js/stateManager.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
