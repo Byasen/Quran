@@ -383,3 +383,26 @@ function toggleQuranPages() {
         toggleBtn.textContent = 'عرض صفحات القرآن';
     }
 }
+
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        sidebar.style.display = 'block';
+    } else {
+        sidebar.classList.add('hidden');
+        sidebar.style.display = 'none';
+    }
+}
+
+function toggleMeanings() {
+    const sidebar = document.getElementById('Meanings');
+    if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        sidebar.style.display = 'block';
+    } else {
+        sidebar.classList.add('hidden');
+        sidebar.style.display = 'none';
+    }
+}

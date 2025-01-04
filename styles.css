@@ -227,3 +227,21 @@ input[type="text"] {
 }
 
 
+/* Sidebar styles */
+.sidebar {
+    display: none; /* Initially hidden */
+}
+
+/* Toggle visibility */
+.hidden {
+    display: none !important;
+}
+
+
+
+
+
+/* Sidebar styles */
+.Meanings {
+    display: none; /* Initially hidden */
+}
