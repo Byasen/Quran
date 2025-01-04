@@ -198,4 +198,32 @@ input[type="text"] {
 }
 
 
+.search-results-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    direction: rtl;
+    text-align: right;
+    font-family: Arial, sans-serif; /* Match overall font style */
+    max-height: 300px; /* Limit the height */
+    overflow-y: auto; /* Add scroll for overflowing content */
+}
+
+
+.search-result {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+}
+
+.search-result button {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
 

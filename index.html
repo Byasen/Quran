@@ -7,14 +7,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="topBar" class="top-bar">
-        <label for="chapterSelect">Chapter:</label>
-        <select id="chapterSelect" onchange="onChapterChange()"></select>
-        <label for="verseSelect">Verse:</label>
-        <button onclick="decrementVerse()">&#60;</button> 
-        <select id="verseSelect" onchange="onVerseChange()"></select>
-        <button onclick="incrementVerse()">&#62;</button>
-    </div>
+<div id="topBar" class="top-bar">
+    <label for="chapterSelect">Chapter:</label>
+    <select id="chapterSelect" onchange="onChapterChange()"></select>
+    <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="Search Chapter">
+    <label for="verseSelect">Verse:</label>
+    <button onclick="decrementVerse()">&#60;</button>
+    <select id="verseSelect" onchange="onVerseChange()"></select>
+    <button onclick="incrementVerse()">&#62;</button>
+    <label for="verseSearchInput">Search Verses:</label>
+    <input type="text" id="verseSearchInput" placeholder="Enter verse content">
+    <button onclick="searchInCSV()">Search in CSV</button>
+</div>
+<div id="searchResultsContainer" class="search-results-container">
+    <!-- Search results will appear here -->
+</div>
     <h1>مذكرة القرآن الكريم</h1>
 
     <div class="controls-container">
@@ -31,7 +38,6 @@
     </div>
 
     <div class="controls-container">
-        <input type="text" id="chapterSearchInput" oninput="filterChapters()">
         <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية للموضوع</button> <!-- Arabic button text -->
     </div>
 
