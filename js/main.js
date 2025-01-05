@@ -374,7 +374,7 @@ async function searchInCSV() {
         `;
 
         const selectButton = document.createElement('button');
-        selectButton.textContent = 'عرض';
+        selectButton.textContent = 'اختيار';
         selectButton.onclick = () => selectSearchedVerseFromSearchResults(match.chapter, match.verse);
 
         resultDiv.appendChild(selectButton);
@@ -419,10 +419,10 @@ function toggleQuranPages() {
 
     if (quranPagesContainer.style.display === 'none') {
         quranPagesContainer.style.display = 'flex';
-        toggleBtn.textContent = 'إخفاء صفحات القرآن';
+        toggleBtn.textContent = 'اخفاء الصفحة';
     } else {
         quranPagesContainer.style.display = 'none';
-        toggleBtn.textContent = 'عرض صفحات القرآن';
+        toggleBtn.textContent = 'عرض الصفحة';
     }
 }
 
@@ -448,3 +448,5 @@ function toggleMeanings() {
         sidebar.style.display = 'none';
     }
 }
+
+

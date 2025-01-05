@@ -21,14 +21,12 @@
         <button onclick="searchInCSV()">ابدأ البحث</button>
         <!-- Sidebar Toggle Button -->
         <button onclick="toggleSidebar()">تدوين حسب الموضوع</button>
-        <button onclick="toggleMeanings()">التفاسير</button>
+        <button onclick="toggleMeanings()">اختيار التفاسير</button>
+        <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض الصفحة</button>
     </div>
 
-<div id="searchResultsContainer" class="search-results-container">
-    <!-- Search results will appear here -->
-</div>
-
-<div id="sidebar" class="sidebar hidden">
+    
+    <div id="sidebar" class="sidebar hidden">
     <div class="controls-container">
         <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
         <button onclick="removeTopic()">احذف الموضوع</button>
@@ -37,7 +35,6 @@
         <button onclick="exportToLocal()">حفظ بالمتصفح</button>
         <button onclick="importFromLocal()">استرجاع من المتصفح</button>
         <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية للموضوع</button>
-        <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض صفحات القرآن</button>
         <textarea id="questionInput" placeholder="أدخل الفكرة أو السؤال المراد مناقشته" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
         <hr class="horizontal-line">
         <textarea id="answerInput" placeholder="أدخل الإجابة العامة أو الأولية" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
@@ -62,6 +59,11 @@
     <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
 </div>
 
+<div id="quranPagesContainer" class="quran-pages" style="display: none;">
+    <div id="nextPage" class="page"></div>
+    <div id="currentPage" class="page"></div>
+    <div id="previousPage" class="page"></div>
+</div>
 
 <!-- Loading Bar (placed under checkboxes) -->
 <div id="loadingBarContainer">
@@ -69,13 +71,11 @@
     <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
 </div>
 
+<div id="searchResultsContainer" class="search-results-container">
+    <!-- Search results will appear here -->
+</div>
 <p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
 
-<div id="quranPagesContainer" class="quran-pages" style="display: none;">
-    <div id="nextPage" class="page"></div>
-    <div id="currentPage" class="page"></div>
-    <div id="previousPage" class="page"></div>
-</div>
 
 <div id="filePathDisplay" class="log-box"></div>
 
