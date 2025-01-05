@@ -245,3 +245,7 @@ input[type="text"] {
 .Meanings {
     display: none; /* Initially hidden */
 }
+
+#searchRootsCheckbox {
+    margin-left: 10px;
+}

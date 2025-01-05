@@ -9,11 +9,15 @@
 <body>
     <div id="topBar" class="top-bar">
         <select id="chapterSelect" onchange="onChapterChange()"></select>
-        <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="ابحث في أسماء السور">
         <button onclick="decrementVerse()">&#60;</button>
         <select id="verseSelect" onchange="onVerseChange()"></select>
         <button onclick="incrementVerse()">&#62;</button>
-        <input type="text" id="verseSearchInput" placeholder="ابحث عن آية">
+        <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="ابحث في أسماء السور">
+        <input type="text" id="verseSearchInput" placeholder="ابحث عن كلمة">
+        <label>
+            <input type="checkbox" id="searchRootsCheckbox">
+            بحث باستخدام الجذور
+        </label>
         <button onclick="searchInCSV()">ابدأ البحث</button>
         <!-- Sidebar Toggle Button -->
         <button onclick="toggleSidebar()">تدوين حسب الموضوع</button>

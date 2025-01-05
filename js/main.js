@@ -293,13 +293,12 @@ async function loadCSVData() {
 function normalizeArabic(text) {
     return text
         .replace(/[\u064B-\u065F]/g, '') // Remove diacritics
-        .replace(/أ|إ|آ/g, 'ا')         // Normalize Alef variants
-        .replace(/ة/g, 'ه');           // Normalize Ta Marbuta
 }
 
 // Search the CSV data and display results
-function searchInCSV() {
+async function searchInCSV() {
     const query = normalizeArabic(document.getElementById('verseSearchInput').value.trim());
+    const includeRoots = document.getElementById('searchRootsCheckbox')?.checked; // Check if roots checkbox is selected
     const searchResultsContainer = document.getElementById('searchResultsContainer');
     searchResultsContainer.innerHTML = ''; // Clear previous results
 
@@ -308,7 +307,29 @@ function searchInCSV() {
         return;
     }
 
-    const matches = csvData.filter(entry => normalizeArabic(entry.text).includes(query));
+    // Step 2.5: If roots checkbox is checked, get the list of words from roots.json
+    let wordList = [query]; // Start with the query as the base word
+
+    if (includeRoots) {
+        try {
+            const rootWords = await getWordsFromRoots(query);
+            wordList = [...new Set([...wordList, ...rootWords])]; // Combine query and root-derived words, remove duplicates
+        } catch (error) {
+            console.error("Error loading roots data:", error);
+            searchResultsContainer.innerHTML = '<p>خطأ في تحميل بيانات الجذور.</p>';
+            return;
+        }
+    }
+
+    console.log("^^^^^^")
+    console.log(wordList)
+    console.log("^^^^^^")
+    
+
+    // Step 3: Search for all words in the wordList
+    const matches = csvData.filter(entry => 
+        wordList.some(word => normalizeArabic(entry.text).includes(word))
+    );
 
     if (matches.length === 0) {
         searchResultsContainer.innerHTML = `<p>لم يتم العثور على نتائج لـ "${query}".</p>`;
@@ -360,6 +381,27 @@ function searchInCSV() {
         searchResultsContainer.appendChild(resultDiv);
     });
 }
+
+
+async function getWordsFromRoots(query) {
+    try {
+        const response = await fetch('data/roots.json');
+        if (!response.ok) {
+            throw new Error("Failed to load roots.json");
+        }
+        const rootsData = await response.json();
+
+        // Find the root that matches the query
+        const matchingRoot = rootsData.roots.find(root => root.root === query);
+
+        // Return the associated words, or an empty list if no match
+        return matchingRoot ? matchingRoot.words : [];
+    } catch (error) {
+        console.error("Error fetching or processing roots.json:", error);
+        throw error;
+    }
+}
+
 
 // Function to handle selecting a verse from search results
 function selectSearchedVerseFromSearchResults(chapter, verse) {
