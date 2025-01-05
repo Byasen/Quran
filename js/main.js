@@ -434,6 +434,16 @@ function toggleSidebar() {
         sidebar.classList.add('hidden');
         sidebar.style.display = 'none';
     }
+
+    const sidebar2 = document.getElementById('sidebar2');
+    if (sidebar2.classList.contains('hidden')) {
+        sidebar2.classList.remove('hidden');
+        sidebar2.style.display = 'block';
+    } else {
+        sidebar2.classList.add('hidden');
+        sidebar2.style.display = 'none';
+    }
+
 }
 
 function toggleMeanings() {
