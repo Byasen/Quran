@@ -321,9 +321,6 @@ async function searchInCSV() {
         }
     }
 
-    console.log("^^^^^^")
-    console.log(wordList)
-    console.log("^^^^^^")
     
 
     // Step 3: Search for all words in the wordList
@@ -351,6 +348,7 @@ async function searchInCSV() {
     const summaryDiv = document.createElement('div');
     summaryDiv.classList.add('search-summary');
     summaryDiv.innerHTML = `
+        <p><strong>الكلمات المبحوثة:</strong> ${wordList}</p>        
         <p><strong>إجمالي النتائج:</strong> ${matches.length}</p>
         <p><strong>عدد السور المميزة:</strong> ${uniqueChapters}</p>
         <p><strong>التكرار لكل سورة:</strong></p>
