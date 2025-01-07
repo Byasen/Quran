@@ -74,7 +74,6 @@ hr {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-/* Quran pages container */
 .quran-pages {
     display: flex;
     justify-content: space-between;
@@ -84,13 +83,16 @@ hr {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-/* Style for all pages (equal size and large) */
 .page {
-    flex: 1;
-    max-width: 30%; /* Ensure each page takes up about 1/3 of the container */
+    flex: 0 0 auto; /* Disable automatic resizing */
+    width: 28%; /* Default width for side pages */
     text-align: center;
     opacity: 1;
     font-family: Arial, sans-serif; /* Set font to Arial */
+}
+
+.page.middle {
+    width: 44%; /* Set width for the middle page */
 }
 
 /* Ensure all images are large but fit within their containers */
