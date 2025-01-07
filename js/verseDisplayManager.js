@@ -103,10 +103,10 @@ async function displayVerseWithAnalyses() {
         let displayContent = '<hr class="dashed-line">';
 
         // Always display the main verse text
-        displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
+        displayContent += `<strong>نص الآية</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
 
         const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-        const analysesName = ['المعاني', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
         analysesToShow.forEach((analysisType, index) => {
             const checkbox = document.getElementById(`toggle${analysisType}`);
