@@ -85,14 +85,14 @@ hr {
 
 .page {
     flex: 0 0 auto; /* Disable automatic resizing */
-    width: 10%; /* Default width for side pages */
+    width: 30%; /* Default width for side pages */
     text-align: center;
     opacity: 1;
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
 .page.middle {
-    width: 33%; /* Set width for the middle page */
+    width: 30%; /* Set width for the middle page */
 }
 
 /* Ensure all images are large but fit within their containers */
