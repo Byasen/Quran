@@ -40,25 +40,25 @@
                 <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
             </div>
             </div>
-            
+        <div id="Meanings" class="checkbox-container hidden">
+            <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
+            <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
+            <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
+            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
+        <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
+        <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
+        <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
+        <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
+        <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
+        <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
+        <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+        <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
+    </div>
 
     </div>
 
     
-    <div id="Meanings" class="checkbox-container hidden">
-        <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
-        <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-        <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-        <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
-    <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
-    <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
-    <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
-    <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
-    <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
-    <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
-    <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
-    <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
-</div>
+
 
 <div id="quranPagesContainer" class="quran-pages" style="display: none;">
     <div id="nextPage" class="page"></div>
@@ -73,6 +73,7 @@
 </div>
 
 <div id="searchResultsContainer" class="search-results-container">
+    <button onclick="hidesearchresults()">أخفاء نتائج البحث</button>
     <!-- Search results will appear here -->
 </div>
 <p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->

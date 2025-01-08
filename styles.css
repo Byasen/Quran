@@ -212,6 +212,7 @@ input[type="text"] {
     font-family: Arial, sans-serif; /* Match overall font style */
     max-height: 300px; /* Limit the height */
     overflow-y: auto; /* Add scroll for overflowing content */
+    display: none;
 }
 
 
@@ -261,8 +262,12 @@ input[type="text"] {
     margin: 5px;
 }
 
-button {
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
+
+select, button, textarea, input[type="text"] {
+    padding: 5px; /* Reduce padding inside the box */
+    font-size: 16px; /* Reduce font size */
+    height: auto; /* Let the height adjust automatically */
+    width: auto; /* Adjust width automatically based on content */
+    box-sizing: border-box; /* Ensure padding and border are included in the size */
+    margin: 5px; /* Reduce margin between elements */
 }
