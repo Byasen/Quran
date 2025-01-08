@@ -210,6 +210,7 @@ window.onload = async function () {
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
     selectStackedVerse(randomChapter, randomVerse);
     await loadCSVData(); // Load `quranText.csv` file
+    populatePages(); // Initialize the Quran page dropdown
 
 };
 
@@ -456,5 +457,55 @@ function toggleMeanings() {
         sidebar.style.display = 'none';
     }
 }
+
+
+
+// Populate Quran pages dropdown
+function populatePages() {
+    const pageSelect = document.getElementById('pageSelect');
+    pageSelect.innerHTML = ''; // Clear previous options
+
+    for (let i = 1; i <= 604; i++) { // Quran has 604 pages
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${i}`;
+        pageSelect.appendChild(option);
+    }
+
+    // Auto-display the first page
+    onPageChange();
+}
+
+// Handle page change
+function onPageChange() {
+    const pageSelect = document.getElementById('pageSelect');
+    const selectedPage = parseInt(pageSelect.value);
+
+    // Display Quran pages and highlight the current one
+    displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
+}
+
+// Increment Quran page
+function incrementPage() {
+    const pageSelect = document.getElementById('pageSelect');
+    const currentIndex = pageSelect.selectedIndex;
+
+    if (currentIndex < pageSelect.options.length - 1) {
+        pageSelect.selectedIndex = currentIndex + 1;
+        onPageChange();
+    }
+}
+
+// Decrement Quran page
+function decrementPage() {
+    const pageSelect = document.getElementById('pageSelect');
+    const currentIndex = pageSelect.selectedIndex;
+
+    if (currentIndex > 0) {
+        pageSelect.selectedIndex = currentIndex - 1;
+        onPageChange();
+    }
+}
+
 
 

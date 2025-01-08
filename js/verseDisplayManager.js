@@ -135,6 +135,8 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
         const currentPageContainer = document.getElementById('currentPage');
         currentPageContainer.innerHTML = `<img src="${currentPagePath}" alt="Quran Page ${pageNumber}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
         displayNextPreviousPages(pageNumber);
+        const pageSelect = document.getElementById('pageSelect');
+        pageSelect.value = pageNumber;
 }
 
 
@@ -166,3 +168,4 @@ function displayNextPreviousPages(pageNumber) {
 function padNumber(num) {
     return String(num).padStart(3, '0');
 }
+
