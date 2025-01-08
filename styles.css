@@ -271,3 +271,12 @@ select, button, textarea, input[type="text"] {
     box-sizing: border-box; /* Ensure padding and border are included in the size */
     margin: 5px; /* Reduce margin between elements */
 }
+
+
+
+.divider {
+    width: 5px; /* Thin vertical line */
+    height: 100%; /* Full height of the top bar */
+    background-color: #ffffff; /* Light gray color */
+    margin: 0 10px; /* Space around the divider */
+}

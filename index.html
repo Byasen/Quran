@@ -13,18 +13,21 @@
         <button onclick="decrementVerse()">&#60;</button>
         <select id="verseSelect" onchange="onVerseChange()"></select>
         <button onclick="incrementVerse()">&#62;</button>
-        <input type="text" id="verseSearchInput" placeholder="ابحث عن كلمة">
-        <label>
-            <input type="checkbox" id="searchRootsCheckbox">
-            بحث باستخدام الجذور
-        </label>
-        <button onclick="searchInCSV()">ابدأ البحث</button>
-        <!-- Sidebar Toggle Button -->
         <button onclick="toggleMeanings()">اختيار التفاسير</button>
+        <div class="divider">*</div>
         <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض الصفحة</button>
         <button onclick="decrementPage()">&#60;</button>
         <select id="pageSelect" onchange="onPageChange()"></select>
         <button onclick="incrementPage()">&#62;</button>
+        <div class="divider">*</div>
+        <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
+        <button onclick="searchInCSV()">ابدأ البحث</button>
+        <label>
+            <input type="checkbox" id="searchRootsCheckbox">
+            بحث بالجذور
+        </label>
+        <!-- Sidebar Toggle Button -->
+        <div class="divider">*</div>
         <button onclick="toggleSidebar()">تدوين حسب الموضوع</button>
         <div id="sidebar" class="sidebar hidden">
             <div class="controls-container">
