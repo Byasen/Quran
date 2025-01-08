@@ -277,6 +277,6 @@ select, button, textarea, input[type="text"] {
 .divider {
     width: 5px; /* Thin vertical line */
     height: 100%; /* Full height of the top bar */
-    background-color: #ffffff; /* Light gray color */
     margin: 0 10px; /* Space around the divider */
+    font-size: 32px; /* Reduce font size */
 }
