@@ -7,38 +7,47 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>مذكرة القرآن الكريم</h1>
-
-    <div class="controls-container">
-        <label for="topicSelect">اختر الموضوع:</label> <!-- Changed text to Arabic -->
-        <select id="topicSelect" onchange="onTopicChange()"></select>
-        <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">
-        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-        <button onclick="removeTopic()">احذف الموضوع</button> <!-- Arabic button text -->
-        <button onclick="saveState()">الحفظ بملف</button> <!-- Arabic button text -->
-        <button onclick="loadState()">استرجاع من ملف</button> <!-- Arabic button text -->
-        <button onclick="exportToLocal()">حفظ بالمتصفح</button> <!-- Arabic button text -->
-        <button onclick="importFromLocal()">استرجاع من المتصفح</button> <!-- Arabic button text -->
-        
-    </div>
-
-    <div class="controls-container">
-        <label for="chapterSearchInput">ابحث في اسماء السور:</label>
-        <input type="text" id="chapterSearchInput" oninput="filterChapters()">
+    <div id="topBar" class="top-bar">
+        <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="ابحث في أسماء السور">
         <select id="chapterSelect" onchange="onChapterChange()"></select>
-        <label for="verseSelect">اختر الآية:</label> <!-- Arabic label -->
-        <button onclick="decrementVerse()">&#60;</button> 
+        <button onclick="decrementVerse()">&#60;</button>
         <select id="verseSelect" onchange="onVerseChange()"></select>
-        <!-- Add the increment button -->
-        <button onclick="incrementVerse()">&#62;</button> 
-        <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية للموضوع</button> <!-- Arabic button text -->
-    </div>
-
-    <div class="checkbox-container">
-        <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
-        <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-        <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-        <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
+        <button onclick="incrementVerse()">&#62;</button>
+        <button onclick="toggleMeanings()">اختيار التفاسير</button>
+        <div class="divider">|</div>
+        <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض الصفحة</button>
+        <button onclick="decrementPage()">&#60;</button>
+        <select id="pageSelect" onchange="onPageChange()"></select>
+        <button onclick="incrementPage()">&#62;</button>
+        <div class="divider">|</div>
+        <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
+        <button onclick="searchInCSV()">ابدأ البحث</button>
+        <label>
+            <input type="checkbox" id="searchRootsCheckbox">
+            بحث بالجذور
+        </label>
+        <!-- Sidebar Toggle Button -->
+        <div class="divider">|</div>
+        <button onclick="toggleSidebar()">تدوين حسب الموضوع</button>
+        <div id="sidebar" class="sidebar hidden">
+            <div class="controls-container">
+                <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
+                <select id="topicSelect" onchange="onTopicChange()"></select>
+                <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
+                <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
+                <button onclick="removeTopic()">احذف الموضوع</button>
+                <div class="divider">|</div>
+                <button onclick="saveState()">الحفظ بملف</button>
+                <button onclick="loadState()">استرجاع من ملف</button>
+                <button onclick="exportToLocal()">حفظ بالمتصفح</button>
+                <button onclick="importFromLocal()">استرجاع من المتصفح</button>
+            </div>
+            </div>
+        <div id="Meanings" class="checkbox-container hidden">
+            <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
+            <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
+            <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
+            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
         <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
         <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
         <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
@@ -49,36 +58,50 @@
         <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
     </div>
 
-    <!-- Loading Bar (placed under checkboxes) -->
-    <div id="loadingBarContainer">
-        <progress id="loadingBar" value="0" max="100"></progress>
-        <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
     </div>
 
-    <p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
+    
 
-    <div class="quran-pages">
-        <div id="nextPage" class="page"></div>
-        <div id="currentPage" class="page"></div>
-        <div id="previousPage" class="page"></div>
-    </div>
 
-    <hr class="horizontal-line">
+<div id="quranPagesContainer" class="quran-pages" style="display: none;">
+    <div id="nextPage" class="page"></div>
+    <div id="currentPage" class="page"></div>
+    <div id="previousPage" class="page"></div>
+</div>
 
-    <textarea id="questionInput" placeholder="أدخل الفكرة أو السؤال المراد مناقشته" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
-    <hr class="horizontal-line">
-    <textarea id="answerInput" placeholder="أدخل الإجابة العامة أو الأولية" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
-    <hr class="horizontal-line">
-    <div id="stackedVerses"></div>
+<!-- Loading Bar (placed under checkboxes) -->
+<div id="loadingBarContainer">
+    <progress id="loadingBar" value="0" max="100"></progress>
+    <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
+</div>
 
-    <div id="filePathDisplay" class="log-box"></div>
+<div id="searchResultsContainer" class="search-results-container">
+    <button onclick="hidesearchresults()">أخفاء نتائج البحث</button>
+    <!-- Search results will appear here -->
+</div>
+<p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
 
-    <script src="js/helpers.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/chapterVerseManager.js"></script>
-    <script src="js/verseDisplayManager.js"></script>
-    <script src="js/stackedVersesManager.js"></script>
-    <script src="js/stateManager.js"></script>
-    <script src="js/main.js"></script>
+
+<div id="sidebar2" class="sidebar hidden">
+    <div class="controls-container">
+        <textarea id="questionInput" placeholder="السؤال العام" rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
+        <hr class="horizontal-line">
+        <textarea id="answerInput" placeholder="الإجابة العامة " rows="4" cols="50"></textarea> <!-- Arabic placeholder -->
+        <hr class="horizontal-line">
+        <hr class="horizontal-line">
+        <div id="stackedVerses"></div>
+</div>
+</div>
+
+<div id="filePathDisplay" class="log-box"></div>
+
+
+<script src="js/helpers.js"></script>
+<script src="js/data.js"></script>
+<script src="js/chapterVerseManager.js"></script>
+<script src="js/verseDisplayManager.js"></script>
+<script src="js/stackedVersesManager.js"></script>
+<script src="js/stateManager.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

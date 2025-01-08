@@ -103,10 +103,10 @@ async function displayVerseWithAnalyses() {
         let displayContent = '<hr class="dashed-line">';
 
         // Always display the main verse text
-        displayContent += `<strong>النص</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
+        displayContent += `<strong>نص الآية</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
 
         const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-        const analysesName = ['المعاني', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
         analysesToShow.forEach((analysisType, index) => {
             const checkbox = document.getElementById(`toggle${analysisType}`);
@@ -130,43 +130,20 @@ async function displayVerseWithAnalyses() {
 
 // Function to display the corresponding Quran pages (SVG) and highlight the selected verse
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
-    if (pageNumber) {
-        const currentPagePath = `data/svg/${padNumber(pageNumber)}.svg`;
 
-        fetch(currentPagePath)
-            .then(response => response.text())
-            .then(svgText => {
-                const parser = new DOMParser();
-                const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
-                const svgElement = svgDoc.documentElement;
-
-                svgElement.setAttribute('data-page-number', pageNumber);
-                svgElement.style.width = '125%'; // Set SVG to fit the container width
-                svgElement.style.height = 'auto'; // Maintain aspect ratio
-
-                // Highlight the selected verse
-                const verseElement = svgElement.getElementById(`verse-${selectedVerse}`);
-                if (verseElement) {
-                    verseElement.setAttribute("style", "fill: blue;");
-                }
-
-                const currentPageContainer = document.getElementById('currentPage');
-                currentPageContainer.innerHTML = ''; // Clear current content
-                currentPageContainer.appendChild(svgElement);
-            });
-
-        // Display the next and previous pages
-        displayNextPreviousPages(pageNumber);
-    } else {
+        const currentPagePath = `data/png/${(pageNumber)}.png`;
         const currentPageContainer = document.getElementById('currentPage');
-        currentPageContainer.innerHTML = `<p>Page not found for this verse.</p>`;
-    }
+        currentPageContainer.innerHTML = `<img src="${currentPagePath}" alt="Quran Page ${pageNumber}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
+        displayNextPreviousPages(pageNumber);
+        const pageSelect = document.getElementById('pageSelect');
+        pageSelect.value = pageNumber;
 }
+
 
 // Function to display the next and previous Quran pages (SVG) in reversed order
 function displayNextPreviousPages(pageNumber) {
-    const nextPagePath = `data/svg/${padNumber(pageNumber + 1)}.svg`;
-    const previousPagePath = `data/svg/${padNumber(pageNumber - 1)}.svg`;
+    const nextPagePath = `data/png/${(pageNumber + 1)}.png`;
+    const previousPagePath = `data/png/${(pageNumber - 1)}.png`;
 
     const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
@@ -186,7 +163,9 @@ function displayNextPreviousPages(pageNumber) {
     }
 }
 
+
 // Helper function to pad numbers with leading zeros
 function padNumber(num) {
     return String(num).padStart(3, '0');
 }
+

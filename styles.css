@@ -3,7 +3,34 @@ body {
     text-align: center;
     padding: 50px;
     direction: rtl; /* Make body text RTL */
+    margin-top: 50px; /* Prevent overlap with the top bar */
+
 }
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f5f5f5; /* Light background */
+    color: #333; /* Dark text for contrast */
+    gap: 10px; /* Spacing between elements */
+    padding: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    z-index: 1000; /* Ensure it stays on top */
+    overflow: hidden; /* Ensures contents do not overflow the container */
+    display: flex;
+    flex-wrap: wrap; /* Enables wrapping to the next line */
+    justify-content: center; /* Align items to the left */
+    align-items: center; /* Vertically align items */
+}
+
+
+select, button {
+    padding: 5px;
+    font-size: 14px;
+}
+
 
 h1 {
     color: #3498db;
@@ -47,7 +74,6 @@ hr {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-/* Quran pages container */
 .quran-pages {
     display: flex;
     justify-content: space-between;
@@ -57,13 +83,16 @@ hr {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-/* Style for all pages (equal size and large) */
 .page {
-    flex: 1;
-    max-width: 30%; /* Ensure each page takes up about 1/3 of the container */
+    flex: 0 0 auto; /* Disable automatic resizing */
+    width: 30%; /* Default width for side pages */
     text-align: center;
     opacity: 1;
     font-family: Arial, sans-serif; /* Set font to Arial */
+}
+
+.page.middle {
+    width: 30%; /* Set width for the middle page */
 }
 
 /* Ensure all images are large but fit within their containers */
@@ -170,4 +199,84 @@ input[type="text"] {
     #nextPage {
         order: 3;
     }
+}
+
+
+.search-results-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    direction: rtl;
+    text-align: right;
+    font-family: Arial, sans-serif; /* Match overall font style */
+    max-height: 300px; /* Limit the height */
+    overflow-y: auto; /* Add scroll for overflowing content */
+    display: none;
+}
+
+
+.search-result {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+}
+
+.search-result button {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+
+/* Sidebar styles */
+.sidebar {
+    display: none; /* Initially hidden */
+}
+
+/* Toggle visibility */
+.hidden {
+    display: none !important;
+}
+
+
+
+
+
+/* Sidebar styles */
+.Meanings {
+    display: none; /* Initially hidden */
+}
+
+#searchRootsCheckbox {
+    margin-left: 10px;
+}
+
+
+#pageSelect {
+    padding: 5px;
+    font-size: 14px;
+    margin: 5px;
+}
+
+
+select, button, textarea, input[type="text"] {
+    padding: 5px; /* Reduce padding inside the box */
+    font-size: 16px; /* Reduce font size */
+    height: auto; /* Let the height adjust automatically */
+    width: auto; /* Adjust width automatically based on content */
+    box-sizing: border-box; /* Ensure padding and border are included in the size */
+    margin: 5px; /* Reduce margin between elements */
+}
+
+
+
+.divider {
+    width: 5px; /* Thin vertical line */
+    height: 100%; /* Full height of the top bar */
+    margin: 0 10px; /* Space around the divider */
+    font-size: 32px; /* Reduce font size */
 }
