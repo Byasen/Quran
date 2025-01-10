@@ -28,7 +28,7 @@
         </label>
         <!-- Sidebar Toggle Button -->
         <div class="divider">|</div>
-        <button onclick="toggleSidebar()">تدوين حسب الموضوع</button>
+        <button onclick="toggleSidebar()">تصنيف الآيات حسب الموضوع</button>
         <div id="sidebar" class="sidebar hidden">
             <div class="controls-container">
                 <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
@@ -37,10 +37,10 @@
                 <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
                 <button onclick="removeTopic()">احذف الموضوع</button>
                 <div class="divider">|</div>
-                <button onclick="saveState()">الحفظ بملف</button>
-                <button onclick="loadState()">استرجاع من ملف</button>
-                <button onclick="exportToLocal()">حفظ بالمتصفح</button>
-                <button onclick="importFromLocal()">استرجاع من المتصفح</button>
+                <button onclick="saveState()">حفظ الموضوعات بملف</button>
+                <button onclick="loadState()">استرجاع الموضوعات من ملف</button>
+                <button onclick="exportToLocal()">حفظ الموضوعات بالمتصفح</button>
+                <button onclick="importFromLocal()">استرجاع الموضوعات من المتصفح</button>
             </div>
             </div>
         <div id="Meanings" class="checkbox-container hidden">
