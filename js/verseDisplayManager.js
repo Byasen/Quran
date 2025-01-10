@@ -137,6 +137,7 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
         displayNextPreviousPages(pageNumber);
         const pageSelect = document.getElementById('pageSelect');
         pageSelect.value = pageNumber;
+        onPageChange();
 }
 
 
