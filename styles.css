@@ -278,13 +278,13 @@ select, button, textarea, input[type="text"] {
     width: 100%; /* Same as the full width of stacked verses */
     box-sizing: border-box; /* Include padding and border in the width/height calculation */
     padding: 10px; /* Match the padding of stacked verses */
-    border: 1px solid #8c00ff; /* Match the border style of stacked verses */
-    background-color: #ffffff; /* Match the background color of stacked verses */
+    border: 1px solid #ddd;
     font-family: Arial, sans-serif; /* Match font */
     font-size: 18px; /* Ensure similar font size */
     text-align: right; /* Align text to the right for Arabic */
     direction: rtl; /* Right-to-left direction for Arabic */
     margin-top: 20px; /* Space above the textarea */
+    background-color: #f9f9f9;
 }
 
 
@@ -295,12 +295,36 @@ select, button, textarea, input[type="text"] {
     text-align: right; /* Align stacked verses text to the right */
     padding: 10px;
     border: 1px solid #ddd;
-    background-color: #f9f9f9;
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
 
-#ansLablel {
+
+.label {
+    text-align: right; /* Align text inside the label to the right */
+    direction: rtl; /* Ensure proper right-to-left text flow */
+    display: block; /* Make the label take up the full width */
+    width: 100%; /* Ensure it spans the full width of the container */
+    margin: 0 0 5px 0; /* Add spacing below the label */
+}
+
+label {
+    text-align: right; /* Align text inside the <label> */
+    display: inline-block; /* Prevent the text from centering vertically */
+    width: auto; /* Ensure the label doesn't stretch */
     font-size: 18px; /* Ensure similar font size */
-    -webkit-text-fill-color: #8c00ff;
+}
+
+#stackedVerses {
+    display: flex;
+    flex-direction: column; /* Stack the containers vertically */
+    gap: 20px; /* Add spacing between each container */
+}
+
+.verse-container {
+    border: 1px solid #ddd; /* Light border around each container */
+    padding: 10px; /* Add inner spacing */
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
