@@ -1,17 +1,19 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    padding: 50px;
     direction: rtl; /* Make body text RTL */
-    margin-top: 50px; /* Prevent overlap with the top bar */
+    margin-right: 50px;
+    margin-left: 50px;
+
 
 }
 
 .top-bar {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
-    width: 100%;
+    margin-right: -50px;
+    width: calc(100% + 100px);
     background-color: #f5f5f5; /* Light background */
     color: #333; /* Dark text for contrast */
     gap: 10px; /* Spacing between elements */
@@ -23,25 +25,8 @@ body {
     flex-wrap: wrap; /* Enables wrapping to the next line */
     justify-content: center; /* Align items to the left */
     align-items: center; /* Vertically align items */
-}
 
 
-select, button {
-    padding: 5px;
-    font-size: 14px;
-}
-
-
-h1 {
-    color: #3498db;
-    font-family: Arial, sans-serif;
-}
-
-select, button, textarea {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
 p, .verse {
@@ -53,26 +38,12 @@ p, .verse {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #333;
-    margin: 20px 0;
-}
-
 .dashed-line {
     border-top: 1px dashed #333;
     margin-top: 15px;
     margin-bottom: 15px;
 }
 
-.log-box {
-    border: 1px solid red;
-    padding: 10px;
-    color: red;
-    margin-top: 20px;
-    display: none; /* Initially hidden */
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
 
 .quran-pages {
     display: flex;
@@ -97,8 +68,54 @@ hr {
 
 /* Ensure all images are large but fit within their containers */
 .page img {
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
+}
+
+
+/* Media query for smaller screens (mobile) */
+@media (max-width: 768px) {
+
+    body {
+        margin-right: 10px;
+        margin-left: 10px;
+    
+    
+    }
+
+    .top-bar {
+        margin-right: -10px;
+        width: calc(100% + 20px);
+    }
+
+    .quran-pages {
+        flex-direction: column; /* Stack pages vertically */
+        align-items: center; /* Center the items */
+        width: 100%; /* Ensure the container spans the full width */
+    }
+
+    .page {
+        width: 100%; /* Make each page span the full width */
+        max-width: 100%; /* Ensure it doesn't exceed the viewport width */
+        margin-bottom: 20px; /* Add some space between each page */
+        text-align: center; /* Center content within the page */
+    }
+
+    .page img {
+        width: 100%; /* Scale the image to fit the full width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Change the order of elements for mobile view */
+    #previousPage {
+        order: 1;
+    }
+    #currentPage {
+        order: 2;
+    }
+    #nextPage {
+        order: 3;
+    }
 }
 
 
@@ -122,28 +139,6 @@ textarea {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-.controls-container select,
-.controls-container button,
-input[type="text"] {
-    margin-right: 10px; /* Adds space between elements */
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
-
-.controls-container button {
-    flex-shrink: 0; /* Prevents buttons from shrinking */
-}
-
-/* Ensure the input has the same height as buttons */
-input[type="text"] {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    height: 40px; /* Match the height of the buttons */
-    box-sizing: border-box; /* Ensure padding is included in the height */
-    direction: rtl; /* RTL input field */
-    text-align: right; /* Align input text to the right */
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
 
 /* Checkbox container styles */
 .checkbox-container {
@@ -152,45 +147,12 @@ input[type="text"] {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-/* Ensure checkboxes are displayed in a row */
-.checkbox-container label {
-    margin-right: 20px;
-    font-size: 16px;
-    direction: rtl;
-    text-align: right;
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
 
 /* Common class for RTL justification for all text types */
 .rtl-text {
     direction: rtl;
     text-align: right;
     font-family: Arial, sans-serif; /* Set font to Arial */
-}
-
-/* Media query for smaller screens (mobile) */
-@media (max-width: 768px) {
-    .quran-pages {
-        flex-direction: column; /* Stack pages vertically */
-        align-items: center; /* Center the items */
-    }
-
-    .page {
-        max-width: 100%; /* Make each page take the full width */
-        margin-bottom: 20px; /* Add some space between each page */
-        font-family: Arial, sans-serif; /* Set font to Arial */
-    }
-
-    /* Change the order of elements for mobile view */
-    #previousPage {
-        order: 1;
-    }
-    #currentPage {
-        order: 2;
-    }
-    #nextPage {
-        order: 3;
-    }
 }
 
 
@@ -233,8 +195,6 @@ input[type="text"] {
 .hidden {
     display: none !important;
 }
-
-
 
 
 
