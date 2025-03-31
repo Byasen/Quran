@@ -8,11 +8,6 @@
 </head>
 <body id=content>
     <div id="topBar" class="top-bar">
-        <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="ابحث في أسماء السور">
-        <button onclick="toggleMeanings()">اختيار التفاسير</button>
-        <div class="divider">|</div>
-        <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض الصفحة</button>
-        <div class="divider">|</div>
         <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
         <button onclick="searchInCSV()">ابدأ البحث</button>
         <label>
@@ -37,22 +32,10 @@
                 <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
             </div>
             </div>
-        <div id="Meanings" class="checkbox-container hidden">
-            <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
-            <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-            <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
-        <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
-        <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
-        <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
-        <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
-        <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
-        <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
-        <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
-        <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
-    </div>
 
+    
 </div>
+
 
 <!-- Loading Bar (placed under checkboxes) -->
 <div id="loadingBarContainer">
@@ -65,10 +48,39 @@
     <!-- Search results will appear here -->
 </div>
 
-<div id="quranPagesContainer" class="quran-pages" style="display: flex;">
-    <div id="nextPage" class="page"></div>
+<div id="quranPagesContainer" class="quran-pages">
+    <div id="currentVerse" class="control">
+        <div class="chapterVerseSelector">
+            <div>
+                <select id="chapterSelect" onchange="onChapterChange()"></select>
+            </div>
+            <button onclick="incrementVerse()">&#62;</button>
+            <select id="verseSelect" onchange="onVerseChange()"></select>
+            <button onclick="decrementVerse()">&#60;</button>
+        </div>
+        <p id="verseDisplay"></p> <!-- Arabic placeholder text -->
+        <div id="currentVerseAnalysis" class="analysis">
+            <p id="meaningsDisplay"></p> <!-- Arabic placeholder text -->
+        </div>
+        <div id="Meanings" class="checkbox-container">
+            <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
+            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
+            <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
+            <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
+            <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
+            <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
+            <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
+            <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
+            <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+            <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
+            <div>
+                <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
+                <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
+            </div>
+        </div>
+    </div>
     <div id="currentPage" class="page"></div>
-    <div id="previousPage" class="page"></div>
+    <div id="nextPage" class="page"></div>
 </div>
 
 <div>
@@ -77,12 +89,7 @@
 <button onclick="incrementPage()">&#62;</button>
 </div>
 
-<div class="chapterVerseSelector">
-    <select id="chapterSelect" onchange="onChapterChange()"></select>
-    <button onclick="incrementVerse()">&#62;</button>
-    <select id="verseSelect" onchange="onVerseChange()"></select>
-    <button onclick="decrementVerse()">&#60;</button>  
-</div>
+
 
 <div class="dropdown">
     <input type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
@@ -90,7 +97,6 @@
     </div>
 </div>
 
-<p id="verseDisplay"></p> <!-- Arabic placeholder text -->
 
 <div id="sidebar2" class="sidebar hidden">
     <div class="controls-container">

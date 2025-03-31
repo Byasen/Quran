@@ -46,18 +46,29 @@ p, .verse {
 
 
 .quran-pages {
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 0px;
-    flex-direction: row-reverse; /* Reverse the order for RTL */
-    font-family: Arial, sans-serif; /* Set font to Arial */
+    display: flex; /* Ensure it uses flexbox for layout */
+    flex-direction: row-reverse; /* Reverse the order for RTL alignment */
+    align-items: flex-end; /* Align items to the bottom */
+    direction: ltr; /* Set text direction to right-to-left */
+    text-align: right; /* Align text to the right */
+    justify-content: flex-start; /* Align items starting from the right */
 }
 
 .page {
     width: 25%; /* Default width for side pages */
-    text-align: center;
+    margin-right: 100px;
 }
 
+.control {
+    width: 25%; /* Default width for side pages */
+}
+
+.analysis {
+    text-align: left;
+    height: 420px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
 
 /* Media query for smaller screens (mobile) */
 @media (max-width: 768px) {

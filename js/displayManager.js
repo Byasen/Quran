@@ -72,6 +72,7 @@ async function displayVerseWithAnalyses() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
     const verseDisplay = document.getElementById('verseDisplay');
+    const meaningsDisplay = document.getElementById('meaningsDisplay');
 
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
@@ -80,10 +81,11 @@ async function displayVerseWithAnalyses() {
     console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
-        let displayContent = '<hr class="dashed-line">';
+        let verseDisplayContent = '<hr class="dashed-line">';
+        let meaningsDisplayContent = '';
 
         // Always display the main verse text
-        displayContent += `<strong>نص الآية</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
+        verseDisplayContent += `<strong>نص الآية</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
 
         const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
         const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
@@ -96,14 +98,16 @@ async function displayVerseWithAnalyses() {
 
                 // Use the lowercase key to access the analysis data
                 const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
-                displayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${analysisContent || 'لا يوجد مدخل لهذه الآية'}</div><br><hr class="dashed-line">`;
+                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${analysisContent || 'لا يوجد مدخل لهذه الآية'}</div><br><hr class="dashed-line">`;
             }
         });
 
-        verseDisplay.innerHTML = displayContent || 'No content selected.';
+        verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
+        meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
         displayQuranPagesWithHighlight(verseWithAnalyses.verseData.page, selectedVerse);
     } else {
         verseDisplay.textContent = 'Verse or analyses not available.';
+        meaningsDisplay.textContent = 'Verse or analyses not available.';
     }
 }
 
@@ -124,9 +128,9 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 // Function to display the next and previous Quran pages (SVG) in reversed order
 function displayNextPreviousPages(pageNumber) {
     const nextPagePath = `data/png/${(pageNumber + 1)}.png`;
-    const previousPagePath = `data/png/${(pageNumber - 1)}.png`;
+    //const previousPagePath = `data/png/${(pageNumber - 1)}.png`;
 
-    const previousPageContainer = document.getElementById('previousPage');
+    //const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
 
     // Display Current+1 (next) on the left
@@ -137,11 +141,11 @@ function displayNextPreviousPages(pageNumber) {
     }
 
     // Display Current-1 (previous) on the right
-    if (pageNumber > 1) {
-        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-    } else {
-        previousPageContainer.innerHTML = `<p>No previous page</p>`;
-    }
+    //if (pageNumber > 1) {
+    //    previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
+    //} else {
+    //    previousPageContainer.innerHTML = `<p>No previous page</p>`;
+    //}
 }
 
 
