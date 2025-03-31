@@ -28,8 +28,9 @@ function decrementVerse() {
 
 // Event triggered when the Surah (chapter) changes
 function onChapterChange() {
-    const chapterSelect = document.getElementById('chapterSelect');
+    const chapterSelect = document.getElementById('dropdownInput');
     const selectedChapter = chapterSelect.value;
+
     
     // Fetch the verses of the selected chapter
     fetchSurahVerses(selectedChapter).then(() => {
@@ -43,6 +44,14 @@ function onChapterChange() {
         // Display the selected verse with analyses (the first verse)
         displayVerseWithAnalyses();
     });
+}
+
+
+// Function called when a chapter is selected
+function onChapterSelect(selectedChapter) {
+    console.log("Selected Chapter:", selectedChapter);
+    // Perform necessary actions with the selected chapter
+    onChapterChange();
 }
 
 
@@ -417,16 +426,24 @@ function selectSearchedVerseFromSearchResults(chapter, verse) {
 }
 
 
+let QuranPagesPressed = 1;
+
 function toggleQuranPages() {
     const quranPagesContainer = document.getElementById('quranPagesContainer');
     const toggleBtn = document.getElementById('toggleQuranPagesBtn');
 
-    if (quranPagesContainer.style.display === 'none') {
-        quranPagesContainer.style.display = 'flex';
+    if (QuranPagesPressed == 1) {
+        nextPage.style.width = '10%';
+        currentPage.style.width = '10%';
+        previousPage.style.width = '10%';
         toggleBtn.textContent = 'اخفاء الصفحة';
+        QuranPagesPressed = 0;
     } else {
-        quranPagesContainer.style.display = 'none';
-        toggleBtn.textContent = 'عرض الصفحة';
+        nextPage.style.width = '25%';
+        currentPage.style.width = '25%';
+        previousPage.style.width = '25%';
+        toggleBtn.textContent = 'اظهار الصفحة';
+        QuranPagesPressed = 1;
     }
 }
 
@@ -512,4 +529,29 @@ function decrementPage() {
     }
 }
 
+
+function toggleDropdown() {
+    document.getElementById("dropdownList").style.display = "block";
+}
+
+function filterFunction() {
+    let input = document.getElementById("dropdownInput");
+    let filter = input.value.toLowerCase();
+    let divs = document.getElementById("dropdownList").getElementsByTagName("div");
+    for (let i = 0; i < divs.length; i++) {
+        let txtValue = divs[i].textContent || divs[i].innerText;
+        divs[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+    }
+}
+
+function selectItem(element) {
+    document.getElementById("dropdownInput").value = element.innerText;
+    document.getElementById("dropdownList").style.display = "none";
+}
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest(".dropdown")) {
+        document.getElementById("dropdownList").style.display = "none";
+    }
+});
 

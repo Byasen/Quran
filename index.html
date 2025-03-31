@@ -9,16 +9,9 @@
 <body id=content>
     <div id="topBar" class="top-bar">
         <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="ابحث في أسماء السور">
-        <select id="chapterSelect" onchange="onChapterChange()"></select>
-        <button onclick="decrementVerse()">&#60;</button>
-        <select id="verseSelect" onchange="onVerseChange()"></select>
-        <button onclick="incrementVerse()">&#62;</button>
         <button onclick="toggleMeanings()">اختيار التفاسير</button>
         <div class="divider">|</div>
         <button id="toggleQuranPagesBtn" onclick="toggleQuranPages()">عرض الصفحة</button>
-        <button onclick="decrementPage()">&#60;</button>
-        <select id="pageSelect" onchange="onPageChange()"></select>
-        <button onclick="incrementPage()">&#62;</button>
         <div class="divider">|</div>
         <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
         <button onclick="searchInCSV()">ابدأ البحث</button>
@@ -60,15 +53,16 @@
     </div>
 
     </div>
+    <div class="dropdown">
+        <input type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
+        <div id="dropdownList" class="dropdown-content">
+        </div>
+    </div>
 
-    
-
-
-<div id="quranPagesContainer" class="quran-pages" style="display: none;">
-    <div id="nextPage" class="page"></div>
-    <div id="currentPage" class="page"></div>
-    <div id="previousPage" class="page"></div>
-</div>
+<select id="chapterSelect" onchange="onChapterChange()"></select>
+<button onclick="decrementVerse()">&#60;</button>
+<select id="verseSelect" onchange="onVerseChange()"></select>
+<button onclick="incrementVerse()">&#62;</button>
 
 <!-- Loading Bar (placed under checkboxes) -->
 <div id="loadingBarContainer">
@@ -80,8 +74,18 @@
     <button onclick="hidesearchresults()">أخفاء نتائج البحث</button>
     <!-- Search results will appear here -->
 </div>
-<p id="verseDisplay">اختر آية</p> <!-- Arabic placeholder text -->
 
+<div id="quranPagesContainer" class="quran-pages" style="display: flex;">
+    <div id="nextPage" class="page"></div>
+    <div id="currentPage" class="page"></div>
+    <div id="previousPage" class="page"></div>
+</div>
+
+<button onclick="decrementPage()">&#60;</button>
+<select id="pageSelect" onchange="onPageChange()"></select>
+<button onclick="incrementPage()">&#62;</button>
+
+<p id="verseDisplay"></p> <!-- Arabic placeholder text -->
 
 <div id="sidebar2" class="sidebar hidden">
     <div class="controls-container">

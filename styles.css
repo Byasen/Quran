@@ -46,30 +46,16 @@ p, .verse {
 
 
 .quran-pages {
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 0px;
     flex-direction: row-reverse; /* Reverse the order for RTL */
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
 .page {
-    flex: 0 0 auto; /* Disable automatic resizing */
-    width: 30%; /* Default width for side pages */
+    width: 25%; /* Default width for side pages */
     text-align: center;
-    opacity: 1;
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
-
-.page.middle {
-    width: 30%; /* Set width for the middle page */
-}
-
-/* Ensure all images are large but fit within their containers */
-.page img {
-    max-width: 90%;
-    height: auto;
 }
 
 
@@ -288,3 +274,34 @@ label {
     border-radius: 8px; /* Rounded corners for a modern look */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+}
+.dropdown input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100%;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.dropdown-content div {
+    padding: 8px;
+    cursor: pointer;
+}
+.dropdown-content div:hover {
+    background-color: #ddd;
+}
+
