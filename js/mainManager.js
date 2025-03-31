@@ -7,7 +7,7 @@ window.onload = async function () {
     tempSurah = await response.json();
     const tempVerseCount =  tempSurah.verses.length;
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-    selectStackedVerse(randomChapter, randomVerse);
+    selectThisVerse(randomChapter, randomVerse);
     await loadCSVData(); // Load `quranText.csv` file
     populatePages(); // Initialize the Quran page dropdown
 

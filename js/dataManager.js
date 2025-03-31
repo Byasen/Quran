@@ -124,7 +124,18 @@ function populatePages() {
         option.textContent = `${i}`;
         pageSelect.appendChild(option);
     }
+}
 
-    // Auto-display the first page
-    onPageChange();
+
+
+// Function to handle selecting a stacked verse
+function selectThisVerse(chapterNumber, verseNumber) {
+    // Set the dropdowns to the correct Surah and Verse
+    document.getElementById('chapterSelect').value = chapterNumber;
+    fetchSurahVerses(chapterNumber).then(() => {
+        document.getElementById('verseSelect').value = verseNumber;
+
+        // Call displayVerseWithAnalyses to update the verse and analyses automatically
+        displayVerseWithAnalyses(); // Update the verse display
+    });
 }

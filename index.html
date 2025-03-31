@@ -52,17 +52,7 @@
         <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
     </div>
 
-    </div>
-    <div class="dropdown">
-        <input type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
-        <div id="dropdownList" class="dropdown-content">
-        </div>
-    </div>
-
-<select id="chapterSelect" onchange="onChapterChange()"></select>
-<button onclick="decrementVerse()">&#60;</button>
-<select id="verseSelect" onchange="onVerseChange()"></select>
-<button onclick="incrementVerse()">&#62;</button>
+</div>
 
 <!-- Loading Bar (placed under checkboxes) -->
 <div id="loadingBarContainer">
@@ -81,9 +71,24 @@
     <div id="previousPage" class="page"></div>
 </div>
 
+<div>
 <button onclick="decrementPage()">&#60;</button>
 <select id="pageSelect" onchange="onPageChange()"></select>
 <button onclick="incrementPage()">&#62;</button>
+</div>
+
+<div class="chapterVerseSelector">
+    <select id="chapterSelect" onchange="onChapterChange()"></select>
+    <button onclick="incrementVerse()">&#62;</button>
+    <select id="verseSelect" onchange="onVerseChange()"></select>
+    <button onclick="decrementVerse()">&#60;</button>  
+</div>
+
+<div class="dropdown">
+    <input type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
+    <div id="dropdownList" class="dropdown-content">
+    </div>
+</div>
 
 <p id="verseDisplay"></p> <!-- Arabic placeholder text -->
 

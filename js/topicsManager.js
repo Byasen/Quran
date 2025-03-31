@@ -17,7 +17,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
             ${verseData.text.ar}
             <br>
             <button onclick="removeVerse(this)">إزالة</button>
-            <button onclick="selectStackedVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
+            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
             <button onclick="moveVerseUp(this)">أعلى</button>
             <button onclick="moveVerseDown(this)">أسفل</button>
         `;
@@ -44,18 +44,6 @@ function removeVerse(button) {
     if (dashedLine && dashedLine.classList.contains('dashed-line')) {
         dashedLine.remove();
     }
-}
-
-// Function to handle selecting a stacked verse
-function selectStackedVerse(chapterNumber, verseNumber) {
-    // Set the dropdowns to the correct Surah and Verse
-    document.getElementById('chapterSelect').value = chapterNumber;
-    fetchSurahVerses(chapterNumber).then(() => {
-        document.getElementById('verseSelect').value = verseNumber;
-
-        // Call displayVerseWithAnalyses to update the verse and analyses automatically
-        displayVerseWithAnalyses(); // Update the verse display
-    });
 }
 
 function moveVerseUp(button) {

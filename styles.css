@@ -305,3 +305,11 @@ label {
     background-color: #ddd;
 }
 
+.chapterVerseSelector {
+    display: flex; /* Ensure it uses flexbox for layout */
+    flex-direction: row-reverse; /* Reverse the order for RTL alignment */
+    align-items: flex-end; /* Align items to the bottom */
+    direction: ltr; /* Set text direction to right-to-left */
+    text-align: right; /* Align text to the right */
+    justify-content: flex-start; /* Align items starting from the right */
+}
