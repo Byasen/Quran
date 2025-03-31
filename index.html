@@ -8,22 +8,6 @@
 </head>
 <body id=content>
 
-    <button onclick="toggleSidebar()">تصنيف الآيات حسب الموضوع</button>
-
-    <div class="controls-container">
-        <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
-        <div class="divider">|</div>
-        <select id="topicSelect" onchange="onTopicChange()"></select>
-        <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
-        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-        <button onclick="removeTopic()">احذف الموضوع</button>
-        <div class="divider">|</div>
-        <button onclick="saveState()">حفظ التغييرات بملف</button>
-        <button onclick="loadState()">استرجاع التغييرات من ملف</button>
-        <button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button>
-        <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
-    </div>   
-
 <!-- Loading Bar (placed under checkboxes) -->
 <div id="loadingBarContainer">
     <progress id="loadingBar" value="0" max="100"></progress>
@@ -31,12 +15,23 @@
 </div>
 
 
-<div id="sidebar2" class="sidebar hidden">
+<button onclick="toggleSidebar()">تصنيف الآيات حسب الموضوع</button>
+
+<div id="topicControl" class="sidebar">
+    <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
+    <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
+    <button onclick="removeTopic()">احذف الموضوع</button>
+    <button onclick="saveState()">حفظ التغييرات بملف</button>
+    <button onclick="loadState()">استرجاع التغييرات من ملف</button>
+    <button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button>
+    <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
+</div>   
+
+<div id="topicResults" class="topicResultsClass hidden">
     <div class="controls-container">
-        <div style="border-top: 1px width: 100%; height: 0; margin: 50px 50px;"></div>
         <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
         <div id="ansLablel" class="label">
-            <label>الفكرة العامة للموضوع</label>
+            <select id="topicSelect" onchange="onTopicChange()"></select> <label>الفكرة العامة للموضوع</label>
         </div>
         <textarea id="answerInput" placeholder="الإجابة العامة"></textarea> <!-- Arabic placeholder -->
         <div style="border-top: 1px dashed #333; width: 100%; height: 0; margin: 15px 15px;"></div>
@@ -46,6 +41,9 @@
         <div id="stackedVerses"></div>
     </div>
 </div>
+
+
+
 
 <div id="quranPagesContainer" class="quran-pages">
     <div id="currentVerse" class="verseControl">
@@ -58,6 +56,9 @@
             <button onclick="decrementVerse()">&#60;</button>
         </div>
         <p id="verseDisplay"></p> <!-- Arabic placeholder text -->
+        <div id='addVerseButton' class="addVerseClass hidden">
+        <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
+        </div>
         <div id="currentVerseAnalysis" class="analysis">
             <p id="meaningsDisplay"></p> <!-- Arabic placeholder text -->
         </div>

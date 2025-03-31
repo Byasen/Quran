@@ -171,15 +171,31 @@ function toggleQuranPages() {
     }
 }
 
-function toggleSidebar() {
 
-    const sidebar2 = document.getElementById('sidebar2');
+
+function toggleSidebar() {
+    const sidebar2 = document.getElementById('topicResults');
     if (sidebar2.classList.contains('hidden')) {
         sidebar2.classList.remove('hidden');
         sidebar2.style.display = 'block';
     } else {
         sidebar2.classList.add('hidden');
         sidebar2.style.display = 'none';
+    }
+    var sidebar = document.getElementById("topicControl");
+    if (sidebar.style.left === "0px") {
+        sidebar.style.left = "-250px";
+    } else {
+        sidebar.style.left = "0px";
+    }
+
+    const AddVerse = document.getElementById('addVerseButton');
+    if (AddVerse.classList.contains('hidden')) {
+        AddVerse.classList.remove('hidden');
+        AddVerse.style.display = 'block';
+    } else {
+        AddVerse.classList.add('hidden');
+        AddVerse.style.display = 'none';
     }
 
 }
