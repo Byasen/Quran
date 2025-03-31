@@ -290,30 +290,117 @@ function addOrEditTopic() {
     }
 }
 
-function removeTopic() {
-    const topicSelect = document.getElementById('topicSelect');
-    const selectedTopicIndex = topicSelect.selectedIndex;
 
-    // Remove the selected topic from the topics array
-    const selectedTopic = topicSelect.value;
-    topics = topics.filter(topic => topic.topicName !== selectedTopic);
 
-    // Repopulate the topics dropdown
-    populateTopicsDropdown();
 
-    // Determine the next topic to select
-    if (topics.length > 0) {
-        const nextIndex = selectedTopicIndex >= topics.length ? topics.length - 1 : selectedTopicIndex;
-        topicSelect.selectedIndex = nextIndex;
+// Load a saved state from a file (modified for topics)
+function loadState() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
 
-        // Restore the state for the new selected topic
-        restoreState();
-    } else {
-        // Clear the UI if no topics are available
-        document.getElementById('stackedVerses').innerHTML = '';
-        document.getElementById('questionInput').value = '';
-        document.getElementById('answerInput').value = '';
-        console.log("No topics available.");
-    }
+    fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = async function (e) {
+            try {
+                const fullState = JSON.parse(e.target.result);
+
+                // Log the parsed JSON to verify the structure
+                console.log("Parsed JSON:", fullState);
+
+                // Restore the topics
+                topics = fullState.topics || [];
+                populateTopicsDropdown();
+
+                // Restore the current topic
+                const currentTopic = fullState.currentTopic || '';
+                document.getElementById('topicSelect').value = currentTopic;
+
+                const topic = topics.find(topic => topic.topicName === currentTopic);
+                if (topic) {
+                    document.getElementById('questionInput').value = topic.questionInput || '';
+                    document.getElementById('answerInput').value = topic.answerInput || '';
+
+                    // Clear current stacked verses
+                    document.getElementById('stackedVerses').innerHTML = '';
+
+                    // Prepare the verses to fetch
+                    const versesToFetch = topic.verses.map(({ surahNumber, verseNumber }) => ({ surahNumber, verseNumber }));
+
+                    // Batch fetch the verses
+                    const fetchedVerses = await fetchVersesBatch(versesToFetch);
+
+                    // Iterate through the fetched verses and add them to the stack
+                    for (i = fetchedVerses.length - 1; i >= 0; i--){
+                        const { surahNumber, verseNumber, verseNotes } = topic.verses[i];
+                        const verseData = fetchedVerses[i];
+
+                        if (verseData) {
+                            // Add the verse to the stacked verses
+                            await addVerse(surahNumber, verseNumber);
+
+                            // Update the notes for the newly added verse
+                            const stackedVerses = document.getElementById('stackedVerses').children;
+                            const lastVerseDiv = stackedVerses[0]; // Get the most recently added verse
+                            const textArea = lastVerseDiv.querySelector('textarea');
+                            if (textArea) {
+                                textArea.value = verseNotes || "";
+                            }
+                        }
+                    }
+                }
+
+                // Restore the current chapter and verse
+                const currentChapter = fullState.currentChapter || '';
+                const currentVerse = fullState.currentVerse || '';
+                document.getElementById('chapterSelect').value = currentChapter;
+                await fetchSurahVerses(currentChapter);
+                document.getElementById('verseSelect').value = currentVerse;
+
+                // Display the verse with analyses
+                displayVerseWithAnalyses();
+
+                console.log("State loaded successfully.");
+            } catch (error) {
+                console.error("Error parsing or restoring state:", error.message);
+            }
+        };
+
+        if (file) {
+            reader.readAsText(file);
+        }
+    };
+
+    fileInput.click();
 }
 
+
+
+
+
+// Import the template data from "data/researches/template.json"
+function importTemplateData() {
+    fetch('stored/all.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Template file not found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Populate the topics dropdown with the newly loaded template data
+            topics = data.topics || [];
+            populateTopicsDropdown();
+
+            // Optionally, auto-select the first topic after loading
+            if (topics.length > 0) {
+                document.getElementById('topicSelect').value = topics[0].topicName;
+                restoreState(); // Restore the first topic's state
+            }
+        })
+        .catch(error => {
+            console.error("Error loading template data:", error.message);
+        });
+}

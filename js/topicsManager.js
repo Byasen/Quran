@@ -78,3 +78,31 @@ function moveVerseDown(button) {
 
 
 
+function removeTopic() {
+    const topicSelect = document.getElementById('topicSelect');
+    const selectedTopicIndex = topicSelect.selectedIndex;
+
+    // Remove the selected topic from the topics array
+    const selectedTopic = topicSelect.value;
+    topics = topics.filter(topic => topic.topicName !== selectedTopic);
+
+    // Repopulate the topics dropdown
+    populateTopicsDropdown();
+
+    // Determine the next topic to select
+    if (topics.length > 0) {
+        const nextIndex = selectedTopicIndex >= topics.length ? topics.length - 1 : selectedTopicIndex;
+        topicSelect.selectedIndex = nextIndex;
+
+        // Restore the state for the new selected topic
+        restoreState();
+    } else {
+        // Clear the UI if no topics are available
+        document.getElementById('stackedVerses').innerHTML = '';
+        document.getElementById('questionInput').value = '';
+        document.getElementById('answerInput').value = '';
+        console.log("No topics available.");
+    }
+}
+
+

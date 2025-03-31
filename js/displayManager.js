@@ -1,23 +1,3 @@
-// Show the loading bar and status
-function showLoadingStatus(message) {
-    const loadingBar = document.getElementById('loadingBar');
-    const loadingStatus = document.getElementById('loadingStatus');
-    const loadingBarContainer = document.getElementById('loadingBarContainer');
-
-    loadingBarContainer.style.display = 'block';
-    loadingStatus.textContent = message;
-
-    // Simulate progress (for demonstration, you can adjust it)
-    loadingBar.value += 10;
-    if (loadingBar.value > 100) loadingBar.value = 0; // Reset if it exceeds 100
-}
-
-// Hide the loading bar once loading is complete
-function hideLoadingStatus() {
-    const loadingBarContainer = document.getElementById('loadingBarContainer');
-    loadingBarContainer.style.display = 'none';
-}
-
 // Fetch a specific analysis for a verse (individual fetch)
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
@@ -165,8 +145,86 @@ function displayNextPreviousPages(pageNumber) {
 }
 
 
-// Helper function to pad numbers with leading zeros
-function padNumber(num) {
-    return String(num).padStart(3, '0');
+
+
+let QuranPagesPressed = 1;
+function toggleQuranPages() {
+    const quranPagesContainer = document.getElementById('quranPagesContainer');
+    const toggleBtn = document.getElementById('toggleQuranPagesBtn');
+
+    if (QuranPagesPressed == 1) {
+        nextPage.style.width = '10%';
+        currentPage.style.width = '10%';
+        previousPage.style.width = '10%';
+        toggleBtn.textContent = 'اخفاء الصفحة';
+        QuranPagesPressed = 0;
+    } else {
+        nextPage.style.width = '25%';
+        currentPage.style.width = '25%';
+        previousPage.style.width = '25%';
+        toggleBtn.textContent = 'اظهار الصفحة';
+        QuranPagesPressed = 1;
+    }
 }
+
+
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        sidebar.style.display = 'block';
+    } else {
+        sidebar.classList.add('hidden');
+        sidebar.style.display = 'none';
+    }
+
+    const sidebar2 = document.getElementById('sidebar2');
+    if (sidebar2.classList.contains('hidden')) {
+        sidebar2.classList.remove('hidden');
+        sidebar2.style.display = 'block';
+    } else {
+        sidebar2.classList.add('hidden');
+        sidebar2.style.display = 'none';
+    }
+
+}
+
+
+function toggleMeanings() {
+    const sidebar = document.getElementById('Meanings');
+    if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        sidebar.style.display = 'block';
+    } else {
+        sidebar.classList.add('hidden');
+        sidebar.style.display = 'none';
+    }
+}
+
+
+function toggleDropdown() {
+    document.getElementById("dropdownList").style.display = "block";
+}
+
+function filterFunction() {
+    let input = document.getElementById("dropdownInput");
+    let filter = input.value.toLowerCase();
+    let divs = document.getElementById("dropdownList").getElementsByTagName("div");
+    for (let i = 0; i < divs.length; i++) {
+        let txtValue = divs[i].textContent || divs[i].innerText;
+        divs[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+    }
+}
+
+function selectItem(element) {
+    document.getElementById("dropdownInput").value = element.innerText;
+    document.getElementById("dropdownList").style.display = "none";
+}
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest(".dropdown")) {
+        document.getElementById("dropdownList").style.display = "none";
+    }
+});
 
