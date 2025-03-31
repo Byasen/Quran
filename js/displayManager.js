@@ -171,17 +171,7 @@ function toggleQuranPages() {
     }
 }
 
-
-
 function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar.classList.contains('hidden')) {
-        sidebar.classList.remove('hidden');
-        sidebar.style.display = 'block';
-    } else {
-        sidebar.classList.add('hidden');
-        sidebar.style.display = 'none';
-    }
 
     const sidebar2 = document.getElementById('sidebar2');
     if (sidebar2.classList.contains('hidden')) {

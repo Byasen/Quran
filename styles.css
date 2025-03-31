@@ -63,12 +63,26 @@ p, .verse {
     width: 25%; /* Default width for side pages */
 }
 
+
+.verseControl {
+    width: 25%; /* Default width for side pages */
+}
+
+.searchControl {
+    width: 25%; /* Default width for side pages */
+    margin-right: 100px;
+}
+
 .analysis {
     text-align: left;
-    height: 420px; /* Fix the height */
+    height: 300px; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
+
+
+
+
 
 /* Media query for smaller screens (mobile) */
 @media (max-width: 768px) {
@@ -161,7 +175,7 @@ textarea {
     direction: rtl;
     text-align: right;
     font-family: Arial, sans-serif; /* Match overall font style */
-    max-height: 300px; /* Limit the height */
+    max-height: 450px; /* Limit the height */
     overflow-y: auto; /* Add scroll for overflowing content */
     display: none;
 }
@@ -186,6 +200,10 @@ textarea {
 /* Sidebar styles */
 .sidebar {
     display: none; /* Initially hidden */
+    height: 300px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+
 }
 
 /* Toggle visibility */
