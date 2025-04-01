@@ -71,11 +71,6 @@ p, .verse {
 }
 
 
-.searchControl {
-    width: 20%; /* Default width for side pages */
-    margin-right: 100px;
-}
-
 .topicControl {
     width: 20%; /* Default width for side pages */
     margin-right: 100px;
@@ -110,19 +105,28 @@ p, .verse {
 
 }
 
+.searchControl {
+    width: 20%; /* Default width for side pages */
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column; /* Ensure children stack vertically */
+    height: 800px; /* Make it take full height of the viewport */
+}
 
 .search-results-container {
-    margin-top: 20px;
+    flex-grow: 1; /* Makes it take up all available space */
+    margin-top: 10px;
     padding: 10px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
     direction: rtl;
     text-align: right;
     font-family: Arial, sans-serif; /* Match overall font style */
-    max-height: 700px; /* Limit the height */
+    max-height: none; /* Remove fixed height */
     overflow-y: auto; /* Add scroll for overflowing content */
     display: none;
 }
+
 
 
 /* Extend the main textarea to be page wide */

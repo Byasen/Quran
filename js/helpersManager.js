@@ -146,3 +146,41 @@ document.getElementById("pageScroll").scrollTop = 514;
 console.log("After scroll:", document.getElementById("pageScroll").scrollTop);
 });
 }
+
+
+// Select a random word from the 5th column of the Quran CSV and search for it
+async function selectRandomWordAndSearch() {
+    const response = await fetch('data/quranText.csv');
+    const csvText = await response.text();
+    const rows = csvText.split('\n'); // Split by newlines to get rows
+
+    const words = rows
+        .map(row => {
+            const columns = row.split(',');
+            return columns[4] ? columns[4].trim() : ''; // Get the 5th column (index 4)
+        })
+        .filter(word => word) // Remove empty values
+        .flatMap(word => word.split(' ')); // Split into individual words
+
+    if (words.length === 0) {
+        console.error("No words found in the 5th column.");
+        return;
+    }
+
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+
+    let field = document.getElementById("verseSearchInput");
+    field.value = randomWord;
+    searchInCSV();
+}
+
+// Select a random word from the 5th column of the Quran CSV and search for it
+async function selectRandomTopic() {
+
+    const select = document.getElementById("topicSelect");
+    if (!select || select.options.length === 0) return; // Ensure the dropdown exists and has options
+
+    const randomIndex = Math.floor(Math.random() * select.options.length);
+    select.selectedIndex = randomIndex; // Select the random option
+    onTopicChange();
+}

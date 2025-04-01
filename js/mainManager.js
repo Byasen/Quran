@@ -11,6 +11,8 @@ window.onload = async function () {
     await loadCSVData(); // Load `quranText.csv` file
     populatePages(); // Initialize the Quran page dropdown
     scrollMid();
+    selectRandomWordAndSearch();
+    selectRandomTopic();
 };
 
 
