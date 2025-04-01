@@ -54,18 +54,6 @@ p, .verse {
     justify-content: flex-start; /* Align items starting from the right */
 }
 
-.pages {
-    height: 800px; /* Fix the height */
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    flex-direction: column;
-    border: 2px solid black;
-}
-
-.page {
-    height: 600px; /* Large enough for scrolling */
-}
-
 
 .control {
     width: 20%; /* Default width for side pages */
@@ -94,81 +82,47 @@ p, .verse {
     
 }
 
-.topicResultsClass {
-    text-align: left;
-    height: 300px; /* Fix the height */
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    
-}
-
-
 .analysis {
     text-align: left;
-    height: 300px; /* Fix the height */
+    height: 420px; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
+.pages {
+    height: 750px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    flex-direction: column;
+    border: 2px solid black;
+}
 
+.page {
+    height: 600px; /* Large enough for scrolling */
+}
 
 /* Sidebar styles */
 .topicResultsClass {
     text-align: left;
-    height: 300px; /* Fix the height */
+    height: 550px; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 
 }
 
 
-
-
-/* Media query for smaller screens (mobile) */
-@media (max-width: 768px) {
-
-    body {
-        margin-right: 10px;
-        margin-left: 10px;
-    
-    
-    }
-
-    .top-bar {
-        margin-right: -10px;
-        width: calc(100% + 20px);
-    }
-
-    .quran-pages {
-        flex-direction: column; /* Stack pages vertically */
-        align-items: center; /* Center the items */
-        width: 100%; /* Ensure the container spans the full width */
-    }
-
-    .page {
-        width: 100%; /* Make each page span the full width */
-        max-width: 100%; /* Ensure it doesn't exceed the viewport width */
-        margin-bottom: 20px; /* Add some space between each page */
-        text-align: center; /* Center content within the page */
-    }
-
-    .page img {
-        width: 100%; /* Scale the image to fit the full width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-    /* Change the order of elements for mobile view */
-    #previousPage {
-        order: 1;
-    }
-    #currentPage {
-        order: 2;
-    }
-    #nextPage {
-        order: 3;
-    }
+.search-results-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    direction: rtl;
+    text-align: right;
+    font-family: Arial, sans-serif; /* Match overall font style */
+    max-height: 700px; /* Limit the height */
+    overflow-y: auto; /* Add scroll for overflowing content */
+    display: none;
 }
-
 
 
 /* Extend the main textarea to be page wide */
@@ -206,19 +160,6 @@ textarea {
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
-
-.search-results-container {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    direction: rtl;
-    text-align: right;
-    font-family: Arial, sans-serif; /* Match overall font style */
-    max-height: 450px; /* Limit the height */
-    overflow-y: auto; /* Add scroll for overflowing content */
-    display: none;
-}
 
 
 .search-result {

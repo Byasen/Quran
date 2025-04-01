@@ -142,7 +142,7 @@ function scrollMid() {
 let container = document.getElementById("pageScroll");
 requestAnimationFrame(() => {
 console.log("Before scroll:", document.getElementById("pageScroll").scrollTop);
-document.getElementById("pageScroll").scrollTop = 485;
+document.getElementById("pageScroll").scrollTop = 514;
 console.log("After scroll:", document.getElementById("pageScroll").scrollTop);
 });
 }
