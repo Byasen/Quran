@@ -137,3 +137,12 @@ function decrementVerse() {
         displayVerseWithAnalyses();
     }
 }
+
+function scrollMid() {
+let container = document.getElementById("pageScroll");
+requestAnimationFrame(() => {
+console.log("Before scroll:", document.getElementById("pageScroll").scrollTop);
+document.getElementById("pageScroll").scrollTop = 485;
+console.log("After scroll:", document.getElementById("pageScroll").scrollTop);
+});
+}

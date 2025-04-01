@@ -58,11 +58,14 @@ p, .verse {
     height: 800px; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
-    scroll-behavior: smooth; /* Smooth scrolling */
-    display: flex;
     flex-direction: column;
-    scroll-padding-top: 100%; /* Start scrolling at the middle of the container */
+    border: 2px solid black;
 }
+
+.page {
+    height: 600px; /* Large enough for scrolling */
+}
+
 
 .control {
     width: 20%; /* Default width for side pages */
@@ -397,3 +400,6 @@ label {
     text-align: right; /* Align text to the right */
     justify-content: flex-start; /* Align items starting from the right */
 }
+
+
+
