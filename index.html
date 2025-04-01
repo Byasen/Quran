@@ -30,14 +30,14 @@
     <div id="currentVerse" class="verseControl">
         <div><select id="chapterSelect" onchange="onChapterChange()"></select></div>
         <div>
-            <div class="dropdown">
-                <input type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
-                <div id="dropdownList" class="dropdown-content">
-                </div>
-            </div>
-            <button onclick="decrementVerse()">&#60;</button>
-            <select id="verseSelect" onchange="onVerseChange()"></select>
-            <button onclick="incrementVerse()">&#62;</button>
+        <div class="dropdown" >
+        <input hidden type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
+        <div id="dropdownList" class="dropdown-content">
+        </div>
+        </div>
+        <button onclick="decrementVerse()">&#60;</button>
+        <select id="verseSelect" onchange="onVerseChange()"></select>
+        <button onclick="incrementVerse()">&#62;</button>
         </div>
         <p id="verseDisplay"></p> <!-- Arabic placeholder text -->
         <div id='addVerseButton' class="addVerseClass hidden">
