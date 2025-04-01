@@ -118,7 +118,7 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
         const currentPagePath = `data/png/${(pageNumber)}.png`;
         const currentPageContainer = document.getElementById('currentPage');
         currentPageContainer.innerHTML = `<img src="${currentPagePath}" alt="Quran Page ${pageNumber}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-      //  displayNextPreviousPages(pageNumber);
+        displayNextPreviousPages(pageNumber);
         const pageSelect = document.getElementById('pageSelect');
         pageSelect.value = pageNumber;
         onPageChange();
@@ -128,9 +128,9 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 // Function to display the next and previous Quran pages (SVG) in reversed order
 function displayNextPreviousPages(pageNumber) {
     const nextPagePath = `data/png/${(pageNumber + 1)}.png`;
-    //const previousPagePath = `data/png/${(pageNumber - 1)}.png`;
+    const previousPagePath = `data/png/${(pageNumber - 1)}.png`;
 
-    //const previousPageContainer = document.getElementById('previousPage');
+    const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
 
     // Display Current+1 (next) on the left

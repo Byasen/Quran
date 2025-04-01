@@ -54,6 +54,16 @@ p, .verse {
     justify-content: flex-start; /* Align items starting from the right */
 }
 
+.pages {
+    height: 800px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    scroll-behavior: smooth; /* Smooth scrolling */
+    display: flex;
+    flex-direction: column;
+    scroll-padding-top: 100%; /* Start scrolling at the middle of the container */
+}
+
 .control {
     width: 20%; /* Default width for side pages */
 }
