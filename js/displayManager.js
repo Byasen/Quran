@@ -118,7 +118,7 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
         const currentPagePath = `data/png/${(pageNumber)}.png`;
         const currentPageContainer = document.getElementById('currentPage');
         currentPageContainer.innerHTML = `<img src="${currentPagePath}" alt="Quran Page ${pageNumber}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-        displayNextPreviousPages(pageNumber);
+      //  displayNextPreviousPages(pageNumber);
         const pageSelect = document.getElementById('pageSelect');
         pageSelect.value = pageNumber;
         onPageChange();
@@ -141,11 +141,11 @@ function displayNextPreviousPages(pageNumber) {
     }
 
     // Display Current-1 (previous) on the right
-    //if (pageNumber > 1) {
-    //    previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-    //} else {
-    //    previousPageContainer.innerHTML = `<p>No previous page</p>`;
-    //}
+    if (pageNumber > 1) {
+        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
+    } else {
+        previousPageContainer.innerHTML = `<p>No previous page</p>`;
+    }
 }
 
 
@@ -174,14 +174,6 @@ function toggleQuranPages() {
 
 
 function toggleSidebar() {
-    const sidebar2 = document.getElementById('topicResults');
-    if (sidebar2.classList.contains('hidden')) {
-        sidebar2.classList.remove('hidden');
-        sidebar2.style.display = 'block';
-    } else {
-        sidebar2.classList.add('hidden');
-        sidebar2.style.display = 'none';
-    }
     var sidebar = document.getElementById("topicControl");
     if (sidebar.style.left === "0px") {
         sidebar.style.left = "-250px";

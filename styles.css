@@ -54,24 +54,41 @@ p, .verse {
     justify-content: flex-start; /* Align items starting from the right */
 }
 
-.page {
-    width: 25%; /* Default width for side pages */
-    margin-right: 100px;
-}
-
 .control {
-    width: 25%; /* Default width for side pages */
+    width: 20%; /* Default width for side pages */
 }
-
 
 .verseControl {
-    width: 25%; /* Default width for side pages */
+    width: 20%; /* Default width for side pages */
 }
 
+.pageControl {
+    width: 20%; /* Default width for side pages */
+    margin-right: 100px;
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure it spans the full height of the container */
+}
+
+
 .searchControl {
-    width: 25%; /* Default width for side pages */
+    width: 20%; /* Default width for side pages */
     margin-right: 100px;
 }
+
+.topicControl {
+    width: 20%; /* Default width for side pages */
+    margin-right: 100px;
+    
+}
+
+.topicResultsClass {
+    text-align: left;
+    height: 300px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    
+}
+
 
 .analysis {
     text-align: left;
@@ -80,6 +97,16 @@ p, .verse {
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
+
+
+/* Sidebar styles */
+.topicResultsClass {
+    text-align: left;
+    height: 300px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+
+}
 
 
 
@@ -197,14 +224,6 @@ textarea {
 }
 
 
-/* Sidebar styles */
-.topicResultsClass {
-    display: none; /* Initially hidden */
-    height: 300px; /* Fix the height */
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-
-}
 
 .addVerseClass {
     display: none; /* Initially hidden */
