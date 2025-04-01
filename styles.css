@@ -55,26 +55,8 @@ p, .verse {
 }
 
 
-.control {
-    width: 20%; /* Default width for side pages */
-}
-
 .verseControl {
-    width: 20%; /* Default width for side pages */
-}
-
-.pageControl {
-    width: 20%; /* Default width for side pages */
-    margin-right: 100px;
-    align-items: center; /* Center vertically */
-    height: 100%; /* Ensure it spans the full height of the container */
-}
-
-
-.topicControl {
-    width: 20%; /* Default width for side pages */
-    margin-right: 100px;
-    
+    width: 25%; /* Default width for side pages */
 }
 
 .analysis {
@@ -82,6 +64,13 @@ p, .verse {
     height: 420px; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+.pageControl {
+    width: 25%; /* Default width for side pages */
+    margin-right: 100px;
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure it spans the full height of the container */
 }
 
 .pages {
@@ -96,17 +85,9 @@ p, .verse {
     height: 600px; /* Large enough for scrolling */
 }
 
-/* Sidebar styles */
-.topicResultsClass {
-    text-align: left;
-    height: 550px; /* Fix the height */
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-
-}
 
 .searchControl {
-    width: 20%; /* Default width for side pages */
+    width: 25%; /* Default width for side pages */
     margin-right: 100px;
     display: flex;
     flex-direction: column; /* Ensure children stack vertically */
@@ -128,6 +109,19 @@ p, .verse {
 }
 
 
+.topicControl {
+    width: 25%; /* Default width for side pages */
+    margin-right: 100px;
+    
+}
+/* Sidebar styles */
+.topicResultsClass {
+    text-align: left;
+    height: 550px; /* Fix the height */
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+
+}
 
 /* Extend the main textarea to be page wide */
 textarea {
