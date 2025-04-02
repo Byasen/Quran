@@ -233,18 +233,28 @@ document.addEventListener("click", function(event) {
 
 function foldSearch(){
     const Container = document.getElementById('searchResults');
-    if (Container.style.display === 'none') {
-        Container.style.display = 'flex';
-    } else {
+    const Container2 = document.getElementById('pageResults');
+    if (Container.style.display === 'flex') {
         Container.style.display = 'none';
-    }
+        if (Container2.style.width === '100vh') {
+            Container2.style.width = '50vh';
+        }
+    } else {
+        Container.style.display = 'flex';
+        Container2.style.width = '100vh';
+    }  
 }
 
 function foldTopic(){
     const Container = document.getElementById('topicResults');
-    if (Container.style.display === 'none') {
-        Container.style.display = 'flex';
-    } else {
+    const Container2 = document.getElementById('pageResults');
+    if (Container.style.display === 'flex') {
         Container.style.display = 'none';
+        if (Container2.style.width === '100vh') {
+            Container2.style.width = '50vh';
+        }
+    } else {
+        Container.style.display = 'flex';
+        Container2.style.width = '100vh';
     }
 }

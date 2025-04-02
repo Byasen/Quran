@@ -73,28 +73,19 @@ p, .verse {
 .pageControl {
     align-items: center; /* Center vertically */
     border: 2px solid black;
-    width: 100vh;
+    width: 50vh;
     height: 90vh;
     margin-right: 2vh;
     margin-left 2vh;
 }
 
 .pages {
-    height: 800px; /* Fix the height */
+    height: 100%; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     flex-direction: column;
 }
 
-.page {
-    margin-top: 100px;
-    height: 600px; /* Large enough for scrolling */
-}
-
-.foldButton{
-    width: inherit;
-    height: inherit;
-}
 
 .foldButtonControl{
     width: 5vh;
@@ -103,9 +94,17 @@ p, .verse {
     margin-left 0vh;
 }
 
+.foldButton{
+    width: inherit;
+    height: inherit;
+    writing-mode: vertical-rl; /* Makes text vertical from top to bottom */
+    text-orientation:sideways;
+    font-size: 2.5vh; /* Keeps Arabic letters readable */
+}
+
 .searchControl {
     margin-right: 100px;
-    display: flex;
+    display: none;
     flex-direction: column; /* Ensure children stack vertically */
     border: 2px solid black;
     width: 100vh;
@@ -135,6 +134,7 @@ p, .verse {
     height: 90vh;
     margin-right: 0vh;
     margin-left 2vh;
+    display: none;
 }
 /* Sidebar styles */
 .topicResultsClass {
