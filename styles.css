@@ -91,6 +91,17 @@ p, .verse {
     height: 600px; /* Large enough for scrolling */
 }
 
+.foldButton{
+    width: inherit;
+    height: inherit;
+}
+
+.foldButtonControl{
+    width: 5vh;
+    height: 90vh;
+    margin-right: 5vh;
+    margin-left 0vh;
+}
 
 .searchControl {
     margin-right: 100px;
@@ -99,7 +110,7 @@ p, .verse {
     border: 2px solid black;
     width: 100vh;
     height: 90vh;
-    margin-right: 2vh;
+    margin-right: 0vh;
     margin-left 2vh;
 }
 
@@ -122,7 +133,7 @@ p, .verse {
     border: 2px solid black;
     width: 100vh;
     height: 90vh;
-    margin-right: 2vh;
+    margin-right: 0vh;
     margin-left 2vh;
 }
 /* Sidebar styles */

@@ -229,3 +229,22 @@ document.addEventListener("click", function(event) {
     }
 });
 
+
+
+function foldSearch(){
+    const Container = document.getElementById('searchResults');
+    if (Container.style.display === 'none') {
+        Container.style.display = 'flex';
+    } else {
+        Container.style.display = 'none';
+    }
+}
+
+function foldTopic(){
+    const Container = document.getElementById('topicResults');
+    if (Container.style.display === 'none') {
+        Container.style.display = 'flex';
+    } else {
+        Container.style.display = 'none';
+    }
+}

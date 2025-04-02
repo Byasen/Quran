@@ -15,6 +15,8 @@
 </div>
 
 
+
+
 <div id="topicControl" class="sidebar">
     <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
     <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
@@ -77,6 +79,9 @@
         <button onclick="incrementPage()">&#62;</button>
     </div>
     </div>
+
+
+    <div class="foldButtonControl"><button onclick="foldSearch()" class="foldButton"></button></div>
     
     <div id="searchResults" class="searchControl">
         <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
@@ -92,7 +97,7 @@
         </div>
     </div>
 
-
+    <div class="foldButtonControl"><button onclick="foldTopic()" class="foldButton"></button></div>
     <div id="topicResults" class="topicControl">
         <div class="controls-container">
             <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
