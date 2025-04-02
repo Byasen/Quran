@@ -29,8 +29,11 @@
 </div>   
 
 <div id="quranPagesContainer" class="quran-pages">
-    <div id="currentVerse" class="verseControl">
-        <div><select id="chapterSelect" onchange="onChapterChange()"></select></div>
+
+
+    <div id="firstColoumnID" class="firstColoumnClass">
+        <div id="currentVerse" class="verseControl">
+            <div><select id="chapterSelect" onchange="onChapterChange()"></select></div>
         <div>
         <div class="dropdown" >
         <input hidden type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
@@ -48,23 +51,24 @@
         <div id="currentVerseAnalysis" class="analysis">
             <p id="meaningsDisplay"></p> <!-- Arabic placeholder text -->
         </div>
-        <div id="Meanings" class="checkbox-container">
-            <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
-            <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
-            <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
-            <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
-            <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
-            <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
-            <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
-            <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
-            <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
-            <div>
-                <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
-                <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-            </div>
+    </div>
+    <div id="Meanings" class="checkbox-container">
+        <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
+        <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
+        <label><input type="checkbox" id="togglebaghawy" onclick="displayVerseWithAnalyses()"> البغوي</label>
+        <label><input type="checkbox" id="togglekatheer" onclick="displayVerseWithAnalyses()"> ابن كثير</label>
+        <label><input type="checkbox" id="toggleqortoby" onclick="displayVerseWithAnalyses()"> القرطبي</label>
+        <label><input type="checkbox" id="togglesa3dy" onclick="displayVerseWithAnalyses()"> السعدي</label>
+        <label><input type="checkbox" id="toggletabary" onclick="displayVerseWithAnalyses()"> الطبري</label>
+        <label><input type="checkbox" id="togglewaseet" onclick="displayVerseWithAnalyses()"> الوسيط</label>
+        <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+        <label><input type="checkbox" id="toggletanweer" onclick="displayVerseWithAnalyses()"> التنوير</label>
+        <div>
+            <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
+            <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
         </div>
     </div>
+</div>
    
 
     <div id="pageResults" class="pageControl">
