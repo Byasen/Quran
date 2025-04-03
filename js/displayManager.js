@@ -150,43 +150,12 @@ function displayNextPreviousPages(pageNumber) {
 
 
 
-let QuranPagesPressed = 1;
-function toggleQuranPages() {
-    const quranPagesContainer = document.getElementById('quranPagesContainer');
-    const toggleBtn = document.getElementById('toggleQuranPagesBtn');
-
-    if (QuranPagesPressed == 1) {
-        nextPage.style.width = '10%';
-        currentPage.style.width = '10%';
-        previousPage.style.width = '10%';
-        toggleBtn.textContent = 'اخفاء الصفحة';
-        QuranPagesPressed = 0;
-    } else {
-        nextPage.style.width = '25%';
-        currentPage.style.width = '25%';
-        previousPage.style.width = '25%';
-        toggleBtn.textContent = 'اظهار الصفحة';
-        QuranPagesPressed = 1;
-    }
-}
-
-
-
 function toggleSidebar() {
-    var sidebar = document.getElementById("topicControl");
+    var sidebar = document.getElementById("sidebarId");
     if (sidebar.style.left === "0px") {
         sidebar.style.left = "-250px";
     } else {
         sidebar.style.left = "0px";
-    }
-
-    const AddVerse = document.getElementById('addVerseButton');
-    if (AddVerse.classList.contains('hidden')) {
-        AddVerse.classList.remove('hidden');
-        AddVerse.style.display = 'block';
-    } else {
-        AddVerse.classList.add('hidden');
-        AddVerse.style.display = 'none';
     }
 
 }
@@ -236,12 +205,12 @@ function foldSearch(){
     const Container2 = document.getElementById('pageResults');
     if (Container.style.display === 'flex') {
         Container.style.display = 'none';
-        if (Container2.style.width === '100vh') {
-            Container2.style.width = '50vh';
+        if (Container2.style.width === '25%') {
+            Container2.style.width = '25%';
         }
     } else {
         Container.style.display = 'flex';
-        Container2.style.width = '100vh';
+        Container2.style.width = '25%';
     }  
 }
 
@@ -250,11 +219,11 @@ function foldTopic(){
     const Container2 = document.getElementById('pageResults');
     if (Container.style.display === 'flex') {
         Container.style.display = 'none';
-        if (Container2.style.width === '100vh') {
-            Container2.style.width = '50vh';
+        if (Container2.style.width === '25%') {
+            Container2.style.width = '25%';
         }
     } else {
         Container.style.display = 'flex';
-        Container2.style.width = '100vh';
+        Container2.style.width = '25%';
     }
 }

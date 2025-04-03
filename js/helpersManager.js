@@ -28,9 +28,9 @@ function appendError(message) {
 
 // Show the loading bar and status
 function showLoadingStatus(message) {
-    const loadingBar = document.getElementById('loadingBar');
+    const loadingBar = document.getElementById('loadingBarId');
     const loadingStatus = document.getElementById('loadingStatus');
-    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    const loadingBarContainer = document.getElementById('loadingBarContainerId');
 
     loadingBarContainer.style.display = 'block';
     loadingStatus.textContent = message;
@@ -45,7 +45,7 @@ function showLoadingStatus(message) {
 
 // Hide the loading bar once loading is complete
 function hideLoadingStatus() {
-    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    const loadingBarContainer = document.getElementById('loadingBarContainerId');
     loadingBarContainer.style.display = 'none';
 }
 

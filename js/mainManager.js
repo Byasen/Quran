@@ -18,9 +18,8 @@ window.onload = async function () {
 
 // Event triggered when the Surah (chapter) changes
 function onChapterChange() {
-    const chapterSelect = document.getElementById('dropdownInput');
+    const chapterSelect = document.getElementById('chapterSelect');
     const selectedChapter = chapterSelect.value;
-
     
     // Fetch the verses of the selected chapter
     fetchSurahVerses(selectedChapter).then(() => {

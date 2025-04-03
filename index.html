@@ -9,15 +9,12 @@
 <body id=content>
 
 <!-- Loading Bar (placed under checkboxes) -->
-<div id="loadingBarContainer">
-    <progress id="loadingBar" value="0" max="100"></progress>
+<div id="loadingBarContainerId" class="loadingBarContainer">
+    <progress id="loadingBarId" value="0" max="100"></progress>
     <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
 </div>
 
-
-
-
-<div id="topicControl" class="sidebar">
+<div id="sidebarId" class="sidebar">
     <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
     <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
     <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
@@ -28,30 +25,24 @@
     <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
 </div>   
 
-<div id="quranPagesContainer" class="quran-pages">
-
-
-    <div id="firstColoumnID" class="firstColoumnClass">
-        <div id="currentVerse" class="verseControl">
-            <div><select id="chapterSelect" onchange="onChapterChange()"></select></div>
-        <div>
-        <div class="dropdown" >
-        <input hidden type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
-        <div id="dropdownList" class="dropdown-content">
+<div class="mainContainer">
+   
+    <div class="verseColoumn">
+        <div class="verseControl">
+            <select id="chapterSelect" onchange="onChapterChange()"></select>
+            <div class="dropdown">
+                <div id="dropdownList" class="dropdown-content"></div>
+            </div>
+            <button onclick="decrementVerse()">&#60;</button>
+            <select id="verseSelect" onchange="onVerseChange()"></select>
+            <button onclick="incrementVerse()">&#62;</button>
         </div>
-        </div>
-        <button onclick="decrementVerse()">&#60;</button>
-        <select id="verseSelect" onchange="onVerseChange()"></select>
-        <button onclick="incrementVerse()">&#62;</button>
-        </div>
-        <p id="verseDisplay"></p> <!-- Arabic placeholder text -->
-        <div id='addVerseButton' class="addVerseClass hidden">
-        <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
+        <div id="currentVerse" class="verseResults">
+            <p id="verseDisplay"></p> <!-- Arabic placeholder text -->
         </div>
         <div id="currentVerseAnalysis" class="analysis">
             <p id="meaningsDisplay"></p> <!-- Arabic placeholder text -->
         </div>
-    </div>
     <div id="Meanings" class="checkbox-container">
         <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
         <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
@@ -68,7 +59,7 @@
             <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
         </div>
     </div>
-</div>
+    </div>
    
 
     <div id="pageResults" class="pageControl">
@@ -115,6 +106,7 @@
             <div id="stackLablel" class="label">
                 <label>الآيات المرتبطة بالموضوع</label>
             </div>
+            <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
             <div id="stackedVerses" class="topicResultsClass"></div>
         </div>
     </div>
