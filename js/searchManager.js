@@ -81,8 +81,6 @@ async function searchInCSV() {
     const includeRoots = document.getElementById('searchRootsCheckbox')?.checked; // Check if roots checkbox is selected
     const searchResultsContainer = document.getElementById('searchResultsContainer');
     searchResultsContainer.style.display = `block`;
-    searchResultsContainer.innerHTML = '<button onclick="hidesearchresults()">إخفاء نتائج البحث</button>'; // Clear previous results
-
     if (!query) {
         searchResultsContainer.innerHTML = '<p>الرجاء إدخال نص للبحث.</p>';
         return;

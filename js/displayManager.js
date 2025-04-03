@@ -189,13 +189,13 @@ document.addEventListener("click", function(event) {
 function foldSearch(){
     const Container = document.getElementById('searchResults');
     const Container2 = document.getElementById('pageResults');
-    if (Container.style.display === 'flex') {
+    if (Container.style.display === 'block') {
         Container.style.display = 'none';
         if (Container2.style.width === '25%') {
             Container2.style.width = '25%';
         }
     } else {
-        Container.style.display = 'flex';
+        Container.style.display = 'block';
         Container2.style.width = '25%';
     }  
 }
@@ -203,13 +203,13 @@ function foldSearch(){
 function foldTopic(){
     const Container = document.getElementById('topicResults');
     const Container2 = document.getElementById('pageResults');
-    if (Container.style.display === 'flex') {
+    if (Container.style.display === 'block') {
         Container.style.display = 'none';
         if (Container2.style.width === '25%') {
             Container2.style.width = '25%';
         }
     } else {
-        Container.style.display = 'flex';
+        Container.style.display = 'block';
         Container2.style.width = '25%';
     }
 }
