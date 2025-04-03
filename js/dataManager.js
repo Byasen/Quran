@@ -11,14 +11,12 @@ async function loadMetadata() {
         hideLoadingStatus(); // Hide the loading text once the metadata is loaded
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-        appendError('Error loading metadata: ' + error.message);
     }
 }
 
 // Fetch the verses of a selected Surah (no padding for Surah number)
 async function fetchSurahVerses(surahNumber) {
     const filePath = `data/surah/surah_${surahNumber}.json`;
-    appendFilePath(filePath);
 
     try {
         showLoadingStatus(`Loading Surah ${surahNumber}...`);
@@ -31,7 +29,6 @@ async function fetchSurahVerses(surahNumber) {
         hideLoadingStatus(); // Hide the loading text once verses are loaded
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-        appendError(`Error loading Surah ${surahNumber}: ` + error.message);
     }
 
 }
@@ -39,7 +36,6 @@ async function fetchSurahVerses(surahNumber) {
 // Fetch a specific verse (padding for verse number only)
 async function fetchVerse(chapterNumber, verseNumber) {
     const filePath = `data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
-    appendFilePath(filePath);
 
     try {
         showLoadingStatus(`Loading verse ${verseNumber} from chapter ${chapterNumber}...`);
@@ -51,7 +47,6 @@ async function fetchVerse(chapterNumber, verseNumber) {
         return await response.json();
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-        appendError(`Error loading verse ${verseNumber} for Surah ${chapterNumber}: ` + error.message);
         return null;
     }
 }
