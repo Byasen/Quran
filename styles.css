@@ -105,37 +105,44 @@ p, .verse {
     align-items: center; /* Center items vertically */
 }
 
-.foldButtonControl{
-    width: 5vh;
-    height: 90vh;
-    margin-right: 5vh;
-    margin-left 0vh;
+.foldButtonColoumn {
+    height: inherit;
+    width: 2%;
+    margin-right: 2.4%;
 }
 
 .foldButton{
-    width: inherit;
     height: inherit;
+    width: 100%;
     writing-mode: vertical-rl; /* Makes text vertical from top to bottom */
     text-orientation:sideways;
-    font-size: 2.5vh; /* Keeps Arabic letters readable */
+    font-size: x-large; /* Keeps Arabic letters readable */
+}
+
+.searchColoumn {
+    display: none;
+    height: inherit;
+    width: 22%;
+    margin-left: 2.4%;
+    border: #000 solid 3px;
+    justify-content: flex-start; /* Align items starting from the right */
+    text-align: right; /* Align text to the right */
+    direction: ltr; /* Set text direction to right-to-left */
+    align-items: flex-end; /* Align items to the bottom */
 }
 
 .searchControl {
-    margin-right: 100px;
-    display: none;
-    flex-direction: column; /* Ensure children stack vertically */
-    width: 25%;
-    height: 90vh;
-    margin-right: 0vh;
-    margin-left 2vh;
+    border: #000 solid 3px;
+    height: 10%;
+    width: 100%;
 }
 
-.search-results-container {
+.searchResults {
+    height: 90%;
     flex-grow: 1; /* Makes it take up all available space */
     margin-top: 10px;
     padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    border: #000 solid 3px;
     direction: rtl;
     text-align: right;
     font-family: Arial, sans-serif; /* Match overall font style */

@@ -75,24 +75,21 @@
         </div>
     </div>
 
-
-    <div class="foldButtonControl"><button onclick="foldSearch()" class="foldButton">البحث في آيات القرآن</button></div>
+    <div class="foldButtonColoumn"><button onclick="foldSearch()" class="foldButton">البحث في آيات القرآن</button></div>
     
-    <div id="searchResults" class="searchControl">
-        <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
-        <button onclick="searchInCSV()">ابدأ البحث</button>
-        <label>
-            <input type="checkbox" id="searchRootsCheckbox">
-            بحث بالجذور
-        </label>
-        <!-- Sidebar Toggle Button -->
-        <div id="searchResultsContainer" class="search-results-container">
-            <!-- Search results will appear here -->
+    <div id="searchResults" class="searchColoumn">
+        <div class="searchControl">
+            <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
+            <button onclick="searchInCSV()">ابدأ البحث</button>
+            <label><input type="checkbox" id="searchRootsCheckbox">بحث بالجذور</label>
+        </div>
+        <div id="searchResultsContainer" class="searchResults">
             <button onclick="hidesearchresults()">أخفاء نتائج البحث</button>
         </div>
     </div>
 
-    <div class="foldButtonControl"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
+    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
+
     <div id="topicResults" class="topicControl">
         <div class="controls-container">
             <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
