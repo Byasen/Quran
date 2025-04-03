@@ -148,8 +148,6 @@ function displayNextPreviousPages(pageNumber) {
 }
 
 
-
-
 function toggleSidebar() {
     var sidebar = document.getElementById("sidebarId");
     if (sidebar.style.left === "0px") {
@@ -158,18 +156,6 @@ function toggleSidebar() {
         sidebar.style.left = "0px";
     }
 
-}
-
-
-function toggleMeanings() {
-    const sidebar = document.getElementById('Meanings');
-    if (sidebar.classList.contains('hidden')) {
-        sidebar.classList.remove('hidden');
-        sidebar.style.display = 'block';
-    } else {
-        sidebar.classList.add('hidden');
-        sidebar.style.display = 'none';
-    }
 }
 
 

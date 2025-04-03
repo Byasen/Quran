@@ -20,52 +20,60 @@ p, .verse {
     height: 90vh;
 }
 
-.verseColoumn {
-    width: 22%;
-    align-items: flex-end; /* Align items to the bottom */
-    direction: ltr; /* Set text direction to right-to-left */
-    text-align: right; /* Align text to the right */
-    justify-content: flex-start; /* Align items starting from the right */
+.verseColoumn{
     height: inherit;
+    width: 22%;
+    margin-right: 2.4%;
+    margin-left 2.4%;
+    justify-content: flex-start; /* Align items starting from the right */
+    text-align: right; /* Align text to the right */
+    direction: ltr; /* Set text direction to right-to-left */
+    align-items: flex-end; /* Align items to the bottom */
 }
 
-.verseControl {
+.verseControl1{
     height: 10%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
-.verseResults {
+.verseResults1 {
     height: 20%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
-.analysis {
-    text-align: left;
-    height: 70%; /* Fix the height */
+.verseResults2 {
+    height: 70%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
+.verseControl2{
+    height: 10%;
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
 
+.pageColoumn {
+    height: inherit;
+    width: 22%;
+    margin-right: 2.4%;
+    margin-left 2.4%;
+}
+
+.pageResults {
+    height: inherit;
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
 
 
 .pageControl {
-    align-items: center; /* Center vertically */
-    width: 25%;
-    height: 90vh;
-    margin-right: 2vh;
-    margin-left 2vh;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
 }
-
-.pages {
-    height: 100%; /* Fix the height */
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    flex-direction: column;
-}
-
 
 .foldButtonControl{
     width: 5vh;
