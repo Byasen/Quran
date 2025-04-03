@@ -50,7 +50,7 @@ p, .verse {
 
 .verseColoumn{
     height: inherit;
-    width: 75%;
+    /* width:66%; defined in line */
     margin-right: 2.4%;
     margin-left 2.4%;
     justify-content: flex-start; /* Align items starting from the right */

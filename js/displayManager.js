@@ -189,21 +189,22 @@ document.addEventListener("click", function(event) {
 function foldSearch(){
     const Container = document.getElementById('searchResults');
     const Container2 = document.getElementById('verseColoumnId');
+    console.log("the width is :", Container2.style.width);
     if (Container.style.display === 'block') {
         Container.style.display = 'none';
-        if (Container2.style.width === '25%') {
-            Container2.style.width = '50%';
+        if (Container2.style.width === "22%") {
+            Container2.style.width = '44%';
         }
-        if (Container2.style.width === '50%') {
-            Container2.style.width = '75%';
+        if (Container2.style.width === "44%") {
+            Container2.style.width = '66%';
         }
     } else {
         Container.style.display = 'block';
-        if (Container2.style.width === '50%') {
-            Container2.style.width = '25%';
+        if (Container2.style.width === "44%") {
+            Container2.style.width = "22%";
         }
-        if (Container2.style.width === '75%') {
-            Container2.style.width = '50%';
+        if (Container2.style.width === "66%") {
+            Container2.style.width = '44%';
         }
     }  
 }
@@ -213,19 +214,19 @@ function foldTopic(){
     const Container2 = document.getElementById('verseColoumnId');
     if (Container.style.display === 'block') {
         Container.style.display = 'none';
-        if (Container2.style.width === '25%') {
-            Container2.style.width = '50%';
+        if (Container2.style.width === '22%') {
+            Container2.style.width = '44%';
         }
-        if (Container2.style.width === '50%') {
-            Container2.style.width = '75%';
+        if (Container2.style.width === '44%') {
+            Container2.style.width = '66%';
         }
     } else {
         Container.style.display = 'block';
-        if (Container2.style.width === '50%') {
-            Container2.style.width = '25%';
+        if (Container2.style.width === '44%') {
+            Container2.style.width = '22%';
         }
-        if (Container2.style.width === '75%') {
-            Container2.style.width = '50%';
+        if (Container2.style.width === '66%') {
+            Container2.style.width = '44%';
         }
     }  
 }
