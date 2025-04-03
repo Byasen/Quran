@@ -188,28 +188,44 @@ document.addEventListener("click", function(event) {
 
 function foldSearch(){
     const Container = document.getElementById('searchResults');
-    const Container2 = document.getElementById('pageResults');
+    const Container2 = document.getElementById('verseColoumnId');
     if (Container.style.display === 'block') {
         Container.style.display = 'none';
         if (Container2.style.width === '25%') {
-            Container2.style.width = '25%';
+            Container2.style.width = '50%';
+        }
+        if (Container2.style.width === '50%') {
+            Container2.style.width = '75%';
         }
     } else {
         Container.style.display = 'block';
-        Container2.style.width = '25%';
+        if (Container2.style.width === '50%') {
+            Container2.style.width = '25%';
+        }
+        if (Container2.style.width === '75%') {
+            Container2.style.width = '50%';
+        }
     }  
 }
 
 function foldTopic(){
     const Container = document.getElementById('topicResults');
-    const Container2 = document.getElementById('pageResults');
+    const Container2 = document.getElementById('verseColoumnId');
     if (Container.style.display === 'block') {
         Container.style.display = 'none';
         if (Container2.style.width === '25%') {
-            Container2.style.width = '25%';
+            Container2.style.width = '50%';
+        }
+        if (Container2.style.width === '50%') {
+            Container2.style.width = '75%';
         }
     } else {
         Container.style.display = 'block';
-        Container2.style.width = '25%';
-    }
+        if (Container2.style.width === '50%') {
+            Container2.style.width = '25%';
+        }
+        if (Container2.style.width === '75%') {
+            Container2.style.width = '50%';
+        }
+    }  
 }

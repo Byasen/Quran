@@ -79,8 +79,6 @@ async function loadCSVData() {
 async function searchInCSV() {
     const query = normalizeArabic(document.getElementById('verseSearchInput').value.trim());
     const includeRoots = document.getElementById('searchRootsCheckbox')?.checked; // Check if roots checkbox is selected
-    const searchResultsContainer = document.getElementById('searchResultsContainer');
-    searchResultsContainer.style.display = `block`;
     if (!query) {
         searchResultsContainer.innerHTML = '<p>الرجاء إدخال نص للبحث.</p>';
         return;
