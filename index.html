@@ -8,11 +8,11 @@
 </head>
 <body id=content>
 
-<!-- Loading Bar (placed under checkboxes) -->
-<div id="loadingBarContainerId" class="loadingBarContainer">
-    <progress id="loadingBarId" value="0" max="100"></progress>
-    <p id="loadingStatus" style="display: none;">Loading...</p> <!-- Hide text after loading is complete -->
-</div>
+    <div id="loadingBarContainerId" class="loadingBarContainer">
+        <progress id="loadingBarId" value="0" max="100"></progress>
+        <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
+    </div>
+    
 
 <div id="sidebarId" class="sidebar">
     <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
@@ -28,7 +28,7 @@
 <div class="mainContainer">
    
     <div class="pageColoumn">
-        <div class="pageResults">
+        <div id="pageResultsId" class="pageResults">
             <div id="previousPage" class="pageimg"></div>
             <div id="currentPage" class="pageimg"></div>
             <div id="nextPage" class="pageimg"></div>

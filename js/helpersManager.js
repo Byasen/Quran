@@ -33,7 +33,6 @@ function showLoadingStatus(message) {
     const loadingBarContainer = document.getElementById('loadingBarContainerId');
 
     loadingBarContainer.style.display = 'block';
-    loadingStatus.textContent = message;
 
     // Simulate progress (for demonstration, you can adjust it)
     loadingBar.value += 10;
@@ -138,14 +137,41 @@ function decrementVerse() {
     }
 }
 
-function scrollMid() {
-let container = document.getElementById("pageScroll");
-requestAnimationFrame(() => {
-console.log("Before scroll:", document.getElementById("pageScroll").scrollTop);
-document.getElementById("pageScroll").scrollTop = 745;
-console.log("After scroll:", document.getElementById("pageScroll").scrollTop);
-});
+function handleScrollMid() {
+    let container = document.getElementById("pageResultsId");
+    if (!container) return;
+
+    function scrollMid() {
+        requestAnimationFrame(() => {
+            console.log("Before scroll:", container.scrollTop);
+
+            if (container.scrollHeight > container.clientHeight) {
+                container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
+            }
+
+            console.log("After scroll:", container.scrollTop);
+        });
+    }
+
+    function debounce(func, delay) {
+        let timer;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => func(...args), delay);
+        };
+    }
+
+    let observer = new MutationObserver(debounce(scrollMid, 100));
+
+    observer.observe(container, { childList: true, subtree: true, characterData: true });
+
+    // Initial scroll after a short delay to ensure content is ready
+    setTimeout(scrollMid, 200);
 }
+
+// Start after full page load
+window.addEventListener("load", handleScrollMid);
+
 
 
 // Select a random word from the 5th column of the Quran CSV and search for it

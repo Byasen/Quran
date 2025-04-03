@@ -10,7 +10,6 @@ window.onload = async function () {
     selectThisVerse(randomChapter, randomVerse);
     await loadCSVData(); // Load `quranText.csv` file
     populatePages(); // Initialize the Quran page dropdown
-    scrollMid();
     selectRandomWordAndSearch();
     selectRandomTopic();
 };
@@ -47,7 +46,6 @@ function onPageChange() {
 
     // Display Quran pages and highlight the current one
     displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
-    scrollMid()
 }
 
 

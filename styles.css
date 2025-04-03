@@ -1,3 +1,30 @@
+.loadingBarContainer {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5); /* Grey with 50% opacity */
+    padding: 5px;
+    text-align: center;
+    opacity: 0.5;
+    
+}
+
+#loadingBarId {
+    color: #000;
+}
+
+#loadingStatus {
+    color: rgb(255, 255, 255);
+    margin: 5px 0 0 0;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    direction: ltr; /* RTL text */
+}
+
+
 p, .verse {
     font-size: 18px;
     direction: rtl; /* RTL text */
@@ -19,6 +46,7 @@ p, .verse {
     justify-content: flex-start; /* Align items starting from the right */
     height: 90vh;
 }
+
 
 .verseColoumn{
     height: inherit;
@@ -53,6 +81,8 @@ p, .verse {
     height: 10%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+    direction: rtl; /* Set text direction to right-to-left */
+
 }
 
 .pageColoumn {
