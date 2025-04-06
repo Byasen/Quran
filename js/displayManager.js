@@ -230,3 +230,69 @@ function foldTopic(){
         }
     }  
 }
+
+
+
+
+function initializeVerseHighlighting() {
+    // Get the image filename (e.g., "602.png")
+    const image = document.getElementById('image');
+    const imageFilename = image.src.split('/').pop();  // Extract filename from the src
+    // Fetch and render the overlay data for the corresponding image
+    fetchOverlayData(imageFilename);    
+}
+
+
+function fetchOverlayData(imageFilename) {
+    const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";  // Remove extension, add _overlay.json
+    fetch(jsonFile)
+        .then(response => response.json())
+        .then(data => {
+            renderBoundingBoxes(data.regions);  // Pass the regions array
+        })
+        .catch(error => {
+            console.error("Error loading the overlay data:", error);
+        });
+}
+
+// Function to render the bounding boxes on the image
+function renderBoundingBoxes(regions) {
+    const image = document.getElementById('image');
+    const container = image.parentElement;
+
+    regions.forEach(region => {
+        const box = document.createElement('div');
+        box.classList.add('overlay-box');
+
+        // Add color class dynamically
+        switch (region.color) {
+            case 'red':
+                box.classList.add('red');
+                break;
+            case 'blue':
+                box.classList.add('blue');
+                break;
+            case 'yellow':
+                box.classList.add('yellow');
+                break;
+            default:
+                box.classList.add('red');  // Default to red if color is unknown
+        }
+
+        // Apply position and size based on bbox
+        box.style.left = `${region.bbox.x}px`;
+        box.style.top = `${region.bbox.y}px`;
+        box.style.width = `${region.bbox.width}px`;
+        box.style.height = `${region.bbox.height}px`;
+
+        // Optional: add an onclick action (example: alerting the box info)
+        box.addEventListener('click', () => {
+            alert(`Region clicked: ${JSON.stringify(region)}`);
+        });
+
+        container.appendChild(box);
+    });
+}
+
+
+
