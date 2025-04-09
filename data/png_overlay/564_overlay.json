@@ -1,0 +1,353 @@
+{
+  "image": "564.png",
+  "regions": [
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 27,
+      "color": "blue",
+      "bbox": {
+        "x": 66,
+        "y": 123,
+        "width": 814,
+        "height": 84
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 27,
+      "color": "blue",
+      "bbox": {
+        "x": 719,
+        "y": 208,
+        "width": 161,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 28,
+      "color": "red",
+      "bbox": {
+        "x": 66,
+        "y": 208,
+        "width": 612,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 28,
+      "color": "red",
+      "bbox": {
+        "x": 371,
+        "y": 294,
+        "width": 509,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 29,
+      "color": "blue",
+      "bbox": {
+        "x": 66,
+        "y": 294,
+        "width": 263,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 29,
+      "color": "blue",
+      "bbox": {
+        "x": 124,
+        "y": 380,
+        "width": 756,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.0,
+      "verse": 30,
+      "color": "red",
+      "bbox": {
+        "x": 124,
+        "y": 466,
+        "width": 756,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 67.5,
+      "verse": 0,
+      "color": "yellow",
+      "bbox": {
+        "x": 0,
+        "y": 552,
+        "width": 944,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 0,
+      "color": "yellow",
+      "bbox": {
+        "x": 0,
+        "y": 638,
+        "width": 944,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 1,
+      "color": "blue",
+      "bbox": {
+        "x": 571,
+        "y": 724,
+        "width": 309,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 2,
+      "color": "red",
+      "bbox": {
+        "x": 180,
+        "y": 724,
+        "width": 350,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 3,
+      "color": "blue",
+      "bbox": {
+        "x": 66,
+        "y": 724,
+        "width": 73,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 3,
+      "color": "blue",
+      "bbox": {
+        "x": 598,
+        "y": 810,
+        "width": 282,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 4,
+      "color": "red",
+      "bbox": {
+        "x": 273,
+        "y": 810,
+        "width": 284,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 5,
+      "color": "blue",
+      "bbox": {
+        "x": 66,
+        "y": 810,
+        "width": 165,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 5,
+      "color": "blue",
+      "bbox": {
+        "x": 726,
+        "y": 896,
+        "width": 154,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 6,
+      "color": "red",
+      "bbox": {
+        "x": 463,
+        "y": 896,
+        "width": 221,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 7,
+      "color": "blue",
+      "bbox": {
+        "x": 66,
+        "y": 896,
+        "width": 356,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 7,
+      "color": "blue",
+      "bbox": {
+        "x": 421,
+        "y": 982,
+        "width": 459,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 8,
+      "color": "red",
+      "bbox": {
+        "x": 124,
+        "y": 982,
+        "width": 256,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 9,
+      "color": "blue",
+      "bbox": {
+        "x": 537,
+        "y": 1068,
+        "width": 343,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 10,
+      "color": "red",
+      "bbox": {
+        "x": 124,
+        "y": 1068,
+        "width": 371,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 11,
+      "color": "blue",
+      "bbox": {
+        "x": 549,
+        "y": 1154,
+        "width": 331,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 12,
+      "color": "red",
+      "bbox": {
+        "x": 124,
+        "y": 1154,
+        "width": 384,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 13,
+      "color": "blue",
+      "bbox": {
+        "x": 625,
+        "y": 1240,
+        "width": 255,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 14,
+      "color": "red",
+      "bbox": {
+        "x": 291,
+        "y": 1240,
+        "width": 292,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 15,
+      "color": "blue",
+      "bbox": {
+        "x": 66,
+        "y": 1240,
+        "width": 183,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 15,
+      "color": "blue",
+      "bbox": {
+        "x": 471,
+        "y": 1326,
+        "width": 409,
+        "height": 85
+      }
+    },
+    {
+      "page": "564",
+      "chapter": 68.0,
+      "verse": 16,
+      "color": "red",
+      "bbox": {
+        "x": 124,
+        "y": 1326,
+        "width": 305,
+        "height": 85
+      }
+    }
+  ]
+}

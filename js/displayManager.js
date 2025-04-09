@@ -260,6 +260,10 @@ function renderBoundingBoxes(regions) {
     const image = document.getElementById('image');
     const container = image.parentElement;
 
+    // Remove old boxes
+    const oldBoxes = container.querySelectorAll('.overlay-box');
+    oldBoxes.forEach(box => box.remove());
+
     regions.forEach(region => {
         const box = document.createElement('div');
         box.classList.add('overlay-box');
