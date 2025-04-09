@@ -117,7 +117,6 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 
         const currentPagePath = `data/png/${(pageNumber)}.png`;
         const currentPageContainer = document.getElementById('currentPage');
-        currentPageContainer.innerHTML = `<img src="${currentPagePath}" alt="Quran Page ${pageNumber}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
         displayNextPreviousPages(pageNumber);
         const pageSelect = document.getElementById('pageSelect');
         pageSelect.value = pageNumber;
@@ -132,19 +131,6 @@ function displayNextPreviousPages(pageNumber) {
     const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
 
-    // Display Current+1 (next) on the left
-    if (pageNumber < 604) {
-        nextPageContainer.innerHTML = `<img src="${nextPagePath}" alt="Quran Page ${pageNumber + 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-    } else {
-        nextPageContainer.innerHTML = `<p>No next page</p>`; // Display "No next page" at the end
-    }
-
-    // Display Current-1 (previous) on the right
-    if (pageNumber > 1) {
-        previousPageContainer.innerHTML = `<img src="${previousPagePath}" alt="Quran Page ${pageNumber - 1}" style="width: 100%; height: auto; object-fit: contain; display: block;">`;
-    } else {
-        previousPageContainer.innerHTML = `<p>No previous page</p>`;
-    }
 }
 
 
@@ -232,64 +218,56 @@ function foldTopic(){
 }
 
 
-
-
 function initializeVerseHighlighting() {
-    // Get the image element inside the previousPage container
-    const imageContainer = document.getElementById('previousPage');
-    const image = imageContainer.querySelector('img'); // Select the image inside the container
+    const pageIds = ["previousPage", "currentPage", "nextPage"];
 
-    if (image) {
-        const imageFilename = image.src.split('/').pop(); // Extract filename from the src
-        // Fetch and render the overlay data for the corresponding image
-        fetchOverlayData(imageFilename);
-    } else {
-        console.warn('No image found in the previousPage container.');
-    }
+    pageIds.forEach(pageId => {
+        const imageContainer = document.getElementById(pageId);
+        const image = imageContainer.querySelector('img');
+
+        if (image) {
+            const imageFilename = image.src.split('/').pop();
+            fetchOverlayData(imageFilename, pageId);
+        } else {
+            console.warn(`No image found in the ${pageId} container.`);
+        }
+    });
 }
 
-
-function fetchOverlayData(imageFilename) {
-    const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";  // Remove extension, add _overlay.json
+function fetchOverlayData(imageFilename, pageId) {
+    const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";
     fetch(jsonFile)
         .then(response => response.json())
         .then(data => {
-            renderBoundingBoxes(data.regions);  // Pass the regions array
+            renderBoundingBoxes(data.regions, pageId);
         })
         .catch(error => {
-            console.error("Error loading the overlay data:", error);
+            console.error(`Error loading overlay data for ${pageId}:`, error);
         });
 }
 
-function renderBoundingBoxes(regions) {
-    // Get the image element inside the previousPage container
-    const imageContainer = document.getElementById('previousPage');
-    const image = imageContainer.querySelector('img'); // Select the image inside the container
-
-    // Removed unused 'container' variable
-    const overlay = document.getElementById('overlay-layer');
+function renderBoundingBoxes(regions, pageId) {
+    const imageContainer = document.getElementById(pageId);
+    const image = imageContainer.querySelector('img');
+    const overlay = imageContainer.querySelector('.overlay-layer');
 
     if (!image.complete) {
-        image.onload = () => renderBoundingBoxes(regions);
+        image.onload = () => renderBoundingBoxes(regions, pageId);
         return;
     }
 
-    // Set size of overlay to match image's natural size
     overlay.style.width = `${image.naturalWidth}px`;
     overlay.style.height = `${image.naturalHeight}px`;
 
-    // Apply scale to overlay
     const scale = image.clientWidth / image.naturalWidth;
     overlay.style.transform = `scale(${scale})`;
 
-    // Remove old boxes
     overlay.innerHTML = '';
 
     regions.forEach(region => {
         const box = document.createElement('div');
         box.className = `overlay-box ${region.color || 'red'}`;
 
-        // Use raw coordinates based on image natural size
         box.style.left = `${region.bbox.x}px`;
         box.style.top = `${region.bbox.y}px`;
         box.style.width = `${region.bbox.width}px`;
@@ -302,6 +280,5 @@ function renderBoundingBoxes(regions) {
         overlay.appendChild(box);
     });
 
-    window.lastRenderedRegions = regions;
+    window[`lastRenderedRegions_${pageId}`] = regions;
 }
-
