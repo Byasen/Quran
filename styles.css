@@ -2,6 +2,7 @@
 .image-container {
     position: relative;
     display: inline-block;
+    width: 30.6%;
 }
 
 /* Ensure the image scales with the container */

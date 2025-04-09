@@ -286,8 +286,10 @@ function renderBoundingBoxes(regions) {
         // Apply position and size based on bbox
         box.style.left = `${region.bbox.x}px`;
         box.style.top = `${region.bbox.y}px`;
-        box.style.width = `${region.bbox.width}px`;
-        box.style.height = `${region.bbox.height}px`;
+        const scaleX = image.clientWidth / image.naturalWidth;
+        const scaleY = image.clientHeight / image.naturalHeight;
+        box.style.width = `${region.bbox.width * scaleX}px`;
+        box.style.height = `${region.bbox.height * scaleY}px`;
 
         // Optional: add an onclick action (example: alerting the box info)
         box.addEventListener('click', () => {
