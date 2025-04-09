@@ -5,14 +5,13 @@ window.onload = async function () {
     const tempPath = `data/surah/surah_${randomChapter}.json`;
     const response = await fetch(tempPath);
     tempSurah = await response.json();
+    populatePages(); // Initialize the Quran page dropdown
     const tempVerseCount =  tempSurah.verses.length;
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
     selectThisVerse(randomChapter, randomVerse);
-    await loadCSVData(); // Load `quranText.csv` file
-    populatePages(); // Initialize the Quran page dropdown
     selectRandomWordAndSearch();
     selectRandomTopic();
-    initializeVerseHighlighting(); // Initialize verse highlighting
+    await loadCSVData(); // Load `quranText.csv` file
 };
 
 
@@ -29,7 +28,6 @@ function onChapterChange() {
         if (verseSelect.options.length > 0) {
             verseSelect.selectedIndex = 0;
         }
-
         // Display the selected verse with analyses (the first verse)
         displayVerseWithAnalyses();
     });
@@ -47,6 +45,8 @@ function onPageChange() {
 
     // Display Quran pages and highlight the current one
     displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
+    initializeVerseHighlighting(); // Initialize verse highlighting
+
 }
 
 

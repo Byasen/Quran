@@ -112,26 +112,39 @@ async function displayVerseWithAnalyses() {
 }
 
 
-// Function to display the corresponding Quran pages (SVG) and highlight the selected verse
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
+    const currentPagePath = `data/png/${pageNumber}.png`;
+    const currentPageContainer = document.getElementById('currentPage');
+    const nextPageContainer = document.getElementById('nextPage');
+    const previousPageContainer = document.getElementById('previousPage');
 
-        const currentPagePath = `data/png/${(pageNumber)}.png`;
-        const currentPageContainer = document.getElementById('currentPage');
-        displayNextPreviousPages(pageNumber);
-        const pageSelect = document.getElementById('pageSelect');
-        pageSelect.value = pageNumber;
+    // Update the image sources for the current, next, and previous pages
+    const nextPagePath = `data/png/${pageNumber + 1}.png`;
+    const previousPagePath = `data/png/${pageNumber - 1}.png`;
+
+    // Set the image sources dynamically
+    currentPageContainer.querySelector('img').src = currentPagePath;
+    nextPageContainer.querySelector('img').src = nextPagePath;
+    previousPageContainer.querySelector('img').src = previousPagePath;
+
+    // Update the page select dropdown
+    const pageSelect = document.getElementById('pageSelect');
+    pageSelect.value = pageNumber;
+
+    // Call the function to handle page navigation (next and previous)
+    displayNextPreviousPages(pageNumber);
 }
 
-
-// Function to display the next and previous Quran pages (SVG) in reversed order
 function displayNextPreviousPages(pageNumber) {
-    const nextPagePath = `data/png/${(pageNumber + 1)}.png`;
-    const previousPagePath = `data/png/${(pageNumber - 1)}.png`;
+    const nextPagePath = `data/png/${pageNumber + 1}.png`;
+    const previousPagePath = `data/png/${pageNumber - 1}.png`;
 
     const previousPageContainer = document.getElementById('previousPage');
     const nextPageContainer = document.getElementById('nextPage');
 
+    // You can perform additional logic for these containers if needed
 }
+
 
 
 function toggleSidebar() {
