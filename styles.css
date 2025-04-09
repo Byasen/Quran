@@ -1,47 +1,32 @@
-/* Container for the image */
 .image-container {
     position: relative;
-    display: inline-block;
-    width: 30.6%;
-}
-
-/* Ensure the image scales with the container */
-.image-container img {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  #image {
+    width: 100%;
+    height: auto;
     display: block;
-    width: 100%; /* Scales with the container */
-    height: auto; /* Maintain aspect ratio */
-}
-
-/* Style for the overlay boxes */
-.overlay-box {
+  }
+  
+  #overlay-layer {
     position: absolute;
-    border: 2px solid rgba(255, 0, 0, 0.7); /* Default red border */
-    cursor: pointer;
-}
-
-.overlay-box:hover {
-    opacity: 0.7;
-}
-
-.overlay-box:active {
-    opacity: 1;
-}
-
-/* Specific colors for different regions */
-.red {
-    border-color: red;
-    background-color: rgba(255, 0, 0, 0.3); /* Semi-transparent red */
-}
-
-.blue {
-    border-color: blue;
-    background-color: rgba(0, 0, 255, 0.3); /* Semi-transparent blue */
-}
-
-.yellow {
-    border-color: yellow;
-    background-color: rgba(255, 255, 0, 0.3); /* Semi-transparent yellow */
-}
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    pointer-events: none; /* allow clicks to go through unless you want interactivity */
+  }
+  
+  .overlay-box {
+    position: absolute;
+    border: 2px solid;
+    pointer-events: auto;
+  }
+  
+  .overlay-box.red { border-color: red; }
+  .overlay-box.blue { border-color: blue; }
+  .overlay-box.yellow { border-color: yellow; }
 
 
 .loadingBarContainer {

@@ -9,8 +9,6 @@
 <body id=content>
 
     
-    <div class="image-container"><img id="image" src="data/png/1.png" alt="Image" width="500"></div>
-    
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
@@ -19,19 +17,19 @@
     <div id="sidebarId" class="sidebar">
         <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
         <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
-    <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-    <button onclick="removeTopic()">احذف الموضوع</button>
-    <button onclick="saveState()">حفظ التغييرات بملف</button>
-    <button onclick="loadState()">استرجاع التغييرات من ملف</button>
-    <button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button>
-    <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
-</div>   
-
-<div class="mainContainer">
+        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
+        <button onclick="removeTopic()">احذف الموضوع</button>
+        <button onclick="saveState()">حفظ التغييرات بملف</button>
+        <button onclick="loadState()">استرجاع التغييرات من ملف</button>
+        <button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button>
+        <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
+    </div>   
     
-    <div class="pageColoumn">
-        <div id="pageResultsId" class="pageResults">
-            <div id="previousPage" class="pageimg"></div>
+    <div class="mainContainer">
+        
+        <div class="pageColoumn">
+            <div id="pageResultsId" class="pageResults">
+            <div class="image-container"><div id="previousPage" class="pageimg"></div><div id="overlay-layer"></div> <!-- this is new --></div>
             <div id="currentPage" class="pageimg"></div>
             <div id="nextPage" class="pageimg"></div>
         </div>   

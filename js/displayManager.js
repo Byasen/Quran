@@ -235,11 +235,17 @@ function foldTopic(){
 
 
 function initializeVerseHighlighting() {
-    // Get the image filename (e.g., "602.png")
-    const image = document.getElementById('image');
-    const imageFilename = image.src.split('/').pop();  // Extract filename from the src
-    // Fetch and render the overlay data for the corresponding image
-    fetchOverlayData(imageFilename);    
+    // Get the image element inside the previousPage container
+    const imageContainer = document.getElementById('previousPage');
+    const image = imageContainer.querySelector('img'); // Select the image inside the container
+
+    if (image) {
+        const imageFilename = image.src.split('/').pop(); // Extract filename from the src
+        // Fetch and render the overlay data for the corresponding image
+        fetchOverlayData(imageFilename);
+    } else {
+        console.warn('No image found in the previousPage container.');
+    }
 }
 
 
@@ -255,50 +261,47 @@ function fetchOverlayData(imageFilename) {
         });
 }
 
-// Function to render the bounding boxes on the image
 function renderBoundingBoxes(regions) {
-    const image = document.getElementById('image');
-    const container = image.parentElement;
+    // Get the image element inside the previousPage container
+    const imageContainer = document.getElementById('previousPage');
+    const image = imageContainer.querySelector('img'); // Select the image inside the container
+
+    // Removed unused 'container' variable
+    const overlay = document.getElementById('overlay-layer');
+
+    if (!image.complete) {
+        image.onload = () => renderBoundingBoxes(regions);
+        return;
+    }
+
+    // Set size of overlay to match image's natural size
+    overlay.style.width = `${image.naturalWidth}px`;
+    overlay.style.height = `${image.naturalHeight}px`;
+
+    // Apply scale to overlay
+    const scale = image.clientWidth / image.naturalWidth;
+    overlay.style.transform = `scale(${scale})`;
 
     // Remove old boxes
-    const oldBoxes = container.querySelectorAll('.overlay-box');
-    oldBoxes.forEach(box => box.remove());
+    overlay.innerHTML = '';
 
     regions.forEach(region => {
         const box = document.createElement('div');
-        box.classList.add('overlay-box');
+        box.className = `overlay-box ${region.color || 'red'}`;
 
-        // Add color class dynamically
-        switch (region.color) {
-            case 'red':
-                box.classList.add('red');
-                break;
-            case 'blue':
-                box.classList.add('blue');
-                break;
-            case 'yellow':
-                box.classList.add('yellow');
-                break;
-            default:
-                box.classList.add('red');  // Default to red if color is unknown
-        }
-
-        // Apply position and size based on bbox
+        // Use raw coordinates based on image natural size
         box.style.left = `${region.bbox.x}px`;
         box.style.top = `${region.bbox.y}px`;
-        const scaleX = image.clientWidth / image.naturalWidth;
-        const scaleY = image.clientHeight / image.naturalHeight;
-        box.style.width = `${region.bbox.width * scaleX}px`;
-        box.style.height = `${region.bbox.height * scaleY}px`;
+        box.style.width = `${region.bbox.width}px`;
+        box.style.height = `${region.bbox.height}px`;
 
-        // Optional: add an onclick action (example: alerting the box info)
         box.addEventListener('click', () => {
             alert(`Region clicked: ${JSON.stringify(region)}`);
         });
 
-        container.appendChild(box);
+        overlay.appendChild(box);
     });
+
+    window.lastRenderedRegions = regions;
 }
-
-
 
