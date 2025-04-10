@@ -251,14 +251,30 @@ function initializeVerseHighlighting() {
 function fetchOverlayData(imageFilename, pageId) {
     const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";
     fetch(jsonFile)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Overlay JSON not found for ${pageId}`);
+            }
+            return response.json();
+        })
         .then(data => {
             renderBoundingBoxes(data.regions, pageId);
         })
         .catch(error => {
             console.error(`Error loading overlay data for ${pageId}:`, error);
+
+            // 🚫 Clear the previous overlay if present
+            const imageContainer = document.getElementById(pageId);
+            const overlay = imageContainer?.querySelector('.overlay-layer');
+            if (overlay) {
+                overlay.innerHTML = '';
+            }
+
+            // 💡 Optionally clear lastRenderedRegions for this page
+            window[`lastRenderedRegions_${pageId}`] = [];
         });
 }
+
 
 function renderBoundingBoxes(regions, pageId) {
     const imageContainer = document.getElementById(pageId);
