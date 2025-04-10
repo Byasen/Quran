@@ -381,6 +381,7 @@ function renderBoundingBoxes(regions, pageId) {
     });
 
     window[`lastRenderedRegions_${pageId}`] = regions;
+    highlightSelectedChapterAndVerse();
 }
 
 // Function to show the pop-up message at the center of the screen
@@ -417,11 +418,16 @@ function highlightSelectedChapterAndVerse() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
 
+    // Get the selected chapter and verse values
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
 
+
+
     // Get all overlay boxes
     const allBoxes = document.querySelectorAll('.overlay-box');
+
+
 
     // Clear previous highlights
     allBoxes.forEach(box => {
@@ -430,9 +436,10 @@ function highlightSelectedChapterAndVerse() {
 
     // Highlight the boxes that match the selected chapter and verse
     allBoxes.forEach(box => {
+
         if (box.dataset.chapter === selectedChapter && box.dataset.verse === selectedVerse) {
+            // Debug: Log when a match is found
             box.classList.add('highlighted');
         }
     });
 }
-
