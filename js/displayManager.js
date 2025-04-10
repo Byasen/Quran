@@ -296,7 +296,7 @@ function renderBoundingBoxes(regions, pageId) {
 
     regions.forEach(region => {
         const box = document.createElement('div');
-        box.className = `overlay-box ${region.color || 'red'}`;
+        box.className = 'overlay-box blue-invisible';
 
         box.style.left = `${region.bbox.x}px`;
         box.style.top = `${region.bbox.y}px`;

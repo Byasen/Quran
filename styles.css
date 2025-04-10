@@ -111,26 +111,26 @@ p, .verse {
     position: relative; /* Ensure it's behind the overlay */
     z-index: 1;
 }
-
 .overlay-layer {
     position: absolute;
     top: 0;
     left: 0;
     transform-origin: top left;
     pointer-events: none;
-    z-index: 2; /* Higher than image */
+    z-index: 2;
 }
 
 .overlay-box {
     position: absolute;
-    border: 2px solid;
-    pointer-events: auto; /* So click events can happen */
+    pointer-events: auto; /* So it can be hovered and clicked */
+    background-color: rgba(0, 0, 0, 0); /* Fully transparent */
+    border: 2px solid transparent; /* Invisible border */
+    transition: border-color 0.2s ease;
 }
 
-.overlay-box.red { border-color: red; }
-.overlay-box.blue { border-color: blue; }
-.overlay-box.yellow { border-color: yellow; }
-
+.overlay-box.blue-hover:hover {
+    border-color: blue;
+}
 
 .pageControl {
     display: flex; /* Use flexbox for centering */
