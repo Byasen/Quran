@@ -296,7 +296,7 @@ function renderBoundingBoxes(regions, pageId) {
 
     regions.forEach(region => {
         const box = document.createElement('div');
-        box.className = 'overlay-box blue-invisible';
+        box.className = 'overlay-box blue-hover';  // Make all boxes invisible initially
 
         box.style.left = `${region.bbox.x}px`;
         box.style.top = `${region.bbox.y}px`;
@@ -304,7 +304,16 @@ function renderBoundingBoxes(regions, pageId) {
         box.style.height = `${region.bbox.height}px`;
 
         box.addEventListener('click', () => {
-            alert(`Region clicked: ${JSON.stringify(region)}`);
+            // Toggle the highlighted class
+            box.classList.toggle('highlighted');
+
+            // Optionally, unhighlight other boxes if needed (deselect the others)
+            const allBoxes = overlay.querySelectorAll('.overlay-box');
+            allBoxes.forEach(otherBox => {
+                if (otherBox !== box) {
+                    otherBox.classList.remove('highlighted');
+                }
+            });
         });
 
         overlay.appendChild(box);
@@ -312,3 +321,4 @@ function renderBoundingBoxes(regions, pageId) {
 
     window[`lastRenderedRegions_${pageId}`] = regions;
 }
+

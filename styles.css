@@ -122,15 +122,23 @@ p, .verse {
 
 .overlay-box {
     position: absolute;
-    pointer-events: auto; /* So it can be hovered and clicked */
-    background-color: rgba(0, 0, 0, 0); /* Fully transparent */
+    pointer-events: auto; /* Allow click and hover */
+    background-color: rgba(0, 0, 0, 0); /* Invisible background */
     border: 2px solid transparent; /* Invisible border */
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .overlay-box.blue-hover:hover {
-    border-color: blue;
+    border-color: blue; /* Blue border on hover */
+    background-color: rgba(0, 0, 255, 0.1); /* Light blue fill on hover */
 }
+
+/* Highlight box when clicked (to persist highlight) */
+.overlay-box.highlighted {
+    border-color: blue;
+    background-color: rgba(0, 0, 255, 0.3); /* More prominent blue on click */
+}
+
 
 .pageControl {
     display: flex; /* Use flexbox for centering */
