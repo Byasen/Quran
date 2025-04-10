@@ -149,7 +149,7 @@ p, .verse {
 /* Highlight box when clicked (to persist highlight) */
 .overlay-box.highlighted {
     border-color: blue;
-    background-color: rgba(0, 0, 255, 0.3); /* More prominent blue on click */
+    background-color: rgba(0, 0, 255, 0.15); /* More prominent blue on click */
 }
 
 
