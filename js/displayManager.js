@@ -112,6 +112,51 @@ async function displayVerseWithAnalyses() {
 }
 
 
+// Display the verse and analyses
+async function displayVerseWithAnalysesNoPageChange() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+    const verseDisplay = document.getElementById('verseDisplay');
+    const meaningsDisplay = document.getElementById('meaningsDisplay');
+
+    const selectedChapter = chapterSelect.value;
+    const selectedVerse = verseSelect.value;
+
+    const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
+    console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
+
+    if (verseWithAnalyses) {
+        let verseDisplayContent = '<hr class="dashed-line">';
+        let meaningsDisplayContent = '';
+
+        // Always display the main verse text
+        verseDisplayContent += `<strong>نص الآية</strong><br><br><div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><br><hr class="dashed-line">`;
+
+        const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
+        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+
+        analysesToShow.forEach((analysisType, index) => {
+            const checkbox = document.getElementById(`toggle${analysisType}`);
+            if (checkbox && checkbox.checked) {
+                const lowerCaseKey = analysisType.toLowerCase(); // Convert analysisType to lowercase
+                console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
+
+                // Use the lowercase key to access the analysis data
+                const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
+                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><br><br><div class="rtl-text">${analysisContent || 'لا يوجد مدخل لهذه الآية'}</div><br><hr class="dashed-line">`;
+            }
+        });
+
+        verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
+        meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
+    } else {
+        verseDisplay.textContent = 'Verse or analyses not available.';
+        meaningsDisplay.textContent = 'Verse or analyses not available.';
+    }
+}
+
+
+
 function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
     const currentPagePath = `data/png/${pageNumber}.png`;
     const currentPageContainer = document.getElementById('currentPage');
@@ -308,8 +353,8 @@ function renderBoundingBoxes(regions, pageId) {
         box.dataset.verse = region.verse;
 
         box.addEventListener('click', () => {
-            // Show alert with region details
-            alert(`Region clicked: ${JSON.stringify(region)}`);
+            // Show custom popup with only chapter and verse
+            showPopup(`Chapter: ${region.chapter}, Verse: ${region.verse}`);
 
             // Clear previous highlights
             const allBoxes = overlay.querySelectorAll('.overlay-box');
@@ -327,10 +372,40 @@ function renderBoundingBoxes(regions, pageId) {
                     otherBox.classList.add('highlighted');
                 }
             });
+
+            // Pass chapter and verse to selectThisVerse
+            selectThisVerseNoPageChange(region.chapter, region.verse);
         });
 
         overlay.appendChild(box);
     });
 
     window[`lastRenderedRegions_${pageId}`] = regions;
+}
+
+// Function to show the pop-up message at the center of the screen
+function showPopup(message) {
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.textContent = message;
+
+    // Style the popup
+    popup.style.position = 'fixed';
+    popup.style.top = '50%';
+    popup.style.left = '50%';
+    popup.style.transform = 'translate(-50%, -50%)';
+    popup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    popup.style.color = 'white';
+    popup.style.padding = '10px 20px';
+    popup.style.borderRadius = '5px';
+    popup.style.fontSize = '14px';
+    popup.style.zIndex = '1000';  // Ensure it's on top of other content
+
+    // Append the popup to the body
+    document.body.appendChild(popup);
+
+    // Remove the popup after 1 second
+    setTimeout(() => {
+        popup.remove();
+    }, 1000);
 }
