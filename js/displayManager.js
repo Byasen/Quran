@@ -304,10 +304,13 @@ function renderBoundingBoxes(regions, pageId) {
         box.style.height = `${region.bbox.height}px`;
 
         box.addEventListener('click', () => {
-            // Toggle the highlighted class
-            box.classList.toggle('highlighted');
+            // Show alert with region details
+            alert(`Region clicked: ${JSON.stringify(region)}`);
 
-            // Optionally, unhighlight other boxes if needed (deselect the others)
+            // Toggle the highlighted class
+            box.classList.add('highlighted');
+
+            // Remove highlight from other boxes
             const allBoxes = overlay.querySelectorAll('.overlay-box');
             allBoxes.forEach(otherBox => {
                 if (otherBox !== box) {
@@ -321,4 +324,3 @@ function renderBoundingBoxes(regions, pageId) {
 
     window[`lastRenderedRegions_${pageId}`] = regions;
 }
-
