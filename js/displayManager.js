@@ -303,18 +303,28 @@ function renderBoundingBoxes(regions, pageId) {
         box.style.width = `${region.bbox.width}px`;
         box.style.height = `${region.bbox.height}px`;
 
+        // Store chapter and verse data in the box
+        box.dataset.chapter = region.chapter;
+        box.dataset.verse = region.verse;
+
         box.addEventListener('click', () => {
             // Show alert with region details
             alert(`Region clicked: ${JSON.stringify(region)}`);
 
-            // Toggle the highlighted class
-            box.classList.add('highlighted');
-
-            // Remove highlight from other boxes
+            // Clear previous highlights
             const allBoxes = overlay.querySelectorAll('.overlay-box');
             allBoxes.forEach(otherBox => {
-                if (otherBox !== box) {
-                    otherBox.classList.remove('highlighted');
+                otherBox.classList.remove('highlighted');
+            });
+
+            // Highlight the clicked box and all matching boxes
+            box.classList.add('highlighted');
+
+            // Highlight all other boxes with the same chapter and verse
+            allBoxes.forEach(otherBox => {
+                if (otherBox.dataset.chapter === box.dataset.chapter && 
+                    otherBox.dataset.verse === box.dataset.verse) {
+                    otherBox.classList.add('highlighted');
                 }
             });
         });
