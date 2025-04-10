@@ -62,10 +62,12 @@ document.getElementById('pageSelect').addEventListener('change', function () {
 
 document.getElementById('chapterSelect').addEventListener('change', function () {
     onChapterChange(); // Trigger chapter change logic
+    highlightSelectedChapterAndVerse();
 });
 
 document.getElementById('verseSelect').addEventListener('change', function () {
     onVerseChange(); // Trigger verse change logic
+    highlightSelectedChapterAndVerse();
 });
 
 
@@ -83,4 +85,5 @@ window.onload = async function () {
     selectRandomWordAndSearch();
     selectRandomTopic();
     await loadCSVData(); // Load `quranText.csv` file
+    highlightSelectedChapterAndVerse();
 };

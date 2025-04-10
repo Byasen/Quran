@@ -409,3 +409,30 @@ function showPopup(message) {
         popup.remove();
     }, 1000);
 }
+
+
+
+// Function to highlight boxes based on the selected chapter and verse from dropdown menus
+function highlightSelectedChapterAndVerse() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+
+    const selectedChapter = chapterSelect.value;
+    const selectedVerse = verseSelect.value;
+
+    // Get all overlay boxes
+    const allBoxes = document.querySelectorAll('.overlay-box');
+
+    // Clear previous highlights
+    allBoxes.forEach(box => {
+        box.classList.remove('highlighted');
+    });
+
+    // Highlight the boxes that match the selected chapter and verse
+    allBoxes.forEach(box => {
+        if (box.dataset.chapter === selectedChapter && box.dataset.verse === selectedVerse) {
+            box.classList.add('highlighted');
+        }
+    });
+}
+
