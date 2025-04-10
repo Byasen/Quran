@@ -133,6 +133,7 @@ function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
 
     // Call the function to handle page navigation (next and previous)
     displayNextPreviousPages(pageNumber);
+    initializeVerseHighlighting();
 }
 
 function displayNextPreviousPages(pageNumber) {

@@ -1,20 +1,3 @@
-window.onload = async function () {
-    await loadMetadata(); // Initialize the page by loading metadata
-    await importTemplateData();
-    const randomChapter = Math.floor(Math.random() * 114) + 1;
-    const tempPath = `data/surah/surah_${randomChapter}.json`;
-    const response = await fetch(tempPath);
-    tempSurah = await response.json();
-    populatePages(); // Initialize the Quran page dropdown
-    const tempVerseCount =  tempSurah.verses.length;
-    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-    selectThisVerse(randomChapter, randomVerse);
-    selectRandomWordAndSearch();
-    selectRandomTopic();
-    await loadCSVData(); // Load `quranText.csv` file
-};
-
-
 // Event triggered when the Surah (chapter) changes
 function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
@@ -45,7 +28,6 @@ function onPageChange() {
 
     // Display Quran pages and highlight the current one
     displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
-    initializeVerseHighlighting(); // Initialize verse highlighting
 
 }
 
@@ -70,3 +52,35 @@ document.addEventListener('keydown', function(event) {
             incrementVerse(); // Move to the previous page
         }
 });
+
+
+// Automatically detect changes in the dropdown menus
+document.getElementById('pageSelect').addEventListener('change', function () {
+    const selectedPage = parseInt(this.value);
+    displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
+});
+
+document.getElementById('chapterSelect').addEventListener('change', function () {
+    onChapterChange(); // Trigger chapter change logic
+});
+
+document.getElementById('verseSelect').addEventListener('change', function () {
+    onVerseChange(); // Trigger verse change logic
+});
+
+
+window.onload = async function () {
+    await loadMetadata(); // Initialize the page by loading metadata
+    await importTemplateData();
+    const randomChapter = Math.floor(Math.random() * 114) + 1;
+    const tempPath = `data/surah/surah_${randomChapter}.json`;
+    const response = await fetch(tempPath);
+    tempSurah = await response.json();
+    populatePages(); // Initialize the Quran page dropdown
+    const tempVerseCount =  tempSurah.verses.length;
+    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
+    selectThisVerse(randomChapter, randomVerse);
+    selectRandomWordAndSearch();
+    selectRandomTopic();
+    await loadCSVData(); // Load `quranText.csv` file
+};
