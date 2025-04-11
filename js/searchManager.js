@@ -164,7 +164,6 @@ async function searchInCSV() {
 
 
 
-
 async function getWordsFromRoots(query) {
     try {
         const response = await fetch('data/roots.json');
@@ -173,17 +172,26 @@ async function getWordsFromRoots(query) {
         }
         const rootsData = await response.json();
 
-        // Find the root that matches the query
-        const matchingRoot = rootsData.roots.find(root => root.root === query);
+        // Normalize the query by replacing ا, أ, إ, ؤ, ء, ئ with ء
+        const normalizedQuery = normalizeForRootMatch(query);
 
-        // Return the associated words, or an empty list if no match
+        // Search with normalized comparison
+        const matchingRoot = rootsData.roots.find(root => 
+            normalizeForRootMatch(root.root) === normalizedQuery
+        );
+
         return matchingRoot ? matchingRoot.words : [];
     } catch (error) {
-        //console.error("Error fetching or processing roots.json:", error);
         throw error;
     }
 }
 
+// Helper to normalize specific Arabic letters to ء
+function normalizeForRootMatch(text) {
+    return normalizeArabic(text)
+        .replace(/[اأإؤءئ]/g, 'ء')
+        .replace(/ى/g, 'ي'); // Optional: handle ى→ي if needed
+}
 
 
 
