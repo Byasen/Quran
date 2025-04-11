@@ -100,8 +100,17 @@ async function searchInCSV() {
         }
     }
 
-    const matches = csvData.filter(entry => 
-        wordList.some(word => normalizeArabic(entry.text).includes(word))
+    // Build regex patterns with flexibility for ا and ى
+    const regexPatterns = wordList.map(word => {
+        const pattern = normalizeArabic(word)
+            .replace(/ا/g, '[اأإآؤءئ]')
+            .replace(/ى/g, '[ىي]');
+        return new RegExp(pattern, 'g');
+    });
+
+    // Match using regex patterns
+    const matches = csvData.filter(entry =>
+        regexPatterns.some(regex => normalizeArabic(entry.text).match(regex))
     );
 
     if (matches.length === 0) {
@@ -152,6 +161,7 @@ async function searchInCSV() {
         searchResultsContainer.appendChild(resultDiv);
     });
 }
+
 
 
 
