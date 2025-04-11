@@ -3,7 +3,9 @@ let audioPlayer = null;
 document.getElementById('playAudioBtn').addEventListener('click', () => {
     const chapter = document.getElementById('chapterSelect').value;
     const verse = document.getElementById('verseSelect').value;
-    const audioPath = `data/sounds/${chapter}_${verse}.mp3`;
+    const chapter_padded = padNumber(chapter);
+    const verse_padded = padNumber(verse);
+    const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
 
     // Stop existing audio if any
     if (audioPlayer) {
