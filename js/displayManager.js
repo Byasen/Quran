@@ -251,7 +251,8 @@ function foldSearch(){
         if (Container2.style.width === "66%") {
             Container2.style.width = '44%';
         }
-    }  
+    }
+    initializeVerseHighlighting();  
 }
 
 function foldTopic(){
@@ -274,6 +275,8 @@ function foldTopic(){
             Container2.style.width = '44%';
         }
     }  
+
+    initializeVerseHighlighting();
 }
 
 
