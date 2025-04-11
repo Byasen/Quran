@@ -16,13 +16,15 @@
     
     <div id="sidebarId" class="sidebar">
         <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
+        <div>
         <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
         <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-        <button onclick="removeTopic()">احذف الموضوع</button>
-        <button onclick="saveState()">حفظ التغييرات بملف</button>
-        <button onclick="loadState()">استرجاع التغييرات من ملف</button>
-        <button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button>
-        <button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button>
+        </div>
+        <div><button onclick="removeTopic()">احذف الموضوع</button></div>
+        <div><button onclick="saveState()">حفظ التغييرات بملف</button></div>
+        <div><button onclick="loadState()">استرجاع التغييرات من ملف</button></div>
+        <div><button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button></div>
+        <div><button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button></div>
     </div>   
     
     <div class="mainContainer">
@@ -69,6 +71,9 @@
                 <select id="verseSelect" onchange="onVerseChange()"></select>
                 <button onclick="decrementVerse()">&#62;</button>
                 <label for="verseSelect">رقم الآية</label>
+                <div id="addVerseButtonContainer" style="display: none;">
+                <button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية للموضوع الحالي</button>
+                </div>
             </div>
         </div>
         <label for="verseDisplay">: نص الآية</label>
@@ -102,9 +107,9 @@
     
     <div id="searchResults" class="searchColoumn">
         <div class="searchControl">
-            <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
             <button onclick="searchInCSV()">ابدأ البحث</button>
-            <label><input type="checkbox" id="searchRootsCheckbox">بحث بالجذور</label>
+            <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
+            <div><label><input type="checkbox" id="searchRootsCheckbox">بحث بالجذور</label></div>
         </div>
         <div id="searchResultsContainer" class="searchResults">
         </div>
@@ -112,23 +117,18 @@
 
     <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
 
-    <div id="topicResults" class="topicControl">
-        <div class="controls-container">
+    <div id="topicResults" class="topicColoumn">
+        <div class="topicControl">
             <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
-            <div id="ansLablel" class="label">
-                <select id="topicSelect" onchange="onTopicChange()"></select>
-                <button onclick="toggleSidebar()">☰</button>
-            </div>
-            <div><label>الفكرة العامة للموضوع</label></div>
-            <textarea id="answerInput" placeholder="الفكرة العامة"></textarea> <!-- Arabic placeholder -->
-            <div style="border-top: 1px dashed #333; width: 100%; height: 0; margin-top: 2%;"></div>
-            <div id="stackLablel" class="label">
-            </div>
-            <div style="margin-top: 1%; direction: rtl; text-align: right;" >
-                <div><button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button></div>
-            </div>
-            <div id="stackedVerses" class="topicResultsClass"></div>
+            <button onclick="toggleSidebar()">☰</button>
+            <select id="topicSelect" onchange="onTopicChange()"></select>
         </div>
+        <label>الفكرة العامة للموضوع</label>
+        <div class="topicResults1">
+        <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
+        </div>
+        <label>الآيات المتعلقة بالموضوع</label>
+        <div id="stackedVerses" class="topicResults2"></div>
     </div>
             
     

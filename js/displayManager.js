@@ -258,8 +258,11 @@ function foldSearch(){
 function foldTopic(){
     const Container = document.getElementById('topicResults');
     const Container2 = document.getElementById('verseColoumnId');
+    const Container3 = document.getElementById('addVerseButtonContainer');
+
     if (Container.style.display === 'block') {
         Container.style.display = 'none';
+        Container3.style.display = 'none';
         if (Container2.style.width === '22%') {
             Container2.style.width = '44%';
         }
@@ -268,6 +271,7 @@ function foldTopic(){
         }
     } else {
         Container.style.display = 'block';
+        Container3.style.display = 'block';
         if (Container2.style.width === '44%') {
             Container2.style.width = '22%';
         }
@@ -275,7 +279,7 @@ function foldTopic(){
             Container2.style.width = '44%';
         }
     }  
-
+       
     initializeVerseHighlighting();
 }
 
