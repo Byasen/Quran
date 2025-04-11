@@ -288,10 +288,16 @@ function addOrEditTopic() {
             }
 
             // Clear the input field
+            
+            // Change button text to 'Add New Topic'
+            addTopicButton.textContent = 'ابدأ موضوعا جديداً';
+            
+            const topic = document.getElementById('topicSelect');
+            topic.value = topicInput.value.trim(); // Set the selected topic to the new one
             topicInput.value = '';
+            onTopicChange();
+            toggleSidebar();
 
-        // Change button text to 'Add New Topic'
-        addTopicButton.textContent = 'ابدأ موضوعا جديداً';
     }
 }
 

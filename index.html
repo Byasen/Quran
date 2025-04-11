@@ -16,15 +16,15 @@
     
     <div id="sidebarId" class="sidebar">
         <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
-        <div>
+        <div style="margin-top: 10%;">
         <input type="text" id="newTopicInput" placeholder="اسم الموضوع" style="display: none;">        
         <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
         </div>
-        <div><button onclick="removeTopic()">احذف الموضوع</button></div>
-        <div><button onclick="saveState()">حفظ التغييرات بملف</button></div>
-        <div><button onclick="loadState()">استرجاع التغييرات من ملف</button></div>
-        <div><button onclick="exportToLocal()">حفظ التغييرات بالمتصفح</button></div>
-        <div><button onclick="importFromLocal()">استرجاع التغييرات من المتصفح</button></div>
+        <div style="margin-top: 10%;"><button onclick="removeTopic()">احذف الموضوع الحالي</button></div>
+        <div style="margin-top: 10%;""><button onclick="saveState()">حفظ الموضوعات بملف</button></div>
+        <div style="margin-top: 0%;""><button onclick="loadState()">استرجاع الموضوعات من ملف</button></div>
+        <div style="margin-top: 10%;""><button onclick="exportToLocal()">حفظ الموضوعات بالمتصفح</button></div>
+        <div style="margin-top: 0%;""><button onclick="importFromLocal()">استرجاع الموضوعات من المتصفح</button></div>
     </div>   
     
     <div class="mainContainer">
@@ -126,7 +126,7 @@
         </div>
         <label>الآيات المتعلقة بالموضوع</label>
         <div id="stackedVerses" class="topicResults2"></div>
-        <div><button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية للموضوع الحالي</button></div>
+        <div><button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية الحالية للموضوع</button></div>
     </div>
             
     
