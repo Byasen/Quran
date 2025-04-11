@@ -48,19 +48,24 @@
             <button onclick="incrementPage()">&#60;</button>
             <select id="pageSelect" onchange="onPageChange()"></select>
             <button onclick="decrementPage()">&#62;</button>
+            <label for="pageSelect">الصفحة</label>
         </div>
     </div>
 
 
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
         <div class="verseControl1">
-            <select id="chapterSelect" onchange="onChapterChange()"></select>
-            <div class="dropdown">
-                <div id="dropdownList" class="dropdown-content"></div>
+            <div>
+                <select id="chapterSelect" onchange="onChapterChange()"></select>
+                <label for="chapterSelect">السورة</label>
             </div>
-            <button onclick="incrementVerse()">&#60;</button>
-            <select id="verseSelect" onchange="onVerseChange()"></select>
-            <button onclick="decrementVerse()">&#62;</button>
+            <div class="dropdown"><div id="dropdownList" class="dropdown-content"></div></div>
+            <div>
+                <button onclick="incrementVerse()">&#60;</button>
+                <select id="verseSelect" onchange="onVerseChange()"></select>
+                <button onclick="decrementVerse()">&#62;</button>
+                <label for="verseSelect">الآية</label>
+            </div>
         </div>
         <div class="verseResults1">
             <p id="verseDisplay"></p>
