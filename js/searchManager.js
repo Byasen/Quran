@@ -137,7 +137,7 @@ async function searchInCSV() {
         <p><strong>التكرار لكل سورة:</strong></p>
         <ul>
             ${Object.entries(chapterOccurrences)
-                .map(([chapter, { count, name }]) => `<li>سورة ${name} (${chapter}): ${count} مرات</li>`)
+                .map(([chapter, { count, name }]) => `سورة ${name}: ${count} مرات</p>`)
                 .join('')}
         </ul>
     `;

@@ -45,12 +45,11 @@
                 </div>
             </div>   
             <div class="pageControl">
+                <button id="playAudioBtn" title="AutoPlay">🔁</button>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
                 <label for="pageSelect">الصفحة</label>
-                <button id="playAudioBtn" title="Play">▶</button>
-                <button id="stopAudioBtn" title="Stop">⏹</button>
                 
         </div>
     </div>
@@ -64,17 +63,22 @@
             </div>
             <div class="dropdown"><div id="dropdownList" class="dropdown-content"></div></div>
             <div>
+                <button id="playOneAudioBtn" title="Play">▶</button>
+                <button id="stopAudioBtn" title="Stop">⏹</button>
                 <button onclick="incrementVerse()">&#60;</button>
                 <select id="verseSelect" onchange="onVerseChange()"></select>
                 <button onclick="decrementVerse()">&#62;</button>
-                <label for="verseSelect">الآية</label>
+                <label for="verseSelect">رقم الآية</label>
             </div>
         </div>
+        <label for="verseDisplay">: نص الآية</label>
+        <div class="verseResults">
         <div class="verseResults1">
             <p id="verseDisplay"></p>
         </div>
         <div class="verseResults2">
             <p id="meaningsDisplay"></p>
+        </div>
         </div>
         <div class="verseControl2">
             <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
@@ -112,16 +116,17 @@
         <div class="controls-container">
             <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
             <div id="ansLablel" class="label">
-                <select id="topicSelect" onchange="onTopicChange()"></select> <label>الفكرة العامة للموضوع</label>
+                <select id="topicSelect" onchange="onTopicChange()"></select>
                 <button onclick="toggleSidebar()">☰</button>
             </div>
-            
-            <textarea id="answerInput" placeholder="الإجابة العامة"></textarea> <!-- Arabic placeholder -->
-            <div style="border-top: 1px dashed #333; width: 100%; height: 0; margin: 15px 15px;"></div>
+            <div><label>الفكرة العامة للموضوع</label></div>
+            <textarea id="answerInput" placeholder="الفكرة العامة"></textarea> <!-- Arabic placeholder -->
+            <div style="border-top: 1px dashed #333; width: 100%; height: 0; margin-top: 2%;"></div>
             <div id="stackLablel" class="label">
-                <label>الآيات المرتبطة بالموضوع</label>
             </div>
-            <button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button>
+            <div style="margin-top: 1%; direction: rtl; text-align: right;" >
+                <div><button onclick="addVerse(chapterSelect.value,verseSelect.value)">أضف الآية الحالية للموضوع</button></div>
+            </div>
             <div id="stackedVerses" class="topicResultsClass"></div>
         </div>
     </div>

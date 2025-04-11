@@ -1,57 +1,79 @@
-    let audioPlayer = null;
+let audioPlayer = null;
+let autoPlay = false;
 
-    document.getElementById('playAudioBtn').addEventListener('click', () => {
-        const chapter = document.getElementById('chapterSelect').value;
-        const verse = document.getElementById('verseSelect').value;
-        const chapter_padded = padNumber(chapter);
-        const verse_padded = padNumber(verse);
-        const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
-    
-        const playBtn = document.getElementById('playAudioBtn');
-    
-        // Stop and reset any currently playing audio
-        if (audioPlayer) {
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-            playBtn.classList.remove('playing');
+const playBtn = document.getElementById('playAudioBtn');
+const stopBtn = document.getElementById('stopAudioBtn');
+const playOneBtn = document.getElementById('playOneAudioBtn');
+
+playBtn.addEventListener('click', () => {
+    if (!autoPlay) {
+        autoPlay = true;
+        playCurrentVerse();
+    }
+});
+
+stopBtn.addEventListener('click', () => {
+    autoPlay = false;
+    stopAudio();
+});
+
+playOneBtn.addEventListener('click', () => {
+    autoPlay = false;
+    playCurrentVerse();
+});
+
+function playCurrentVerse() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+    const chapter = chapterSelect.value;
+    const verse = verseSelect.value;
+    const chapter_padded = padNumber(chapter);
+    const verse_padded = padNumber(verse);
+    const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
+
+    showLoadingStatus("Loading audio...");
+
+    audioPlayer = new Audio(audioPath);
+    playOneBtn.classList.add('playing')
+
+    audioPlayer.addEventListener('canplaythrough', () => {
+        hideLoadingStatus();
+        audioPlayer.play();
+    });
+
+    audioPlayer.addEventListener('error', () => {
+        console.error(`Failed to load: ${audioPath}`);
+        hideLoadingStatus();
+        playOneBtn.classList.remove('playing');
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+        if (autoPlay) {
+            const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
+            if (!isLastVerse) {
+                incrementVerse();
+                setTimeout(() => {
+                    if (autoPlay) {
+                        playCurrentVerse();
+                    }
+                }, 500);
+            } else {
+                autoPlay = false; // Stop autoPlay after last verse
+                playOneBtn.classList.remove('playing');
+            }
+        }else {
+            playOneBtn.classList.remove('playing');
         }
-    
-        showLoadingStatus("Loading audio...");
-    
-        audioPlayer = new Audio(audioPath);
-    
-        // When audio is ready, play it
-        audioPlayer.addEventListener('canplaythrough', () => {
-            hideLoadingStatus();
-            audioPlayer.play()
-                .then(() => playBtn.classList.add('playing'))
-                .catch(err => {
-                    console.error("Playback error:", err);
-                    playBtn.classList.remove('playing');
-                });
-        });
-    
-        // If loading fails
-        audioPlayer.addEventListener('error', () => {
-            console.error(`Failed to load: ${audioPath}`);
-            hideLoadingStatus();
-            playBtn.classList.remove('playing');
-        });
-    
-        // When audio ends
-        audioPlayer.addEventListener('ended', () => {
-            playBtn.classList.remove('playing');
-        });
-    
-        // Start loading
+    });
+
+    audioPlayer.load();
+}
+
+function stopAudio() {
+    if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer.removeAttribute('src');
         audioPlayer.load();
-    });
-    
-    document.getElementById('stopAudioBtn').addEventListener('click', () => {
-        if (audioPlayer) {
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-            document.getElementById('playAudioBtn').classList.remove('playing');
-        }
-    });
-    
+    }
+    playOneBtn.classList.remove('playing');
+} 

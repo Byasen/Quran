@@ -65,8 +65,7 @@ p, .verse {
 .pageColoumn {
     height: inherit;
     width: 22%;
-    margin-right: 2.4%;
-    margin-left 2.4%;
+    margin-right: 1%;
 }
 
 .pageResults {
@@ -116,7 +115,7 @@ p, .verse {
 
 
 .pageControl {
-    margin-top: 7%;
+    margin-top: 4%;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -127,11 +126,16 @@ p, .verse {
     border: 1px solid green;
   }
 
+#playOneAudioBtn.playing {
+background-color: lightgreen;
+border: 1px solid green;
+}
+
+
 .verseColoumn{
     height: inherit;
     /* width:66%; defined in line */
-    margin-right: 2.4%;
-    margin-left 2.4%;
+    margin-right: 1%;
     justify-content: flex-start; /* Align items starting from the right */
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
@@ -144,20 +148,29 @@ p, .verse {
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
+.verseResults {
+    height: 75%;
+}
+
 .verseResults1 {
-    height: 17%;
+    height: 15%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+    padding-right: 1%;
+    padding-left: 1%;
 }
 
 .verseResults2 {
-    height: 70%;
+    margin-top: 2%;
+    height: 85%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+    padding-right: 1%;
+    padding-left: 1%;
 }
 
 .verseControl2{
-    margin-top: 1%; /* Space between the two controls */
+    margin-top: 5%; /* Space between the two controls */
     height: 10%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
@@ -168,7 +181,7 @@ p, .verse {
 .foldButtonColoumn {
     height: inherit;
     width: 2%;
-    margin-right: 2.4%;
+    margin-right: 1%;
 }
 
 .foldButton{
@@ -183,8 +196,6 @@ p, .verse {
     display: none;
     height: inherit;
     width: 22%;
-    margin-right: 2.4%;
-    margin-left 2.4%;
     justify-content: flex-start; /* Align items starting from the right */
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
@@ -205,7 +216,7 @@ p, .verse {
     overflow-x: hidden; /* Hide horizontal overflow */
     justify-content: flex-start; /* Align items starting from the right */
     text-align: right; /* Align text to the right */
-    direction: rtl; /* Set text direction to right-to-left */
+    direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     
 }
@@ -214,8 +225,7 @@ p, .verse {
 .topicControl {
     width: 25%;
     height: 90vh;
-    margin-right: 0vh;
-    margin-left 2vh;
+    margin-right: 1%;
     display: none;
 }
 /* Sidebar styles */
