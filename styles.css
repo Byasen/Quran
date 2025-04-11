@@ -162,7 +162,7 @@ border: 1px solid green;
 
 .verseResults2 {
     margin-top: 2%;
-    height: 85%;
+    height: 80%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     padding-right: 1%;
@@ -170,7 +170,7 @@ border: 1px solid green;
 }
 
 .verseControl2{
-    margin-top: 5%; /* Space between the two controls */
+    margin-top: 1.5%; /* Space between the two controls */
     height: 10%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
