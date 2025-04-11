@@ -71,14 +71,11 @@
                 <select id="verseSelect" onchange="onVerseChange()"></select>
                 <button onclick="decrementVerse()">&#62;</button>
                 <label for="verseSelect">رقم الآية</label>
-                <div id="addVerseButtonContainer" style="display: none;">
-                <button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية للموضوع الحالي</button>
-                </div>
             </div>
         </div>
         <label for="verseDisplay">: نص الآية</label>
         <div class="verseResults">
-        <div class="verseResults1">
+            <div class="verseResults1">
             <p id="verseDisplay"></p>
         </div>
         <div class="verseResults2">
@@ -116,7 +113,7 @@
     </div>
 
     <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
-
+    
     <div id="topicResults" class="topicColoumn">
         <div class="topicControl">
             <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
@@ -125,10 +122,11 @@
         </div>
         <label>الفكرة العامة للموضوع</label>
         <div class="topicResults1">
-        <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
+            <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
         </div>
         <label>الآيات المتعلقة بالموضوع</label>
         <div id="stackedVerses" class="topicResults2"></div>
+        <div><button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية للموضوع الحالي</button></div>
     </div>
             
     

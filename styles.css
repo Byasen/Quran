@@ -281,7 +281,8 @@ border: 1px solid green;
     height:66%; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
-    border: #000 solid 1px; /* Add border to the results */    
+    border: #000 solid 1px; /* Add border to the results */
+    margin-bottom: 2%;    
     
 }
 
