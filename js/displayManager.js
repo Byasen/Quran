@@ -354,13 +354,17 @@ function renderBoundingBoxes(regions, pageId) {
 
         box.addEventListener('click', () => {
             // Show custom popup with only chapter and verse
-            showPopup(`Chapter: ${region.chapter}, Verse: ${region.verse}`);
 
-            // Clear previous highlights
-            const allBoxes = overlay.querySelectorAll('.overlay-box');
-            allBoxes.forEach(otherBox => {
-                otherBox.classList.remove('highlighted');
-            });
+
+        // Get all overlay boxes
+        const allBoxes = document.querySelectorAll('.overlay-box');
+
+
+
+        // Clear previous highlights
+        allBoxes.forEach(box => {
+            box.classList.remove('highlighted');
+        });
 
             // Highlight the clicked box and all matching boxes
             box.classList.add('highlighted');
