@@ -10,16 +10,19 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
 
     const verseData = await fetchVerse(selectedChapter, selectedVerse);
     if (verseData) {
+        // Remove Arabic + Quranic diacritics and symbols
+        const cleanText = verseData.text.ar.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED]/g, '');
+
         const newVerseDiv = document.createElement('div');
-        newVerseDiv.classList.add('verse-container'); // Updated class name for better structure
+        newVerseDiv.classList.add('verse-container');
         newVerseDiv.innerHTML = `
             <strong>سورة ${selectedSurah.number}: ${selectedSurah.name.ar} (آية ${selectedVerse})</strong><br>
-            ${verseData.text.ar}
+            ${cleanText}
             <br>
+            <button onclick="moveVerseUp(this)">رتب لأعلى</button>
+            <button onclick="moveVerseDown(this)">رتب لأسفل</button>
             <button onclick="removeVerse(this)">إزالة</button>
-            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
-            <button onclick="moveVerseUp(this)">أعلى</button>
-            <button onclick="moveVerseDown(this)">أسفل</button>
+            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">اختيار</button>
         `;
 
         const notesTextArea = document.createElement('textarea');
@@ -33,6 +36,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
     }
 }
+
 
 // Function to remove a verse from the stacked section
 function removeVerse(button) {

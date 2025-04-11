@@ -78,27 +78,28 @@ async function loadCSVData() {
 // Search the CSV data and display results
 async function searchInCSV() {
     const query = normalizeArabic(document.getElementById('verseSearchInput').value.trim());
-    const includeRoots = document.getElementById('searchRootsCheckbox')?.checked; // Check if roots checkbox is selected
+    const includeRoots = document.getElementById('searchRootsCheckbox')?.checked;
+
+    // Clear previous search results
+    searchResultsContainer.innerHTML = '';
+
     if (!query) {
         searchResultsContainer.innerHTML = '<p>الرجاء إدخال نص للبحث.</p>';
         return;
     }
 
-    // Step 2.5: If roots checkbox is checked, get the list of words from roots.json
-    let wordList = [query]; // Start with the query as the base word
+    let wordList = [query];
 
     if (includeRoots) {
         try {
             const rootWords = await getWordsFromRoots(query);
-            wordList = [...new Set([...wordList, ...rootWords])]; // Combine query and root-derived words, remove duplicates
+            wordList = [...new Set([...wordList, ...rootWords])];
         } catch (error) {
-            //console.error("Error loading roots data:", error);
             searchResultsContainer.innerHTML = '<p>خطأ في تحميل بيانات الجذور.</p>';
             return;
         }
     }
-    
-    // Step 3: Search for all words in the wordList
+
     const matches = csvData.filter(entry => 
         wordList.some(word => normalizeArabic(entry.text).includes(word))
     );
@@ -108,7 +109,6 @@ async function searchInCSV() {
         return;
     }
 
-    // Calculate statistics
     const chapterOccurrences = {};
     matches.forEach(match => {
         if (!chapterOccurrences[match.chapter]) {
@@ -119,7 +119,6 @@ async function searchInCSV() {
 
     const uniqueChapters = Object.keys(chapterOccurrences).length;
 
-    // Create a summary section
     const summaryDiv = document.createElement('div');
     summaryDiv.classList.add('search-summary');
     summaryDiv.innerHTML = `
@@ -136,7 +135,6 @@ async function searchInCSV() {
 
     searchResultsContainer.appendChild(summaryDiv);
 
-    // Display search results
     matches.forEach(match => {
         const resultDiv = document.createElement('div');
         resultDiv.classList.add('search-result');
