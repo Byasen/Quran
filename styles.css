@@ -122,10 +122,9 @@ p, .verse {
     align-items: center; /* Center items vertically */
 }
 
-#playAudioBtn, #stopAudioBtn {
-    margin: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
+#playAudioBtn.playing {
+    background-color: lightgreen;
+    border: 1px solid green;
   }
 
 .verseColoumn{
