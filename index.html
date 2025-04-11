@@ -43,12 +43,14 @@
                     <img src="data/png/dummy.png" />
                     <div class="overlay-layer"></div>
                 </div>
-        </div>   
-        <div class="pageControl">
-            <button onclick="incrementPage()">&#60;</button>
-            <select id="pageSelect" onchange="onPageChange()"></select>
-            <button onclick="decrementPage()">&#62;</button>
-            <label for="pageSelect">الصفحة</label>
+            </div>   
+            <div class="pageControl">
+                <button onclick="incrementPage()">&#60;</button>
+                <select id="pageSelect" onchange="onPageChange()"></select>
+                <button onclick="decrementPage()">&#62;</button>
+                <label for="pageSelect">الصفحة</label>
+                <button id="playAudioBtn">Play</button>
+                <button id="stopAudioBtn">Stop</button>
         </div>
     </div>
 
@@ -90,7 +92,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="foldButtonColoumn"><button onclick="foldSearch()" class="foldButton">البحث في آيات القرآن</button></div>
     
     <div id="searchResults" class="searchColoumn">
@@ -126,6 +128,7 @@
     
 </div>
 
+<script src="js/audioManager.js"></script>
 <script src="js/helpersManager.js"></script>
 <script src="js/dataManager.js"></script>
 <script src="js/searchManager.js"></script>
