@@ -54,7 +54,6 @@ function loadCurrentVerse() {
     }
 }
 
-
 // Save the current state and download as a file
 function saveState() {
     const selectedTopic = document.getElementById('topicSelect').value;
@@ -67,13 +66,13 @@ function saveState() {
         // Iterate through the stacked verses and collect the relevant information
         for (let i = 0; i < stackedVerses.length; i += 2) { // Skipping the dashed lines (hr elements)
             const verseDiv = stackedVerses[i];
-            
+
             // Use regex to match and extract surah and verse information
             const surahInfo = verseDiv.querySelector('strong')?.textContent.match(/سورة (\d+): .* \(آية (\d+)\)/);
 
             if (surahInfo) {
                 const [_, surahNumber, verseNumber] = surahInfo;
-                
+
                 // Retrieve the notes from the textarea
                 const textArea = verseDiv.querySelector('textarea');
                 const verseNotes = textArea ? textArea.value : "";
@@ -99,16 +98,22 @@ function saveState() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
 
-    // Create a download link
+    // Create timestamp _[dd-mm-yy]-[hh-MM]
+    const now = new Date();
+    const pad = n => n.toString().padStart(2, '0');
+    const timestamp = `_[${pad(now.getDate())}-${pad(now.getMonth() + 1)}-${pad(now.getFullYear() % 100)}]-[${pad(now.getHours())}-${pad(now.getMinutes())}]`;
+
+    // Create a download link with timestamp
     a.href = url;
-    a.download = 'quran_state.json'; // Specify the file name
+    a.download = `quran_state${timestamp}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    exportToLocal();
+    exportToLocal(); // Export to local storage as well
 }
+
 
 
 // Export the current state to local storage (for Export Local button)
