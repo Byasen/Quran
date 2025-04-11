@@ -120,13 +120,13 @@ function handleScrollMid() {
 
     function scrollMid() {
         requestAnimationFrame(() => {
-            console.log("Before scroll:", container.scrollTop);
+            //console.log("Before scroll:", container.scrollTop);
 
             if (container.scrollHeight > container.clientHeight) {
                 container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
             }
 
-            console.log("After scroll:", container.scrollTop);
+            //console.log("After scroll:", container.scrollTop);
         });
     }
 
@@ -166,7 +166,7 @@ async function selectRandomWordAndSearch() {
         .flatMap(word => word.split(' ')); // Split into individual words
 
     if (words.length === 0) {
-        console.error("No words found in the 5th column.");
+        //console.error("No words found in the 5th column.");
         return;
     }
 

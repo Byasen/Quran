@@ -147,7 +147,7 @@ function exportToLocal() {
     // Save data to localStorage
     const jsonData = JSON.stringify({ topics });
     localStorage.setItem('quranData', jsonData);
-    console.log("Data exported to local storage.");
+    //console.log("Data exported to local storage.");
 
     saveCurrentVerse();
     saveCurrentTopic();  
@@ -158,7 +158,7 @@ function importFromLocal() {
     const jsonData = localStorage.getItem('quranData');
     const topicData = localStorage.getItem('quranTopic');
     if (!jsonData) {
-        console.error("No data found in local storage.");
+        //console.error("No data found in local storage.");
         return;
     }
 
@@ -176,9 +176,9 @@ function importFromLocal() {
         loadCurrentVerse();
         restoreState(); // Restore the first topic's state
 
-        console.log("Data imported from local storage.");
+        //console.log("Data imported from local storage.");
     } catch (error) {
-        console.error("Error parsing or restoring state from local storage:", error.message);
+        //console.error("Error parsing or restoring state from local storage:", error.message);
     }
 
 }
@@ -218,7 +218,7 @@ async function restoreState() {
         }
     }
 
-    console.log("State restored successfully for topic:", selectedTopic);
+    //console.log("State restored successfully for topic:", selectedTopic);
 }
 
 // Other existing functions (saveState, addVerse, etc.) remain unchanged...
@@ -230,7 +230,7 @@ function populateTopicsDropdown() {
     topicSelect.innerHTML = '';
 
     if (topics.length === 0) {
-        console.warn("No topics available to populate.");
+        //console.warn("No topics available to populate.");
         return;
     }
 
@@ -308,7 +308,7 @@ function loadState() {
                 const fullState = JSON.parse(e.target.result);
 
                 // Log the parsed JSON to verify the structure
-                console.log("Parsed JSON:", fullState);
+                //console.log("Parsed JSON:", fullState);
 
                 // Restore the topics
                 topics = fullState.topics || [];
@@ -362,9 +362,9 @@ function loadState() {
                 // Display the verse with analyses
                 displayVerseWithAnalyses();
 
-                console.log("State loaded successfully.");
+                //console.log("State loaded successfully.");
             } catch (error) {
-                console.error("Error parsing or restoring state:", error.message);
+                //console.error("Error parsing or restoring state:", error.message);
             }
         };
 
@@ -401,6 +401,6 @@ function importTemplateData() {
             }
         })
         .catch(error => {
-            console.error("Error loading template data:", error.message);
+            //console.error("Error loading template data:", error.message);
         });
 }

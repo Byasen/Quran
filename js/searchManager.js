@@ -39,14 +39,14 @@ async function loadCSVData() {
         const rows = csvText.split('\n');
         let invalidRowCount = 0;
 
-        console.log(`Total rows in CSV (including header): ${rows.length}`);
+        //console.log(`Total rows in CSV (including header): ${rows.length}`);
 
         csvData = rows.slice(1).map((row, index) => {
             const columns = row.split(',');
 
             // Check for invalid rows (less than expected columns)
             if (columns.length < 6) {
-                console.warn(`Invalid row ${index + 2}:`, row);
+                //console.warn(`Invalid row ${index + 2}:`, row);
                 invalidRowCount++;
                 return null; // Skip invalid rows
             }
@@ -64,11 +64,11 @@ async function loadCSVData() {
         // Filter out null entries (invalid rows)
         csvData = csvData.filter(entry => entry !== null);
 
-        console.log('CSV data loaded successfully:', csvData);
-        console.log(`Valid rows: ${csvData.length}`);
-        console.log(`Invalid rows: ${invalidRowCount}`); // Log number of invalid rows
+        //console.log('CSV data loaded successfully:', csvData);
+        //console.log(`Valid rows: ${csvData.length}`);
+        //console.log(`Invalid rows: ${invalidRowCount}`); // Log number of invalid rows
     } catch (error) {
-        console.error('Error loading CSV file:', error);
+        //console.error('Error loading CSV file:', error);
     }
 }
 
@@ -92,14 +92,12 @@ async function searchInCSV() {
             const rootWords = await getWordsFromRoots(query);
             wordList = [...new Set([...wordList, ...rootWords])]; // Combine query and root-derived words, remove duplicates
         } catch (error) {
-            console.error("Error loading roots data:", error);
+            //console.error("Error loading roots data:", error);
             searchResultsContainer.innerHTML = '<p>خطأ في تحميل بيانات الجذور.</p>';
             return;
         }
     }
-
     
-
     // Step 3: Search for all words in the wordList
     const matches = csvData.filter(entry => 
         wordList.some(word => normalizeArabic(entry.text).includes(word))
@@ -173,7 +171,7 @@ async function getWordsFromRoots(query) {
         // Return the associated words, or an empty list if no match
         return matchingRoot ? matchingRoot.words : [];
     } catch (error) {
-        console.error("Error fetching or processing roots.json:", error);
+        //console.error("Error fetching or processing roots.json:", error);
         throw error;
     }
 }

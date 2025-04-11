@@ -89,7 +89,7 @@ function removeTopic() {
         document.getElementById('stackedVerses').innerHTML = '';
         document.getElementById('questionInput').value = '';
         document.getElementById('answerInput').value = '';
-        console.log("No topics available.");
+        //console.log("No topics available.");
     }
 }
 

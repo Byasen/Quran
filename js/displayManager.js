@@ -2,19 +2,19 @@
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
         const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
-        console.log(`Fetching analysis from: ${filePath}`); // Debugging line
+        //console.log(`Fetching analysis from: ${filePath}`); // Debugging line
 
         const response = await fetch(filePath);
         if (response.ok) {
             const analysisData = await response.json();
-            console.log(`Fetched data for ${source}:`, analysisData); // Debugging line
+            //console.log(`Fetched data for ${source}:`, analysisData); // Debugging line
             return analysisData.text || `لا يوجد مدخل لهذه الآية`;
         } else {
-            console.error(`Failed to fetch ${source} analysis for ${chapterNumber}:${verseNumber}`);
+            //console.error(`Failed to fetch ${source} analysis for ${chapterNumber}:${verseNumber}`);
             return `No ${source} analysis available`;
         }
     } catch (error) {
-        console.error(`Error fetching ${source}:`, error);
+        //console.error(`Error fetching ${source}:`, error);
         return `No ${source} analysis available`;
     }
 }
@@ -37,9 +37,9 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
         const selectedSources = sources.filter(source => {
             const checkbox = document.getElementById(`toggle${source}`);
             if (!checkbox) {
-                console.warn(`Checkbox not found for: ${source}`);
+                //console.warn(`Checkbox not found for: ${source}`);
             } else {
-                console.log(`Checkbox for ${source}: ${checkbox.checked}`);
+                //console.log(`Checkbox for ${source}: ${checkbox.checked}`);
             }
             return checkbox ? checkbox.checked : false;
         });
@@ -61,7 +61,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
         };
     } catch (error) {
         hideLoadingStatus();
-        console.error(error);
+        //console.error(error);
         return null;
     }
 }
@@ -78,7 +78,7 @@ async function displayVerseWithAnalyses() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-    console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
+    //console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
         let verseDisplayContent = '<hr class="dashed-line">';
@@ -94,7 +94,7 @@ async function displayVerseWithAnalyses() {
             const checkbox = document.getElementById(`toggle${analysisType}`);
             if (checkbox && checkbox.checked) {
                 const lowerCaseKey = analysisType.toLowerCase(); // Convert analysisType to lowercase
-                console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
+                //console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
 
                 // Use the lowercase key to access the analysis data
                 const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
@@ -123,7 +123,7 @@ async function displayVerseWithAnalysesNoPageChange() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-    console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
+    //console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
         let verseDisplayContent = '<hr class="dashed-line">';
@@ -139,7 +139,7 @@ async function displayVerseWithAnalysesNoPageChange() {
             const checkbox = document.getElementById(`toggle${analysisType}`);
             if (checkbox && checkbox.checked) {
                 const lowerCaseKey = analysisType.toLowerCase(); // Convert analysisType to lowercase
-                console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
+                //console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
 
                 // Use the lowercase key to access the analysis data
                 const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
@@ -234,7 +234,7 @@ document.addEventListener("click", function(event) {
 function foldSearch(){
     const Container = document.getElementById('searchResults');
     const Container2 = document.getElementById('verseColoumnId');
-    console.log("the width is :", Container2.style.width);
+    //console.log("the width is :", Container2.style.width);
     if (Container.style.display === 'block') {
         Container.style.display = 'none';
         if (Container2.style.width === "22%") {
@@ -288,7 +288,7 @@ function initializeVerseHighlighting() {
             const imageFilename = image.src.split('/').pop();
             fetchOverlayData(imageFilename, pageId);
         } else {
-            console.warn(`No image found in the ${pageId} container.`);
+            //console.warn(`No image found in the ${pageId} container.`);
         }
     });
 }
@@ -306,7 +306,7 @@ function fetchOverlayData(imageFilename, pageId) {
             renderBoundingBoxes(data.regions, pageId);
         })
         .catch(error => {
-            console.error(`Error loading overlay data for ${pageId}:`, error);
+            //console.error(`Error loading overlay data for ${pageId}:`, error);
 
             // 🚫 Clear the previous overlay if present
             const imageContainer = document.getElementById(pageId);
