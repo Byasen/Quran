@@ -373,7 +373,9 @@ label {
     max-height: 1000%;
     overflow-y: auto;
     width: auto;
+    right: 0; /* Start on the right of the parent container */
 }
+
 .dropdown-content div {
     padding: 8px;
     cursor: pointer;
