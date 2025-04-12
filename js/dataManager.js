@@ -56,10 +56,8 @@ async function fetchVerse(chapterNumber, verseNumber) {
 // Populate Surah dropdown
 function populateChapters() {
     const chapterSelect = document.getElementById('chapterSelect'); // Traditional dropdown
-    const dropdownSelect = document.getElementById('dropdownList'); // Custom dropdown list
 
     chapterSelect.innerHTML = ''; // Clear previous options
-    dropdownSelect.innerHTML = ''; // Clear previous items
 
     quranMetadata.forEach(surah => {
         // Populate traditional dropdown
@@ -67,22 +65,19 @@ function populateChapters() {
         option.value = surah.number;
         option.textContent = `${surah.number}. ${surah.name.en} (${surah.name.ar})`;
         chapterSelect.appendChild(option);
+    }); // Close forEach and add semicolon
+}
 
-       // Populate custom dropdown
-       const div = document.createElement('div');
-       div.textContent = `${surah.number}. ${surah.name.en} (${surah.name.ar})`;
-       div.setAttribute('data-value', surah.number); // Store value for reference
-       
-       // Call function when selection is made
-       div.onclick = function () {
-           document.getElementById("dropdownInput").value = this.textContent;
-           document.getElementById("dropdownList").style.display = "none";
-           onChapterSelect(this.getAttribute('data-value')); // Call function with chapter number
-       };
-       
-       dropdownSelect.appendChild(div);
+
+function initializeChapterSelect() {
+    const element = document.getElementById('chapterSelect');
+    new Choices(element, {
+      searchEnabled: true,
+      itemSelectText: '',
+      shouldSort: false,
+      placeholder: true,
+      placeholderValue: 'ابحث في أسماء السور'
     });
-    
 }
 
 
@@ -106,6 +101,17 @@ function populateVerses(verses) {
     }
 }
 
+function initializeVersesSelect() {
+    const element = document.getElementById('verseSelect');
+    new Choices(element, {
+      searchEnabled: true,
+      itemSelectText: '',
+      shouldSort: false,
+      placeholder: true,
+      placeholderValue: 'رقم الآية'
+    });
+}
+
 
 
 // Populate Quran pages dropdown
@@ -121,6 +127,16 @@ function populatePages() {
     }
 }
 
+function initializePageSelect() {
+    const element = document.getElementById('pageSelect');
+    new Choices(element, {
+      searchEnabled: true,
+      itemSelectText: '',
+      shouldSort: false,
+      placeholder: true,
+      placeholderValue: 'رقم الصفحة'
+    });
+}
 
 
 // Function to handle selecting a stacked verse

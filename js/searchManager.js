@@ -81,10 +81,11 @@ async function searchInCSV() {
     const includeRoots = document.getElementById('searchRootsCheckbox')?.checked;
 
     // Clear previous search results
-    searchResultsContainer.innerHTML = '';
+    searchResultsContainer1.innerHTML = '';
+    searchResultsContainer2.innerHTML = '';
 
     if (!query) {
-        searchResultsContainer.innerHTML = '<p>الرجاء إدخال نص للبحث.</p>';
+        searchResultsContainer1.innerHTML = '<p>الرجاء إدخال نص للبحث.</p>';
         return;
     }
 
@@ -95,7 +96,7 @@ async function searchInCSV() {
             const rootWords = await getWordsFromRoots(query);
             wordList = [...new Set([...wordList, ...rootWords])];
         } catch (error) {
-            searchResultsContainer.innerHTML = '<p>خطأ في تحميل بيانات الجذور.</p>';
+            searchResultsContainer1.innerHTML = '<p>خطأ في تحميل بيانات الجذور.</p>';
             return;
         }
     }
@@ -114,7 +115,7 @@ async function searchInCSV() {
     );
 
     if (matches.length === 0) {
-        searchResultsContainer.innerHTML = `<p>لم يتم العثور على نتائج لـ "${query}".</p>`;
+        searchResultsContainer1.innerHTML = `<p>لم يتم العثور على نتائج لـ "${query}".</p>`;
         return;
     }
 
@@ -132,9 +133,7 @@ async function searchInCSV() {
     summaryDiv.classList.add('search-summary');
     summaryDiv.innerHTML = `
         <p><strong>الكلمات المبحوثة:</strong> ${wordList}</p>        
-        <p><strong>إجمالي النتائج:</strong> ${matches.length}</p>
-        <p><strong>عدد السور المميزة:</strong> ${uniqueChapters}</p>
-        <p><strong>التكرار لكل سورة:</strong></p>
+        <p><strong>السور التي وردت فيها:</strong></p>
         <ul>
             ${Object.entries(chapterOccurrences)
                 .map(([chapter, { count, name }]) => `سورة ${name}: ${count} مرات</p>`)
@@ -142,11 +141,11 @@ async function searchInCSV() {
         </ul>
     `;
 
-    searchResultsContainer.appendChild(summaryDiv);
+    searchResultsContainer1.appendChild(summaryDiv);
 
     matches.forEach(match => {
         const resultDiv = document.createElement('div');
-        resultDiv.classList.add('search-result');
+        resultDiv.classList.add('searchVerseResult');
 
         resultDiv.innerHTML = `
             <strong>سورة ${match.chapterName} (${match.chapter}) (آية ${match.verse})</strong><br>
@@ -158,10 +157,9 @@ async function searchInCSV() {
         selectButton.onclick = () => selectSearchedVerseFromSearchResults(match.chapter, match.verse);
 
         resultDiv.appendChild(selectButton);
-        searchResultsContainer.appendChild(resultDiv);
+        searchResultsContainer2.appendChild(resultDiv);
     });
 }
-
 
 
 async function getWordsFromRoots(query) {

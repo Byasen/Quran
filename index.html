@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Al Quran Notebook</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="choices.min.css">
 </head>
 <body id=content>
 
@@ -56,23 +57,17 @@
         </div>
     </div>
 
-
+    
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
+        <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
         <div class="verseControl1">
-            <div>
-                <select id="chapterSelect" onchange="onChapterChange()"></select>
-                <label for="chapterSelect">السورة</label>
-            </div>
-            <div class="dropdown"><div id="dropdownList" class="dropdown-content"></div></div>
-            <div>
-                <button id="playOneAudioBtn" title="Play">▶</button>
-                <button id="stopAudioBtn" title="Stop">⏹</button>
-                <button onclick="incrementVerse()">&#60;</button>
-                <select id="verseSelect" onchange="onVerseChange()"></select>
-                <button onclick="decrementVerse()">&#62;</button>
-                <label for="verseSelect">رقم الآية</label>
-            </div>
+            <button onclick="incrementVerse()">&#60;</button>
+            <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
+            <button onclick="decrementVerse()">&#62;</button>
+            <label for="verseSelect">رقم الآية</label>
         </div>
+        <button id="playOneAudioBtn" title="Play">▶</button>
+        <button id="stopAudioBtn" title="Stop">⏹</button>
         <label for="verseDisplay">: نص الآية</label>
         <div class="verseResults">
             <div class="verseResults1">
@@ -108,8 +103,8 @@
             <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
             <div><label><input type="checkbox" id="searchRootsCheckbox">بحث بالجذور</label></div>
         </div>
-        <div id="searchResultsContainer" class="searchResults">
-        </div>
+        <div id="searchResultsContainer1" class="searchResults1"></div>
+        <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
 
     <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
@@ -132,15 +127,15 @@
     
 </div>
 
+<script src="js/choices.min.js"></script>
 <script src="js/audioManager.js"></script>
 <script src="js/helpersManager.js"></script>
 <script src="js/dataManager.js"></script>
 <script src="js/searchManager.js"></script>
-<script src="js/displayManager.js"></script>
 <script src="js/topicsManager.js"></script>
 <script src="js/statusManager.js"></script>
+<script src="js/displayManager.js"></script>
 <script src="js/mainManager.js"></script>
-
 
 </body>
 </html>

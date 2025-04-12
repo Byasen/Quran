@@ -204,33 +204,6 @@ function toggleSidebar() {
 }
 
 
-function toggleDropdown() {
-    document.getElementById("dropdownList").style.display = "block";
-}
-
-function filterFunction() {
-    let input = document.getElementById("dropdownInput");
-    let filter = input.value.toLowerCase();
-    let divs = document.getElementById("dropdownList").getElementsByTagName("div");
-    for (let i = 0; i < divs.length; i++) {
-        let txtValue = divs[i].textContent || divs[i].innerText;
-        divs[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
-    }
-}
-
-function selectItem(element) {
-    document.getElementById("dropdownInput").value = element.innerText;
-    document.getElementById("dropdownList").style.display = "none";
-}
-
-document.addEventListener("click", function(event) {
-    if (!event.target.closest(".dropdown")) {
-        document.getElementById("dropdownList").style.display = "none";
-    }
-});
-
-
-
 function foldSearch(){
     const Container = document.getElementById('searchResults');
     const Container2 = document.getElementById('verseColoumnId');
