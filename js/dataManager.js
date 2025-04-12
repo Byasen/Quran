@@ -101,6 +101,18 @@ function populateVerses(verses) {
         });
 
     }
+    initializeVersesSelect(); // Initialize Choices.js for the page select dropdown
+}
+
+function initializeVersesSelect() {
+    const element = document.getElementById('verseSelect');
+    new Choices(element, {
+      searchEnabled: true,
+      itemSelectText: '',
+      shouldSort: false,
+      placeholder: true,
+      placeholderValue: 'رقم الآية'
+    });
 }
 
 
@@ -116,8 +128,19 @@ function populatePages() {
         option.textContent = `${i}`;
         pageSelect.appendChild(option);
     }
+    initializePageSelect(); // Initialize Choices.js for the page select dropdown
 }
 
+function initializePageSelect() {
+    const element = document.getElementById('pageSelect');
+    new Choices(element, {
+      searchEnabled: true,
+      itemSelectText: '',
+      shouldSort: false,
+      placeholder: true,
+      placeholderValue: 'رقم الصفحة'
+    });
+}
 
 
 // Function to handle selecting a stacked verse

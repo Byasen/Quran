@@ -50,7 +50,7 @@
             <div class="pageControl">
                 <button id="playAudioBtn" title="AutoPlay">🔁</button>
                 <button onclick="incrementPage()">&#60;</button>
-                <select id="pageSelect" onchange="onPageChange()"></select>
+                <div class="pageSelectClass"><select id="pageSelect" onchange="onPageChange()"></select></div>
                 <button onclick="decrementPage()">&#62;</button>
                 <label for="pageSelect">الصفحة</label>
                 
@@ -59,12 +59,12 @@
 
     
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
-        <select id="chapterSelect" onchange="onChapterChange()"></select>
+        <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
         <div class="verseControl1">
                 <button id="playOneAudioBtn" title="Play">▶</button>
                 <button id="stopAudioBtn" title="Stop">⏹</button>
                 <button onclick="incrementVerse()">&#60;</button>
-                <select id="verseSelect" onchange="onVerseChange()"></select>
+                <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
                 <button onclick="decrementVerse()">&#62;</button>
                 <label for="verseSelect">رقم الآية</label>
         </div>

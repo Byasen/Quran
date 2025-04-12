@@ -144,13 +144,13 @@ border: 1px solid green;
 
 .verseControl1{
    /* height: 20%; */
-    height: 7%;
+    height: 20%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
 .verseResults {
-    height: 75%;
+    height: 78%;
 }
 
 .verseResults1 {
@@ -349,7 +349,17 @@ label {
 }
 
 
-.choices {
+/* Style only for Quran dropdown */
+.pageSelectClass + .choices .choices__list--dropdown {
+    background-color: #7300ff;
+  }
+  
+  /* Style only for other dropdown */
+  .verseSelectClass + .choices .choices__list--dropdown {
+    background-color: #ff0dae;
+  }
+
+.chapterSelectClass + .choices {
     direction: rtl;
     text-align: right;
     width : fit-content;
