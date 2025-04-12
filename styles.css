@@ -223,6 +223,14 @@ border: 1px solid green;
 }
 
 
+.searchVerseResult {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+}
+
+
 .topicColoumn {
     display: none;
     height: inherit;
@@ -320,68 +328,6 @@ textarea {
     text-decoration: none;
 }
 
-/* Checkbox container styles */
-.checkbox-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
-
-
-/* Common class for RTL justification for all text types */
-.rtl-text {
-    direction: rtl;
-    text-align: right;
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
-
-
-
-.search-result {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #ffffff;
-}
-
-.search-result button {
-    margin: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    cursor: pointer;
-}
-
-
-
-.addVerseClass {
-    display: none; /* Initially hidden */
-}
-
-
-/* Toggle visibility */
-.hidden {
-    display: none !important;
-}
-
-
-
-/* Sidebar styles */
-.Meanings {
-    display: none; /* Initially hidden */
-}
-
-#searchRootsCheckbox {
-    margin-left: 10px;
-}
-
-
-#pageSelect {
-    padding: 5px;
-    font-size: 14px;
-    margin: 5px;
-}
-
 
 select, button, textarea, input[type="text"] {
     padding: 5px; /* Reduce padding inside the box */
@@ -394,24 +340,6 @@ select, button, textarea, input[type="text"] {
 
 
 
-.divider {
-    width: 5px; /* Thin vertical line */
-    height: 100%; /* Full height of the top bar */
-    margin: 0 10px; /* Space around the divider */
-    font-size: 32px; /* Reduce font size */
-}
-
-
-
-
-.label {
-    text-align: right; /* Align text inside the label to the right */
-    direction: rtl; /* Ensure proper right-to-left text flow */
-    display: block; /* Make the label take up the full width */
-    width: 100%; /* Ensure it spans the full width of the container */
-    margin: 0 0 5px 0; /* Add spacing below the label */
-}
-
 label {
     text-align: right; /* Align text inside the <label> */
     display: inline-block; /* Prevent the text from centering vertically */
@@ -419,15 +347,6 @@ label {
     font-size: 18px; /* Ensure similar font size */
 }
 
-
-
-.verse-container {
-    border: 1px solid #ddd; /* Light border around each container */
-    padding: 10px; /* Add inner spacing */
-    background-color: #f9f9f9; /* Light background color */
-    border-radius: 8px; /* Rounded corners for a modern look */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
 
 
 
@@ -458,15 +377,3 @@ label {
 .dropdown-content div:hover {
     background-color: #ddd;
 }
-
-.chapterVerseSelector {
-    display: flex; /* Ensure it uses flexbox for layout */
-    flex-direction: row-reverse; /* Reverse the order for RTL alignment */
-    align-items: flex-end; /* Align items to the bottom */
-    direction: ltr; /* Set text direction to right-to-left */
-    text-align: right; /* Align text to the right */
-    justify-content: flex-start; /* Align items starting from the right */
-}
-
-
-

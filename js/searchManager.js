@@ -146,7 +146,7 @@ async function searchInCSV() {
 
     matches.forEach(match => {
         const resultDiv = document.createElement('div');
-        resultDiv.classList.add('search-result');
+        resultDiv.classList.add('searchVerseResult');
 
         resultDiv.innerHTML = `
             <strong>سورة ${match.chapterName} (${match.chapter}) (آية ${match.verse})</strong><br>
