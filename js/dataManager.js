@@ -70,7 +70,7 @@ function populateChapters() {
 
        // Populate custom dropdown
        const div = document.createElement('div');
-       div.textContent = `${surah.number}. ${surah.name.en} (${surah.name.ar})`;
+       div.textContent = `${surah.name.ar}.${surah.number}`;
        div.setAttribute('data-value', surah.number); // Store value for reference
        
        // Call function when selection is made

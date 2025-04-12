@@ -58,15 +58,14 @@
 
     
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
-        <div class="verseControl1">
-            <div class="dropdown" >
-                <input type="text" id="dropdownInput" placeholder="Search..." onkeyup="filterFunction()" onclick="toggleDropdown()">
-                <div id="dropdownList" class="dropdown-content"></div>
-            </div>
-            <div>
+        <div class="dropdown" >
+            <input type="text" id="dropdownInput" onkeyup="filterFunction()" onclick="toggleDropdown()">
+            <label for="dropdownInput">السورة</label>
+            <div id="dropdownList" class="dropdown-content"></div>
+        </div>
+             <div class="verseControl1">
                 <select id="chapterSelect" onchange="onChapterChange()"></select>
                 <label for="chapterSelect">السورة</label>
-            </div>
             <div>
                 <button id="playOneAudioBtn" title="Play">▶</button>
                 <button id="stopAudioBtn" title="Stop">⏹</button>
