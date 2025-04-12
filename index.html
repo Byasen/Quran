@@ -59,18 +59,14 @@
 
     
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
+        <select id="chapterSelect" onchange="onChapterChange()"></select>
         <div class="verseControl1">
-            <input type="text" id="chapterSearchInput" oninput="filterChapters()" placeholder="ابحث في أسماء السور" style="display: none;">
-            <select id="chapterSelect" onchange="onChapterChange()"></select>
-            <label for="chapterSelect">السورة</label>
-            <div>
                 <button id="playOneAudioBtn" title="Play">▶</button>
                 <button id="stopAudioBtn" title="Stop">⏹</button>
                 <button onclick="incrementVerse()">&#60;</button>
                 <select id="verseSelect" onchange="onVerseChange()"></select>
                 <button onclick="decrementVerse()">&#62;</button>
                 <label for="verseSelect">رقم الآية</label>
-            </div>
         </div>
         <label for="verseDisplay">: نص الآية</label>
         <div class="verseResults">

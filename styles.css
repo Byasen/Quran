@@ -144,7 +144,7 @@ border: 1px solid green;
 
 .verseControl1{
    /* height: 20%; */
-    height: 20%;
+    height: 7%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -349,37 +349,13 @@ label {
 }
 
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-    width: 90%;
-    text-align: right; /* Align children to the right */
-}
-.dropdown input {
-    width: auto;
-    box-sizing: border-box;
-    justify-content: flex-start; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: ltr; /* Set text direction to right-to-left */
-    align-items: flex-end; /* Align items to the bottom */
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-    max-height: 1000%;
-    overflow-y: auto;
-    width: auto;
-    right: 0; /* Start on the right of the parent container */
-}
-
-.dropdown-content div {
-    padding: 8px;
-    cursor: pointer;
-}
-.dropdown-content div:hover {
-    background-color: lightgreen;
+.choices {
+    direction: rtl;
+    text-align: right;
+    width : fit-content;
+    height: fit-content;
+    margin-left: auto;
+    padding-right: 2%; /* Reduce padding inside the box */
+    margin-bottom: 0px; /* Reduce margin between elements */
+    font-family: Arial, sans-serif; /* Set font to Arial */
 }
