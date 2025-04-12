@@ -144,17 +144,17 @@ border: 1px solid green;
 
 .verseControl1{
    /* height: 20%; */
-    height: 20%;
+    height:8%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
 .verseResults {
-    height: 78%;
+    height: 80%;
 }
 
 .verseResults1 {
-    height: 15%;
+    height: 12%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     padding-right: 1%;

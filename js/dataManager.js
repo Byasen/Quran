@@ -66,8 +66,6 @@ function populateChapters() {
         option.textContent = `${surah.number}. ${surah.name.en} (${surah.name.ar})`;
         chapterSelect.appendChild(option);
     }); // Close forEach and add semicolon
-    
-    initializeChapterSelect();
 }
 
 
@@ -101,7 +99,6 @@ function populateVerses(verses) {
         });
 
     }
-    initializeVersesSelect(); // Initialize Choices.js for the page select dropdown
 }
 
 function initializeVersesSelect() {
@@ -128,7 +125,6 @@ function populatePages() {
         option.textContent = `${i}`;
         pageSelect.appendChild(option);
     }
-    initializePageSelect(); // Initialize Choices.js for the page select dropdown
 }
 
 function initializePageSelect() {
