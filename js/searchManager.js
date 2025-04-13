@@ -77,7 +77,7 @@ async function loadCSVData() {
 
 // Search the CSV data and display results
 async function searchInCSV() {
-    const query = normalizeArabic(document.getElementById('verseSearchInput').value.trim());
+    const query = normalizeArabic(document.getElementById('verseSearchInput').value);
     const includeRoots = document.getElementById('searchRootsCheckbox')?.checked;
 
     // Clear previous search results
