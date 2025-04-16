@@ -105,7 +105,7 @@ function saveState() {
 
     // Create a download link with timestamp
     a.href = url;
-    a.download = `quran_state${timestamp}.json`;
+    a.download = `quran_topcis${timestamp}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

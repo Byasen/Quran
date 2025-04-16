@@ -32,26 +32,6 @@ function onPageChange() {
 }
 
 
-// Enable Ctrl+S for saving the state without opening a new tab
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.key === 's') {
-        event.preventDefault(); // Prevent the default browser save dialog
-        saveStateNoNewTab(); // Call the new function without opening a tab
-        //console.log("Ctrl+S pressed: State saved (no new tab).");
-    }
-});
-
-// Add event listener to handle keyboard navigation for page changes
-document.addEventListener('keydown', function(event) {
-        // Flip the arrow key actions: Right key now moves to the previous page, Left key moves to the next page
-        if (event.key === 'ArrowRight') {
-            decrementVerse(); // Move to the next page
-        }
-        
-        if (event.key === 'ArrowLeft') {
-            incrementVerse(); // Move to the previous page
-        }
-});
 
 
 // Automatically detect changes in the dropdown menus
@@ -82,5 +62,17 @@ window.onload = async function () {
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
     selectThisVerse(randomChapter, randomVerse);
     selectRandomWordAndSearch();
-    selectRandomTopic();
 };
+
+
+// Add event listener to handle keyboard navigation for page changes
+document.addEventListener('keydown', function(event) {
+        // Flip the arrow key actions: Right key now moves to the previous page, Left key moves to the next page
+        if (event.key === 'ArrowRight') {
+            decrementVerse(); // Move to the next page
+        }
+        
+        if (event.key === 'ArrowLeft') {
+            incrementVerse(); // Move to the previous page
+        }
+});
