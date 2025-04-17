@@ -424,3 +424,38 @@ function highlightSelectedChapterAndVerse() {
         }
     });
 }
+
+
+
+function showMobileColumn(className) {
+    const columns = ['pageColoumn', 'verseColoumn', 'searchColoumn', 'topicColoumn'];
+    columns.forEach(col => {
+        const el = document.querySelector(`.${col}`);
+        if (el) el.classList.remove('mobile-active');
+    });
+
+    const target = document.querySelector(`.${className}`);
+    if (target) target.classList.add('mobile-active');
+}
+
+
+// Show the mobileColumnSelector only in mobile mode
+function checkMobileMode() {
+    const mobileColumnSelector = document.getElementById('mobileColumnSelectorID');
+    const container = document.getElementById("mobileOnlyVerseContent");
+    if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
+        mobileColumnSelector.style.display = 'block';
+        showMobileColumn('pageColoumn');
+        if (container.children.length === 0) {
+            container.innerHTML = `
+                <div class="verseResults">
+                    <div class="verseResults1"></div>
+                    <p id="verseDisplay"></p>
+                </div>
+            `;
+            // Default to showing the page column
+    } else {
+        mobileColumnSelector.style.display = 'none';
+    }
+    }
+}

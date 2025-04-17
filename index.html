@@ -9,6 +9,19 @@
 </head>
 <body id=content>
 
+    <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
+        <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
+        <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
+        <button onclick="showMobileColumn('searchColoumn')">بحث</button>
+        <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
+        
+        <div id="mobileOnlyVerseContent"></div>
+        
+    </div>
+
+
+
+
     
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
@@ -59,17 +72,18 @@
     </div>
 
     
-    <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
-        <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
+    <div id="verseColoumnId" class="verseColoumn"">
         <div class="verseControl1">
+            <div><select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select></div>
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
             <button onclick="decrementVerse()">&#62;</button>
             <label for="verseSelect">رقم الآية</label>
         </div>
-        <button id="playOneAudioBtn" title="Play">▶</button>
-        <button id="stopAudioBtn" title="Stop">⏹</button>
-        <label for="verseDisplay">: نص الآية</label>
+            <div><button id="playOneAudioBtn" title="Play">▶</button>
+            <button id="stopAudioBtn" title="Stop">⏹</button>
+            <label for="verseDisplay">: نص الآية</label>
+        </div>
         <div class="verseResults">
             <div class="verseResults1">
             <p id="verseDisplay"></p>
