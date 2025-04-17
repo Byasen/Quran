@@ -62,6 +62,7 @@ window.onload = async function () {
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
     selectThisVerse(randomChapter, randomVerse);
     selectRandomWordAndSearch();
+    checkMobileMode();
 };
 
 

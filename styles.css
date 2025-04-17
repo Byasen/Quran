@@ -384,3 +384,56 @@ label {
     margin-bottom: 0px; /* Reduce margin between elements */
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
+
+
+
+
+@media screen and (max-width: 768px) {
+    .mainContainer {
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .mobileColumnSelector {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 10%;
+        background-color: #f1f1f1;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .mobileColumnSelector button {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        background-color: white;
+        border: none;
+        border-right: 1px solid #ddd;
+    }
+
+    .mobileColumnSelector button:last-child {
+        border-right: none;
+    }
+
+    .pageColoumn,
+    .verseColoumn,
+    .searchColoumn,
+    .topicColoumn {
+        display: none;
+        height: 90%;
+        width: 100%;
+        margin: 0;
+        overflow-y: auto;
+    }
+
+    .mobile-active {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    .foldButtonColoumn {
+        display: none;
+    }
+}
