@@ -151,6 +151,7 @@ border: 1px solid green;
 
 .verseResults {
     height: 80%;
+    width: 100%;
 }
 
 .verseResults1 {
@@ -189,8 +190,8 @@ border: 1px solid green;
     height: inherit;
     width: 100%;
     writing-mode: vertical-rl; /* Makes text vertical from top to bottom */
-    text-orientation:sideways;
-    font-size: x-large; /* Keeps Arabic letters readable */
+    text-orientation: sideways;
+    font-size: x-large; /* Dynamically adjust font size to fit container */
 }
 
 .searchColoumn {
@@ -281,6 +282,7 @@ border: 1px solid green;
     overflow-x: hidden; /* Hide horizontal overflow */
     margin-bottom: 5%;
     padding-right: 2%;
+    width: 100%;
 }
 
 #answerInput {
