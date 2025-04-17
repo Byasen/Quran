@@ -144,7 +144,7 @@ border: 1px solid green;
 
 .verseControl1{
    /* height: 20%; */
-    height:8%;
+    height:12%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -398,10 +398,10 @@ label {
     }
 
     .mobileColumnSelector {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        height: 10%;
+        direction: rtl;
+        text-align: right;
+        align-items: right;
+        height: 15%;
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
     }
@@ -424,7 +424,7 @@ label {
     .searchColoumn,
     .topicColoumn {
         display: none;
-        height: 90%;
+        height: 80%;
         width: 100%;
         margin: 0;
         overflow-y: auto;

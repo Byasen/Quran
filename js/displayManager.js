@@ -442,10 +442,20 @@ function showMobileColumn(className) {
 // Show the mobileColumnSelector only in mobile mode
 function checkMobileMode() {
     const mobileColumnSelector = document.getElementById('mobileColumnSelectorID');
+    const container = document.getElementById("mobileOnlyVerseContent");
     if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
         mobileColumnSelector.style.display = 'block';
-        showMobileColumn('pageColoumn'); // Default to showing the page column
+        showMobileColumn('pageColoumn');
+        if (container.children.length === 0) {
+            container.innerHTML = `
+                <div class="verseResults">
+                    <div class="verseResults1"></div>
+                    <p id="verseDisplay"></p>
+                </div>
+            `;
+            // Default to showing the page column
     } else {
         mobileColumnSelector.style.display = 'none';
+    }
     }
 }
