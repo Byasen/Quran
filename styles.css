@@ -271,6 +271,10 @@ border: 1px solid green;
 
 }
 
+.newTopicInputClass {
+    display: none;
+}
+
 /* Sidebar styles */
 .topicResults1 {
     justify-content: flex-start; /* Align items starting from the right */
@@ -330,12 +334,12 @@ textarea {
 }
 
 .sidebar {
-    width: 15%;
+    width: 15vh;
     height: 100%;
     position: fixed;
-    left: -15%;
+    left: -15vh;;
     top: 0;
-    color: white;
+    background-color: rgb(153, 153, 153);
     transition: left 0.3s ease;
 
 }
@@ -407,7 +411,6 @@ label {
         flex-direction: column;
         height: 90vh;
         overflow: hidden;
-        border: #ff0e0e 1px solid;
     }
 
     .mobileColumnSelector {
@@ -418,7 +421,6 @@ label {
         border-bottom: 1px solid #ccc;
         height: 5vh;
         margin-top: 2vh;
-        border: #000 1px solid;
 
     }
 
