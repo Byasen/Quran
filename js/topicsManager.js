@@ -1,3 +1,9 @@
+function addCurrentVerse()  {
+    const chapterNumberLoc = document.getElementById('chapterSelect').value;
+    const verseNumberLoc = document.getElementById('verseSelect').value;
+    addVerse(chapterNumberLoc, verseNumberLoc)
+}
+
 // Add the selected verse to the stacked section
 async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const chapterSelect = chapterNumberLoc;
