@@ -138,27 +138,43 @@ async function searchInCSV() {
 
     const rootContainer = document.createElement('div');
 
-    // 1. Checkbox for the original searched word (checked by default)
-    const mainCheckbox = document.createElement('input');
-    mainCheckbox.type = 'checkbox';
-    mainCheckbox.id = `searchWord-${query}`;
-    mainCheckbox.value = query;
-    mainCheckbox.checked = true;
+    // Set to track normalized words to ensure uniqueness
+    const seenNormalized = new Set();
 
+    // Add original searched word
+    const normalizedQuery = normalizeArabic(query);
+    if (!seenNormalized.has(normalizedQuery)) {
+        seenNormalized.add(normalizedQuery);
 
-    const mainLabel = document.createElement('label');
-    mainLabel.htmlFor = `searchWord-${query}`;
-    mainLabel.textContent = query;
+        const mainCheckbox = document.createElement('input');
+        mainCheckbox.type = 'checkbox';
+        mainCheckbox.id = `searchWord-${query}`;
+        mainCheckbox.value = query;
+        mainCheckbox.checked = true;
 
-    rootContainer.appendChild(mainCheckbox);
-    rootContainer.appendChild(mainLabel);
-    rootContainer.appendChild(document.createElement('br'));
+        const mainLabel = document.createElement('label');
+        mainLabel.htmlFor = `searchWord-${query}`;
+        mainLabel.textContent = query;
 
-    // Initial display of results for searched word
-    const initialMatches = getMatchesFromWordList([query]);
-    displaySearchResults(query, [query], initialMatches, false);
+        rootContainer.appendChild(mainCheckbox);
+        rootContainer.appendChild(mainLabel);
+        rootContainer.appendChild(document.createElement('br'));
 
-    // 2. Fetch and show other words with the same root
+        const initialMatches = getMatchesFromWordList([query]);
+        displaySearchResults(query, [query], initialMatches, false);
+
+        mainCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                const matches = getMatchesFromWordList([query]);
+                displaySearchResults(query, [query], matches, false);
+            } else {
+                const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedQuery}"]`);
+                blocks.forEach(block => block.remove());
+            }
+        });
+    }
+
+    // Fetch and show other words with the same root
     let rootEntry;
     try {
         rootEntry = await getRootFromWord(query);
@@ -167,50 +183,42 @@ async function searchInCSV() {
     }
 
     if (rootEntry && rootEntry.words.length > 1) {
-        const otherWords = rootEntry.words.filter(w => normalizeArabic(w) !== query);
+        const otherWords = rootEntry.words.filter(w => normalizeArabic(w) !== normalizedQuery);
 
         otherWords.forEach(word => {
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `rootWord-${word}`;
-            checkbox.value = word;
-        
-            const normalized = normalizeArabic(word); // normalize once here
-        
-            checkbox.addEventListener('change', function () {
-                if (this.checked) {
-                    const extraMatches = getMatchesFromWordList([word]);
-                    displaySearchResults(word, [word], extraMatches, false);
-                } else {
-                    const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalized}"]`);
-                    blocks.forEach(block => block.remove());
-                }
-            });
-        
-            const label = document.createElement('label');
-            label.htmlFor = `rootWord-${word}`;
-            label.textContent = word;
-        
-            rootContainer.appendChild(checkbox);
-            rootContainer.appendChild(label);
-            rootContainer.appendChild(document.createElement('br'));
+            const normalizedWord = normalizeArabic(word);
+
+            if (!seenNormalized.has(normalizedWord)) {
+                seenNormalized.add(normalizedWord);
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `rootWord-${word}`;
+                checkbox.value = word;
+
+                checkbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        const extraMatches = getMatchesFromWordList([word]);
+                        displaySearchResults(word, [word], extraMatches, false);
+                    } else {
+                        const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedWord}"]`);
+                        blocks.forEach(block => block.remove());
+                    }
+                });
+
+                const label = document.createElement('label');
+                label.htmlFor = `rootWord-${word}`;
+                label.textContent = word;
+
+                rootContainer.appendChild(checkbox);
+                rootContainer.appendChild(label);
+                rootContainer.appendChild(document.createElement('br'));
+            }
         });
-        
     }
 
     searchResultsContainer1.appendChild(rootContainer);
-
-    mainCheckbox.addEventListener('change', function () {
-        const normalized = normalizeArabic(query);
-        if (this.checked) {
-            const matches = getMatchesFromWordList([query]);
-            displaySearchResults(query, [query], matches, false);
-        } else {
-            const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalized}"]`);
-            blocks.forEach(block => block.remove());
-        }
-    });
-    
 }
+
 
 
