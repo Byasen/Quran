@@ -391,11 +391,23 @@ label {
 
 
 @media screen and (max-width: 768px) {
+    
+    .mobile-active {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    .mobileOnlyVerseContentClass{
+        height: 10hv;
+        margin-bottom: 2vh;
+        overflow-y: auto; /* Add vertical scrollable slider */
+    }
+
     .mainContainer {
         flex-direction: column;
-        height: 75vh;
+        height: 90vh;
         overflow: hidden;
-        margin-top: 2vh;
+        border: #ff0e0e 1px solid;
     }
 
     .mobileColumnSelector {
@@ -404,22 +416,12 @@ label {
         align-items: right;
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
-        height: 20vh;
+        height: 5vh;
+        margin-top: 2vh;
+        border: #000 1px solid;
 
     }
 
-    .mobileColumnSelector button {
-        flex: 1;
-        padding: 10px;
-        font-size: 16px;
-        background-color: white;
-        border: none;
-        border-right: 1px solid #ddd;
-    }
-
-    .mobileColumnSelector button:last-child {
-        border-right: none;
-    }
 
     .chapterSelectClass{
         width: 50%;
@@ -441,22 +443,7 @@ label {
     }
 
     .verseControl1{
-        height: 15%;
-        width: 100%;
-        border:#000 1px solid;
-    }
-
-    .verseResults1{
-        overflow-y: auto;
-    }
-
-
-
-
-
-    .mobile-active {
-        display: flex !important;
-        flex-direction: column;
+        display: none; 
     }
 
     .foldButtonColoumn {

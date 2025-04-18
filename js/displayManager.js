@@ -436,6 +436,7 @@ function showMobileColumn(className) {
 
     const target = document.querySelector(`.${className}`);
     if (target) target.classList.add('mobile-active');
+    initializeVerseHighlighting(); // Re-initialize highlighting after changing columns
 }
 
 
@@ -452,10 +453,6 @@ function checkMobileMode() {
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
             <button onclick="decrementVerse()">&#62;</button
-            <div class="verseResults">
-                <div class="verseResults1"></div>
-                <p id="verseDisplay"></p>
-            </div>
             `;
             // Default to showing the page column
     } else {

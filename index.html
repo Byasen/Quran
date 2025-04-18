@@ -9,8 +9,6 @@
 </head>
 <body id=content>
     
-    <div id="mobileOnlyVerseContent"></div>
-    
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
@@ -31,8 +29,8 @@
     </div>   
     
     <div class="mainContainer">
-        
         <div class="pageColoumn">
+            <div id="mobileOnlyVerseContent" class="mobileOnlyVerseContentClass"></div>
             <div id="pageResultsId" class="pageResults">
                 <div id="previousPage" class="pageimg">
                     <img src="data/png/dummy.png" />
@@ -59,7 +57,6 @@
         </div>
     </div>
 
-    
     <div id="verseColoumnId" class="verseColoumn"">
         <div class="verseControl1">
             <div><select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select></div>
@@ -126,15 +123,14 @@
         <div id="stackedVerses" class="topicResults2"></div>
         <div><button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية الحالية للموضوع</button></div>
     </div>
-            
-    
-    <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
-        <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
-        <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
-        <button onclick="showMobileColumn('searchColoumn')">بحث</button>
-        <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
-    </div>
 
+</div>
+
+<div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
+    <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
+    <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
+    <button onclick="showMobileColumn('searchColoumn')">بحث</button>
+    <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
 </div>
 
 <script src="js/choices.min.js"></script>
