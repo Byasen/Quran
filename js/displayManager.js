@@ -444,19 +444,21 @@ function showMobileColumn(className) {
 function checkMobileMode() {
     const mobileColumnSelector = document.getElementById('mobileColumnSelectorID');
     const container = document.getElementById("mobileOnlyVerseContent");
+    const verseColumn = document.getElementById('verseColoumnId');
     if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
         mobileColumnSelector.style.display = 'block';
         showMobileColumn('pageColoumn');
+        verseColumn.style.width = '100%'; // Set verseColoumn width to 100%
         if (container.children.length === 0) {
             container.innerHTML = `
             <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
-            <button onclick="decrementVerse()">&#62;</button
+            <button onclick="decrementVerse()">&#62;</button>
             `;
             // Default to showing the page column
+        }
     } else {
         mobileColumnSelector.style.display = 'none';
-    }
     }
 }
