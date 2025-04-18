@@ -27,7 +27,6 @@ function normalizeArabic(text) {
   return text
     .replace(/\u200E/g, '')
     .replace(/[إأآ]/g, 'ا')
-    .replace(/ى/g, 'ي')
     .replace(/[ؤئء]/g, 'ء');
 }
 
@@ -141,7 +140,13 @@ async function searchInCSV() {
     // Set to track normalized words to ensure uniqueness
     const seenNormalized = new Set();
 
-    // Add original searched word
+    // Add the label for suggested words
+    const suggestedWordsLabel = document.createElement('div');
+    suggestedWordsLabel.classList.add('suggested-words-label');
+    suggestedWordsLabel.textContent = 'كلمات لها علاقة';
+    rootContainer.appendChild(suggestedWordsLabel);
+
+    // Add original searched word below the label
     const normalizedQuery = normalizeArabic(query);
     if (!seenNormalized.has(normalizedQuery)) {
         seenNormalized.add(normalizedQuery);
