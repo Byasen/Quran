@@ -50,6 +50,7 @@ document.getElementById('verseSelect').addEventListener('change', function () {
 
 
 window.onload = async function () {
+    checkMobileMode();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
     await importTemplateData();
@@ -62,7 +63,6 @@ window.onload = async function () {
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
     selectThisVerse(randomChapter, randomVerse);
     selectRandomWordAndSearch();
-    checkMobileMode();
 };
 
 

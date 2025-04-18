@@ -271,6 +271,10 @@ border: 1px solid green;
 
 }
 
+.newTopicInputClass {
+    display: none;
+}
+
 /* Sidebar styles */
 .topicResults1 {
     justify-content: flex-start; /* Align items starting from the right */
@@ -330,12 +334,12 @@ textarea {
 }
 
 .sidebar {
-    width: 15%;
+    width: 15vh;
     height: 100%;
     position: fixed;
-    left: -15%;
+    left: -15vh;;
     top: 0;
-    color: white;
+    background-color: rgb(153, 153, 153);
     transition: left 0.3s ease;
 
 }
@@ -391,9 +395,21 @@ label {
 
 
 @media screen and (max-width: 768px) {
+    
+    .mobile-active {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    .mobileOnlyVerseContentClass{
+        height: 10hv;
+        margin-bottom: 2vh;
+        overflow-y: auto; /* Add vertical scrollable slider */
+    }
+
     .mainContainer {
         flex-direction: column;
-        height: 100vh;
+        height: 90vh;
         overflow: hidden;
     }
 
@@ -401,22 +417,16 @@ label {
         direction: rtl;
         text-align: right;
         align-items: right;
-        height: 15%;
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
+        height: 5vh;
+        margin-top: 2vh;
+
     }
 
-    .mobileColumnSelector button {
-        flex: 1;
-        padding: 10px;
-        font-size: 16px;
-        background-color: white;
-        border: none;
-        border-right: 1px solid #ddd;
-    }
 
-    .mobileColumnSelector button:last-child {
-        border-right: none;
+    .chapterSelectClass{
+        width: 50%;
     }
 
     .pageColoumn,
@@ -424,15 +434,18 @@ label {
     .searchColoumn,
     .topicColoumn {
         display: none;
-        height: 80%;
+        height: 100%;
         width: 100%;
         margin: 0;
         overflow-y: auto;
     }
 
-    .mobile-active {
-        display: flex !important;
-        flex-direction: column;
+    .pageResults{
+        height: 100%;
+    }
+
+    .verseControl1{
+        display: none; 
     }
 
     .foldButtonColoumn {
