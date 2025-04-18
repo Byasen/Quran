@@ -90,35 +90,23 @@ function displaySearchResults(label, wordList, matches, clear = true) {
   
     const chapterOccurrences = {};
     matches.forEach(match => {
-      if (!chapterOccurrences[match.chapter]) {
-        chapterOccurrences[match.chapter] = { count: 0, name: match.chapterName };
-      }
-      chapterOccurrences[match.chapter].count++;
-    });
-  
-    if (clear) {
-      const summary = document.createElement('div');
-      summary.classList.add('search-summary');
-      summary.innerHTML = `
-        <p><strong>الكلمات المبحوثة:</strong> ${wordList.join(', ')}</p>
-        <p><strong>السور التي وردت فيها:</strong></p>
-        <ul>
-          ${Object.entries(chapterOccurrences).map(([chapter, { count, name }]) =>
-            `<li>سورة ${name}: ${count} مرات</li>`).join('')}
-        </ul>`;
-      container1.appendChild(summary);
-    }
-  
-    matches.forEach(match => {
       const div = document.createElement('div');
       div.classList.add('searchVerseResult');
-      div.setAttribute('data-word', normalizedLabel); // ← normalized version
+      div.setAttribute('data-word', normalizedLabel);
+    
       div.innerHTML = `
-        <strong>سورة ${match.chapterName} (${match.chapter}) (آية ${match.verse})</strong><br>
+      <button class="select-verse-btn" style="margin-right: 10px;"
+        onclick="selectThisVerse(${match.chapter}, ${match.verse})">
+        اختيار
+      </button>
+        <strong>سورة ${match.chapterName} (${match.chapter}) (آية ${match.verse})</strong>
+        <br>
         ${match.text}
       `;
+    
       container2.appendChild(div);
     });
+    
   }
   
 function removeResultsByWord(word) {
