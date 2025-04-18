@@ -393,17 +393,19 @@ label {
 @media screen and (max-width: 768px) {
     .mainContainer {
         flex-direction: column;
-        height: 100vh;
+        height: 75vh;
         overflow: hidden;
+        margin-top: 2vh;
     }
 
     .mobileColumnSelector {
         direction: rtl;
         text-align: right;
         align-items: right;
-        height: 15%;
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
+        height: 20vh;
+
     }
 
     .mobileColumnSelector button {
@@ -419,16 +421,38 @@ label {
         border-right: none;
     }
 
+    .chapterSelectClass{
+        width: 50%;
+    }
+
     .pageColoumn,
     .verseColoumn,
     .searchColoumn,
     .topicColoumn {
         display: none;
-        height: 80%;
+        height: 100%;
         width: 100%;
         margin: 0;
         overflow-y: auto;
     }
+
+    .pageResults{
+        height: 100%;
+    }
+
+    .verseControl1{
+        height: 15%;
+        width: 100%;
+        border:#000 1px solid;
+    }
+
+    .verseResults1{
+        overflow-y: auto;
+    }
+
+
+
+
 
     .mobile-active {
         display: flex !important;

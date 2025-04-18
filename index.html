@@ -8,20 +8,8 @@
     <link rel="stylesheet" href="choices.min.css">
 </head>
 <body id=content>
-
-    <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
-        <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
-        <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
-        <button onclick="showMobileColumn('searchColoumn')">بحث</button>
-        <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
-        
-        <div id="mobileOnlyVerseContent"></div>
-        
-    </div>
-
-
-
-
+    
+    <div id="mobileOnlyVerseContent"></div>
     
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
@@ -140,6 +128,13 @@
     </div>
             
     
+    <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
+        <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
+        <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
+        <button onclick="showMobileColumn('searchColoumn')">بحث</button>
+        <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
+    </div>
+
 </div>
 
 <script src="js/choices.min.js"></script>
@@ -151,6 +146,7 @@
 <script src="js/statusManager.js"></script>
 <script src="js/displayManager.js"></script>
 <script src="js/mainManager.js"></script>
+
 
 </body>
 </html>
