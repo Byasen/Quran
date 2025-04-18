@@ -21,8 +21,8 @@
         <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
         </div>
         <div style="margin-top: 10%;"><button onclick="removeTopic()">احذف الموضوع الحالي</button></div>
-        <div style="margin-top: 10%;""><button onclick="saveState()">حفظ الموضوعات بملف</button></div>
-        <div style="margin-top: 0%;""><button onclick="loadState()">استرجاع الموضوعات من ملف</button></div>
+        <div style="margin-top: 10%;""><button onclick="saveState()">حفظ الموضوع بملف</button></div>
+        <div style="margin-top: 0%;""><button onclick="loadState()">استرجاع الموضوع من ملف</button></div>
         <div hidden style="margin-top: 10%;""><button onclick="exportToLocal()">حفظ الموضوعات بالمتصفح</button></div>
         <div hidden style="margin-top: 0%;""><button onclick="importFromLocal()">استرجاع الموضوعات من المتصفح</button></div>
         <div style="margin-top: 10%;""><button onclick="importTemplateData()">استرجاع المثال الأولي</button></div>
@@ -79,15 +79,15 @@
         </div>
         <div class="verseControl2">
             <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-            <label><input type="checkbox" id="togglee3rab"  onclick="displayVerseWithAnalyses()"> إعراب</label>
+            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
             <label><input type="checkbox" id="togglebaghawy"  onclick="displayVerseWithAnalyses()"> البغوي</label>
             <label><input type="checkbox" id="togglekatheer"  onclick="displayVerseWithAnalyses()"> ابن كثير</label>
             <label><input type="checkbox" id="toggleqortoby"  onclick="displayVerseWithAnalyses()"> القرطبي</label>
             <label><input type="checkbox" id="togglesa3dy"  onclick="displayVerseWithAnalyses()"> السعدي</label>
             <label><input type="checkbox" id="toggletabary"  onclick="displayVerseWithAnalyses()"> الطبري</label>
             <label><input type="checkbox" id="togglewaseet"  onclick="displayVerseWithAnalyses()"> الوسيط</label>
-            <label><input type="checkbox" id="togglemuyassar" onclick="displayVerseWithAnalyses()"> الميسر</label>
-            <label><input type="checkbox" id="toggletanweer"  onclick="displayVerseWithAnalyses()"> التنوير</label>
+            <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+            <label><input type="checkbox" id="toggletanweer"  checked onclick="displayVerseWithAnalyses()"> التنوير</label>
             <div>
                 <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
                 <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
@@ -106,7 +106,7 @@
         <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
 
-    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
+    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">تجميع آيات الموضوع الواحد</button></div>
     
     <div id="topicResults" class="topicColoumn">
         <div class="topicControl">
@@ -126,10 +126,10 @@
 </div>
 
 <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
-    <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
-    <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
-    <button onclick="showMobileColumn('searchColoumn')">بحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
+    <button onclick="showMobileColumn('pageColoumn')">اختيتار الآية</button>
+    <button onclick="showMobileColumn('verseColoumn')">تصفح التفاسير</button>
+    <button onclick="showMobileColumn('searchColoumn')">البحث في القرآن</button>
+    <button onclick="showMobileColumn('topicColoumn')">تجميع آيات الموضوع الواحد</button>
 </div>
 
 <script src="js/choices.min.js"></script>
