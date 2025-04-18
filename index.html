@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div id="verseColoumnId" class="verseColoumn"">
+    <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
         <div class="verseControl1">
             <div><select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select></div>
             <button onclick="incrementVerse()">&#60;</button>
@@ -101,7 +101,6 @@
         <div class="searchControl">
             <button onclick="searchInCSV()">ابدأ البحث</button>
             <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
-            <div><label><input type="checkbox" id="searchRootsCheckbox">بحث بالجذور</label></div>
         </div>
         <div id="searchResultsContainer1" class="searchResults1"></div>
         <div id="searchResultsContainer2" class="searchResults2"></div>
@@ -121,7 +120,7 @@
         </div>
         <label>الآيات المتعلقة بالموضوع</label>
         <div id="stackedVerses" class="topicResults2"></div>
-        <div><button onclick="addVerse(chapterSelect.value, verseSelect.value)">أضف الآية الحالية للموضوع</button></div>
+        <div><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
     </div>
 
 </div>
