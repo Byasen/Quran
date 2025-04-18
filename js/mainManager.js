@@ -33,6 +33,18 @@ function onPageChange() {
 
 
 
+function onTopicChange() {
+    // Store the currently selected chapter and verse
+    previousChapter = document.getElementById('chapterSelect').value;
+    previousVerse = document.getElementById('verseSelect').value;
+    
+    // Restore the state based on the selected topic
+    restoreState();
+
+}
+
+
+
 
 // Automatically detect changes in the dropdown menus
 document.getElementById('pageSelect').addEventListener('change', function () {
