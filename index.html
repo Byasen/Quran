@@ -91,22 +91,24 @@
         <div id="searchResultsContainer1" class="searchResults1"></div>
         <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
-
+    
     <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">تجميع آيات الموضوع الواحد</button></div>
     
     <div id="topicResults" class="topicColoumn">
-        <div class="topicControl">
-            <div style="margin-top: 10%;""><button onclick="saveStateToFile()">حفظ الموضوع</button></div>
-            <div style="margin-top: 0%;""><button onclick="loadStateFromFile()">استرجاع الموضوع</button></div>
+        <div class="topicControl1">
             <input id="topicSelect" class="topicSelectClass"></input>
         </div>
-        <label>الفكرة العامة للموضوع</label>
         <div class="topicResults1">
+            <label>الفكرة العامة للموضوع</label>
             <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
         </div>
+        <div style="margin-top: 5%; margin-bottom: 5%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
         <label>الآيات المتعلقة بالموضوع</label>
         <div id="stackedVerses" class="topicResults2"></div>
-        <div><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
+        <div class="topicControl2">
+        <div style="margin-top: 10%;""><button onclick="saveStateToFile()">حفظ الموضوع</button></div>
+        <div style="margin-top: 0%;""><button onclick="loadStateFromFile()">استرجاع الموضوع</button></div>
+        </div>
     </div>
     
     <div id="sidebarId" class="sidebar">
