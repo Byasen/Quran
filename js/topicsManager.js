@@ -1,22 +1,35 @@
-function addCurrentVerse()  {
-    const chapterNumberLoc = document.getElementById('chapterSelect').value;
-    const verseNumberLoc = document.getElementById('verseSelect').value;
-    addVerse(chapterNumberLoc, verseNumberLoc)
-}
+// Global state
+let topicName = "";
+let topicAnswer = "";
+let topicVerses = []; // Array of { surahNumber, verseNumber, verseNotes }
+
+// Immediately attach listeners (no function wrapping)
+document.addEventListener('DOMContentLoaded', () => {
+    const nameInput = document.getElementById('topicSelect');
+    const answerInput = document.getElementById('answerInput');
+
+    if (nameInput) {
+        nameInput.addEventListener('input', () => {
+            topicName = nameInput.value;
+        });
+    }
+
+    if (answerInput) {
+        answerInput.addEventListener('input', () => {
+            topicAnswer = answerInput.value;
+        });
+    }
+});
 
 // Add the selected verse to the stacked section
 async function addVerse(chapterNumberLoc, verseNumberLoc) {
-    const chapterSelect = chapterNumberLoc;
-    const verseSelect = verseNumberLoc;
-    const stackedVerses = document.getElementById('stackedVerses');
-
-    const selectedChapter = chapterSelect;
-    const selectedVerse = verseSelect;
+    const selectedChapter = chapterNumberLoc;
+    const selectedVerse = verseNumberLoc;
     const selectedSurah = quranMetadata.find(surah => surah.number == selectedChapter);
+    const stackedVerses = document.getElementById('stackedVerses');
 
     const verseData = await fetchVerse(selectedChapter, selectedVerse);
     if (verseData) {
-        // Remove Arabic + Quranic diacritics and symbols
         const cleanText = verseData.text.ar.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED]/g, '');
 
         const newVerseDiv = document.createElement('div');
@@ -36,71 +49,60 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         notesTextArea.rows = 3;
         notesTextArea.style.width = '100%';
 
-        newVerseDiv.appendChild(notesTextArea);
+        // Track this verse and its notes in global array
+        const verseEntry = {
+            surahNumber: parseInt(selectedChapter),
+            verseNumber: parseInt(selectedVerse),
+            verseNotes: ""
+        };
 
-        // Add the new verse to the top of the stacked verses
+        notesTextArea.addEventListener('input', () => {
+            verseEntry.verseNotes = notesTextArea.value;
+        });
+
+        newVerseDiv.appendChild(notesTextArea);
         stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
+        topicVerses.unshift(verseEntry);
     }
 }
 
+function addCurrentVerse() {
+    const chapterNumberLoc = document.getElementById('chapterSelect').value;
+    const verseNumberLoc = document.getElementById('verseSelect').value;
+    addVerse(chapterNumberLoc, verseNumberLoc);
+}
 
-// Function to remove a verse from the stacked section
 function removeVerse(button) {
     const verseDiv = button.parentElement;
-    const dashedLine = verseDiv.nextElementSibling;
+    const index = Array.from(verseDiv.parentNode.children).indexOf(verseDiv);
 
-    // Remove both the verse div and its dashed line
     verseDiv.remove();
-    if (dashedLine && dashedLine.classList.contains('dashed-line')) {
-        dashedLine.remove();
-    }
+    topicVerses.splice(index, 1);
 }
 
 function moveVerseUp(button) {
     const currentVerse = button.closest('.verse-container');
-    const previousVerse = currentVerse.previousElementSibling;
-
-    if (previousVerse) {
-        currentVerse.parentNode.insertBefore(currentVerse, previousVerse);
+    const currentIndex = Array.from(currentVerse.parentNode.children).indexOf(currentVerse);
+    
+    if (currentIndex > 0) {
+        // Swap the positions in topicVerses array
+        [topicVerses[currentIndex], topicVerses[currentIndex - 1]] = [topicVerses[currentIndex - 1], topicVerses[currentIndex]];
+        
+        // Move the verse in the DOM
+        currentVerse.parentNode.insertBefore(currentVerse, currentVerse.previousElementSibling);
     }
 }
 
 function moveVerseDown(button) {
     const currentVerse = button.closest('.verse-container');
-    const nextVerse = currentVerse.nextElementSibling;
-
-    if (nextVerse) {
-        currentVerse.parentNode.insertBefore(nextVerse, currentVerse);
+    const currentIndex = Array.from(currentVerse.parentNode.children).indexOf(currentVerse);
+    
+    if (currentIndex < currentVerse.parentNode.children.length - 1) {
+        // Swap the positions in topicVerses array
+        [topicVerses[currentIndex], topicVerses[currentIndex + 1]] = [topicVerses[currentIndex + 1], topicVerses[currentIndex]];
+        
+        // Move the verse in the DOM
+        currentVerse.parentNode.insertBefore(currentVerse.nextElementSibling, currentVerse);
     }
 }
-
-
-
-function removeTopic() {
-    const topicSelect = document.getElementById('topicSelect');
-    const selectedTopicIndex = topicSelect.selectedIndex;
-
-    // Remove the selected topic from the topics array
-    const selectedTopic = topicSelect.value;
-    topics = topics.filter(topic => topic.topicName !== selectedTopic);
-
-    // Repopulate the topics dropdown
-    populateTopicsDropdown();
-
-    // Determine the next topic to select
-    if (topics.length > 0) {
-        const nextIndex = selectedTopicIndex >= topics.length ? topics.length - 1 : selectedTopicIndex;
-        topicSelect.selectedIndex = nextIndex;
-
-        // Restore the state for the new selected topic
-        restoreState();
-    } else {
-        // Clear the UI if no topics are available
-        document.getElementById('stackedVerses').innerHTML = '';
-        document.getElementById('questionInput').value = '';
-        document.getElementById('answerInput').value = '';
-        //console.log("No topics available.");
-    }
-}
-
 

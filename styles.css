@@ -257,7 +257,8 @@ border: 1px solid green;
 
 
 .topicColoumn {
-    display: none;
+/*    display: none; for testing */ 
+    display: block;
     height: inherit;
     width: 22%;
     justify-content: flex-start; /* Align items starting from the right */

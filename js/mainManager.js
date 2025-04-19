@@ -65,7 +65,6 @@ window.onload = async function () {
     checkMobileMode();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
-    await importTemplateData();
     const randomChapter = Math.floor(Math.random() * 114) + 1;
     const tempPath = `data/surah/surah_${randomChapter}.json`;
     const response = await fetch(tempPath);

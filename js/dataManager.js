@@ -167,90 +167,12 @@ function selectThisVerseNoPageChange(chapterNumber, verseNumber) {
 
 
 
-// Import the template data from "data/researches/template.json"
-function importTemplateData() {
-    fetch('stored/all.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Template file not found');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Populate the topics dropdown with the newly loaded template data
-            topics = data.topics || [];
-            populateTopicsDropdown();
-
-            // Optionally, auto-select the first topic after loading
-            if (topics.length > 0) {
-                document.getElementById('topicSelect').value = topics[0].topicName;
-                restoreState(); // Restore the first topic's state
-            }
-        })
-        .catch(error => {
-            //console.error("Error loading template data:", error.message);
-        });
-}
-
-
-// Function to toggle the topic input box and add the topic if applicable
-function addOrEditTopic() {
-    const topicInput = document.getElementById('newTopicInput');
-    const addTopicButton = document.querySelector('button[onclick="addOrEditTopic()"]');
-
-    if (topicInput.style.display === 'none' || topicInput.style.display === '') {
-        // Show the topic input box and change button text to 'Add Topic'
-        topicInput.style.display = 'block';
-        addTopicButton.textContent = 'ادخل الموضوع للقائمة';
-    } else {
-        // Hide the topic input box
-        topicInput.style.display = 'none';
-        
-        // Add the topic if input is not empty
-
-            const existingTopic = topics.find(topic => topic.topicName === topicInput.value.trim());
-
-            if (existingTopic) {
-                alert("Topic already exists. You can edit the existing topic.");
-            } else {
-                topics.push({ topicName: topicInput.value.trim(), verses: [], questionInput: '', answerInput: '' });
-                populateTopicsDropdown();
-            }
-
-            // Clear the input field
-            
-            // Change button text to 'Add New Topic'
-            addTopicButton.textContent = 'ابدأ موضوعا جديداً';
-            
-            const topic = document.getElementById('topicSelect');
-            topic.value = topicInput.value.trim(); // Set the selected topic to the new one
-            topicInput.value = '';
-            onTopicChange();
-            toggleSidebar();
-
-    }
-}
-
-
-
-// Populate the topic dropdown
-function populateTopicsDropdown() {
-    const topicSelect = document.getElementById('topicSelect');
-    topicSelect.innerHTML = '';
-
-    if (topics.length === 0) {
-        //console.warn("No topics available to populate.");
-        return;
-    }
-
-    topics.forEach(topic => {
-        const option = document.createElement('option');
-        option.value = topic.topicName;
-        option.textContent = topic.topicName;
-        topicSelect.appendChild(option);
+// Function to batch fetch verses
+async function fetchVersesBatch(versesToFetch) {
+    const fetchPromises = versesToFetch.map(({ surahNumber, verseNumber }) => {
+        // Fetch the verse
+        return fetchVerse(surahNumber, verseNumber);
     });
 
-    if (topics.length > 0) {
-        topicSelect.value = topics[0].topicName;
-    }
+    return Promise.all(fetchPromises);
 }

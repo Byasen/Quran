@@ -14,20 +14,6 @@
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
     </div>
     
-    <div id="sidebarId" class="sidebar">
-        <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
-        <div style="margin-top: 10%;">
-        <input type="text" id="newTopicInput" placeholder="اسم الموضوع" class="newTopicInputClass">        
-        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-        </div>
-        <div style="margin-top: 10%;"><button onclick="removeTopic()">احذف الموضوع الحالي</button></div>
-        <div style="margin-top: 10%;""><button onclick="saveState()">حفظ الموضوع بملف</button></div>
-        <div style="margin-top: 0%;""><button onclick="loadState()">استرجاع الموضوع من ملف</button></div>
-        <div style="margin-top: 10%;""><button onclick="exportToLocal()">حفظ الموضوعات بالمتصفح</button></div>
-        <div style="margin-top: 0%;""><button onclick="importFromLocal()">استرجاع الموضوعات من المتصفح</button></div>
-        <div style="margin-top: 10%;""><button onclick="importTemplateData()">استرجاع المثال الأولي</button></div>
-    </div>   
-    
     <div class="mainContainer">
         <div class="pageColoumn">
             <div id="mobileOnlyVerseContent" class="mobileOnlyVerseContentClass"></div>
@@ -110,9 +96,9 @@
     
     <div id="topicResults" class="topicColoumn">
         <div class="topicControl">
-            <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
-            <button onclick="toggleSidebar()">☰</button>
-            <select id="topicSelect" onchange="onTopicChange()"></select>
+            <div style="margin-top: 10%;""><button onclick="saveStateToFile()">حفظ الموضوع</button></div>
+            <div style="margin-top: 0%;""><button onclick="loadStateFromFile()">استرجاع الموضوع</button></div>
+            <input id="topicSelect" class="topicSelectClass"></input>
         </div>
         <label>الفكرة العامة للموضوع</label>
         <div class="topicResults1">
@@ -122,7 +108,12 @@
         <div id="stackedVerses" class="topicResults2"></div>
         <div><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
     </div>
-
+    
+    <div id="sidebarId" class="sidebar">
+        <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
+    </div>   
+    
+    
 </div>
 
 <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
@@ -132,7 +123,6 @@
     <button onclick="showMobileColumn('topicColoumn')">تجميع آيات الموضوع الواحد</button>
 </div>
 
-<script src="js/choices.min.js"></script>
 <script src="js/audioManager.js"></script>
 <script src="js/helpersManager.js"></script>
 <script src="js/dataManager.js"></script>
