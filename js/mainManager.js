@@ -65,15 +65,8 @@ window.onload = async function () {
     checkMobileMode();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
-    const randomChapter = Math.floor(Math.random() * 114) + 1;
-    const tempPath = `data/surah/surah_${randomChapter}.json`;
-    const response = await fetch(tempPath);
-    tempSurah = await response.json();
     populatePages(); // Initialize the Quran page dropdown
-    const tempVerseCount =  tempSurah.verses.length;
-    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-    selectThisVerse(randomChapter, randomVerse);
-    selectRandomWordAndSearch();
+    loadStateFromLocal(); // Load the state from local storage
 };
 
 

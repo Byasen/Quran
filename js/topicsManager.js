@@ -3,30 +3,19 @@ let topicName = "";
 let topicAnswer = "";
 let topicVerses = []; // Array of { surahNumber, verseNumber, verseNotes }
 
-// Immediately attach listeners (no function wrapping)
-document.addEventListener('DOMContentLoaded', () => {
-    const nameInput = document.getElementById('topicSelect');
-    const answerInput = document.getElementById('answerInput');
 
-    if (nameInput) {
-        nameInput.addEventListener('input', () => {
-            topicName = nameInput.value;
-        });
-    }
+function addCurrentVerse() {
+    const chapterNumberLoc = document.getElementById('chapterSelect').value;
+    const verseNumberLoc = document.getElementById('verseSelect').value;
+    addVerse(chapterNumberLoc, verseNumberLoc);
+}
 
-    if (answerInput) {
-        answerInput.addEventListener('input', () => {
-            topicAnswer = answerInput.value;
-        });
-    }
-});
 
-// Add the selected verse to the stacked section
 async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const selectedChapter = chapterNumberLoc;
     const selectedVerse = verseNumberLoc;
-    const selectedSurah = quranMetadata.find(surah => surah.number == selectedChapter);
     const stackedVerses = document.getElementById('stackedVerses');
+    const selectedSurah = quranMetadata.find(surah => surah.number == selectedChapter);
 
     const verseData = await fetchVerse(selectedChapter, selectedVerse);
     if (verseData) {
@@ -49,60 +38,63 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         notesTextArea.rows = 3;
         notesTextArea.style.width = '100%';
 
-        // Track this verse and its notes in global array
-        const verseEntry = {
-            surahNumber: parseInt(selectedChapter),
-            verseNumber: parseInt(selectedVerse),
-            verseNotes: ""
-        };
+        const verseObj = { surahNumber: selectedChapter, verseNumber: selectedVerse, verseNotes: "" };
+        topicVerses.push(verseObj);
+        saveStateToLocal();
 
         notesTextArea.addEventListener('input', () => {
-            verseEntry.verseNotes = notesTextArea.value;
+            const index = [...stackedVerses.children].indexOf(newVerseDiv);
+            if (topicVerses[index]) {
+                topicVerses[index].verseNotes = notesTextArea.value;
+                saveStateToLocal();
+            }
         });
 
         newVerseDiv.appendChild(notesTextArea);
         stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
-        topicVerses.unshift(verseEntry);
     }
 }
 
-function addCurrentVerse() {
-    const chapterNumberLoc = document.getElementById('chapterSelect').value;
-    const verseNumberLoc = document.getElementById('verseSelect').value;
-    addVerse(chapterNumberLoc, verseNumberLoc);
-}
-
-function removeVerse(button) {
-    const verseDiv = button.parentElement;
-    const index = Array.from(verseDiv.parentNode.children).indexOf(verseDiv);
-
-    verseDiv.remove();
-    topicVerses.splice(index, 1);
-}
-
 function moveVerseUp(button) {
-    const currentVerse = button.closest('.verse-container');
-    const currentIndex = Array.from(currentVerse.parentNode.children).indexOf(currentVerse);
-    
-    if (currentIndex > 0) {
-        // Swap the positions in topicVerses array
-        [topicVerses[currentIndex], topicVerses[currentIndex - 1]] = [topicVerses[currentIndex - 1], topicVerses[currentIndex]];
-        
-        // Move the verse in the DOM
-        currentVerse.parentNode.insertBefore(currentVerse, currentVerse.previousElementSibling);
+    const verseDiv = button.closest('.verse-container');
+    const siblings = [...verseDiv.parentNode.children];
+    const index = siblings.indexOf(verseDiv);
+    if (index > 0) {
+        verseDiv.parentNode.insertBefore(verseDiv, siblings[index - 1]);
+        [topicVerses[index], topicVerses[index - 1]] = [topicVerses[index - 1], topicVerses[index]];
+        saveStateToLocal();
     }
 }
 
 function moveVerseDown(button) {
-    const currentVerse = button.closest('.verse-container');
-    const currentIndex = Array.from(currentVerse.parentNode.children).indexOf(currentVerse);
-    
-    if (currentIndex < currentVerse.parentNode.children.length - 1) {
-        // Swap the positions in topicVerses array
-        [topicVerses[currentIndex], topicVerses[currentIndex + 1]] = [topicVerses[currentIndex + 1], topicVerses[currentIndex]];
-        
-        // Move the verse in the DOM
-        currentVerse.parentNode.insertBefore(currentVerse.nextElementSibling, currentVerse);
+    const verseDiv = button.closest('.verse-container');
+    const siblings = [...verseDiv.parentNode.children];
+    const index = siblings.indexOf(verseDiv);
+    if (index < siblings.length - 1) {
+        verseDiv.parentNode.insertBefore(siblings[index + 1], verseDiv);
+        [topicVerses[index], topicVerses[index + 1]] = [topicVerses[index + 1], topicVerses[index]];
+        saveStateToLocal();
     }
 }
 
+function removeVerse(button) {
+    const verseDiv = button.closest('.verse-container');
+    const index = [...verseDiv.parentNode.children].indexOf(verseDiv);
+    if (index !== -1) {
+        topicVerses.splice(index, 1);
+        saveStateToLocal();
+    }
+    verseDiv.remove();
+}
+
+// ------------------------ EVENT LISTENERS ------------------------
+
+document.getElementById('topicSelect').addEventListener('input', e => {
+    topicName = e.target.value;
+    saveStateToLocal();
+});
+
+document.getElementById('answerInput').addEventListener('input', e => {
+    topicAnswer = e.target.value;
+    saveStateToLocal();
+});
