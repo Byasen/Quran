@@ -195,7 +195,7 @@ border: 1px solid green;
 }
 
 .searchColoumn {
-    display: none;
+    display: block;
     height: inherit;
     width: 22%;
     justify-content: flex-start; /* Align items starting from the right */
