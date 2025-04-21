@@ -27,20 +27,20 @@ function loadState(jsonString) {
         document.getElementById('topicSelect').value = topicName;
         document.getElementById('answerInput').value = topicAnswer;
 
-        // Restore search input box
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput && currentSearchInput) {
-            searchInput.value = currentSearchInput;
-            performSearch(currentSearchInput); // Trigger the search with the loaded term
-        }
-
-
         // After updating the checkboxes, trigger the search for the word
         let field = document.getElementById("verseSearchInput");
         if (field && currentSearchInput) {
             field.value = currentSearchInput;  // Set the search field value
             searchInCSV();  // Trigger the search function
         }
+
+        checkedWords.forEach(query => {
+            const mainCheckbox = document.getElementById(`searchWord-${query}`);
+            if (mainCheckbox) {
+            mainCheckbox.checked = true;
+            }
+        });
+
 
         // Restore topic verses
         const stackedVerses = document.getElementById('stackedVerses');

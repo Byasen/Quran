@@ -149,10 +149,9 @@ async function searchInCSV() {
     mainCheckbox.id = `searchWord-${query}`;
     mainCheckbox.value = query;
     mainCheckbox.checked = true;
-
-    if (!checkedWords.includes(query)) {
-      checkedWords.push(query);
-    }
+ 
+    checkedWords = [];                // Empty the array before adding the query
+    checkedWords.push(query);         // Tracks currently checked words
 
     const initialMatches = getMatchesFromWordList([query]);
 
