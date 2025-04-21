@@ -3,7 +3,7 @@ let csvData = [];
 
 // === Global Tracking Variables ===
 let currentSearchInput = '';           // Tracks the current normalized search input
-let checkedWords = new Set();          // Tracks currently checked words
+let checkedWords = [];          // Tracks currently checked words
 
 
 async function loadCSVData() {
@@ -150,7 +150,9 @@ async function searchInCSV() {
     mainCheckbox.value = query;
     mainCheckbox.checked = true;
 
-    checkedWords.add(query);
+    if (!checkedWords.includes(query)) {
+      checkedWords.push(query);
+    }
 
     const initialMatches = getMatchesFromWordList([query]);
 
@@ -166,13 +168,18 @@ async function searchInCSV() {
 
     mainCheckbox.addEventListener('change', function () {
       if (this.checked) {
-        checkedWords.add(query);
+        checkedWords.push(word);
         const matches = getMatchesFromWordList([query]);
         displaySearchResults(query, [query], matches, false);
+        saveStateToLocal();
       } else {
-        checkedWords.delete(query);
+        const index = checkedWords.indexOf(word);
+        if (index > -1) {
+          checkedWords.splice(index, 1);
+        }
         const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedQuery}"]`);
         blocks.forEach(block => block.remove());
+        saveStateToLocal();
       }
     });
   }
@@ -205,12 +212,17 @@ async function searchInCSV() {
 
         checkbox.addEventListener('change', function () {
           if (this.checked) {
-            checkedWords.add(word);
+            checkedWords.push(word);
             displaySearchResults(word, [word], matches, false);
+            saveStateToLocal();
           } else {
-            checkedWords.delete(word);
+            const index = checkedWords.indexOf(word);
+            if (index > -1) {
+              checkedWords.splice(index, 1);
+            }
             const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedWord}"]`);
             blocks.forEach(block => block.remove());
+            saveStateToLocal();
           }
         });
 

@@ -1,5 +1,5 @@
 function saveState() {
-    
+    // Log the loaded data for debugging
     return JSON.stringify({
         topicName,
         topicAnswer,
@@ -14,16 +14,14 @@ function saveState() {
 function loadState(jsonString) {
     try {
         const data = JSON.parse(jsonString);
-
+        
         // Update global variables
         topicName = data.topicName || '';
         topicAnswer = data.topicAnswer || '';
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';  // Use the global variable for the search term
-        checkedWords = new Set(data.checkedSearchWords || []);  // Use the global variable for checked words
+        checkedWords = data.checkedWords || [];
 
-        // Log the loaded data for debugging
-        console.log('[loadState] Loaded data:', data);
 
         // Set the UI elements based on the loaded data
         document.getElementById('topicSelect').value = topicName;
