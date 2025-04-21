@@ -121,6 +121,12 @@ function removeResultsByWord(word) {
   saveStateToLocal();
 }
 
+async function searchInCSVClearCurrent() {
+    checkedWords = []; 
+    searchInCSV();
+}   
+
+
 async function searchInCSV() {
   const input = document.getElementById('verseSearchInput').value.trim();
   const query = normalizeArabic(input);
@@ -150,8 +156,9 @@ async function searchInCSV() {
     mainCheckbox.value = query;
     mainCheckbox.checked = true;
  
-    checkedWords = [];                // Empty the array before adding the query
-    checkedWords.push(query);         // Tracks currently checked words
+    if (!checkedWords.includes(query)) {
+      checkedWords.push(query); // Tracks currently checked words
+    }
 
     const initialMatches = getMatchesFromWordList([query]);
 
@@ -167,12 +174,14 @@ async function searchInCSV() {
 
     mainCheckbox.addEventListener('change', function () {
       if (this.checked) {
-        checkedWords.push(word);
+        if (!checkedWords.includes(query)) {
+          checkedWords.push(query); // Tracks currently checked words
+        }    
         const matches = getMatchesFromWordList([query]);
         displaySearchResults(query, [query], matches, false);
         saveStateToLocal();
       } else {
-        const index = checkedWords.indexOf(word);
+        const index = checkedWords.indexOf(query);
         if (index > -1) {
           checkedWords.splice(index, 1);
         }
@@ -211,7 +220,9 @@ async function searchInCSV() {
 
         checkbox.addEventListener('change', function () {
           if (this.checked) {
-            checkedWords.push(word);
+            if (!checkedWords.includes(word)) {
+              checkedWords.push(word); // Tracks currently checked words
+            }    
             displaySearchResults(word, [word], matches, false);
             saveStateToLocal();
           } else {
