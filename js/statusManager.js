@@ -1,18 +1,11 @@
 function saveState() {
-    const searchTerm = currentSearchInput;  // Using the global variable for the current search term
-    
-    // Gather all suggested words (from the checkboxes)
-    const searchResultsWords = Array.from(checkedWords);
-    const checkedSearchWords = Array.from(checkedWords);  // Global checked words
-
     
     return JSON.stringify({
         topicName,
         topicAnswer,
         topicVerses,
-        searchTerm,
-        searchResultsWords,
-        checkedSearchWords
+        currentSearchInput,
+        checkedWords
     }, null, 2);
     
 }
@@ -26,15 +19,11 @@ function loadState(jsonString) {
         topicName = data.topicName || '';
         topicAnswer = data.topicAnswer || '';
         topicVerses = data.topicVerses || [];
-        currentSearchInput = data.searchTerm || '';  // Use the global variable for the search term
-        const searchResultsWords = data.searchResultsWords || [];
+        currentSearchInput = data.currentSearchInput || '';  // Use the global variable for the search term
         checkedWords = new Set(data.checkedSearchWords || []);  // Use the global variable for checked words
-        uncheckedWords = new Set();  // Reset unchecked words as they are not part of the loaded state
 
         // Log the loaded data for debugging
         console.log('[loadState] Loaded data:', data);
-        console.log('[loadState] Current search input:', currentSearchInput);
-        console.log('[loadState] Checked words:', checkedWords);
 
         // Set the UI elements based on the loaded data
         document.getElementById('topicSelect').value = topicName;
@@ -47,27 +36,13 @@ function loadState(jsonString) {
             performSearch(currentSearchInput); // Trigger the search with the loaded term
         }
 
-        // Wait a moment to allow search results to load before updating checkboxes
-        setTimeout(() => {
-            if (Array.isArray(searchResultsWords)) {
-                // Loop through the suggested words and check/uncheck the checkboxes
-                searchResultsWords.forEach(word => {
-                    const checkbox = document.querySelector(`input[type="checkbox"][data-word="${word}"]`);
-                    if (checkbox) {
-                        // Check if the word is in the checkedWords set
-                        checkbox.checked = checkedWords.has(word);
-                        console.log(`[loadState] Checkbox ${word} -> ${checkbox.checked}`);
-                    }
-                });
-            }
 
-            // After updating the checkboxes, trigger the search for the word
-            let field = document.getElementById("verseSearchInput");
-            if (field && currentSearchInput) {
-                field.value = currentSearchInput;  // Set the search field value
-                searchInCSV();  // Trigger the search function
-            }
-        }, 500); // Adjust timing if needed
+        // After updating the checkboxes, trigger the search for the word
+        let field = document.getElementById("verseSearchInput");
+        if (field && currentSearchInput) {
+            field.value = currentSearchInput;  // Set the search field value
+            searchInCSV();  // Trigger the search function
+        }
 
         // Restore topic verses
         const stackedVerses = document.getElementById('stackedVerses');
@@ -152,6 +127,7 @@ function loadStateFromFile() {
 const LOCAL_STORAGE_KEY = 'quranTopicState';
 
 function saveStateToLocal() {
+    localStorage.removeItem(LOCAL_STORAGE_KEY); // Clear existing data
     const jsonData = saveState();
     localStorage.setItem(LOCAL_STORAGE_KEY, jsonData);
 }

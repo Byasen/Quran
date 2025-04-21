@@ -4,7 +4,6 @@ let csvData = [];
 // === Global Tracking Variables ===
 let currentSearchInput = '';           // Tracks the current normalized search input
 let checkedWords = new Set();          // Tracks currently checked words
-let uncheckedWords = new Set();        // Tracks currently unchecked words
 
 
 async function loadCSVData() {
@@ -119,6 +118,7 @@ function displaySearchResults(label, wordList, matches, clear = true) {
 function removeResultsByWord(word) {
   const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${word}"]`);
   blocks.forEach(block => block.remove());
+  saveStateToLocal();
 }
 
 async function searchInCSV() {
@@ -151,7 +151,6 @@ async function searchInCSV() {
     mainCheckbox.checked = true;
 
     checkedWords.add(query);
-    uncheckedWords.delete(query);
 
     const initialMatches = getMatchesFromWordList([query]);
 
@@ -168,12 +167,10 @@ async function searchInCSV() {
     mainCheckbox.addEventListener('change', function () {
       if (this.checked) {
         checkedWords.add(query);
-        uncheckedWords.delete(query);
         const matches = getMatchesFromWordList([query]);
         displaySearchResults(query, [query], matches, false);
       } else {
         checkedWords.delete(query);
-        uncheckedWords.add(query);
         const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedQuery}"]`);
         blocks.forEach(block => block.remove());
       }
@@ -209,11 +206,9 @@ async function searchInCSV() {
         checkbox.addEventListener('change', function () {
           if (this.checked) {
             checkedWords.add(word);
-            uncheckedWords.delete(word);
             displaySearchResults(word, [word], matches, false);
           } else {
             checkedWords.delete(word);
-            uncheckedWords.add(word);
             const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedWord}"]`);
             blocks.forEach(block => block.remove());
           }
@@ -227,4 +222,5 @@ async function searchInCSV() {
   }
 
   searchResultsContainer1.appendChild(rootContainer);
+  saveStateToLocal();
 }
