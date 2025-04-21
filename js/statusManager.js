@@ -34,14 +34,6 @@ function loadState(jsonString) {
             searchInCSV();  // Trigger the search function
         }
 
-        checkedWords.forEach(query => {
-            const mainCheckbox = document.getElementById(`searchWord-${query}`);
-            if (mainCheckbox) {
-            mainCheckbox.checked = true;
-            }
-        });
-
-
         // Restore topic verses
         const stackedVerses = document.getElementById('stackedVerses');
         stackedVerses.innerHTML = '';
@@ -79,6 +71,11 @@ function loadState(jsonString) {
         console.error('[loadState] Failed to load topic:', err);
         alert('Failed to load topic: ' + err.message);
     }
+
+    checkedWords.forEach((query) => {
+        const checkbox = document.getElementById(`rootWord-${query}`);
+        checkbox.checked = true;
+
 }
 
 
