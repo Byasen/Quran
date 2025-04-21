@@ -72,10 +72,10 @@ function loadState(jsonString) {
         alert('Failed to load topic: ' + err.message);
     }
 
-    checkedWords.forEach((query) => {
-        const checkbox = document.getElementById(`rootWord-${query}`);
-        checkbox.checked = true;
 
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById(`rootWord-أءذا`).checked = true;
+    });
 }
 
 
