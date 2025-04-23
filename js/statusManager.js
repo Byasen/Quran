@@ -73,9 +73,28 @@ function loadState(jsonString) {
     }
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById(`rootWord-أءذا`).checked = true;
-    });
+
+    checkedWords.forEach(word => {
+        const observer = new MutationObserver(() => {
+          const checkbox = document.getElementById(`rootWord-${word}`);
+          if (checkbox) {
+            checkbox.checked = true;
+      
+            // Dispatch a change event to trigger the associated event listener
+            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+      
+            observer.disconnect(); // Stop observing once it's found
+          }
+        });
+      
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      });     
+      
+      
+
 }
 
 
