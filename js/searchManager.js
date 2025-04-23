@@ -122,8 +122,14 @@ function removeResultsByWord(word) {
 }
 
 async function searchInCSVClearCurrent() {
+    const input = document.getElementById('verseSearchInput').value.trim();
+    const query = normalizeArabic(input);
     checkedWords = []; 
     searchInCSV();
+    if (!checkedWords.includes(query)) {
+      checkedWords.push(query); // Tracks currently checked words
+    }
+
 }   
 
 
@@ -152,18 +158,14 @@ async function searchInCSV() {
 
     const mainCheckbox = document.createElement('input');
     mainCheckbox.type = 'checkbox';
-    mainCheckbox.id = `searchWord-${query}`;
+    mainCheckbox.id = `rootWord-${query}`;
     mainCheckbox.value = query;
     mainCheckbox.checked = true;
  
-    if (!checkedWords.includes(query)) {
-      checkedWords.push(query); // Tracks currently checked words
-    }
-
     const initialMatches = getMatchesFromWordList([query]);
 
     const mainLabel = document.createElement('label');
-    mainLabel.htmlFor = `searchWord-${query}`;
+    mainLabel.htmlFor = `rootWord-${query}`;
     mainLabel.textContent = `${query} [${initialMatches.length}]`;
 
     rootContainer.appendChild(mainLabel);

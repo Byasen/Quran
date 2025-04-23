@@ -73,27 +73,41 @@ function loadState(jsonString) {
     }
 
 
+    const observer = new MutationObserver(() => {
+        const checkbox = document.getElementById(`rootWord-${currentSearchInput}`);
+        if (checkbox) {
+          checkbox.checked = false;
+          checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+          observer.disconnect(); // Stop observing once it's done
+        }
+      });
+      
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+      
 
+    // Observer to uncheck currentSearchInput once it appears
+
+    // For each word, check the checkbox once it appears
     checkedWords.forEach(word => {
-        const observer = new MutationObserver(() => {
-          const checkbox = document.getElementById(`rootWord-${word}`);
-          if (checkbox) {
+        const checkObserver = new MutationObserver(() => {
+        const checkbox = document.getElementById(`rootWord-${word}`);
+        if (checkbox) {
             checkbox.checked = true;
-      
-            // Dispatch a change event to trigger the associated event listener
             checkbox.dispatchEvent(new Event('change', { bubbles: true }));
-      
-            observer.disconnect(); // Stop observing once it's found
-          }
+            checkObserver.disconnect(); // Stop after it's found and checked
+        }
         });
-      
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
+
+    
+        checkObserver.observe(document.body, {
+        childList: true,
+        subtree: true
         });
-      });     
-      
-      
+    });
+         
 
 }
 
