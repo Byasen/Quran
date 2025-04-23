@@ -1,3 +1,30 @@
+// Global state
+let chapterNumber = "";
+let verseNumber = "";
+
+document.getElementById('chapterSelect').addEventListener('change', () => {
+    updateChapterVerse();
+  saveStateToLocal(); // optional: remove if you don't want to auto-save
+});
+
+document.getElementById('verseSelect').addEventListener('change', () => {
+    updateChapterVerse();
+  saveStateToLocal(); // optional
+});
+
+
+// Update function (reusable)
+function updateChapterVerse() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+    chapterNumber = chapterSelect.value;
+    verseNumber = verseSelect.value;
+  }
+
+
+
+
+
 // Event triggered when the Surah (chapter) changes
 function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
@@ -18,6 +45,7 @@ function onChapterChange() {
 
 
 function onVerseChange() {
+    const verseSelect = document.getElementById('verseSelect');
     displayVerseWithAnalyses();
 }
 

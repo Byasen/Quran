@@ -138,6 +138,15 @@ function initializePageSelect() {
     });
 }
 
+async function selectRandomVerse() {
+    const randomChapter = Math.floor(Math.random() * 114) + 1;
+    const tempPath = `data/surah/surah_${randomChapter}.json`;
+    const response = await fetch(tempPath);
+    tempSurah = await response.json();
+    const tempVerseCount =  tempSurah.verses.length;
+    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
+    selectThisVerse(randomChapter, randomVerse);
+}
 
 // Function to handle selecting a stacked verse
 function selectThisVerse(chapterNumber, verseNumber) {

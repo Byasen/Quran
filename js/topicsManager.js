@@ -4,6 +4,16 @@ let topicAnswer = "";
 let topicVerses = []; // Array of { surahNumber, verseNumber, verseNotes }
 
 
+document.getElementById('topicSelect').addEventListener('input', e => {
+    topicName = e.target.value;
+    saveStateToLocal();
+});
+
+document.getElementById('answerInput').addEventListener('input', e => {
+    topicAnswer = e.target.value;
+    saveStateToLocal();
+});
+
 function addCurrentVerse() {
     const chapterNumberLoc = document.getElementById('chapterSelect').value;
     const verseNumberLoc = document.getElementById('verseSelect').value;
@@ -87,14 +97,3 @@ function removeVerse(button) {
     verseDiv.remove();
 }
 
-// ------------------------ EVENT LISTENERS ------------------------
-
-document.getElementById('topicSelect').addEventListener('input', e => {
-    topicName = e.target.value;
-    saveStateToLocal();
-});
-
-document.getElementById('answerInput').addEventListener('input', e => {
-    topicAnswer = e.target.value;
-    saveStateToLocal();
-});

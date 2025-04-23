@@ -1,6 +1,8 @@
 function saveState() {
     // Log the loaded data for debugging
     return JSON.stringify({
+        chapterNumber,
+        verseNumber,
         topicName,
         topicAnswer,
         topicVerses,
@@ -21,7 +23,11 @@ function loadState(jsonString) {
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';  // Use the global variable for the search term
         checkedWords = data.checkedWords || [];
+        chapterNumber = data.chapterNumber || '';
+        verseNumber = data.verseNumber || '';
 
+        // Update the UI elements based on the loaded data
+        selectThisVerse(chapterNumber, verseNumber);
 
         // Set the UI elements based on the loaded data
         document.getElementById('topicSelect').value = topicName;
@@ -164,21 +170,8 @@ async function loadStateFromLocal() {
     const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (jsonData) {
         loadState(jsonData);
-        const randomChapter = Math.floor(Math.random() * 114) + 1;
-        const tempPath = `data/surah/surah_${randomChapter}.json`;
-        const response = await fetch(tempPath);
-        tempSurah = await response.json();
-        const tempVerseCount =  tempSurah.verses.length;
-        const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-        selectThisVerse(randomChapter, randomVerse);
     } else {
-        const randomChapter = Math.floor(Math.random() * 114) + 1;
-        const tempPath = `data/surah/surah_${randomChapter}.json`;
-        const response = await fetch(tempPath);
-        tempSurah = await response.json();
-        const tempVerseCount =  tempSurah.verses.length;
-        const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-        selectThisVerse(randomChapter, randomVerse);
+        selectRandomVerse();
         selectRandomWordAndSearch();
     }
 }
