@@ -1,8 +1,6 @@
 function saveState() {
     // Log the loaded data for debugging
     return JSON.stringify({
-        chapterNumber,
-        verseNumber,
         topicName,
         topicAnswer,
         topicVerses,
@@ -23,8 +21,6 @@ function loadState(jsonString) {
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';  // Use the global variable for the search term
         checkedWords = data.checkedWords || [];
-        chapterNumber = data.chapterNumber || '';
-        verseNumber = data.verseNumber || '';
 
         // Update the UI elements based on the loaded data
         selectThisVerse(chapterNumber, verseNumber);
@@ -170,6 +166,7 @@ async function loadStateFromLocal() {
     const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (jsonData) {
         loadState(jsonData);
+        selectRandomVerse();
     } else {
         selectRandomVerse();
         selectRandomWordAndSearch();

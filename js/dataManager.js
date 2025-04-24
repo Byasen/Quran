@@ -63,7 +63,7 @@ function populateChapters() {
         // Populate traditional dropdown
         const option = document.createElement('option');
         option.value = surah.number;
-        option.textContent = `${surah.number}. ${surah.name.en} (${surah.name.ar})`;
+        option.textContent = `${surah.number}.${surah.name.ar}`;
         chapterSelect.appendChild(option);
     }); // Close forEach and add semicolon
 }

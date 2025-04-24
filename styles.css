@@ -144,7 +144,7 @@ border: 1px solid green;
 
 .verseControl1{
    /* height: 20%; */
-    height:12%;
+    height:5%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -195,7 +195,7 @@ border: 1px solid green;
 }
 
 .searchColoumn {
-    display: block;
+    display: none;
     height: inherit;
     width: 22%;
     justify-content: flex-start; /* Align items starting from the right */

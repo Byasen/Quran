@@ -45,15 +45,17 @@
 
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
         <div class="verseControl1">
-            <div><select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select></div>
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
             <button onclick="decrementVerse()">&#62;</button>
-            <label for="verseSelect">رقم الآية</label>
+            <label for="verseSelect">الآية</label>
+            <select id="chapterSelect" class="chapterSelectClass" style="direction: rtl;" onchange="onChapterChange()"></select>
+            <label for="verseSelect">السورة</label>
         </div>
-            <div><button id="playOneAudioBtn" title="Play">إقرأ</button>
-            <button id="stopAudioBtn" title="Stop">توقف</button>
-            <label for="verseDisplay">: نص الآية</label>
+            <div>
+                <button id="stopAudioBtn" title="Stop">توقف</button>
+                <button id="playOneAudioBtn" title="Play">إقرأ</button>
+                <label for="verseDisplay">: نص الآية</label>
         </div>
         <div class="verseResults">
             <div class="verseResults1">
