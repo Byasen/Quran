@@ -11,106 +11,78 @@ function saveState() {
 }
 
 
-function loadState(jsonString) {
+async function loadState(jsonString) {
     try {
         const data = JSON.parse(jsonString);
-        
+
         // Update global variables
         topicName = data.topicName || '';
         topicAnswer = data.topicAnswer || '';
         topicVerses = data.topicVerses || [];
-        currentSearchInput = data.currentSearchInput || '';  // Use the global variable for the search term
+        currentSearchInput = data.currentSearchInput || '';
         checkedWords = data.checkedWords || [];
 
-        // Update the UI elements based on the loaded data
-        selectThisVerse(chapterNumber, verseNumber);
+        // Clear stacked verses
+        const stackedVerses = document.getElementById('stackedVerses');
+        stackedVerses.innerHTML = '';
+        topicVerses = [];
 
-        // Set the UI elements based on the loaded data
+        // Set UI elements
         document.getElementById('topicSelect').value = topicName;
         document.getElementById('answerInput').value = topicAnswer;
 
-        // After updating the checkboxes, trigger the search for the word
+        // Set and trigger search
         let field = document.getElementById("verseSearchInput");
         if (field && currentSearchInput) {
-            field.value = currentSearchInput;  // Set the search field value
-            searchInCSV();  // Trigger the search function
+            field.value = currentSearchInput;
+            searchInCSV();
         }
 
-        // Restore topic verses
-        const stackedVerses = document.getElementById('stackedVerses');
-        stackedVerses.innerHTML = '';
+        // Add verses using the actual function (in reverse to maintain original order)
+        for (const verseData of [...data.topicVerses].reverse()) {
+            await addVerse(verseData.surahNumber, verseData.verseNumber);
 
-        topicVerses.forEach((verseData) => {
-            const { surahNumber, verseNumber, verseNotes } = verseData;
-            const selectedSurah = quranMetadata.find(surah => surah.number == surahNumber);
+            // Set the verse note value directly
+            const stackedChildren = stackedVerses.querySelectorAll('.verse-container textarea');
+            if (stackedChildren.length > 0) {
+                stackedChildren[0].value = verseData.verseNotes || '';
+                if (stackedChildren[0].verseData) {
+                    stackedChildren[0].verseData.verseNotes = verseData.verseNotes || '';
+                }
+            }
+        }
 
-            fetchVerse(surahNumber, verseNumber).then((verseData) => {
-                const cleanText = verseData ? verseData.text.ar.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED]/g, '') : 'Verse not found';
 
-                const newVerseDiv = document.createElement('div');
-                newVerseDiv.classList.add('verse-container');
-                newVerseDiv.innerHTML = `
-                    <strong>سورة ${selectedSurah.number}: ${selectedSurah.name.ar} (آية ${verseNumber})</strong><br>
-                    ${cleanText}
-                    <br>
-                    <button onclick="moveVerseUp(this)">رتب لأعلى</button>
-                    <button onclick="moveVerseDown(this)">رتب لأسفل</button>
-                    <button onclick="removeVerse(this)">إزالة</button>
-                    <button onclick="selectThisVerse(${surahNumber}, ${verseNumber})">اختيار</button>
-                `;
-
-                const notesTextArea = document.createElement('textarea');
-                notesTextArea.value = verseNotes || '';
-                notesTextArea.placeholder = "أدخل سبب إستعمال هذه الآية";
-                notesTextArea.rows = 3;
-                notesTextArea.style.width = '100%';
-
-                newVerseDiv.appendChild(notesTextArea);
-                stackedVerses.appendChild(newVerseDiv);
-            });
-        });
     } catch (err) {
         console.error('[loadState] Failed to load topic:', err);
         alert('Failed to load topic: ' + err.message);
     }
 
-
+    // Restore current search checkbox
     const observer = new MutationObserver(() => {
         const checkbox = document.getElementById(`rootWord-${currentSearchInput}`);
         if (checkbox) {
-          checkbox.checked = false;
-          checkbox.dispatchEvent(new Event('change', { bubbles: true }));
-          observer.disconnect(); // Stop observing once it's done
+            checkbox.checked = false;
+            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+            observer.disconnect();
         }
-      });
-      
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-      
+    });
 
-    // Observer to uncheck currentSearchInput once it appears
+    observer.observe(document.body, { childList: true, subtree: true });
 
-    // For each word, check the checkbox once it appears
+    // Recheck all saved word checkboxes
     checkedWords.forEach(word => {
         const checkObserver = new MutationObserver(() => {
-        const checkbox = document.getElementById(`rootWord-${word}`);
-        if (checkbox) {
-            checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
-            checkObserver.disconnect(); // Stop after it's found and checked
-        }
+            const checkbox = document.getElementById(`rootWord-${word}`);
+            if (checkbox) {
+                checkbox.checked = true;
+                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                checkObserver.disconnect();
+            }
         });
 
-    
-        checkObserver.observe(document.body, {
-        childList: true,
-        subtree: true
-        });
+        checkObserver.observe(document.body, { childList: true, subtree: true });
     });
-         
-
 }
 
 

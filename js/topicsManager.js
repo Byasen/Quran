@@ -50,20 +50,22 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
 
         const verseObj = { surahNumber: selectedChapter, verseNumber: selectedVerse, verseNotes: "" };
         topicVerses.push(verseObj);
-        saveStateToLocal();
 
-        notesTextArea.addEventListener('input', () => {
-            const index = [...stackedVerses.children].indexOf(newVerseDiv);
-            if (topicVerses[index]) {
-                topicVerses[index].verseNotes = notesTextArea.value;
-                saveStateToLocal();
-            }
+        // Attach the verseObj directly to the textarea
+        notesTextArea.verseData = verseObj;
+
+        notesTextArea.addEventListener('input', function () {
+            this.verseData.verseNotes = this.value;
+            saveStateToLocal();
         });
 
         newVerseDiv.appendChild(notesTextArea);
         stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
+
+        saveStateToLocal();
     }
 }
+
 
 function moveVerseUp(button) {
     const verseDiv = button.closest('.verse-container');
