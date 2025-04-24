@@ -34,7 +34,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         const newVerseDiv = document.createElement('div');
         newVerseDiv.classList.add('verse-container');
         newVerseDiv.innerHTML = `
-            <strong>سورة ${selectedSurah.number}: ${selectedSurah.name.ar} (آية ${selectedVerse})</strong><br>
+            <strong>سورة ${selectedSurah.name.ar} : آية ${selectedVerse}</strong><br>
             ${cleanText}
             <br>
             <button onclick="moveVerseUp(this)">رتب لأعلى</button>
