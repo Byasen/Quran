@@ -192,18 +192,6 @@ function displayNextPreviousPages(pageNumber) {
 }
 
 
-
-function toggleSidebar() {
-    var sidebar = document.getElementById("sidebarId");
-    if (sidebar.style.left === "0px") {
-        sidebar.style.left = "-250px";
-    } else {
-        sidebar.style.left = "0px";
-    }
-
-}
-
-
 function foldSearch(){
     const Container = document.getElementById('searchResults');
     const Container2 = document.getElementById('verseColoumnId');

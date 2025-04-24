@@ -63,7 +63,7 @@ function populateChapters() {
         // Populate traditional dropdown
         const option = document.createElement('option');
         option.value = surah.number;
-        option.textContent = `${surah.number}. ${surah.name.en} (${surah.name.ar})`;
+        option.textContent = `${surah.number}.${surah.name.ar}`;
         chapterSelect.appendChild(option);
     }); // Close forEach and add semicolon
 }
@@ -138,6 +138,15 @@ function initializePageSelect() {
     });
 }
 
+async function selectRandomVerse() {
+    const randomChapter = Math.floor(Math.random() * 114) + 1;
+    const tempPath = `data/surah/surah_${randomChapter}.json`;
+    const response = await fetch(tempPath);
+    tempSurah = await response.json();
+    const tempVerseCount =  tempSurah.verses.length;
+    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
+    selectThisVerse(randomChapter, randomVerse);
+}
 
 // Function to handle selecting a stacked verse
 function selectThisVerse(chapterNumber, verseNumber) {
@@ -162,4 +171,17 @@ function selectThisVerseNoPageChange(chapterNumber, verseNumber) {
         // Call displayVerseWithAnalyses to update the verse and analyses automatically
         displayVerseWithAnalysesNoPageChange(); // Update the verse display
     });
+}
+
+
+
+
+// Function to batch fetch verses
+async function fetchVersesBatch(versesToFetch) {
+    const fetchPromises = versesToFetch.map(({ surahNumber, verseNumber }) => {
+        // Fetch the verse
+        return fetchVerse(surahNumber, verseNumber);
+    });
+
+    return Promise.all(fetchPromises);
 }

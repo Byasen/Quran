@@ -1,3 +1,30 @@
+// Global state
+let chapterNumber = "";
+let verseNumber = "";
+
+document.getElementById('chapterSelect').addEventListener('change', () => {
+    updateChapterVerse();
+  saveStateToLocal(); // optional: remove if you don't want to auto-save
+});
+
+document.getElementById('verseSelect').addEventListener('change', () => {
+    updateChapterVerse();
+  saveStateToLocal(); // optional
+});
+
+
+// Update function (reusable)
+function updateChapterVerse() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+    chapterNumber = chapterSelect.value;
+    verseNumber = verseSelect.value;
+  }
+
+
+
+
+
 // Event triggered when the Surah (chapter) changes
 function onChapterChange() {
     const chapterSelect = document.getElementById('chapterSelect');
@@ -18,6 +45,7 @@ function onChapterChange() {
 
 
 function onVerseChange() {
+    const verseSelect = document.getElementById('verseSelect');
     displayVerseWithAnalyses();
 }
 
@@ -28,6 +56,18 @@ function onPageChange() {
 
     // Display Quran pages and highlight the current one
     displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
+
+}
+
+
+
+function onTopicChange() {
+    // Store the currently selected chapter and verse
+    previousChapter = document.getElementById('chapterSelect').value;
+    previousVerse = document.getElementById('verseSelect').value;
+    
+    // Restore the state based on the selected topic
+    restoreState();
 
 }
 
@@ -53,16 +93,8 @@ window.onload = async function () {
     checkMobileMode();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
-    await importTemplateData();
-    const randomChapter = Math.floor(Math.random() * 114) + 1;
-    const tempPath = `data/surah/surah_${randomChapter}.json`;
-    const response = await fetch(tempPath);
-    tempSurah = await response.json();
     populatePages(); // Initialize the Quran page dropdown
-    const tempVerseCount =  tempSurah.verses.length;
-    const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-    selectThisVerse(randomChapter, randomVerse);
-    selectRandomWordAndSearch();
+    loadStateFromLocal(); // Load the state from local storage
 };
 
 

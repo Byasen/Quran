@@ -14,20 +14,6 @@
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
     </div>
     
-    <div id="sidebarId" class="sidebar">
-        <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
-        <div style="margin-top: 10%;">
-        <input type="text" id="newTopicInput" placeholder="اسم الموضوع" class="newTopicInputClass">        
-        <button onclick="addOrEditTopic()">ابدأ موضوعا جديداً</button>
-        </div>
-        <div style="margin-top: 10%;"><button onclick="removeTopic()">احذف الموضوع الحالي</button></div>
-        <div style="margin-top: 10%;""><button onclick="saveState()">حفظ الموضوعات بملف</button></div>
-        <div style="margin-top: 0%;""><button onclick="loadState()">استرجاع الموضوعات من ملف</button></div>
-        <div hidden style="margin-top: 10%;""><button onclick="exportToLocal()">حفظ الموضوعات بالمتصفح</button></div>
-        <div hidden style="margin-top: 0%;""><button onclick="importFromLocal()">استرجاع الموضوعات من المتصفح</button></div>
-        <div style="margin-top: 10%;""><button onclick="importTemplateData()">استرجاع المثال الأولي</button></div>
-    </div>   
-    
     <div class="mainContainer">
         <div class="pageColoumn">
             <div id="mobileOnlyVerseContent" class="mobileOnlyVerseContentClass"></div>
@@ -59,15 +45,17 @@
 
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
         <div class="verseControl1">
-            <div><select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select></div>
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
             <button onclick="decrementVerse()">&#62;</button>
-            <label for="verseSelect">رقم الآية</label>
+            <label for="verseSelect">الآية</label>
+            <select id="chapterSelect" class="chapterSelectClass" style="direction: rtl;" onchange="onChapterChange()"></select>
+            <label for="verseSelect">السورة</label>
         </div>
-            <div><button id="playOneAudioBtn" title="Play">▶</button>
-            <button id="stopAudioBtn" title="Stop">⏹</button>
-            <label for="verseDisplay">: نص الآية</label>
+            <div>
+                <button id="stopAudioBtn" title="Stop">توقف</button>
+                <button id="playOneAudioBtn" title="Play">إقرأ</button>
+                <label for="verseDisplay">: نص الآية</label>
         </div>
         <div class="verseResults">
             <div class="verseResults1">
@@ -79,15 +67,15 @@
         </div>
         <div class="verseControl2">
             <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-            <label><input type="checkbox" id="togglee3rab"  onclick="displayVerseWithAnalyses()"> إعراب</label>
+            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
             <label><input type="checkbox" id="togglebaghawy"  onclick="displayVerseWithAnalyses()"> البغوي</label>
             <label><input type="checkbox" id="togglekatheer"  onclick="displayVerseWithAnalyses()"> ابن كثير</label>
             <label><input type="checkbox" id="toggleqortoby"  onclick="displayVerseWithAnalyses()"> القرطبي</label>
             <label><input type="checkbox" id="togglesa3dy"  onclick="displayVerseWithAnalyses()"> السعدي</label>
             <label><input type="checkbox" id="toggletabary"  onclick="displayVerseWithAnalyses()"> الطبري</label>
             <label><input type="checkbox" id="togglewaseet"  onclick="displayVerseWithAnalyses()"> الوسيط</label>
-            <label><input type="checkbox" id="togglemuyassar" onclick="displayVerseWithAnalyses()"> الميسر</label>
-            <label><input type="checkbox" id="toggletanweer"  onclick="displayVerseWithAnalyses()"> التنوير</label>
+            <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
+            <label><input type="checkbox" id="toggletanweer"  checked onclick="displayVerseWithAnalyses()"> التنوير</label>
             <div>
                 <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
                 <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
@@ -99,40 +87,46 @@
     
     <div id="searchResults" class="searchColoumn">
         <div class="searchControl">
-            <button onclick="searchInCSV()">ابدأ البحث</button>
+            <button onclick="searchInCSVClearCurrent()">ابدأ البحث</button>
             <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
         </div>
         <div id="searchResultsContainer1" class="searchResults1"></div>
         <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
-
-    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton"> تصيف الآيات حسب الموضوعات</button></div>
+    
+    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">تجميع آيات الموضوع الواحد</button></div>
     
     <div id="topicResults" class="topicColoumn">
-        <div class="topicControl">
-            <textarea id="questionInput" placeholder="السؤال العام" style="display: none;"></textarea> <!-- Arabic placeholder -->
-            <button onclick="toggleSidebar()">☰</button>
-            <select id="topicSelect" onchange="onTopicChange()"></select>
+        <div class="topicControl1">
+            <input id="topicSelect" class="topicSelectClass"></input>
         </div>
-        <label>الفكرة العامة للموضوع</label>
         <div class="topicResults1">
+            <label>الفكرة العامة للموضوع</label>
             <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
         </div>
+        <div style="margin-top: 5%; margin-bottom: 5%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
         <label>الآيات المتعلقة بالموضوع</label>
         <div id="stackedVerses" class="topicResults2"></div>
-        <div><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
+        <div class="topicControl2">
+        <div style="margin-top: 10%;""><button onclick="saveStateToFile()">حفظ الموضوع</button></div>
+        <div style="margin-top: 0%;""><button onclick="loadStateFromFile()">استرجاع الموضوع</button></div>
+        </div>
     </div>
-
+    
+    <div id="sidebarId" class="sidebar">
+        <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
+    </div>   
+    
+    
 </div>
 
 <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
-    <button onclick="showMobileColumn('pageColoumn')">الصفخة</button>
-    <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
-    <button onclick="showMobileColumn('searchColoumn')">بحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">مواضيع</button>
+    <button onclick="showMobileColumn('pageColoumn')">اختيتار الآية</button>
+    <button onclick="showMobileColumn('verseColoumn')">تصفح التفاسير</button>
+    <button onclick="showMobileColumn('searchColoumn')">البحث في القرآن</button>
+    <button onclick="showMobileColumn('topicColoumn')">تجميع آيات الموضوع الواحد</button>
 </div>
 
-<script src="js/choices.min.js"></script>
 <script src="js/audioManager.js"></script>
 <script src="js/helpersManager.js"></script>
 <script src="js/dataManager.js"></script>
