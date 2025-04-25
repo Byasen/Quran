@@ -97,21 +97,23 @@
     <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">تجميع آيات الموضوع الواحد</button></div>
     
     <div id="topicResults" class="topicColoumn">
-        <label style="margin-top: 5%;">اسم الموضوع</label>
         <div class="topicControl1">
+            <label style="margin-top: 5%; white-space: nowrap;">اسم الموضوع</label>
             <input id="topicSelect" class="topicSelectClass"></input>
         </div>
-        <label>الفكرة العامة للموضوع</label>
-        <div class="topicResults1">
+        <div id="topicResults2Id" class="topicResults2">
+            <label>الفكرة العامة</label>
             <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
+            <label style="direction: rtl; text-align: right;">تجميع آيات الموضوع الواحد :</label>
+            <div id="stackedVerses"></div>
         </div>
-        <label style="direction: rtl; text-align: right;">تجميع آيات الموضوع الواحد :</label>
-        <div style="margin-top: 2%; margin-bottom: 2%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
-        <div id="stackedVerses" class="topicResults2"></div>
         <div class="topicControl2">
         <div style="margin-top: 0%;"><button onclick="saveStateToFile()">حفظ</button></div>
         <div style="margin-top: 0%;"><button onclick="loadStateFromFile()">استرجاع</button></div>
         <div style="margin-top: 00%;"><button onclick="importTemplateTopic()">مثال</button></div>
+        </div>
+        <div>
+        <div style="margin-top: 2%; margin-bottom: 2%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
         </div>
     </div>
     
