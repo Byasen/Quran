@@ -105,7 +105,7 @@ function displaySearchResults(label, wordList, matches, clear = true) {
         onclick="selectThisVerse(${match.chapter}, ${match.verse})">
         اختيار
       </button>
-        <strong>سورة ${match.chapterName} (${match.chapter}) (آية ${match.verse})</strong>
+        <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
         <br>
         ${match.text}
       `;
