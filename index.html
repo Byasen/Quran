@@ -97,19 +97,21 @@
     <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">تجميع آيات الموضوع الواحد</button></div>
     
     <div id="topicResults" class="topicColoumn">
+        <label style="margin-top: 5%;">اسم الموضوع</label>
         <div class="topicControl1">
             <input id="topicSelect" class="topicSelectClass"></input>
         </div>
+        <label>الفكرة العامة للموضوع</label>
         <div class="topicResults1">
-            <label>الفكرة العامة للموضوع</label>
             <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
         </div>
-        <div style="margin-top: 5%; margin-bottom: 5%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
-        <label>الآيات المتعلقة بالموضوع</label>
+        <label style="direction: rtl; text-align: right;">تجميع آيات الموضوع الواحد :</label>
+        <div style="margin-top: 2%; margin-bottom: 2%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
         <div id="stackedVerses" class="topicResults2"></div>
         <div class="topicControl2">
-        <div style="margin-top: 10%;""><button onclick="saveStateToFile()">حفظ الموضوع</button></div>
-        <div style="margin-top: 0%;""><button onclick="loadStateFromFile()">استرجاع الموضوع</button></div>
+        <div style="margin-top: 0%;"><button onclick="saveStateToFile()">حفظ</button></div>
+        <div style="margin-top: 0%;"><button onclick="loadStateFromFile()">استرجاع</button></div>
+        <div style="margin-top: 00%;"><button onclick="importTemplateTopic()">مثال</button></div>
         </div>
     </div>
     
@@ -124,7 +126,7 @@
     <button onclick="showMobileColumn('pageColoumn')">الصفحة</button>
     <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
     <button onclick="showMobileColumn('searchColoumn')">البحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">الموضوع</button>
+    <button onclick="showMobileColumn('topicColoumn')">تصنيف</button>
 </div>
 
 <script src="js/audioManager.js"></script>

@@ -296,12 +296,12 @@ border: 1px solid green;
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
-    height:20%; /* Fix the height */
+    height:15%; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     padding-right: 2%;
     width: 100%;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
 }
 
 #answerInput {
@@ -322,7 +322,7 @@ border: 1px solid green;
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
-    height:56%; /* Fix the height */
+    height:52%; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     padding-right: 2%;
@@ -444,7 +444,7 @@ label {
 
     .mainContainer {
         flex-direction: column;
-        height: 90vh;
+        height: 80vh;
         overflow: hidden;
     }
 

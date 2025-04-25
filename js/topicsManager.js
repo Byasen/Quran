@@ -44,7 +44,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         `;
 
         const notesTextArea = document.createElement('textarea');
-        notesTextArea.placeholder = "أدخل سبب إستعمال هذه الآية";
+        notesTextArea.placeholder = "علاقة الآية بالموضوع";
         notesTextArea.rows = 3;
         notesTextArea.style.width = '100%';
 
@@ -97,5 +97,48 @@ function removeVerse(button) {
         saveStateToLocal();
     }
     verseDiv.remove();
+}
+
+
+async function importTemplateTopic() {
+    try {
+        const response = await fetch('stored/all.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Update global variables
+        topicName = data.topicName || '';
+        topicAnswer = data.topicAnswer || '';
+        topicVerses = data.topicVerses || [];
+
+        // Clear stacked verses
+        const stackedVerses = document.getElementById('stackedVerses');
+        stackedVerses.innerHTML = '';
+        topicVerses = [];
+
+        // Set UI fields
+        document.getElementById('topicSelect').value = topicName;
+        document.getElementById('answerInput').value = topicAnswer;
+
+        // Add verses (in reverse to keep display order)
+        for (const verseData of [...data.topicVerses].reverse()) {
+            await addVerse(verseData.surahNumber, verseData.verseNumber);
+
+            const stackedChildren = stackedVerses.querySelectorAll('.verse-container textarea');
+            if (stackedChildren.length > 0) {
+                stackedChildren[0].value = verseData.verseNotes || '';
+                if (stackedChildren[0].verseData) {
+                    stackedChildren[0].verseData.verseNotes = verseData.verseNotes || '';
+                }
+            }
+        }
+
+    } catch (err) {
+        console.error('[importTemplateTopic] Failed to load template topic:', err);
+        alert('فشل في تحميل المثال: ' + err.message);
+    }
 }
 
