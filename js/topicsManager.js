@@ -15,6 +15,7 @@ document.getElementById('answerInput').addEventListener('input', e => {
 });
 
 function addCurrentVerse() {
+    const topicResults2 = document.getElementById('topicResults2Id').scrollTop = 0;
     const chapterNumberLoc = document.getElementById('chapterSelect').value;
     const verseNumberLoc = document.getElementById('verseSelect').value;
     addVerse(chapterNumberLoc, verseNumberLoc);
