@@ -8,7 +8,7 @@ async function fetchAnalysis(chapterNumber, verseNumber, source) {
         if (response.ok) {
             const analysisData = await response.json();
             //console.log(`Fetched data for ${source}:`, analysisData); // Debugging line
-            return analysisData.text || `لا يوجد مدخل لهذه الآية`;
+            return analysisData.text || ``;
         } else {
             //console.error(`Failed to fetch ${source} analysis for ${chapterNumber}:${verseNumber}`);
             return `No ${source} analysis available`;
@@ -98,7 +98,7 @@ async function displayVerseWithAnalyses() {
 
                 // Use the lowercase key to access the analysis data
                 const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
-                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || 'لا يوجد مدخل لهذه الآية'}</div><br><hr class="dashed-line">`;
+                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><br><hr class="dashed-line">`;
             }
         });
 
@@ -143,7 +143,7 @@ async function displayVerseWithAnalysesNoPageChange() {
 
                 // Use the lowercase key to access the analysis data
                 const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
-                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || 'لا يوجد مدخل لهذه الآية'}</div><br><hr class="dashed-line">`;
+                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><br><hr class="dashed-line">`;
             }
         });
 
