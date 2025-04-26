@@ -5,6 +5,8 @@ function saveState() {
         topicVerses,
         currentSearchInput,
         checkedWords,
+        chapterNumber,
+        verseNumber,
         repeat, // save repeat
         silence // save silence (already in ms)
     }, null, 2);
@@ -26,7 +28,10 @@ async function loadState(jsonString) {
         // New: Load repeat and silence (with fallback values)
         repeat = data.repeat !== undefined ? data.repeat : 3;
         silence = data.silence !== undefined ? data.silence : 10000;
+        chapterNumber = data.chapterNumber || '';
+        verseNumber = data.verseNumber || '';
 
+        
         // Update dropdowns
         if (document.getElementById('repeatSelect')) {
             document.getElementById('repeatSelect').value = repeat;
@@ -81,7 +86,7 @@ async function loadState(jsonString) {
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-
+    
     // Recheck all saved word checkboxes
     checkedWords.forEach(word => {
         const checkObserver = new MutationObserver(() => {
@@ -92,9 +97,10 @@ async function loadState(jsonString) {
                 checkObserver.disconnect();
             }
         });
-
+        
         checkObserver.observe(document.body, { childList: true, subtree: true });
     });
+
 }
 
 
@@ -151,7 +157,7 @@ async function loadStateFromLocal() {
     const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (jsonData) {
         loadState(jsonData);
-        selectRandomVerse();
+        selectThisVerse(chapterNumber, verseNumber);
     } else {
         selectRandomVerse();
         selectRandomWordAndSearch();
