@@ -16,6 +16,7 @@ for (let i = 1; i <= 10; i++) {
 repeatSelect.value = repeat;
 repeatSelect.addEventListener('change', () => {
     repeat = parseInt(repeatSelect.value);
+    saveStateToLocal(); // <--- Save immediately when changed
 });
 
 // Populate Silence dropdown
@@ -26,9 +27,10 @@ for (let i = 1; i <= 60; i++) {
     option.textContent = i;
     silenceSelect.appendChild(option);
 }
-silenceSelect.value = silence / 1000; // default 10 seconds
+silenceSelect.value = silence / 1000; // milliseconds to seconds
 silenceSelect.addEventListener('change', () => {
-    silence = parseInt(silenceSelect.value) * 1000; // convert to milliseconds
+    silence = parseInt(silenceSelect.value) * 1000;
+    saveStateToLocal(); // <--- Save immediately when changed
 });
 
 

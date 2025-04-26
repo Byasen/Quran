@@ -1,14 +1,15 @@
 function saveState() {
-    // Log the loaded data for debugging
     return JSON.stringify({
         topicName,
         topicAnswer,
         topicVerses,
         currentSearchInput,
-        checkedWords
+        checkedWords,
+        repeat, // save repeat
+        silence // save silence (already in ms)
     }, null, 2);
-    
 }
+
 
 
 async function loadState(jsonString) {
@@ -21,6 +22,18 @@ async function loadState(jsonString) {
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';
         checkedWords = data.checkedWords || [];
+
+        // New: Load repeat and silence (with fallback values)
+        repeat = data.repeat !== undefined ? data.repeat : 3;
+        silence = data.silence !== undefined ? data.silence : 10000;
+
+        // Update dropdowns
+        if (document.getElementById('repeatSelect')) {
+            document.getElementById('repeatSelect').value = repeat;
+        }
+        if (document.getElementById('silenceSelect')) {
+            document.getElementById('silenceSelect').value = silence / 1000;
+        }
 
         // Clear stacked verses
         const stackedVerses = document.getElementById('stackedVerses');
@@ -51,7 +64,6 @@ async function loadState(jsonString) {
                 }
             }
         }
-
 
     } catch (err) {
         console.error('[loadState] Failed to load topic:', err);
@@ -84,6 +96,7 @@ async function loadState(jsonString) {
         checkObserver.observe(document.body, { childList: true, subtree: true });
     });
 }
+
 
 
 
