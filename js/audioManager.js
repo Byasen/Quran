@@ -40,7 +40,7 @@ const playOneBtn = document.getElementById('playOneAudioBtn');
 playBtn.addEventListener('click', () => {
     if (!autoPlay) {
         autoPlay = true;
-        playCurrentVerse();
+        initAudioPlayer();
     }
 });
 
@@ -51,58 +51,39 @@ stopBtn.addEventListener('click', () => {
 
 playOneBtn.addEventListener('click', () => {
     autoPlay = false;
-    playCurrentVerse();
+    initAudioPlayer();
 });
 
-function playCurrentVerse() {
+function initAudioPlayer() {
     stopAudio(); // Stop old audio
 
-    const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
-    const chapter = chapterSelect.value;
-    const verse = verseSelect.value;
-    const chapter_padded = padNumber(chapter);
-    const verse_padded = padNumber(verse);
-    const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
+    if (!audioPlayer) {
+        audioPlayer = new Audio();
+    }
 
-    showLoadingStatus("Loading audio...");
+    loadCurrentVerse();
+
     stopBtn.classList.add('playing');
-
-    audioPlayer = new Audio(audioPath); // <<< Create Audio immediately after user click
 
     let playCount = 0;
 
-    audioPlayer.addEventListener('canplaythrough', () => {
-        hideLoadingStatus();
-        audioPlayer.play();
-    });
-
-    audioPlayer.addEventListener('error', () => {
-        console.error(`Failed to load: ${audioPath}`);
-        hideLoadingStatus();
-        stopBtn.classList.remove('playing');
-    });
-
-    audioPlayer.addEventListener('ended', () => {
+    audioPlayer.addEventListener('ended', async function handler() {
         playCount++;
-        const delay = autoPlay ? silence : 0;
-
         if (playCount < repeat) {
+            // Repeat same verse after silence
             setTimeout(() => {
-                if (audioPlayer) {
-                    audioPlayer.currentTime = 0;
-                    audioPlayer.play();
-                }
-            }, delay);
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+            }, silence);
         } else if (autoPlay) {
-            const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
+            const isLastVerse = isAtLastVerse();
             if (!isLastVerse) {
                 incrementVerse();
                 setTimeout(() => {
-                    if (autoPlay) {
-                        playCurrentVerse();
-                    }
-                }, delay);
+                    loadCurrentVerse();
+                    playCount = 0;
+                    audioPlayer.play();
+                }, silence);
             } else {
                 autoPlay = false;
                 stopBtn.classList.remove('playing');
@@ -111,8 +92,33 @@ function playCurrentVerse() {
             stopBtn.classList.remove('playing');
         }
     });
+}
 
-    audioPlayer.load();
+function loadCurrentVerse() {
+    const chapterSelect = document.getElementById('chapterSelect');
+    const verseSelect = document.getElementById('verseSelect');
+    const chapter = chapterSelect.value;
+    const verse = verseSelect.value;
+    const chapter_padded = padNumber(chapter);
+    const verse_padded = padNumber(verse);
+    const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
+
+    if (audioPlayer) {
+        showLoadingStatus(`Loading ${chapter}:${verse}...`);
+        audioPlayer.src = audioPath;
+        audioPlayer.load();
+        audioPlayer.addEventListener('canplaythrough', () => {
+            hideLoadingStatus();
+            if (autoPlay || !autoPlay) { // both for single play and auto
+                audioPlayer.play();
+            }
+        }, { once: true });
+        audioPlayer.addEventListener('error', () => {
+            console.error(`Failed to load: ${audioPath}`);
+            hideLoadingStatus();
+            stopBtn.classList.remove('playing');
+        }, { once: true });
+    }
 }
 
 function stopAudio() {
@@ -123,6 +129,18 @@ function stopAudio() {
         audioPlayer = null;
     }
     stopBtn.classList.remove('playing');
+}
+
+function isAtLastVerse() {
+    const verseSelect = document.getElementById('verseSelect');
+    return verseSelect.selectedIndex === verseSelect.options.length - 1;
+}
+
+function incrementVerse() {
+    const verseSelect = document.getElementById('verseSelect');
+    if (verseSelect.selectedIndex < verseSelect.options.length - 1) {
+        verseSelect.selectedIndex++;
+    }
 }
 
 // Helper: Pad numbers to 3 digits
@@ -139,10 +157,4 @@ function hideLoadingStatus() {
 }
 function saveStateToLocal() {
     // Save repeat/silence values if needed
-}
-function incrementVerse() {
-    const verseSelect = document.getElementById('verseSelect');
-    if (verseSelect.selectedIndex < verseSelect.options.length - 1) {
-        verseSelect.selectedIndex++;
-    }
 }
