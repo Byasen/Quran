@@ -68,60 +68,53 @@ function playCurrentVerse() {
 
     let playCount = 0;
 
-    if (audioPlayer) {
-        audioPlayer.pause();
-        audioPlayer = null;
-    }
+    function playRepeat() {
+        if (!autoPlay && playCount > 0) {
+            stopBtn.classList.remove('playing');
+            return;
+        }
 
-    audioPlayer = new Audio(audioPath);
+        audioPlayer = new Audio(audioPath);
 
-    audioPlayer.addEventListener('canplaythrough', () => {
-        hideLoadingStatus();
-        audioPlayer.play();
-    });
+        audioPlayer.addEventListener('canplaythrough', () => {
+            hideLoadingStatus();
+            audioPlayer.play();
+        });
 
-    audioPlayer.addEventListener('error', () => {
-        console.error(`Failed to load: ${audioPath}`);
-        hideLoadingStatus();
-        stopBtn.classList.remove('playing');
-    });
+        audioPlayer.addEventListener('error', () => {
+            console.error(`Failed to load: ${audioPath}`);
+            hideLoadingStatus();
+            stopBtn.classList.remove('playing');
+        });
 
-    audioPlayer.addEventListener('ended', () => {
-        playCount++;
-        const verseSelect = document.getElementById('verseSelect');
-        if (playCount < repeat) {
-            if (autoPlay) {
-                setTimeout(() => {
-                    if (autoPlay) {
-                        audioPlayer.currentTime = 0;
-                        audioPlayer.play();
-                    }
-                }, silence);
-            } else {
-                audioPlayer.currentTime = 0;
-                audioPlayer.play();
-            }
-        } else if (autoPlay) {
-            const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
-            if (!isLastVerse) {
-                incrementVerse();
-                setTimeout(() => {
-                    if (autoPlay) {
-                        setTimeout(() => {
+        audioPlayer.addEventListener('ended', () => {
+            playCount++;
+            if (playCount < repeat) {
+                const delay = autoPlay ? silence : 0;
+                setTimeout(playRepeat, delay);
+            } else if (autoPlay) {
+                const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
+                if (!isLastVerse) {
+                    incrementVerse();
+                    setTimeout(() => {
+                        if (autoPlay) {
+                            stopAudio(); // <--- FIX: stop old audio before moving to next verse
                             playCurrentVerse();
-                        }, 100); // Allow dropdown to update
-                    }
-                }, silence);
+                        }
+                    }, silence);
+                } else {
+                    autoPlay = false;
+                    stopBtn.classList.remove('playing');
+                }
             } else {
-                autoPlay = false;
                 stopBtn.classList.remove('playing');
             }
-        } else {
-            stopBtn.classList.remove('playing');
-        }
-    });
+        });
 
-    audioPlayer.load();
+        audioPlayer.load();
+    }
+
+    playRepeat();
 }
 
 function stopAudio() {
@@ -129,27 +122,28 @@ function stopAudio() {
         audioPlayer.pause();
         audioPlayer.removeAttribute('src');
         audioPlayer.load();
+        audioPlayer = null; // Important: destroy old player
     }
     stopBtn.classList.remove('playing');
 }
 
-// Helper function (you should already have this)
+// Helper function to pad chapter and verse numbers
 function padNumber(num) {
     return num.toString().padStart(3, '0');
 }
 
 // Placeholder UI helper functions
 function showLoadingStatus(message) {
-    console.log(message); // You can replace with real loading spinner
+    console.log(message); // Replace with your real loading UI if needed
 }
 
 function hideLoadingStatus() {
     console.log("Audio loaded");
 }
 
-// Save settings placeholder
+// Save state placeholder
 function saveStateToLocal() {
-    // Save repeat and silence settings to local storage
+    // Save repeat/silence settings if needed
 }
 
 // Increment verse

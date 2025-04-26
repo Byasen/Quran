@@ -169,7 +169,7 @@ p, .verse {
 
 .verseControl2{
     margin-top: 1.5%; /* Space between the two controls */
-    height: 14%;
+    height: 18%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     direction: rtl; /* Set text direction to right-to-left */
