@@ -109,6 +109,7 @@ async function displayVerseWithAnalyses() {
         verseDisplay.textContent = 'Verse or analyses not available.';
         meaningsDisplay.textContent = 'Verse or analyses not available.';
     }
+    updateChapterVerse();
 }
 
 
@@ -153,6 +154,7 @@ async function displayVerseWithAnalysesNoPageChange() {
         verseDisplay.textContent = 'Verse or analyses not available.';
         meaningsDisplay.textContent = 'Verse or analyses not available.';
     }
+    updateChapterVerse();
 }
 
 

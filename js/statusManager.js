@@ -5,8 +5,8 @@ function saveState() {
         topicVerses,
         currentSearchInput,
         checkedWords,
-        chapterNumber,
-        verseNumber,
+        chapterNumberGlobal,
+        verseNumberGlobal,
         repeat, // save repeat
         silence // save silence (already in ms)
     }, null, 2);
@@ -24,12 +24,13 @@ async function loadState(jsonString) {
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';
         checkedWords = data.checkedWords || [];
+        chapterNumberGlobal = data.chapterNumberGlobal || '';
+        verseNumberGlobal = data.verseNumberGlobal || '';
+        selectThisVerse(chapterNumberGlobal, verseNumberGlobal);
 
         // New: Load repeat and silence (with fallback values)
         repeat = data.repeat !== undefined ? data.repeat : 3;
         silence = data.silence !== undefined ? data.silence : 10000;
-        chapterNumber = data.chapterNumber || '';
-        verseNumber = data.verseNumber || '';
 
         
         // Update dropdowns
@@ -100,7 +101,7 @@ async function loadState(jsonString) {
         
         checkObserver.observe(document.body, { childList: true, subtree: true });
     });
-
+    
 }
 
 
@@ -157,7 +158,6 @@ async function loadStateFromLocal() {
     const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (jsonData) {
         loadState(jsonData);
-        selectThisVerse(chapterNumber, verseNumber);
     } else {
         selectRandomVerse();
         selectRandomWordAndSearch();
