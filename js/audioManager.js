@@ -55,7 +55,7 @@ playOneBtn.addEventListener('click', () => {
 });
 
 function playCurrentVerse() {
-    stopAudio(); // <<< Important: stop any old audio before starting new
+    stopAudio(); // Stop old audio
 
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -68,55 +68,51 @@ function playCurrentVerse() {
     showLoadingStatus("Loading audio...");
     stopBtn.classList.add('playing');
 
+    audioPlayer = new Audio(audioPath); // <<< Create Audio immediately after user click
+
     let playCount = 0;
 
-    function playRepeat() {
-        if (!autoPlay && playCount > 0) {
-            stopBtn.classList.remove('playing');
-            return;
-        }
+    audioPlayer.addEventListener('canplaythrough', () => {
+        hideLoadingStatus();
+        audioPlayer.play();
+    });
 
-        audioPlayer = new Audio(audioPath);
+    audioPlayer.addEventListener('error', () => {
+        console.error(`Failed to load: ${audioPath}`);
+        hideLoadingStatus();
+        stopBtn.classList.remove('playing');
+    });
 
-        audioPlayer.addEventListener('canplaythrough', () => {
-            hideLoadingStatus();
-            audioPlayer.play();
-        });
+    audioPlayer.addEventListener('ended', () => {
+        playCount++;
+        const delay = autoPlay ? silence : 0;
 
-        audioPlayer.addEventListener('error', () => {
-            console.error(`Failed to load: ${audioPath}`);
-            hideLoadingStatus();
-            stopBtn.classList.remove('playing');
-        });
-
-        audioPlayer.addEventListener('ended', () => {
-            playCount++;
-            const delay = autoPlay ? silence : 0; // <<< always apply silence if autoPlay
-
-            if (playCount < repeat) {
-                setTimeout(playRepeat, delay);
-            } else if (autoPlay) {
-                const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
-                if (!isLastVerse) {
-                    incrementVerse();
-                    setTimeout(() => {
-                        if (autoPlay) {
-                            playCurrentVerse();
-                        }
-                    }, delay);
-                } else {
-                    autoPlay = false;
-                    stopBtn.classList.remove('playing');
+        if (playCount < repeat) {
+            setTimeout(() => {
+                if (audioPlayer) {
+                    audioPlayer.currentTime = 0;
+                    audioPlayer.play();
                 }
+            }, delay);
+        } else if (autoPlay) {
+            const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
+            if (!isLastVerse) {
+                incrementVerse();
+                setTimeout(() => {
+                    if (autoPlay) {
+                        playCurrentVerse();
+                    }
+                }, delay);
             } else {
+                autoPlay = false;
                 stopBtn.classList.remove('playing');
             }
-        });
+        } else {
+            stopBtn.classList.remove('playing');
+        }
+    });
 
-        audioPlayer.load();
-    }
-
-    playRepeat();
+    audioPlayer.load();
 }
 
 function stopAudio() {
@@ -134,7 +130,7 @@ function padNumber(num) {
     return num.toString().padStart(3, '0');
 }
 
-// Dummy functions you probably already have
+// Dummy functions
 function showLoadingStatus(msg) {
     console.log(msg);
 }
