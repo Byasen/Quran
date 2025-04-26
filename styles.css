@@ -67,9 +67,16 @@ p, .verse {
     width: 22%;
     margin-right: 1%;
 }
+.verseControl1{
+   /* height: 20%; */
+    height:5%;
+    overflow-y: auto; /* Add vertical scrollable slider */
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
 
 .pageResults {
-    height: inherit;
+    height: 90%;
+    margin-top: 2%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -137,15 +144,9 @@ p, .verse {
     align-items: flex-end; /* Align items to the bottom */
 }
 
-.verseControl1{
-   /* height: 20%; */
-    height:5%;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-}
 
 .verseResults {
-    height: 80%;
+    height: 90%;
     width: 100%;
 }
 

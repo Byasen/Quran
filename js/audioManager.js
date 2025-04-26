@@ -3,7 +3,34 @@ let autoPlay = false;
 
 // Global variables
 let repeat = 3;
-let silence = 3000; // in milliseconds
+let silence = 5000; // milliseconds
+
+// Populate Repeat dropdown
+const repeatSelect = document.getElementById('repeatSelect');
+for (let i = 1; i <= 10; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    repeatSelect.appendChild(option);
+}
+repeatSelect.value = repeat;
+repeatSelect.addEventListener('change', () => {
+    repeat = parseInt(repeatSelect.value);
+});
+
+// Populate Silence dropdown
+const silenceSelect = document.getElementById('silenceSelect');
+for (let i = 1; i <= 60; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    silenceSelect.appendChild(option);
+}
+silenceSelect.value = silence / 1000; // default 10 seconds
+silenceSelect.addEventListener('change', () => {
+    silence = parseInt(silenceSelect.value) * 1000; // convert to milliseconds
+});
+
 
 const playBtn = document.getElementById('playAudioBtn');
 const stopBtn = document.getElementById('stopAudioBtn');
