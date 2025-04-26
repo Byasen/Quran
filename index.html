@@ -34,7 +34,6 @@
                 </div>
             </div>   
             <div class="pageControl">
-                <button hidden id="playAudioBtn" title="AutoPlay">🔁</button>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
@@ -52,10 +51,11 @@
             <select id="chapterSelect" class="chapterSelectClass" style="direction: rtl;" onchange="onChapterChange()"></select>
             <label for="verseSelect">السورة</label>
         </div>
-            <div>
-                <button id="stopAudioBtn" title="Stop">توقف</button>
-                <button id="playOneAudioBtn" title="Play">إقرأ</button>
-                <label for="verseDisplay">: نص الآية</label>
+        <div>
+            <button id="stopAudioBtn" title="Stop">توقف</button>
+            <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
+            <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
+            <label for="verseDisplay">: نص الآية</label>
         </div>
         <div class="verseResults">
             <div class="verseResults1">
