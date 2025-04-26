@@ -16,7 +16,7 @@ for (let i = 1; i <= 10; i++) {
 repeatSelect.value = repeat;
 repeatSelect.addEventListener('change', () => {
     repeat = parseInt(repeatSelect.value);
-    saveStateToLocal(); // <--- Save immediately when changed
+    saveStateToLocal(); // Save immediately when changed
 });
 
 // Populate Silence dropdown
@@ -30,9 +30,8 @@ for (let i = 1; i <= 60; i++) {
 silenceSelect.value = silence / 1000; // milliseconds to seconds
 silenceSelect.addEventListener('change', () => {
     silence = parseInt(silenceSelect.value) * 1000;
-    saveStateToLocal(); // <--- Save immediately when changed
+    saveStateToLocal(); // Save immediately when changed
 });
-
 
 const playBtn = document.getElementById('playAudioBtn');
 const stopBtn = document.getElementById('stopAudioBtn');
@@ -69,53 +68,57 @@ function playCurrentVerse() {
 
     let playCount = 0;
 
-    function playRepeat() {
-        if (!autoPlay && playCount > 0) {
-            stopBtn.classList.remove('playing');
-            return;
-        }
-
-        audioPlayer = new Audio(audioPath);
-
-        audioPlayer.addEventListener('canplaythrough', () => {
-            hideLoadingStatus();
-            audioPlayer.play();
-        });
-
-        audioPlayer.addEventListener('error', () => {
-            console.error(`Failed to load: ${audioPath}`);
-            hideLoadingStatus();
-            stopBtn.classList.remove('playing');
-        });
-
-        audioPlayer.addEventListener('ended', () => {
-            playCount++;
-            if (playCount < repeat) {
-                // Silence only applies in autoPlay mode between repeats
-                const delay = autoPlay ? silence : 0;
-                setTimeout(playRepeat, delay);
-            } else if (autoPlay) {
-                const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
-                if (!isLastVerse) {
-                    incrementVerse();
-                    setTimeout(() => {
-                        if (autoPlay) {
-                            playCurrentVerse();
-                        }
-                    }, silence); // Apply silence before next verse
-                } else {
-                    autoPlay = false;
-                    stopBtn.classList.remove('playing');
-                }
-            } else {
-                stopBtn.classList.remove('playing');
-            }
-        });
-
-        audioPlayer.load();
+    if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer = null;
     }
 
-    playRepeat();
+    audioPlayer = new Audio(audioPath);
+
+    audioPlayer.addEventListener('canplaythrough', () => {
+        hideLoadingStatus();
+        audioPlayer.play();
+    });
+
+    audioPlayer.addEventListener('error', () => {
+        console.error(`Failed to load: ${audioPath}`);
+        hideLoadingStatus();
+        stopBtn.classList.remove('playing');
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+        playCount++;
+        if (playCount < repeat) {
+            if (autoPlay) {
+                setTimeout(() => {
+                    if (autoPlay) {
+                        audioPlayer.currentTime = 0;
+                        audioPlayer.play();
+                    }
+                }, silence);
+            } else {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+            }
+        } else if (autoPlay) {
+            const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
+            if (!isLastVerse) {
+                incrementVerse();
+                setTimeout(() => {
+                    if (autoPlay) {
+                        playCurrentVerse();
+                    }
+                }, silence);
+            } else {
+                autoPlay = false;
+                stopBtn.classList.remove('playing');
+            }
+        } else {
+            stopBtn.classList.remove('playing');
+        }
+    });
+
+    audioPlayer.load();
 }
 
 function stopAudio() {
@@ -125,4 +128,29 @@ function stopAudio() {
         audioPlayer.load();
     }
     stopBtn.classList.remove('playing');
+}
+
+// Helper function (assuming you have it somewhere)
+function padNumber(num) {
+    return num.toString().padStart(3, '0');
+}
+
+// Placeholder functions (assuming you have them)
+function showLoadingStatus(message) {
+    console.log(message); // Replace with real UI update
+}
+
+function hideLoadingStatus() {
+    console.log("Audio loaded"); // Replace with real UI update
+}
+
+function saveStateToLocal() {
+    // Save repeat and silence settings
+}
+
+function incrementVerse() {
+    const verseSelect = document.getElementById('verseSelect');
+    if (verseSelect.selectedIndex < verseSelect.options.length - 1) {
+        verseSelect.selectedIndex++;
+    }
 }
