@@ -121,15 +121,10 @@ p, .verse {
     align-items: center; /* Center items vertically */
 }
 
-#playAudioBtn.playing {
-    background-color: lightgreen;
-    border: 1px solid green;
+#stopAudioBtn.playing {
+    background-color: rgb(238, 144, 156);
+    border: 1px solid rgb(128, 0, 0);
   }
-
-#playOneAudioBtn.playing {
-background-color: lightgreen;
-border: 1px solid green;
-}
 
 
 .verseColoumn{

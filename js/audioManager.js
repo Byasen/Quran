@@ -34,7 +34,7 @@ function playCurrentVerse() {
     showLoadingStatus("Loading audio...");
 
     audioPlayer = new Audio(audioPath);
-    playOneBtn.classList.add('playing')
+    stopBtn.classList.add('playing')
 
     audioPlayer.addEventListener('canplaythrough', () => {
         hideLoadingStatus();
@@ -44,7 +44,7 @@ function playCurrentVerse() {
     audioPlayer.addEventListener('error', () => {
         console.error(`Failed to load: ${audioPath}`);
         hideLoadingStatus();
-        playOneBtn.classList.remove('playing');
+        stopBtn.classList.remove('playing');
     });
 
     audioPlayer.addEventListener('ended', () => {
@@ -59,10 +59,10 @@ function playCurrentVerse() {
                 }, 500);
             } else {
                 autoPlay = false; // Stop autoPlay after last verse
-                playOneBtn.classList.remove('playing');
+                stopBtn.classList.remove('playing');
             }
         }else {
-            playOneBtn.classList.remove('playing');
+            stopBtn.classList.remove('playing');
         }
     });
 
@@ -75,5 +75,5 @@ function stopAudio() {
         audioPlayer.removeAttribute('src');
         audioPlayer.load();
     }
-    playOneBtn.classList.remove('playing');
+    stopBtn.classList.remove('playing');
 } 
