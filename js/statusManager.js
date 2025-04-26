@@ -1,14 +1,17 @@
 function saveState() {
-    // Log the loaded data for debugging
     return JSON.stringify({
         topicName,
         topicAnswer,
         topicVerses,
         currentSearchInput,
-        checkedWords
+        checkedWords,
+        chapterNumberGlobal,
+        verseNumberGlobal,
+        repeat, // save repeat
+        silence // save silence (already in ms)
     }, null, 2);
-    
 }
+
 
 
 async function loadState(jsonString) {
@@ -21,6 +24,22 @@ async function loadState(jsonString) {
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';
         checkedWords = data.checkedWords || [];
+        chapterNumberGlobal = data.chapterNumberGlobal || '';
+        verseNumberGlobal = data.verseNumberGlobal || '';
+        selectThisVerse(chapterNumberGlobal, verseNumberGlobal);
+
+        // New: Load repeat and silence (with fallback values)
+        repeat = data.repeat !== undefined ? data.repeat : 3;
+        silence = data.silence !== undefined ? data.silence : 10000;
+
+        
+        // Update dropdowns
+        if (document.getElementById('repeatSelect')) {
+            document.getElementById('repeatSelect').value = repeat;
+        }
+        if (document.getElementById('silenceSelect')) {
+            document.getElementById('silenceSelect').value = silence / 1000;
+        }
 
         // Clear stacked verses
         const stackedVerses = document.getElementById('stackedVerses');
@@ -52,7 +71,6 @@ async function loadState(jsonString) {
             }
         }
 
-
     } catch (err) {
         console.error('[loadState] Failed to load topic:', err);
         alert('Failed to load topic: ' + err.message);
@@ -69,7 +87,7 @@ async function loadState(jsonString) {
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-
+    
     // Recheck all saved word checkboxes
     checkedWords.forEach(word => {
         const checkObserver = new MutationObserver(() => {
@@ -80,10 +98,12 @@ async function loadState(jsonString) {
                 checkObserver.disconnect();
             }
         });
-
+        
         checkObserver.observe(document.body, { childList: true, subtree: true });
     });
+    
 }
+
 
 
 
@@ -138,7 +158,6 @@ async function loadStateFromLocal() {
     const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (jsonData) {
         loadState(jsonData);
-        selectRandomVerse();
     } else {
         selectRandomVerse();
         selectRandomWordAndSearch();

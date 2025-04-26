@@ -1,27 +1,15 @@
 // Global state
-let chapterNumber = "";
-let verseNumber = "";
-
-document.getElementById('chapterSelect').addEventListener('change', () => {
-    updateChapterVerse();
-  saveStateToLocal(); // optional: remove if you don't want to auto-save
-});
-
-document.getElementById('verseSelect').addEventListener('change', () => {
-    updateChapterVerse();
-  saveStateToLocal(); // optional
-});
-
+let chapterNumberGlobal = "";
+let verseNumberGlobal = "";
 
 // Update function (reusable)
 function updateChapterVerse() {
     const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
-    chapterNumber = chapterSelect.value;
-    verseNumber = verseSelect.value;
-  }
-
-
+    const verseSelect = document.getElementById('verseSelect')
+    chapterNumberGlobal = chapterSelect.value;
+    verseNumberGlobal = verseSelect.value;
+    saveStateToLocal();
+}
 
 
 
