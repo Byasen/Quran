@@ -55,6 +55,8 @@ playOneBtn.addEventListener('click', () => {
 });
 
 function playCurrentVerse() {
+    stopAudio(); // <<< Important: stop any old audio before starting new
+
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
     const chapter = chapterSelect.value;
@@ -89,8 +91,9 @@ function playCurrentVerse() {
 
         audioPlayer.addEventListener('ended', () => {
             playCount++;
+            const delay = autoPlay ? silence : 0; // <<< always apply silence if autoPlay
+
             if (playCount < repeat) {
-                const delay = autoPlay ? silence : 0;
                 setTimeout(playRepeat, delay);
             } else if (autoPlay) {
                 const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
@@ -98,10 +101,9 @@ function playCurrentVerse() {
                     incrementVerse();
                     setTimeout(() => {
                         if (autoPlay) {
-                            stopAudio(); // <--- FIX: stop old audio before moving to next verse
                             playCurrentVerse();
                         }
-                    }, silence);
+                    }, delay);
                 } else {
                     autoPlay = false;
                     stopBtn.classList.remove('playing');
@@ -122,31 +124,26 @@ function stopAudio() {
         audioPlayer.pause();
         audioPlayer.removeAttribute('src');
         audioPlayer.load();
-        audioPlayer = null; // Important: destroy old player
+        audioPlayer = null;
     }
     stopBtn.classList.remove('playing');
 }
 
-// Helper function to pad chapter and verse numbers
+// Helper: Pad numbers to 3 digits
 function padNumber(num) {
     return num.toString().padStart(3, '0');
 }
 
-// Placeholder UI helper functions
-function showLoadingStatus(message) {
-    console.log(message); // Replace with your real loading UI if needed
+// Dummy functions you probably already have
+function showLoadingStatus(msg) {
+    console.log(msg);
 }
-
 function hideLoadingStatus() {
-    console.log("Audio loaded");
+    console.log("Loaded");
 }
-
-// Save state placeholder
 function saveStateToLocal() {
-    // Save repeat/silence settings if needed
+    // Save repeat/silence values if needed
 }
-
-// Increment verse
 function incrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
     if (verseSelect.selectedIndex < verseSelect.options.length - 1) {
