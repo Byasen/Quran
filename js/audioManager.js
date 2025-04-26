@@ -1,6 +1,10 @@
 let audioPlayer = null;
 let autoPlay = false;
 
+// Global variables
+let repeat = 3;
+let silence = 3000; // in milliseconds
+
 const playBtn = document.getElementById('playAudioBtn');
 const stopBtn = document.getElementById('stopAudioBtn');
 const playOneBtn = document.getElementById('playOneAudioBtn');
@@ -32,41 +36,57 @@ function playCurrentVerse() {
     const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
 
     showLoadingStatus("Loading audio...");
+    stopBtn.classList.add('playing');
 
-    audioPlayer = new Audio(audioPath);
-    stopBtn.classList.add('playing')
+    let playCount = 0;
 
-    audioPlayer.addEventListener('canplaythrough', () => {
-        hideLoadingStatus();
-        audioPlayer.play();
-    });
+    function playRepeat() {
+        if (!autoPlay && playCount > 0) {
+            stopBtn.classList.remove('playing');
+            return;
+        }
 
-    audioPlayer.addEventListener('error', () => {
-        console.error(`Failed to load: ${audioPath}`);
-        hideLoadingStatus();
-        stopBtn.classList.remove('playing');
-    });
+        audioPlayer = new Audio(audioPath);
 
-    audioPlayer.addEventListener('ended', () => {
-        if (autoPlay) {
-            const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
-            if (!isLastVerse) {
-                incrementVerse();
-                setTimeout(() => {
-                    if (autoPlay) {
-                        playCurrentVerse();
-                    }
-                }, 500);
+        audioPlayer.addEventListener('canplaythrough', () => {
+            hideLoadingStatus();
+            audioPlayer.play();
+        });
+
+        audioPlayer.addEventListener('error', () => {
+            console.error(`Failed to load: ${audioPath}`);
+            hideLoadingStatus();
+            stopBtn.classList.remove('playing');
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            playCount++;
+            if (playCount < repeat) {
+                // Silence only applies in autoPlay mode between repeats
+                const delay = autoPlay ? silence : 0;
+                setTimeout(playRepeat, delay);
+            } else if (autoPlay) {
+                const isLastVerse = verseSelect.selectedIndex === verseSelect.options.length - 1;
+                if (!isLastVerse) {
+                    incrementVerse();
+                    setTimeout(() => {
+                        if (autoPlay) {
+                            playCurrentVerse();
+                        }
+                    }, silence); // Apply silence before next verse
+                } else {
+                    autoPlay = false;
+                    stopBtn.classList.remove('playing');
+                }
             } else {
-                autoPlay = false; // Stop autoPlay after last verse
                 stopBtn.classList.remove('playing');
             }
-        }else {
-            stopBtn.classList.remove('playing');
-        }
-    });
+        });
 
-    audioPlayer.load();
+        audioPlayer.load();
+    }
+
+    playRepeat();
 }
 
 function stopAudio() {
@@ -76,4 +96,4 @@ function stopAudio() {
         audioPlayer.load();
     }
     stopBtn.classList.remove('playing');
-} 
+}
