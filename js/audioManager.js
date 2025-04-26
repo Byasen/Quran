@@ -16,7 +16,7 @@ for (let i = 1; i <= 10; i++) {
 repeatSelect.value = repeat;
 repeatSelect.addEventListener('change', () => {
     repeat = parseInt(repeatSelect.value);
-    saveStateToLocal(); // Save immediately when changed
+    saveStateToLocal();
 });
 
 // Populate Silence dropdown
@@ -27,10 +27,10 @@ for (let i = 1; i <= 60; i++) {
     option.textContent = i;
     silenceSelect.appendChild(option);
 }
-silenceSelect.value = silence / 1000; // milliseconds to seconds
+silenceSelect.value = silence / 1000;
 silenceSelect.addEventListener('change', () => {
     silence = parseInt(silenceSelect.value) * 1000;
-    saveStateToLocal(); // Save immediately when changed
+    saveStateToLocal();
 });
 
 const playBtn = document.getElementById('playAudioBtn');
@@ -88,6 +88,7 @@ function playCurrentVerse() {
 
     audioPlayer.addEventListener('ended', () => {
         playCount++;
+        const verseSelect = document.getElementById('verseSelect');
         if (playCount < repeat) {
             if (autoPlay) {
                 setTimeout(() => {
@@ -106,7 +107,9 @@ function playCurrentVerse() {
                 incrementVerse();
                 setTimeout(() => {
                     if (autoPlay) {
-                        playCurrentVerse();
+                        setTimeout(() => {
+                            playCurrentVerse();
+                        }, 100); // Allow dropdown to update
                     }
                 }, silence);
             } else {
@@ -130,24 +133,26 @@ function stopAudio() {
     stopBtn.classList.remove('playing');
 }
 
-// Helper function (assuming you have it somewhere)
+// Helper function (you should already have this)
 function padNumber(num) {
     return num.toString().padStart(3, '0');
 }
 
-// Placeholder functions (assuming you have them)
+// Placeholder UI helper functions
 function showLoadingStatus(message) {
-    console.log(message); // Replace with real UI update
+    console.log(message); // You can replace with real loading spinner
 }
 
 function hideLoadingStatus() {
-    console.log("Audio loaded"); // Replace with real UI update
+    console.log("Audio loaded");
 }
 
+// Save settings placeholder
 function saveStateToLocal() {
-    // Save repeat and silence settings
+    // Save repeat and silence settings to local storage
 }
 
+// Increment verse
 function incrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
     if (verseSelect.selectedIndex < verseSelect.options.length - 1) {
