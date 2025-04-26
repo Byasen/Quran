@@ -439,10 +439,10 @@ function checkMobileMode() {
         verseColumn.style.width = '100%'; // Set verseColoumn width to 100%
         if (container.children.length === 0) {
             container.innerHTML = `
-            <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
             <button onclick="decrementVerse()">&#62;</button>
+            <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
             `;
             // Default to showing the page column
         }
