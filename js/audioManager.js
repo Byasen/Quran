@@ -21,15 +21,37 @@ repeatSelect.addEventListener('change', () => {
 
 // Populate Silence dropdown
 const silenceSelect = document.getElementById('silenceSelect');
+const silenceOptions = document.createDocumentFragment();
+
+// Add X multiplier options
+['1X', '2X', '3X'].forEach(x => {
+    const option = document.createElement('option');
+    option.value = x;
+    option.textContent = x;
+    silenceOptions.appendChild(option);
+});
+
+// Add normal second options
 for (let i = 1; i <= 60; i++) {
     const option = document.createElement('option');
     option.value = i;
-    option.textContent = i;
-    silenceSelect.appendChild(option);
+    option.textContent = `${i} sec`;
+    silenceOptions.appendChild(option);
 }
+
+
+silenceSelect.appendChild(silenceOptions);
+
+// Set initial silence value
 silenceSelect.value = silence / 1000;
+
 silenceSelect.addEventListener('change', () => {
-    silence = parseInt(silenceSelect.value) * 1000;
+    const value = silenceSelect.value;
+    if (value.endsWith('X')) {
+        silence = value; // Store as "1X", "2X", etc.
+    } else {
+        silence = parseInt(value) * 1000; // Store as milliseconds
+    }
     saveStateToLocal();
 });
 
@@ -71,10 +93,11 @@ function initAudioPlayer() {
         playCount++;
         if (playCount < repeat) {
             // Repeat same verse after silence
+            let delay = getSilenceDelay();
             setTimeout(() => {
                 audioPlayer.currentTime = 0;
                 audioPlayer.play();
-            }, silence);
+            }, delay);
         } else if (autoPlay) {
             const isLastVerse = isAtLastVerse();
             if (!isLastVerse) {
@@ -83,7 +106,7 @@ function initAudioPlayer() {
                     loadCurrentVerse();
                     playCount = 0;
                     audioPlayer.play();
-                }, silence);
+                }, getSilenceDelay());
             } else {
                 autoPlay = false;
                 stopBtn.classList.remove('playing');
@@ -92,6 +115,19 @@ function initAudioPlayer() {
             stopBtn.classList.remove('playing');
         }
     });
+}
+
+// Calculates silence delay based on selected option
+function getSilenceDelay() {
+    if (typeof silence === 'string' && silence.endsWith('X')) {
+        const multiplier = parseInt(silence[0]);
+        if (audioPlayer && !isNaN(audioPlayer.duration)) {
+            return Math.round(audioPlayer.duration * 1000 * multiplier);
+        }
+        return 1000; // fallback if duration not ready
+    } else {
+        return silence;
+    }
 }
 
 function loadCurrentVerse() {

@@ -32,13 +32,17 @@ async function loadState(jsonString) {
         repeat = data.repeat !== undefined ? data.repeat : 3;
         silence = data.silence !== undefined ? data.silence : 10000;
 
-        
         // Update dropdowns
         if (document.getElementById('repeatSelect')) {
             document.getElementById('repeatSelect').value = repeat;
         }
         if (document.getElementById('silenceSelect')) {
-            document.getElementById('silenceSelect').value = silence / 1000;
+            const silenceSelect = document.getElementById('silenceSelect');
+            if (typeof silence === 'string' && silence.endsWith('X')) {
+                silenceSelect.value = silence; // Set directly if it's "1X", "2X", etc.
+            } else {
+                silenceSelect.value = silence / 1000; // Set as seconds otherwise
+            }
         }
 
         // Clear stacked verses
