@@ -122,7 +122,7 @@ function saveStateToFile() {
     const timestamp = `_[${pad(now.getDate())}-${pad(now.getMonth() + 1)}-${pad(now.getFullYear() % 100)}]-[${pad(now.getHours())}-${pad(now.getMinutes())}]`;
 
     a.href = url;
-    a.download = `quran_${topicName || "topic"}${timestamp}.json`;
+    a.download = `${topicName || "topic"}${timestamp}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
