@@ -76,6 +76,7 @@ p, .verse {
     width: 22%;
     margin-right: 1%;
 }
+
 .verseControl1{
     /* height: 20%; */
     height:5%;
@@ -156,13 +157,28 @@ p, .verse {
     align-items: flex-end; /* Align items to the bottom */
 }
 
+
+.playControl{
+    height: 10%;
+}
+
+
 .playControl1{
-    height: 5%;
+    height: 40%;
 }
 
 .playControl2{
-    height: 5%;
+    height: 40%;
 }
+
+
+
+.playControl2{
+    height: 5%;
+    margin-top: 1.5%; /* Space between the two controls */
+}
+
+
 
 
 .verseControl2{
@@ -494,14 +510,25 @@ label {
         overflow-y: auto;
     }
 
+    
     .verseControl1{
         display: none; 
     }
 
+
     .mobileOnlyVerseContentClass{
-        height: 10%;
+        height: 8%;
         margin-bottom: 2%;
         overflow-y: auto; /* Add vertical scrollable slider */
+    }
+
+    .pageResults {
+        height: 80%;
+        margin-top: 2%;
+    }
+
+    .playControl{
+        height: 15%;
     }
 
     .foldButtonColoumn {
