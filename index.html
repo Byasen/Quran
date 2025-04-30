@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="choices.min.css">
 </head>
 <body id=content>
-    
+<div class="overall">
+
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
@@ -51,16 +52,19 @@
     </div>
 
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
-        <div>
+    <div class="playControl">
+        <div class="playControl1">
+            <button id="stopAudioBtn" title="Stop">توقف</button>
+            <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
+        </div>
+        <div class="playControl2">
             <select id="silenceSelect"></select>
             <label for="silenceSelect">الصمت</label>
             <select id="repeatSelect"></select>
             <label for="repeatSelect">تكرار الآية</label>
             <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
-            <button id="stopAudioBtn" title="Stop">توقف</button>
-            <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
         </div>
-
+    </div>
         <div class="verseResults">
             <div class="verseResults1">
             <p id="verseDisplay"></p>
@@ -94,7 +98,9 @@
             <button onclick="searchInCSVClearCurrent()">ابدأ البحث</button>
             <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
         </div>
+        <label style="margin-top: 2%; white-space: nowrap;">كلمات ذات صلة</label>
         <div id="searchResultsContainer1" class="searchResults1"></div>
+        <label style="margin-top: 5%; white-space: nowrap;">نتائج البحث</label>
         <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
     
@@ -112,12 +118,10 @@
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
+            <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
         <div style="margin-top: 0%;"><button onclick="saveStateToFile()">حفظ</button></div>
         <div style="margin-top: 0%;"><button onclick="loadStateFromFile()">استرجاع</button></div>
-        <div style="margin-top: 00%;"><button onclick="importTemplateTopic()">عرض مثال</button></div>
-        </div>
-        <div>
-        <div style="margin-top: 2%; margin-bottom: 2%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
+        <div style="margin-top: 0%;"><button onclick="importTemplateTopic()">عرض مثال</button></div>
         </div>
     </div>
     
@@ -130,11 +134,12 @@
 
 <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
     <button onclick="showMobileColumn('pageColoumn')">الصفحة</button>
-    <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
+    <button onclick="showMobileColumn('verseColoumn')">القرآءة والتفسير</button>
     <button onclick="showMobileColumn('searchColoumn')">البحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">تصنيف</button>
+    <button onclick="showMobileColumn('topicColoumn')">تجميع الآيات</button>
 </div>
 
+</div>
 <script src="js/audioManager.js"></script>
 <script src="js/helpersManager.js"></script>
 <script src="js/dataManager.js"></script>
@@ -143,7 +148,6 @@
 <script src="js/statusManager.js"></script>
 <script src="js/displayManager.js"></script>
 <script src="js/mainManager.js"></script>
-
 
 </body>
 </html>

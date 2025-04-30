@@ -149,7 +149,7 @@ async function searchInCSV() {
 
   const suggestedWordsLabel = document.createElement('div');
   suggestedWordsLabel.classList.add('suggested-words-label');
-  suggestedWordsLabel.textContent = 'كلمات ذات صلة';
+  suggestedWordsLabel.textContent = '';
   rootContainer.appendChild(suggestedWordsLabel);
 
   const normalizedQuery = normalizeArabic(query);
