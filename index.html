@@ -56,13 +56,13 @@
         <div class="playControl1">
             <button id="stopAudioBtn" title="Stop">توقف</button>
             <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
+            <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
         </div>
         <div class="playControl2">
-            <select id="silenceSelect"></select>
+            <select id="silenceSelect" class="dropMenu"></select>
             <label for="silenceSelect">الصمت</label>
             <select id="repeatSelect"></select>
-            <label for="repeatSelect">تكرار الآية</label>
-            <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
+            <label for="repeatSelect" class="dropMenu">تكرار الآية</label>
         </div>
     </div>
         <div class="verseResults">
@@ -118,7 +118,7 @@
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
-            <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف الآية الحالية للموضوع</button></div>
+            <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف الآية</button></div>
         <div style="margin-top: 0%;"><button onclick="saveStateToFile()">حفظ</button></div>
         <div style="margin-top: 0%;"><button onclick="loadStateFromFile()">استرجاع</button></div>
         <div style="margin-top: 0%;"><button onclick="importTemplateTopic()">عرض مثال</button></div>
