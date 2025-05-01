@@ -65,29 +65,27 @@
             <label for="repeatSelect" class="dropMenu">تكرار الآية</label>
         </div>
     </div>
-        <div class="verseResults">
-            <div class="verseResults1">
+            <div class="verseResults1" hidden>
             <p id="verseDisplay"></p>
+        </div>
+        <div class="verseControl2">
+            <div class="dashedLine"></div>
+            <label for="analysisSelect">التفسير</label>
+            <select id="analysisSelect">
+                <option value="ma3any">معاني الكلمات</option>
+                <option value="e3rab">الإعراب</option>
+                <option value="baghawy">البغوي</option>
+                <option value="katheer">ابن كثير</option>
+                <option value="qortoby">القرطبي</option>
+                <option value="sa3dy">السعدي</option>
+                <option value="tabary">الطبري</option>
+                <option value="waseet">الوسيط</option>
+                <option value="muyassar">الميسر</option>
+                <option value="tanweer">التنوير</option>
+              </select>
         </div>
         <div class="verseResults2">
             <p id="meaningsDisplay"></p>
-        </div>
-        </div>
-        <div class="verseControl2">
-            <label><input type="checkbox" id="togglema3any" checked onclick="displayVerseWithAnalyses()"> معاني</label>
-            <label><input type="checkbox" id="togglee3rab" onclick="displayVerseWithAnalyses()"> إعراب</label>
-            <label><input type="checkbox" id="togglebaghawy"  onclick="displayVerseWithAnalyses()"> البغوي</label>
-            <label><input type="checkbox" id="togglekatheer"  onclick="displayVerseWithAnalyses()"> ابن كثير</label>
-            <label><input type="checkbox" id="toggleqortoby"  onclick="displayVerseWithAnalyses()"> القرطبي</label>
-            <label><input type="checkbox" id="togglesa3dy"  onclick="displayVerseWithAnalyses()"> السعدي</label>
-            <label><input type="checkbox" id="toggletabary"  onclick="displayVerseWithAnalyses()"> الطبري</label>
-            <label><input type="checkbox" id="togglewaseet"  onclick="displayVerseWithAnalyses()"> الوسيط</label>
-            <label><input type="checkbox" id="togglemuyassar" checked onclick="displayVerseWithAnalyses()"> الميسر</label>
-            <label><input type="checkbox" id="toggletanweer"  checked onclick="displayVerseWithAnalyses()"> التنوير</label>
-            <div>
-                <button onclick="checkAll()">تحديد الكل</button> <!-- Check All button -->
-                <button onclick="uncheckAll()">إلغاء تحديد الكل</button> <!-- Uncheck All button -->
-            </div>
         </div>
     </div>
     
@@ -96,7 +94,7 @@
     <div id="searchResults" class="searchColoumn">
         <div class="searchControl">
             <button onclick="searchInCSVClearCurrent()">ابدأ البحث</button>
-            <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن">
+            <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن" style="width: 50%;">
         </div>
         <label style="margin-top: 2%; white-space: nowrap;">كلمات ذات صلة</label>
         <div id="searchResultsContainer1" class="searchResults1"></div>
@@ -108,7 +106,6 @@
     
     <div id="topicResults" class="topicColoumn">
         <div class="topicControl1">
-            <label style="margin-top: 5%; white-space: nowrap;">اسم الموضوع</label>
             <input id="topicSelect" class="topicSelectClass"></input>
         </div>
         <div id="topicResults2Id" class="topicResults2">

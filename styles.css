@@ -69,6 +69,10 @@ p, .verse {
     border-top: 1px dashed #333;
 }
 
+.dashedLine{
+    border-top: 1px dashed #333;
+    margin: 2%; /* Add some vertical spacing */
+}
 
 
 .pageColoumn {
@@ -79,7 +83,7 @@ p, .verse {
 
 .verseControl1{
     /* height: 20%; */
-    height:5%;
+    height:fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -93,7 +97,7 @@ p, .verse {
 
 .pageControl {
     margin-top: 4%;
-    height:5%;
+    height:fit-content;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -159,64 +163,27 @@ p, .verse {
 
 
 .playControl{
-    height: 10%;
+    height: fit-content;
 }
-
-
-.playControl1{
-    height: 40%;
-}
-
-.playControl2{
-    height: 40%;
-}
-
-
-
-.playControl2{
-    height: 5%;
-    margin-top: 1.5%; /* Space between the two controls */
-}
-
-
 
 
 .verseControl2{
-    margin-top: 1.5%; /* Space between the two controls */
-    height: 10%;
+    height: fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     direction: rtl; /* Set text direction to right-to-left */
+    width: 100%;
 }
 
-.verseResults {
+.verseResults2 {
     margin-top: 1%;
     margin-bottom: 1%;
     height: 74%;
     width: 100%;
-}
-
-
-.verseResults1 {
-    margin-top: 2%;
-    margin-bottom: 2%;
-    height: 12%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
-    padding-right: 1%;
-    padding-left: 1%;
+    padding-right: 2%;   
 }
-
-.verseResults2 {
-    margin-top: 2%;
-    margin-bottom: 2%;
-    height: 83%;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    padding-right: 1%;
-    padding-left: 1%;    
-}
-
 
 .foldButtonColoumn {
     height: 100%;
@@ -244,7 +211,7 @@ p, .verse {
 }
 
 .searchControl {
-    height: 8%;
+    height:fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     width: 100%;
@@ -317,8 +284,7 @@ p, .verse {
     direction: rtl; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     font-family: Arial, sans-serif; /* Set font to Arial */
-    height: 5%; /* Fix the height */
-
+    height:fit-content;
 }
 
 .topicSelectClass {
@@ -337,7 +303,7 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
-    height:15%; /* Fix the height */
+    height:fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     padding-right: 2%;
@@ -398,7 +364,7 @@ p, .verse {
     direction: rtl; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     font-family: Arial, sans-serif; /* Set font to Arial */
-    height: 7%; /* Fix the height */
+    height:fit-content;
     margin-top: 2%;
 
 }
@@ -490,7 +456,7 @@ label {
         align-items: right;
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
-        height: 5%;
+        height:fit-content;
         margin-top: 2%;
 
     }
@@ -517,7 +483,7 @@ label {
 
 
     .mobileOnlyVerseContentClass{
-        height: 8%;
+        height:fit-content;
         margin-bottom: 2%;
         overflow-y: auto; /* Add vertical scrollable slider */
     }
@@ -525,10 +491,6 @@ label {
     .pageResults {
         height: 80%;
         margin-top: 2%;
-    }
-
-    .playControl{
-        height: 15%;
     }
 
     .foldButtonColoumn {

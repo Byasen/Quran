@@ -30,20 +30,10 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
             throw new Error('Verse file not found');
         }
         const verseData = await response.json();
-
-        const sources = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
         
-        // Fetch selected analyses and log their status
-        const selectedSources = sources.filter(source => {
-            const checkbox = document.getElementById(`toggle${source}`);
-            if (!checkbox) {
-                //console.warn(`Checkbox not found for: ${source}`);
-            } else {
-                //console.log(`Checkbox for ${source}: ${checkbox.checked}`);
-            }
-            return checkbox ? checkbox.checked : false;
-        });
-
+        const select = document.getElementById('analysisSelect');
+        const selectedSources = [select.value]; // Wrap in array for consistency
+        
         // Fetch analyses in parallel using Promise.all
         const fetchPromises = selectedSources.map(source => fetchAnalysis(chapterNumber, verseNumber, source));
         const analysesResults = await Promise.all(fetchPromises);
@@ -66,6 +56,8 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
     }
 }
 
+
+document.getElementById('analysisSelect').addEventListener('change', displayVerseWithAnalyses);
 
 // Display the verse and analyses
 async function displayVerseWithAnalyses() {
@@ -90,17 +82,13 @@ async function displayVerseWithAnalyses() {
         const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
         const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
-        analysesToShow.forEach((analysisType, index) => {
-            const checkbox = document.getElementById(`toggle${analysisType}`);
-            if (checkbox && checkbox.checked) {
-                const lowerCaseKey = analysisType.toLowerCase(); // Convert analysisType to lowercase
-                //console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
-
-                // Use the lowercase key to access the analysis data
-                const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
-                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><br><hr class="dashed-line">`;
-            }
-        });
+        const selected = document.getElementById('analysisSelect').value;
+        const index = analysesToShow.indexOf(selected);
+        if (index !== -1) {
+            const analysisContent = verseWithAnalyses.analyses[selected];
+            meaningsDisplayContent += `<div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
+        }
+        
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
@@ -136,17 +124,13 @@ async function displayVerseWithAnalysesNoPageChange() {
         const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
         const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
 
-        analysesToShow.forEach((analysisType, index) => {
-            const checkbox = document.getElementById(`toggle${analysisType}`);
-            if (checkbox && checkbox.checked) {
-                const lowerCaseKey = analysisType.toLowerCase(); // Convert analysisType to lowercase
-                //console.log(`Displaying analysis for: ${analysisType}`, verseWithAnalyses.analyses[lowerCaseKey]); // Debugging line
-
-                // Use the lowercase key to access the analysis data
-                const analysisContent = verseWithAnalyses.analyses[lowerCaseKey];
-                meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><br><hr class="dashed-line">`;
-            }
-        });
+        const selected = document.getElementById('analysisSelect').value;
+        const index = analysesToShow.indexOf(selected);
+        if (index !== -1) {
+            const analysisContent = verseWithAnalyses.analyses[selected];
+            meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
+        }
+        
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
