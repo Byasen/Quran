@@ -69,6 +69,10 @@ p, .verse {
     border-top: 1px dashed #333;
 }
 
+.dashedLine{
+    border-top: 1px dashed #333;
+    margin: 2%; /* Add some vertical spacing */
+}
 
 
 .pageColoumn {
@@ -80,7 +84,6 @@ p, .verse {
 .verseControl1{
     /* height: 20%; */
     height:fit-content;
-    border: #7300ff solid 1px;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -95,7 +98,6 @@ p, .verse {
 .pageControl {
     margin-top: 4%;
     height:fit-content;
-    border: #7300ff solid 1px;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -210,7 +212,6 @@ p, .verse {
 
 .searchControl {
     height:fit-content;
-    border: #7300ff solid 1px;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     width: 100%;
@@ -284,8 +285,6 @@ p, .verse {
     align-items: flex-end; /* Align items to the bottom */
     font-family: Arial, sans-serif; /* Set font to Arial */
     height:fit-content;
-    border: #7300ff solid 1px;
-
 }
 
 .topicSelectClass {
@@ -305,7 +304,6 @@ p, .verse {
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     height:fit-content;
-    border: #7300ff solid 1px;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     padding-right: 2%;
@@ -367,7 +365,6 @@ p, .verse {
     align-items: flex-end; /* Align items to the bottom */
     font-family: Arial, sans-serif; /* Set font to Arial */
     height:fit-content;
-    border: #7300ff solid 1px;
     margin-top: 2%;
 
 }
@@ -460,7 +457,6 @@ label {
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
         height:fit-content;
-        border: #7300ff solid 1px;
         margin-top: 2%;
 
     }
@@ -488,7 +484,6 @@ label {
 
     .mobileOnlyVerseContentClass{
         height:fit-content;
-        border: #7300ff solid 1px;
         margin-bottom: 2%;
         overflow-y: auto; /* Add vertical scrollable slider */
     }

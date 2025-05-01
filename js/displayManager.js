@@ -86,7 +86,7 @@ async function displayVerseWithAnalyses() {
         const index = analysesToShow.indexOf(selected);
         if (index !== -1) {
             const analysisContent = verseWithAnalyses.analyses[selected];
-            meaningsDisplayContent += `<div class="rtl-text">${analysisContent || ''}</div><br><hr class="dashed-line">`;
+            meaningsDisplayContent += `<div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
         }
         
 
@@ -128,7 +128,7 @@ async function displayVerseWithAnalysesNoPageChange() {
         const index = analysesToShow.indexOf(selected);
         if (index !== -1) {
             const analysisContent = verseWithAnalyses.analyses[selected];
-            meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><br><hr class="dashed-line">`;
+            meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
         }
         
 
