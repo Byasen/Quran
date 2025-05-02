@@ -133,11 +133,13 @@ function getSilenceDelay() {
 function loadCurrentVerse() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
+    const reciterSelect = document.getElementById('reciter'); // Get the reciter dropdown
     const chapter = chapterSelect.value;
     const verse = verseSelect.value;
+    const reciter = reciterSelect.value; // Get the selected reciter
     const chapter_padded = padNumber(chapter);
     const verse_padded = padNumber(verse);
-    const audioPath = `data/sounds/Abdallah-Basfar/${chapter_padded}/${chapter_padded}${verse_padded}.mp3`;
+    const audioPath = `data/sounds/${reciter}/${chapter_padded}${verse_padded}.mp3`;
 
     if (audioPlayer) {
         showLoadingStatus(`Loading ${chapter}:${verse}...`);
