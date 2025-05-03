@@ -185,3 +185,32 @@ async function fetchVersesBatch(versesToFetch) {
 
     return Promise.all(fetchPromises);
 }
+
+
+
+
+async function populateTafseer() {
+    const select = document.getElementById('analysisSelect');
+    const baseDir = 'data/tafseer/';
+    try {
+      const res = await fetch(baseDir + 'index.json');
+      const files = await res.json();
+
+      for (const file of files) {
+        const filePath = file;
+        try {
+          const response = await fetch(filePath);
+          if (!response.ok) continue;
+          const text = await response.text();
+          const match = text.match(/html_index\s*:\s*(<option[^>]*>[^<]*<\/option>)/);
+          if (match) {
+            select.insertAdjacentHTML('beforeend', match[1]);
+          }
+        } catch (err) {
+          console.error('Error fetching', filePath, err);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load index.json', err);
+    }
+  }
