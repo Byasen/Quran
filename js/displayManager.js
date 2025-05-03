@@ -59,7 +59,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
 
 document.getElementById('analysisSelect').addEventListener('change', displayVerseWithAnalyses);
 
-// Display the verse and analyses
+
 async function displayVerseWithAnalyses() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -70,7 +70,6 @@ async function displayVerseWithAnalyses() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-    //console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
         let verseDisplayContent = '<hr class="dashed-line">';
@@ -79,19 +78,18 @@ async function displayVerseWithAnalyses() {
         // Always display the main verse text
         verseDisplayContent += `<div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><hr class="dashed-line">`;
 
-        const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+        const analysisSelect = document.getElementById('analysisSelect');
+        const selected = analysisSelect.value;
+        const selectedText = analysisSelect.options[analysisSelect.selectedIndex]?.text || '';
 
-        const selected = document.getElementById('analysisSelect').value;
-        const index = analysesToShow.indexOf(selected);
-        if (index !== -1) {
-            const analysisContent = verseWithAnalyses.analyses[selected];
-            meaningsDisplayContent += `<div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
+        const analysisContent = verseWithAnalyses.analyses[selected];
+        if (analysisContent !== undefined) {
+            meaningsDisplayContent += `<div class="rtl-text">${analysisContent}</div><hr class="dashed-line">`;
         }
-        
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
+
         displayQuranPagesWithHighlight(verseWithAnalyses.verseData.page, selectedVerse);
     } else {
         verseDisplay.textContent = 'Verse or analyses not available.';
@@ -100,8 +98,6 @@ async function displayVerseWithAnalyses() {
     updateChapterVerse();
 }
 
-
-// Display the verse and analyses
 async function displayVerseWithAnalysesNoPageChange() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -112,7 +108,6 @@ async function displayVerseWithAnalysesNoPageChange() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-    //console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
         let verseDisplayContent = '<hr class="dashed-line">';
@@ -121,16 +116,14 @@ async function displayVerseWithAnalysesNoPageChange() {
         // Always display the main verse text
         verseDisplayContent += `<div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><hr class="dashed-line">`;
 
-        const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+        const analysisSelect = document.getElementById('analysisSelect');
+        const selected = analysisSelect.value;
+        const selectedText = analysisSelect.options[analysisSelect.selectedIndex]?.text || '';
 
-        const selected = document.getElementById('analysisSelect').value;
-        const index = analysesToShow.indexOf(selected);
-        if (index !== -1) {
-            const analysisContent = verseWithAnalyses.analyses[selected];
-            meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
+        const analysisContent = verseWithAnalyses.analyses[selected];
+        if (analysisContent !== undefined) {
+            meaningsDisplayContent += `<strong>${selectedText}:</strong><div class="rtl-text">${analysisContent}</div><hr class="dashed-line">`;
         }
-        
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
@@ -140,6 +133,7 @@ async function displayVerseWithAnalysesNoPageChange() {
     }
     updateChapterVerse();
 }
+
 
 
 
