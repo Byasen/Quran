@@ -251,20 +251,14 @@ function fetchOverlayData(imageFilename, pageId) {
             renderBoundingBoxes(data.regions, pageId);
         })
         .catch(error => {
-            //console.error(`Error loading overlay data for ${pageId}:`, error);
-
-            // 🚫 Clear the previous overlay if present
             const imageContainer = document.getElementById(pageId);
             const overlay = imageContainer?.querySelector('.overlay-layer');
             if (overlay) {
                 overlay.innerHTML = '';
             }
-
-            // 💡 Optionally clear lastRenderedRegions for this page
             window[`lastRenderedRegions_${pageId}`] = [];
         });
 }
-
 
 function renderBoundingBoxes(regions, pageId) {
     const imageContainer = document.getElementById(pageId);
@@ -276,118 +270,80 @@ function renderBoundingBoxes(regions, pageId) {
         return;
     }
 
-    overlay.style.width = `${image.naturalWidth}px`;
-    overlay.style.height = `${image.naturalHeight}px`;
-
-    const scale = image.clientWidth / image.naturalWidth;
-    overlay.style.transform = `scale(${scale})`;
-
+    // Clear previous boxes
     overlay.innerHTML = '';
 
+    // Get actual size of displayed image
+    const displayedWidth = image.clientWidth;
+    const displayedHeight = image.clientHeight;
+
+    // Get natural image size
+    const naturalWidth = image.naturalWidth;
+    const naturalHeight = image.naturalHeight;
+
+    // Compute scaling factors
+    const scaleX = displayedWidth / naturalWidth;
+    const scaleY = displayedHeight / naturalHeight;
+
+    // Resize overlay to match displayed image
+    overlay.style.width = `${displayedWidth}px`;
+    overlay.style.height = `${displayedHeight}px`;
+
+    // Remove transform just in case
+    overlay.style.transform = 'none';
+
+    // Position boxes
     regions.forEach(region => {
         const box = document.createElement('div');
-        box.className = 'overlay-box blue-hover';  // Make all boxes invisible initially
+        box.className = 'overlay-box blue-hover';
 
-        box.style.left = `${region.bbox.x}px`;
-        box.style.top = `${region.bbox.y}px`;
-        box.style.width = `${region.bbox.width}px`;
-        box.style.height = `${region.bbox.height}px`;
+        // Apply independent scaling to both position and size
+        box.style.left = `${region.bbox.x * scaleX}px`;
+        box.style.top = `${region.bbox.y * scaleY}px`;
+        box.style.width = `${region.bbox.width * scaleX}px`;
+        box.style.height = `${region.bbox.height * scaleY}px`;
 
-        // Store chapter and verse data in the box
+        // Store metadata
         box.dataset.chapter = region.chapter;
         box.dataset.verse = region.verse;
 
+        // Click to highlight
         box.addEventListener('click', () => {
-            // Show custom popup with only chapter and verse
-
-
-        // Get all overlay boxes
-        const allBoxes = document.querySelectorAll('.overlay-box');
-
-
-
-        // Clear previous highlights
-        allBoxes.forEach(box => {
-            box.classList.remove('highlighted');
-        });
-
-            // Highlight the clicked box and all matching boxes
-            box.classList.add('highlighted');
-
-            // Highlight all other boxes with the same chapter and verse
+            const allBoxes = document.querySelectorAll('.overlay-box');
+            allBoxes.forEach(b => b.classList.remove('highlighted'));
             allBoxes.forEach(otherBox => {
-                if (otherBox.dataset.chapter === box.dataset.chapter && 
+                if (otherBox.dataset.chapter === box.dataset.chapter &&
                     otherBox.dataset.verse === box.dataset.verse) {
                     otherBox.classList.add('highlighted');
                 }
             });
-
-            // Pass chapter and verse to selectThisVerse
             selectThisVerseNoPageChange(region.chapter, region.verse);
         });
 
         overlay.appendChild(box);
     });
 
+    // Save for later
     window[`lastRenderedRegions_${pageId}`] = regions;
+
+    // Sync with dropdowns
     highlightSelectedChapterAndVerse();
 }
 
-// Function to show the pop-up message at the center of the screen
-function showPopup(message) {
-    const popup = document.createElement('div');
-    popup.className = 'popup';
-    popup.textContent = message;
-
-    // Style the popup
-    popup.style.position = 'fixed';
-    popup.style.top = '50%';
-    popup.style.left = '50%';
-    popup.style.transform = 'translate(-50%, -50%)';
-    popup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    popup.style.color = 'white';
-    popup.style.padding = '10px 20px';
-    popup.style.borderRadius = '5px';
-    popup.style.fontSize = '14px';
-    popup.style.zIndex = '1000';  // Ensure it's on top of other content
-
-    // Append the popup to the body
-    document.body.appendChild(popup);
-
-    // Remove the popup after 1 second
-    setTimeout(() => {
-        popup.remove();
-    }, 1000);
-}
 
 
-
-// Function to highlight boxes based on the selected chapter and verse from dropdown menus
 function highlightSelectedChapterAndVerse() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
 
-    // Get the selected chapter and verse values
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
 
-
-
-    // Get all overlay boxes
     const allBoxes = document.querySelectorAll('.overlay-box');
+    allBoxes.forEach(box => box.classList.remove('highlighted'));
 
-
-
-    // Clear previous highlights
     allBoxes.forEach(box => {
-        box.classList.remove('highlighted');
-    });
-
-    // Highlight the boxes that match the selected chapter and verse
-    allBoxes.forEach(box => {
-
         if (box.dataset.chapter === selectedChapter && box.dataset.verse === selectedVerse) {
-            // Debug: Log when a match is found
             box.classList.add('highlighted');
         }
     });

@@ -88,13 +88,6 @@ p, .verse {
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
-.pageResults {
-    height: 85%;
-    margin-top: 2%;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-}
-
 .pageControl {
     margin-top: 4%;
     height:fit-content;
@@ -103,43 +96,63 @@ p, .verse {
     align-items: center; /* Center items vertically */
 }
 
-.pageimg {
-    position: relative; /* So overlay can absolutely position within this */
+.pageResults {
+    height: 85%;
+    margin-top: 2%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.pageimg img {
+/* Each page takes 1/3 of the container height */
+.pageimg {
+    position: relative;
+    flex: 0 0 100%;
     width: 100%;
-    height: auto;
-    display: block;
-    position: relative; /* Ensure it's behind the overlay */
-    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+/* Image scales to fill the container proportionally */
+.pageimg img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    display: block;
+    z-index: 1;
+    position: relative;
+}
+
+
+.pageimg img,
 .overlay-layer {
     position: absolute;
     top: 0;
     left: 0;
-    transform-origin: top left;
-    pointer-events: none;
     z-index: 2;
 }
 
+/* Box styles */
 .overlay-box {
     position: absolute;
-    pointer-events: auto; /* Allow click and hover */
-    background-color: rgba(0, 0, 0, 0); /* Invisible background */
-    border: 2px solid transparent; /* Invisible border */
+    pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid transparent;
     transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .overlay-box.blue-hover:hover {
-    border-color: blue; /* Blue border on hover */
-    background-color: rgba(0, 0, 255, 0.1); /* Light blue fill on hover */
+    border-color: blue;
+    background-color: rgba(0, 0, 255, 0.1);
 }
 
-/* Highlight box when clicked (to persist highlight) */
 .overlay-box.highlighted {
     border-color: blue;
-    background-color: rgba(0, 0, 255, 0.15); /* More prominent blue on click */
+    background-color: rgba(0, 0, 255, 0.15);
 }
 
 
