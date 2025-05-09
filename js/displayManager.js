@@ -260,6 +260,7 @@ function fetchOverlayData(imageFilename, pageId) {
         });
 }
 
+
 function renderBoundingBoxes(regions, pageId) {
     const imageContainer = document.getElementById(pageId);
     const image = imageContainer.querySelector('img');
@@ -270,63 +271,60 @@ function renderBoundingBoxes(regions, pageId) {
         return;
     }
 
-    // Clear previous boxes
-    overlay.innerHTML = '';
+    const imageWidth = image.naturalWidth;
+    const imageHeight = image.naturalHeight;
+    const containerWidth = image.clientWidth;
+    const containerHeight = image.clientHeight;
 
-    // Get actual size of displayed image
-    const displayedWidth = image.clientWidth;
-    const displayedHeight = image.clientHeight;
+    // Determine scale based on the limiting dimension
+    const widthScale = containerWidth / imageWidth;
+    const heightScale = containerHeight / imageHeight;
+    const scale = Math.min(widthScale, heightScale);
 
-    // Get natural image size
-    const naturalWidth = image.naturalWidth;
-    const naturalHeight = image.naturalHeight;
+    // Set the overlay size to match the scaled image
+    overlay.style.width = `${imageWidth * scale}px`;
+    overlay.style.height = `${imageHeight * scale}px`;
+    overlay.style.transform = '';  // Remove transform-based scaling
 
-    // Compute scaling factors
-    const scaleX = displayedWidth / naturalWidth;
-    const scaleY = displayedHeight / naturalHeight;
+    overlay.innerHTML = '';  // Clear any existing boxes
 
-    // Resize overlay to match displayed image
-    overlay.style.width = `${displayedWidth}px`;
-    overlay.style.height = `${displayedHeight}px`;
-
-    // Remove transform just in case
-    overlay.style.transform = 'none';
-
-    // Position boxes
     regions.forEach(region => {
         const box = document.createElement('div');
         box.className = 'overlay-box blue-hover';
 
-        // Apply independent scaling to both position and size
-        box.style.left = `${region.bbox.x * scaleX}px`;
-        box.style.top = `${region.bbox.y * scaleY}px`;
-        box.style.width = `${region.bbox.width * scaleX}px`;
-        box.style.height = `${region.bbox.height * scaleY}px`;
+        // Scale position and size
+        const scaledX = region.bbox.x * scale;
+        const scaledY = region.bbox.y * scale;
+        const scaledWidth = region.bbox.width * scale;
+        const scaledHeight = region.bbox.height * scale;
 
-        // Store metadata
+        // Set box styles
+        box.style.left = `${scaledX}px`;
+        box.style.top = `${scaledY}px`;
+        box.style.width = `${scaledWidth}px`;
+        box.style.height = `${scaledHeight}px`;
+
         box.dataset.chapter = region.chapter;
         box.dataset.verse = region.verse;
 
-        // Click to highlight
         box.addEventListener('click', () => {
             const allBoxes = document.querySelectorAll('.overlay-box');
-            allBoxes.forEach(b => b.classList.remove('highlighted'));
+            allBoxes.forEach(box => box.classList.remove('highlighted'));
+
             allBoxes.forEach(otherBox => {
-                if (otherBox.dataset.chapter === box.dataset.chapter &&
+                if (otherBox.dataset.chapter === box.dataset.chapter && 
                     otherBox.dataset.verse === box.dataset.verse) {
                     otherBox.classList.add('highlighted');
                 }
             });
+
             selectThisVerseNoPageChange(region.chapter, region.verse);
         });
 
         overlay.appendChild(box);
     });
 
-    // Save for later
     window[`lastRenderedRegions_${pageId}`] = regions;
-
-    // Sync with dropdowns
     highlightSelectedChapterAndVerse();
 }
 
