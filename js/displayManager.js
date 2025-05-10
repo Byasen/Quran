@@ -193,7 +193,7 @@ function foldSearch(){
             Container2.style.width = '44%';
         }
     }
-    initializeVerseHighlighting();  
+    saveState();
 }
 
 function foldTopic(){
@@ -217,8 +217,7 @@ function foldTopic(){
             Container2.style.width = '44%';
         }
     }  
-       
-    initializeVerseHighlighting();
+    saveState();
 }
 
 
@@ -359,6 +358,8 @@ function showMobileColumn(className) {
     const target = document.querySelector(`.${className}`);
     if (target) target.classList.add('mobile-active');
     initializeVerseHighlighting(); // Re-initialize highlighting after changing columns
+    saveState();
+    
 }
 
 
@@ -369,7 +370,6 @@ function checkMobileMode() {
     const verseColumn = document.getElementById('verseColoumnId');
     if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
         mobileColumnSelector.style.display = 'block';
-        showMobileColumn('pageColoumn');
         verseColumn.style.width = '100%'; // Set verseColoumn width to 100%
         if (container.children.length === 0) {
             container.innerHTML = `

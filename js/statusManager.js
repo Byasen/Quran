@@ -1,4 +1,19 @@
+function saveDisplaySettings() {
+    const classes = ['pageColoumn', 'verseColoumn', 'searchColoumn', 'topicColoumn'];
+    const displaySettings = {};
+  
+    classes.forEach(className => {
+      const el = document.querySelector(`.${className}`);
+      if (el) {
+        displaySettings[className] = window.getComputedStyle(el).display;
+      }
+    });
+  
+    localStorage.setItem('displaySettings', JSON.stringify(displaySettings));
+  }
+
 function saveState() {
+    saveDisplaySettings();
     return JSON.stringify({
         topicName,
         topicAnswer,
@@ -14,9 +29,35 @@ function saveState() {
     }, null, 2);
 }
 
+function loadDisplaySettings() {
+    const displaySettings = JSON.parse(localStorage.getItem('displaySettings') || '{}');
+    const mobileColumnSelector = document.querySelector('.mobileColumnSelector');
+    const isMobileMode = mobileColumnSelector.style.display === 'block';
+  
+    let hasFlex = false;
 
+    Object.keys(displaySettings).forEach(className => {
+      const el = document.querySelector(`.${className}`);
+      if (!el) return;
+      const displayValue = displaySettings[className];
+      if (displayValue === 'flex') {
+        hasFlex = true;
+        showMobileColumn(className);
+      } else if (displayValue === 'block') {
+        el.style.display = 'block';
+      }
+    });
+
+    if (!hasFlex && isMobileMode) {
+        showMobileColumn('pageColoumn');
+    }
+
+}
+  
+  
 
 async function loadState(jsonString) {
+    loadDisplaySettings() ;
     try {
         const data = JSON.parse(jsonString);
 
