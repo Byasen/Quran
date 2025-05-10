@@ -82,7 +82,7 @@ window.onload = async function () {
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
     populatePages(); // Initialize the Quran page dropdown
-    populateTafseer(); // Populate the Tafseer dropdown
+    //populateTafseer(); // Populate the Tafseer dropdown
     loadStateFromLocal(); // Load the state from local storage
 };
 

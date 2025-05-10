@@ -8,7 +8,9 @@ function saveState() {
         chapterNumberGlobal,
         verseNumberGlobal,
         repeat, // save repeat
-        silence // save silence (already in ms)
+        silence, // save silence (already in ms)
+        reciter,
+        tafseer
     }, null, 2);
 }
 
@@ -31,6 +33,12 @@ async function loadState(jsonString) {
         // New: Load repeat and silence (with fallback values)
         repeat = data.repeat !== undefined ? data.repeat : 3;
         silence = data.silence !== undefined ? data.silence : 10000;
+        reciter = data.reciter || 'khalifah_alteneagy';
+
+        tafseer = data.tafseer !== undefined ? data.tafseer : "ma3any";
+        
+        if (document.getElementById('reciter')) document.getElementById('reciter').value = reciter;
+        if (document.getElementById('analysisSelect')) document.getElementById('analysisSelect').value = tafseer;
 
         // Update dropdowns
         if (document.getElementById('repeatSelect')) {

@@ -1,3 +1,11 @@
+let tafseer = 'ma3any';
+
+const tafseerSelect = document.getElementById('analysisSelect');
+tafseerSelect.addEventListener('change', () => {
+    tafseer = tafseerSelect.value;
+    saveStateToLocal();
+});
+
 // Fetch Quran metadata (list of Surahs)
 async function loadMetadata() {
     try {
