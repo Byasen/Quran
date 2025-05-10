@@ -88,13 +88,6 @@ p, .verse {
     overflow-x: hidden; /* Hide horizontal overflow */
 }
 
-.pageResults {
-    height: 85%;
-    margin-top: 2%;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-}
-
 .pageControl {
     margin-top: 4%;
     height:fit-content;
@@ -103,44 +96,66 @@ p, .verse {
     align-items: center; /* Center items vertically */
 }
 
-.pageimg {
-    position: relative; /* So overlay can absolutely position within this */
+
+.pageResults {
+    height: 85%;
+    margin-top: 2%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.pageimg img {
-    width: 100%;
-    height: auto;
-    display: block;
-    position: relative; /* Ensure it's behind the overlay */
-    z-index: 1;
+/* Ensure the image container scales properly and keeps the aspect ratio */
+.pageimg {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;  /* Full width of the container */
+    height: 100%; /* Allow it to scale based on content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
+
+/* Image will be scaled proportionally, based on the container's width or height */
+.pageimg img {
+    width: 100%;  /* Ensure image stretches to fit the container width */
+    height: 100%; /* Maintain aspect ratio as much as possible */
+    object-fit: contain; /* Ensures the image is contained within the container */
+    display: block;
+    z-index: 1;
+    position: relative;
+}
+
 .overlay-layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: top left;
-    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center based on its scaled width/height */
+    pointer-events: none; /* Optional: allow clicks to pass through */
     z-index: 2;
-}
+  }
 
+/* Box styles, ensuring they are positioned and sized dynamically */
 .overlay-box {
     position: absolute;
-    pointer-events: auto; /* Allow click and hover */
-    background-color: rgba(0, 0, 0, 0); /* Invisible background */
-    border: 2px solid transparent; /* Invisible border */
+    pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid transparent;
     transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .overlay-box.blue-hover:hover {
-    border-color: blue; /* Blue border on hover */
-    background-color: rgba(0, 0, 255, 0.1); /* Light blue fill on hover */
+    border-color: blue;
+    background-color: rgba(0, 0, 255, 0.1);
 }
 
-/* Highlight box when clicked (to persist highlight) */
 .overlay-box.highlighted {
     border-color: blue;
-    background-color: rgba(0, 0, 255, 0.15); /* More prominent blue on click */
+    background-color: rgba(0, 0, 255, 0.15);
 }
+
 
 
 

@@ -4,6 +4,14 @@ let autoPlay = false;
 // Global variables
 let repeat = 3;
 let silence = 5000; // milliseconds
+let reciter = 'khalifah_alteneagy';
+
+
+const reciterSelect = document.getElementById('reciter');
+reciterSelect.addEventListener('change', () => {
+    reciter = reciterSelect.value;
+    saveStateToLocal();
+});
 
 // Populate Repeat dropdown
 const repeatSelect = document.getElementById('repeatSelect');
@@ -23,6 +31,14 @@ repeatSelect.addEventListener('change', () => {
 const silenceSelect = document.getElementById('silenceSelect');
 const silenceOptions = document.createDocumentFragment();
 
+// Add normal second options
+for (let i = 0; i <= 60; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = `${i} sec`;
+    silenceOptions.appendChild(option);
+}
+
 // Add X multiplier options
 ['1X', '2X', '3X'].forEach(x => {
     const option = document.createElement('option');
@@ -31,13 +47,6 @@ const silenceOptions = document.createDocumentFragment();
     silenceOptions.appendChild(option);
 });
 
-// Add normal second options
-for (let i = 1; i <= 60; i++) {
-    const option = document.createElement('option');
-    option.value = i;
-    option.textContent = `${i} sec`;
-    silenceOptions.appendChild(option);
-}
 
 
 silenceSelect.appendChild(silenceOptions);

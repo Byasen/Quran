@@ -59,7 +59,7 @@ async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
 
 document.getElementById('analysisSelect').addEventListener('change', displayVerseWithAnalyses);
 
-// Display the verse and analyses
+
 async function displayVerseWithAnalyses() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -70,7 +70,6 @@ async function displayVerseWithAnalyses() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-    //console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
         let verseDisplayContent = '<hr class="dashed-line">';
@@ -79,19 +78,18 @@ async function displayVerseWithAnalyses() {
         // Always display the main verse text
         verseDisplayContent += `<div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><hr class="dashed-line">`;
 
-        const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+        const analysisSelect = document.getElementById('analysisSelect');
+        const selected = analysisSelect.value;
+        const selectedText = analysisSelect.options[analysisSelect.selectedIndex]?.text || '';
 
-        const selected = document.getElementById('analysisSelect').value;
-        const index = analysesToShow.indexOf(selected);
-        if (index !== -1) {
-            const analysisContent = verseWithAnalyses.analyses[selected];
-            meaningsDisplayContent += `<div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
+        const analysisContent = verseWithAnalyses.analyses[selected];
+        if (analysisContent !== undefined) {
+            meaningsDisplayContent += `<div class="rtl-text">${analysisContent}</div><hr class="dashed-line">`;
         }
-        
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
+
         displayQuranPagesWithHighlight(verseWithAnalyses.verseData.page, selectedVerse);
     } else {
         verseDisplay.textContent = 'Verse or analyses not available.';
@@ -100,8 +98,6 @@ async function displayVerseWithAnalyses() {
     updateChapterVerse();
 }
 
-
-// Display the verse and analyses
 async function displayVerseWithAnalysesNoPageChange() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
@@ -112,7 +108,6 @@ async function displayVerseWithAnalysesNoPageChange() {
     const selectedVerse = verseSelect.value;
 
     const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-    //console.log('Fetched verse with analyses:', verseWithAnalyses); // Debugging line
 
     if (verseWithAnalyses) {
         let verseDisplayContent = '<hr class="dashed-line">';
@@ -121,16 +116,14 @@ async function displayVerseWithAnalysesNoPageChange() {
         // Always display the main verse text
         verseDisplayContent += `<div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><hr class="dashed-line">`;
 
-        const analysesToShow = ['ma3any', 'e3rab', 'baghawy', 'katheer', 'qortoby', 'sa3dy', 'tabary', 'waseet', 'muyassar', 'tanweer'];
-        const analysesName = ['معاني الكلمات', 'الإعراب', 'البغوي', 'ابن كثير', 'القرطبي', 'السعدي', 'الطبري', 'الوسيط', 'الميسر', 'التنوير'];
+        const analysisSelect = document.getElementById('analysisSelect');
+        const selected = analysisSelect.value;
+        const selectedText = analysisSelect.options[analysisSelect.selectedIndex]?.text || '';
 
-        const selected = document.getElementById('analysisSelect').value;
-        const index = analysesToShow.indexOf(selected);
-        if (index !== -1) {
-            const analysisContent = verseWithAnalyses.analyses[selected];
-            meaningsDisplayContent += `<strong>${analysesName[index]}:</strong><div class="rtl-text">${analysisContent || ''}</div><hr class="dashed-line">`;
+        const analysisContent = verseWithAnalyses.analyses[selected];
+        if (analysisContent !== undefined) {
+            meaningsDisplayContent += `<strong>${selectedText}:</strong><div class="rtl-text">${analysisContent}</div><hr class="dashed-line">`;
         }
-        
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
@@ -140,6 +133,7 @@ async function displayVerseWithAnalysesNoPageChange() {
     }
     updateChapterVerse();
 }
+
 
 
 
@@ -199,7 +193,7 @@ function foldSearch(){
             Container2.style.width = '44%';
         }
     }
-    initializeVerseHighlighting();  
+    saveState();
 }
 
 function foldTopic(){
@@ -223,8 +217,7 @@ function foldTopic(){
             Container2.style.width = '44%';
         }
     }  
-       
-    initializeVerseHighlighting();
+    saveState();
 }
 
 
@@ -257,16 +250,11 @@ function fetchOverlayData(imageFilename, pageId) {
             renderBoundingBoxes(data.regions, pageId);
         })
         .catch(error => {
-            //console.error(`Error loading overlay data for ${pageId}:`, error);
-
-            // 🚫 Clear the previous overlay if present
             const imageContainer = document.getElementById(pageId);
             const overlay = imageContainer?.querySelector('.overlay-layer');
             if (overlay) {
                 overlay.innerHTML = '';
             }
-
-            // 💡 Optionally clear lastRenderedRegions for this page
             window[`lastRenderedRegions_${pageId}`] = [];
         });
 }
@@ -282,45 +270,46 @@ function renderBoundingBoxes(regions, pageId) {
         return;
     }
 
-    overlay.style.width = `${image.naturalWidth}px`;
-    overlay.style.height = `${image.naturalHeight}px`;
+    const imageWidth = image.naturalWidth;
+    const imageHeight = image.naturalHeight;
+    const containerWidth = image.clientWidth;
+    const containerHeight = image.clientHeight;
 
-    const scale = image.clientWidth / image.naturalWidth;
-    overlay.style.transform = `scale(${scale})`;
+    // Determine scale based on the limiting dimension
+    const widthScale = containerWidth / imageWidth;
+    const heightScale = containerHeight / imageHeight;
+    const scale = Math.min(widthScale, heightScale);
 
-    overlay.innerHTML = '';
+    // Set the overlay size to match the scaled image
+    overlay.style.width = `${imageWidth * scale}px`;
+    overlay.style.height = `${imageHeight * scale}px`;
+    overlay.style.transform = '';  // Remove transform-based scaling
+
+    overlay.innerHTML = '';  // Clear any existing boxes
 
     regions.forEach(region => {
         const box = document.createElement('div');
-        box.className = 'overlay-box blue-hover';  // Make all boxes invisible initially
+        box.className = 'overlay-box blue-hover';
 
-        box.style.left = `${region.bbox.x}px`;
-        box.style.top = `${region.bbox.y}px`;
-        box.style.width = `${region.bbox.width}px`;
-        box.style.height = `${region.bbox.height}px`;
+        // Scale position and size
+        const scaledX = region.bbox.x * scale;
+        const scaledY = region.bbox.y * scale;
+        const scaledWidth = region.bbox.width * scale;
+        const scaledHeight = region.bbox.height * scale;
 
-        // Store chapter and verse data in the box
+        // Set box styles
+        box.style.left = `${scaledX}px`;
+        box.style.top = `${scaledY}px`;
+        box.style.width = `${scaledWidth}px`;
+        box.style.height = `${scaledHeight}px`;
+
         box.dataset.chapter = region.chapter;
         box.dataset.verse = region.verse;
 
         box.addEventListener('click', () => {
-            // Show custom popup with only chapter and verse
+            const allBoxes = document.querySelectorAll('.overlay-box');
+            allBoxes.forEach(box => box.classList.remove('highlighted'));
 
-
-        // Get all overlay boxes
-        const allBoxes = document.querySelectorAll('.overlay-box');
-
-
-
-        // Clear previous highlights
-        allBoxes.forEach(box => {
-            box.classList.remove('highlighted');
-        });
-
-            // Highlight the clicked box and all matching boxes
-            box.classList.add('highlighted');
-
-            // Highlight all other boxes with the same chapter and verse
             allBoxes.forEach(otherBox => {
                 if (otherBox.dataset.chapter === box.dataset.chapter && 
                     otherBox.dataset.verse === box.dataset.verse) {
@@ -328,7 +317,6 @@ function renderBoundingBoxes(regions, pageId) {
                 }
             });
 
-            // Pass chapter and verse to selectThisVerse
             selectThisVerseNoPageChange(region.chapter, region.verse);
         });
 
@@ -339,61 +327,20 @@ function renderBoundingBoxes(regions, pageId) {
     highlightSelectedChapterAndVerse();
 }
 
-// Function to show the pop-up message at the center of the screen
-function showPopup(message) {
-    const popup = document.createElement('div');
-    popup.className = 'popup';
-    popup.textContent = message;
-
-    // Style the popup
-    popup.style.position = 'fixed';
-    popup.style.top = '50%';
-    popup.style.left = '50%';
-    popup.style.transform = 'translate(-50%, -50%)';
-    popup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    popup.style.color = 'white';
-    popup.style.padding = '10px 20px';
-    popup.style.borderRadius = '5px';
-    popup.style.fontSize = '14px';
-    popup.style.zIndex = '1000';  // Ensure it's on top of other content
-
-    // Append the popup to the body
-    document.body.appendChild(popup);
-
-    // Remove the popup after 1 second
-    setTimeout(() => {
-        popup.remove();
-    }, 1000);
-}
 
 
-
-// Function to highlight boxes based on the selected chapter and verse from dropdown menus
 function highlightSelectedChapterAndVerse() {
     const chapterSelect = document.getElementById('chapterSelect');
     const verseSelect = document.getElementById('verseSelect');
 
-    // Get the selected chapter and verse values
     const selectedChapter = chapterSelect.value;
     const selectedVerse = verseSelect.value;
 
-
-
-    // Get all overlay boxes
     const allBoxes = document.querySelectorAll('.overlay-box');
+    allBoxes.forEach(box => box.classList.remove('highlighted'));
 
-
-
-    // Clear previous highlights
     allBoxes.forEach(box => {
-        box.classList.remove('highlighted');
-    });
-
-    // Highlight the boxes that match the selected chapter and verse
-    allBoxes.forEach(box => {
-
         if (box.dataset.chapter === selectedChapter && box.dataset.verse === selectedVerse) {
-            // Debug: Log when a match is found
             box.classList.add('highlighted');
         }
     });
@@ -411,6 +358,8 @@ function showMobileColumn(className) {
     const target = document.querySelector(`.${className}`);
     if (target) target.classList.add('mobile-active');
     initializeVerseHighlighting(); // Re-initialize highlighting after changing columns
+    saveState();
+    
 }
 
 
@@ -421,7 +370,6 @@ function checkMobileMode() {
     const verseColumn = document.getElementById('verseColoumnId');
     if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
         mobileColumnSelector.style.display = 'block';
-        showMobileColumn('pageColoumn');
         verseColumn.style.width = '100%'; // Set verseColoumn width to 100%
         if (container.children.length === 0) {
             container.innerHTML = `
