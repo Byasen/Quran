@@ -43,9 +43,11 @@ function loadDisplaySettings() {
       if (displayValue === 'flex') {
         hasFlex = true;
         showMobileColumn(className);
-      } else if (displayValue === 'block') {
-        el.style.display = 'block';
-      }
+      } else if (displayValue === 'block' && className === 'searchColoumn' && isMobileMode==0) {
+                foldSearch();
+      } else if (displayValue === 'block' && className === 'topicColoumn' && isMobileMode==0) {
+                foldTopic();
+      } 
     });
 
     if (!hasFlex && isMobileMode) {

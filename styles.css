@@ -109,7 +109,7 @@ p, .verse {
 /* Ensure the image container scales properly and keeps the aspect ratio */
 .pageimg {
     position: relative;
-    flex: 0 0 100%;
+    flex: 0 0 120%;
     width: 100%;  /* Full width of the container */
     height: 100%; /* Allow it to scale based on content */
     display: flex;
