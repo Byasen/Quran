@@ -6,12 +6,11 @@
     <title>Al Quran Notebook</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="choices.min.css">
-    <link rel="manifest" href="/Quran/manifest.json">
     <meta name="theme-color" content="#000000">
 
 </head>
 <body id=content>
-<div class="overall">
+    <div class="overall">
 
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
@@ -127,8 +126,8 @@
         </div>
         <div class="topicControl2">
             <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف الآية</button></div>
-        <div style="margin-top: 0%;"><button onclick="saveStateToFile()">حفظ</button></div>
-        <div style="margin-top: 0%;"><button onclick="loadStateFromFile()">استرجاع</button></div>
+        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ</button></div>
+        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع</button></div>
         <div style="margin-top: 0%;"><button onclick="importTemplateTopic()">عودة للمثال</button></div>
         </div>
     </div>
@@ -154,6 +153,12 @@
 <script src="js/statusManager.js"></script>
 <script src="js/displayManager.js"></script>
 <script src="js/mainManager.js"></script>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="js/firebase.js"></script>
 
 </body>
 </html>
