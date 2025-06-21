@@ -29,7 +29,7 @@ const database = firebase.database();
 
   /* ---------- SAVE ---------- */
 async function saveStateToFirebase() {
-  const projectCode = prompt("حفظ الموضوع تحت مسمى");
+  const projectCode = prompt("حفظ الموضوع بقاعدة البيانات تحت مسمى");
   if (!projectCode) return;                       // user cancelled
 
   const passcode = prompt("كلمة مرور (أدخل كلمة مرور جديدة اذا كان الموضوع جديدا):");
@@ -43,7 +43,7 @@ async function saveStateToFirebase() {
     if (snap.exists()) {
       // project already in DB → verify passcode
       if (snap.val().passcode !== passcode) {
-        alert("⛔ Wrong passcode – save aborted.");
+        alert("⛔ هناك موضوع بنفس الاسم وكلمة المرور خاطئة - لم ينجح الحفظ");
         return;
       }
     }
@@ -52,10 +52,10 @@ async function saveStateToFirebase() {
     const stateObj = JSON.parse(saveState());    // your own exporter -> object
     await projectRef.set({ passcode, state: stateObj });
 
-    alert("✅ State saved.");
+    alert("✅ تم حفظ الموضوع بنجاح");
   } catch (err) {
     console.error(err);
-    alert("Save failed – see console.");
+    alert("لم ينجح الحفظ");
   }
 }
 
@@ -73,7 +73,7 @@ async function loadStateFromFirebase() {
     const snap = await projectRef.once("value");
 
     if (!snap.exists()) {
-      alert("Project not found — showing random verse.");
+      alert("❗ لا يوجد موضوع بهذا الاسم في قاعدة البيانات.");
       selectRandomVerse();
       selectRandomWordAndSearch();
       return;
@@ -81,19 +81,19 @@ async function loadStateFromFirebase() {
 
     const data = snap.val();
     if (data.passcode !== passcode) {
-      alert("⛔ Wrong passcode – cannot load.");
+      alert("⛔ كلمة المرور خاطئة - لم ينجح الاسترجاع");
       return;
     }
 
     if (data.state) {
       loadState(JSON.stringify(data.state));      // expects a JSON string
     } else {
-      alert("Project has no saved state — showing random verse.");
+      alert("لم ينجح الإسترجاع");
       selectRandomVerse();
       selectRandomWordAndSearch();
     }
   } catch (err) {
     console.error(err);
-    alert("Load failed – see console.");
+    alert("لم ينجح الاسترجاع");
   }
 }
