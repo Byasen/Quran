@@ -42,7 +42,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
             <button onclick="moveVerseUp(this)">رتب لأعلى</button>
             <button onclick="moveVerseDown(this)">رتب لأسفل</button>
             <button onclick="removeVerse(this)">إزالة</button>
-            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">اختيار</button>
+            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
         `;
 
         const notesTextArea = document.createElement('textarea');
