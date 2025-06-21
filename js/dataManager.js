@@ -166,6 +166,7 @@ function selectThisVerse(chapterNumber, verseNumber) {
         // Call displayVerseWithAnalyses to update the verse and analyses automatically
         displayVerseWithAnalyses(); // Update the verse display
     });
+    showMobileColumn('pageColoumn');
 }
 
 
