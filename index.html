@@ -45,6 +45,7 @@
                 </div>
             </div>   
             <div class="pageControl">
+                <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف للموضوع</button></div>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
@@ -125,7 +126,6 @@
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
-            <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف الآية</button></div>
         <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ</button></div>
         <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع</button></div>
         <div style="margin-top: 0%;"><button onclick="importTemplateTopic()">عودة للمثال</button></div>
@@ -141,7 +141,7 @@
     <button onclick="showMobileColumn('pageColoumn')">الصفحة</button>
     <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
     <button onclick="showMobileColumn('searchColoumn')">البحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">تصنيف</button>
+    <button onclick="showMobileColumn('topicColoumn')">الموضوع</button>
 </div>
 
 </div>

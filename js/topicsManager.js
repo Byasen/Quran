@@ -19,6 +19,7 @@ function addCurrentVerse() {
     const chapterNumberLoc = document.getElementById('chapterSelect').value;
     const verseNumberLoc = document.getElementById('verseSelect').value;
     addVerse(chapterNumberLoc, verseNumberLoc);
+    showMobileColumn('topicColoumn');
 }
 
 

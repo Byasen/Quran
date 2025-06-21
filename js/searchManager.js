@@ -103,7 +103,7 @@ function displaySearchResults(label, wordList, matches, clear = true) {
       div.innerHTML = `
       <button class="select-verse-btn" style="margin-right: 10px;"
         onclick="selectThisVerse(${match.chapter}, ${match.verse})">
-        اختيار
+        عرض الآية
       </button>
         <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
         <br>
