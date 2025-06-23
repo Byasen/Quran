@@ -34,7 +34,7 @@ async function saveStateToFirebase() {
   const projectCode = prompt("حفظ الموضوع بقاعدة البيانات تحت مسمى", defaultProjectCode);
   if (!projectCode) return;
 
-  const passcode = prompt("كلمة مرور (أدخل كلمة مرور جديدة إذا كان الموضوع جديدًا):");
+  const passcode = prompt("كلمة مرور (يمكن تركها فارغة):");
   if (passcode === null) return;
 
   if (topicInput) topicInput.value = projectCode;
@@ -66,7 +66,7 @@ async function loadStateFromFirebase() {
   const projectCode = prompt("أدخل مسمى الموضوع الذي تريد استرجاعه");
   if (!projectCode) return;
 
-  const passcode = prompt("كلمة المرور");
+  const passcode = prompt("كلمة المرور اللتي تم استخدامها عند الحفظ");
   if (passcode === null) return;
 
   const projectRef = firebase.database().ref(`projects/${projectCode}`);
