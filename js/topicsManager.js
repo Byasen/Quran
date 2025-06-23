@@ -1,16 +1,10 @@
 // Global state
 let topicName = "";
-let topicAnswer = "";
 let topicVerses = []; // Array of { surahNumber, verseNumber, verseNotes }
 
 
 document.getElementById('topicSelect').addEventListener('input', e => {
     topicName = e.target.value;
-    saveStateToLocal();
-});
-
-document.getElementById('answerInput').addEventListener('input', e => {
-    topicAnswer = e.target.value;
     saveStateToLocal();
 });
 
@@ -46,7 +40,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         `;
 
         const notesTextArea = document.createElement('textarea');
-        notesTextArea.placeholder = "علاقة الآية بالموضوع";
+        notesTextArea.placeholder = "ملاحظات ...";
         notesTextArea.rows = 3;
         notesTextArea.style.width = '100%';
 
@@ -113,7 +107,6 @@ async function importTemplateTopic() {
 
         // Update global variables
         topicName = data.topicName || '';
-        topicAnswer = data.topicAnswer || '';
         topicVerses = data.topicVerses || [];
 
         // Clear stacked verses
@@ -123,7 +116,6 @@ async function importTemplateTopic() {
 
         // Set UI fields
         document.getElementById('topicSelect').value = topicName;
-        document.getElementById('answerInput').value = topicAnswer;
 
         // Add verses (in reverse to keep display order)
         for (const verseData of [...data.topicVerses].reverse()) {

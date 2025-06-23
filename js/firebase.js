@@ -27,13 +27,17 @@ const database = firebase.database();
 
 
 
-  /* ---------- SAVE ---------- */
 async function saveStateToFirebase() {
-  const projectCode = prompt("حفظ الموضوع بقاعدة البيانات تحت مسمى");
-  if (!projectCode) return;                       // user cancelled
+  const topicInput = document.getElementById("topicSelect");
+  const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
 
-  const passcode = prompt("كلمة مرور (أدخل كلمة مرور جديدة اذا كان الموضوع جديدا):");
+  const projectCode = prompt("حفظ الموضوع بقاعدة البيانات تحت مسمى", defaultProjectCode);
+  if (!projectCode) return;
+
+  const passcode = prompt("كلمة مرور (يمكن تركها فارغة):");
   if (passcode === null) return;
+
+  if (topicInput) topicInput.value = projectCode;
 
   const projectRef = firebase.database().ref(`projects/${projectCode}`);
 
@@ -41,15 +45,13 @@ async function saveStateToFirebase() {
     const snap = await projectRef.once("value");
 
     if (snap.exists()) {
-      // project already in DB → verify passcode
       if (snap.val().passcode !== passcode) {
         alert("⛔ هناك موضوع بنفس الاسم وكلمة المرور خاطئة - لم ينجح الحفظ");
         return;
       }
     }
 
-    // either new project or correct passcode → overwrite state
-    const stateObj = JSON.parse(saveState());    // your own exporter -> object
+    const stateObj = JSON.parse(saveState());
     await projectRef.set({ passcode, state: stateObj });
 
     alert("✅ تم حفظ الموضوع بنجاح");
@@ -64,7 +66,7 @@ async function loadStateFromFirebase() {
   const projectCode = prompt("أدخل مسمى الموضوع الذي تريد استرجاعه");
   if (!projectCode) return;
 
-  const passcode = prompt("كلمة المرور");
+  const passcode = prompt("كلمة المرور اللتي تم استخدامها عند الحفظ");
   if (passcode === null) return;
 
   const projectRef = firebase.database().ref(`projects/${projectCode}`);

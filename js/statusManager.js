@@ -16,7 +16,6 @@ function saveState() {
     saveDisplaySettings();
     return JSON.stringify({
         topicName,
-        topicAnswer,
         topicVerses,
         currentSearchInput,
         checkedWords,
@@ -65,7 +64,6 @@ async function loadState(jsonString) {
 
         // Update global variables
         topicName = data.topicName || '';
-        topicAnswer = data.topicAnswer || '';
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';
         checkedWords = data.checkedWords || [];
@@ -103,7 +101,6 @@ async function loadState(jsonString) {
 
         // Set UI elements
         document.getElementById('topicSelect').value = topicName;
-        document.getElementById('answerInput').value = topicAnswer;
 
         // Set and trigger search
         let field = document.getElementById("verseSearchInput");
@@ -128,7 +125,6 @@ async function loadState(jsonString) {
 
     } catch (err) {
         console.error('[loadState] Failed to load topic:', err);
-        alert('Failed to load topic: ' + err.message);
     }
 
     // Restore current search checkbox

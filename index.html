@@ -117,18 +117,15 @@
     
     <div id="topicResults" class="topicColoumn">
         <div class="topicControl1">
-            <input id="topicSelect" class="topicSelectClass"></input>
+            <input id="topicSelect" class="topicSelectClass" placeholder="اسم الموضوع"></input>
         </div>
         <div id="topicResults2Id" class="topicResults2">
-            <label>الفكرة العامة</label>
-            <textarea id="answerInput" placeholder="الفكرة العامة"></textarea>
-            <label style="direction: rtl; text-align: right;">تجميع آيات الموضوع الواحد :</label>
+            <label style="direction: rtl; text-align: right; margin-bottom: 2%;">تجميع آيات الموضوع الواحد :</label>
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
-        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ</button></div>
-        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع</button></div>
-        <div style="margin-top: 0%;"><button onclick="importTemplateTopic()">حذف وعودة للمثال</button></div>
+        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ الموضوع</button></div>
+        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع موضوع</button></div>
         </div>
     </div>
     
