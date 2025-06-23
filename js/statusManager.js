@@ -125,7 +125,6 @@ async function loadState(jsonString) {
 
     } catch (err) {
         console.error('[loadState] Failed to load topic:', err);
-        alert('Failed to load topic: ' + err.message);
     }
 
     // Restore current search checkbox
