@@ -32,21 +32,14 @@ async function loadCSVData() {
 function normalizeArabic(text) {
   return text
     .replace(/\u200E/g, '')
-    .replace(/[إأآ]/g, 'ا')
-    .replace(/[ؤئء]/g, 'ء');
-}
-
-function normalizeForRootMatch(text) {
-  return normalizeArabic(text)
-    .replace(/[اأإآؤئء]/g, 'ء')
-    .replace(/ى/g, 'ي');
+    .replace(/[إأآؤئء]/g, 'ء');
 }
 
 async function getWordsFromRoots(word) {
   const response = await fetch('data/roots.json');
   const data = await response.json();
-  const normalized = normalizeForRootMatch(word);
-  const match = data.roots.find(r => normalizeForRootMatch(r.root) === normalized);
+  const normalized = normalizeArabic(word);
+  const match = data.roots.find(r => normalizeArabic(r.root) === normalized);
   return match ? match.words : [];
 }
 
@@ -54,11 +47,11 @@ async function getWordsFromRoots(word) {
 async function getRootFromWord(word) {
     const response = await fetch('data/roots.json');
     const rootsData = await response.json();
-    const normalizedWord = normalizeForRootMatch(word);
+    const normalizedWord = normalizeArabic(word);
 
     for (const rootEntry of rootsData.roots) {
-        const normalizedRoot = normalizeForRootMatch(rootEntry.root);
-        const words = rootEntry.words.map(w => normalizeForRootMatch(w));
+        const normalizedRoot = normalizeArabic(rootEntry.root);
+        const words = rootEntry.words.map(w => normalizeArabic(w));
 
         if (words.includes(normalizedWord)) {
             return rootEntry; // { root: '...', words: [...] }
@@ -142,7 +135,7 @@ async function searchInCSV() {
 
   if (!query) return;
 
-  currentSearchInput = query;
+  currentSearchInput = input;
 
   const rootContainer = document.createElement('div');
   const seenNormalized = new Set();
@@ -166,7 +159,7 @@ async function searchInCSV() {
 
     const mainLabel = document.createElement('label');
     mainLabel.htmlFor = `rootWord-${query}`;
-    mainLabel.textContent = `${query} [${initialMatches.length}]`;
+    mainLabel.textContent = `${input} [${initialMatches.length}]`;
 
     rootContainer.appendChild(mainLabel);
     rootContainer.appendChild(mainCheckbox);
