@@ -9,25 +9,25 @@ let checkedWords = [];          // Tracks currently checked words
 async function loadCSVData() {
   try {
     const response = await fetch('data/quranText.csv');
-    let csvText = await response.text();
-    csvText = normalizeArabic(csvText.trim());
+    const csvText = (await response.text()).trim();
 
     const rows = csvText.split('\n');
     csvData = rows.slice(1).map(row => {
-      const columns = row.split(',');
-      if (columns.length < 6) return null;
-      const [id, page, chapter, verse, text, chapterName] = columns;
+      const [id, page, chapter, verse, text, chapterName] = row.split(',');
+      if (!text || !chapterName) return null;
+
       return {
         chapter: chapter.trim(),
         verse: verse.trim(),
-        text: text.trim(),
+        text: normalizeArabic(text.trim()), // ✅ التطبيع هنا فقط
         chapterName: chapterName.trim()
       };
-    }).filter(entry => entry !== null);
+    }).filter(Boolean);
   } catch (error) {
     console.error('خطأ في تحميل البيانات:', error);
   }
 }
+
 
 function normalizeArabic(text) {
   return text
@@ -76,7 +76,7 @@ function getMatchesFromWordList(wordList) {
 }
 
 
-function displaySearchResults(label, wordList, matches, clear = true) {
+async function displaySearchResults(label, wordList, matches, clear = true) {
     const container1 = document.getElementById('searchResultsContainer1');
     const container2 = document.getElementById('searchResultsContainer2');
   
@@ -86,13 +86,15 @@ function displaySearchResults(label, wordList, matches, clear = true) {
       container1.innerHTML = '';
       container2.innerHTML = '';
     }
-  
-    const chapterOccurrences = {};
-    matches.forEach(match => {
+
+    matches.forEach(async match => {
       const div = document.createElement('div');
       div.classList.add('searchVerseResult');
       div.setAttribute('data-word', normalizedLabel);
     
+    const verseData = await fetchVerse(padNumber(match.chapter), padNumber(match.verse));
+    const cleanText = verseData.text.ar.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED]/g, '');
+
       div.innerHTML = `
       <button class="select-verse-btn" style="margin-right: 10px;"
         onclick="selectThisVerse(${match.chapter}, ${match.verse})">
@@ -100,7 +102,7 @@ function displaySearchResults(label, wordList, matches, clear = true) {
       </button>
         <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
         <br>
-        ${match.text}
+        ${cleanText}
       `;
     
       container2.appendChild(div);
