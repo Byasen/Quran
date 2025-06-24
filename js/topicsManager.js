@@ -21,17 +21,17 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const selectedChapter = chapterNumberLoc;
     const selectedVerse = verseNumberLoc;
     const stackedVerses = document.getElementById('stackedVerses');
-    const selectedSurah = quranMetadata.find(surah => surah.number == selectedChapter);
 
-    const verseData = await fetchVerse(selectedChapter, selectedVerse);
-    if (verseData) {
-        const cleanText = verseData.text.ar.replace(/[\u064B-\u0652\u0670\u06D6-\u06ED]/g, '');
+  const match = csvData.find(entry =>
+    entry.chapter === String(chapterNumberLoc) &&
+    entry.verse === String(verseNumberLoc)
+);    
 
         const newVerseDiv = document.createElement('div');
         newVerseDiv.classList.add('verse-container');
         newVerseDiv.innerHTML = `
-            <strong>سورة ${selectedSurah.name.ar} : آية ${selectedVerse}</strong><br>
-            ${cleanText}
+            <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
+            ${match.text}
             <br>
             <button onclick="moveVerseUp(this)">رتب لأعلى</button>
             <button onclick="moveVerseDown(this)">رتب لأسفل</button>
@@ -59,7 +59,6 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
 
         saveStateToLocal();
-    }
 }
 
 
