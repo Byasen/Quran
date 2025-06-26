@@ -33,8 +33,8 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
             <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
             ${match.text}
             <br>
-            <button onclick="moveVerseUp(this)">رتب لأعلى</button>
-            <button onclick="moveVerseDown(this)">رتب لأسفل</button>
+            <button onclick="moveVerseUp(this)">&uarr;</button>
+            <button onclick="moveVerseDown(this)">&darr;</button>
             <button onclick="removeVerse(this)">إزالة</button>
             <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
         `;

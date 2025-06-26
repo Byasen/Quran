@@ -72,6 +72,7 @@ playBtn.addEventListener('click', () => {
     if (!autoPlay) {
         autoPlay = true;
         initAudioPlayer();
+        showMobileColumn('pageColoumn');
     }
 });
 
@@ -83,6 +84,7 @@ stopBtn.addEventListener('click', () => {
 playOneBtn.addEventListener('click', () => {
     autoPlay = false;
     initAudioPlayer();
+    showMobileColumn('pageColoumn');
 });
 
 function initAudioPlayer() {
