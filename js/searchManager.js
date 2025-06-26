@@ -145,7 +145,15 @@ async function searchInCSV() {
   suggestedWordsLabel.textContent = '';
   rootContainer.appendChild(suggestedWordsLabel);
 
+  // Two separate containers
+  const surahLinksContainer = document.createElement('div');
+  const rootWordsContainer = document.createElement('div');
+  rootContainer.appendChild(surahLinksContainer);
+  rootContainer.appendChild(rootWordsContainer);
+
   const normalizedQuery = normalizeArabic(query);
+
+  // Main query checkbox (shown first in root words section)
   if (!seenNormalized.has(normalizedQuery)) {
     seenNormalized.add(normalizedQuery);
 
@@ -154,24 +162,24 @@ async function searchInCSV() {
     mainCheckbox.id = `rootWord-${query}`;
     mainCheckbox.value = query;
     mainCheckbox.checked = true;
- 
+
     const initialMatches = getMatchesFromWordList([query]);
 
     const mainLabel = document.createElement('label');
     mainLabel.htmlFor = `rootWord-${query}`;
     mainLabel.textContent = `${input} [${initialMatches.length}]`;
 
-    rootContainer.appendChild(mainLabel);
-    rootContainer.appendChild(mainCheckbox);
-    rootContainer.appendChild(document.createElement('br'));
+    rootWordsContainer.appendChild(mainLabel);
+    rootWordsContainer.appendChild(mainCheckbox);
+    rootWordsContainer.appendChild(document.createElement('br'));
 
     displaySearchResults(query, [query], initialMatches, false);
 
     mainCheckbox.addEventListener('change', function () {
       if (this.checked) {
         if (!checkedWords.includes(query)) {
-          checkedWords.push(query); // Tracks currently checked words
-        }    
+          checkedWords.push(query);
+        }
         const matches = getMatchesFromWordList([query]);
         displaySearchResults(query, [query], matches, false);
         saveStateToLocal();
@@ -195,49 +203,68 @@ async function searchInCSV() {
   }
 
   if (rootEntry && rootEntry.words.length > 1) {
-    const otherWords = rootEntry.words.filter(w => normalizeArabic(w) !== normalizedQuery);
-
-    for (const word of otherWords) {
+    for (const word of rootEntry.words) {
       const normalizedWord = normalizeArabic(word);
-      if (!seenNormalized.has(normalizedWord)) {
-        seenNormalized.add(normalizedWord);
+      if (seenNormalized.has(normalizedWord)) continue;
 
-        const matches = getMatchesFromWordList([word]);
+      if (word.includes("سورة") && word.includes("ترتيبها")) {
+        const match = word.match(/ترتيبها\s*(\d+)/);
+        if (match) {
+          const chapterNum = parseInt(match[1], 10);
+          const surahLink = document.createElement('a');
+          surahLink.href = '#';
+          surahLink.textContent = word;
+          surahLink.style.display = 'block';
+          surahLink.style.marginBottom = '4px';
+          surahLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            selectThisVerse(chapterNum, 1);
+          });
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = `rootWord-${word}`;
-        checkbox.value = word;
-
-        const label = document.createElement('label');
-        label.htmlFor = `rootWord-${word}`;
-        label.textContent = `${word} [${matches.length}]`;
-
-        checkbox.addEventListener('change', function () {
-          if (this.checked) {
-            if (!checkedWords.includes(word)) {
-              checkedWords.push(word); // Tracks currently checked words
-            }    
-            displaySearchResults(word, [word], matches, false);
-            saveStateToLocal();
-          } else {
-            const index = checkedWords.indexOf(word);
-            if (index > -1) {
-              checkedWords.splice(index, 1);
-            }
-            const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedWord}"]`);
-            blocks.forEach(block => block.remove());
-            saveStateToLocal();
-          }
-        });
-
-        rootContainer.appendChild(label);
-        rootContainer.appendChild(checkbox);
-        rootContainer.appendChild(document.createElement('br'));
+          surahLinksContainer.appendChild(surahLink);
+          seenNormalized.add(normalizedWord);
+        }
+        continue;
       }
+
+      seenNormalized.add(normalizedWord);
+
+      const matches = getMatchesFromWordList([word]);
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `rootWord-${word}`;
+      checkbox.value = word;
+
+      const label = document.createElement('label');
+      label.htmlFor = `rootWord-${word}`;
+      label.textContent = `${word} [${matches.length}]`;
+
+      checkbox.addEventListener('change', function () {
+        if (this.checked) {
+          if (!checkedWords.includes(word)) {
+            checkedWords.push(word);
+          }
+          displaySearchResults(word, [word], matches, false);
+          saveStateToLocal();
+        } else {
+          const index = checkedWords.indexOf(word);
+          if (index > -1) {
+            checkedWords.splice(index, 1);
+          }
+          const blocks = document.querySelectorAll(`.searchVerseResult[data-word="${normalizedWord}"]`);
+          blocks.forEach(block => block.remove());
+          saveStateToLocal();
+        }
+      });
+
+      rootWordsContainer.appendChild(label);
+      rootWordsContainer.appendChild(checkbox);
+      rootWordsContainer.appendChild(document.createElement('br'));
     }
   }
 
   searchResultsContainer1.appendChild(rootContainer);
   saveStateToLocal();
 }
+
