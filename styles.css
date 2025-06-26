@@ -359,9 +359,6 @@ p, .verse {
     flex-direction: column; /* Stack the containers vertically */
     gap: 20px; /* Add spacing between each container */
 }
-/* Extend the main textarea to be page wide */
-
-.original-verse { color: green; font-weight: bold; }
 
 /* New styles for control container and button alignment */
 .topicControl2 {
