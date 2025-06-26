@@ -55,7 +55,14 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
     notesTextArea.rows = 3;
     notesTextArea.style.width = '100%';
 
-    const verseObj = { surahNumber: selectedChapter, verseNumber: selectedVerse, verseNotes: "" };
+    const verseObj = {
+    surahNumber: selectedChapter,
+    verseOrig: selectedVerse,  // ✅ NEW
+    verseStart: selectedVerse,
+    verseEnd: selectedVerse,
+    verseNotes: ""
+    };
+
     topicVerses.push(verseObj);
     notesTextArea.verseData = verseObj;
 
@@ -78,8 +85,17 @@ function updateStackedVerse(event) {
 
     if (inputs.length < 2 || !verseTextDiv) return;
 
+
     const start = parseInt(inputs[0].value);
     const end = parseInt(inputs[1].value);
+
+    // ✅ Sync to verseData inside textarea
+    const textarea = container.querySelector('textarea');
+    if (textarea && textarea.verseData) {
+        textarea.verseData.verseStart = start;
+        textarea.verseData.verseEnd = end;
+        saveStateToLocal();
+    }
 
     const chapterTitle = container.querySelector('strong')?.textContent || '';
     const chapterMatch = chapterTitle.match(/سورة\s+(.+?)\s*:/);
@@ -121,6 +137,8 @@ function updateStackedVerse(event) {
     }).join('<br><br>');
 
     verseTextDiv.innerHTML = verseHTML;
+
+
 }
 
 
