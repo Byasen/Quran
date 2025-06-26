@@ -110,7 +110,7 @@ async function loadState(jsonString) {
         }
 
         // Add verses using the actual function (in reverse to maintain original order)
-        for (const verseData of [...data.topicVerses].reverse()) {
+        for (const verseData of data.topicVerses) {
       await addVerse(verseData.surahNumber, verseData.verseOrig || verseData.verseStart || verseData.verseNumber);
 
 
