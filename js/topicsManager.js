@@ -41,7 +41,9 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         </strong>
         <br>
         <br>
-        <div class="verse-text" style="color: green" data-original="true" data-original-verse="${verseNumberLoc}">${match.text}</div>
+        <div class="verse-text" data-original="true" data-original-verse="${verseNumberLoc}">
+        <strong>${verseNumberLoc}. ${match.text}</strong>
+        </div>
         <br>
         <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})">عرض</button>
         <button onclick="removeVerse(this)">إزالة</button>
@@ -133,7 +135,9 @@ function updateStackedVerse(event) {
 
     const verseHTML = verses.map(v => {
         const isOriginal = parseInt(v.verse) === originalVerse;
-        return `<span style="color: ${isOriginal ? 'green' : 'black'}">${v.verse}. ${v.text}</span>`;
+        return isOriginal
+        ? `<strong>${v.verse}. ${v.text}</strong>`
+        : `<span>${v.verse}. ${v.text}</span>`;
     }).join('<br><br>');
 
     verseTextDiv.innerHTML = verseHTML;
