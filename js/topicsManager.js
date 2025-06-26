@@ -19,6 +19,8 @@ function addCurrentVerse() {
 
 async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const selectedChapter = chapterNumberLoc;
+    const selectedChapterVerseCount = await fetchSurahVersesNumber(chapterNumberLoc);
+    console.log('selectedChapterVerseCount:', selectedChapterVerseCount);
     const selectedVerse = verseNumberLoc;
     const stackedVerses = document.getElementById('stackedVerses');
 
@@ -29,16 +31,21 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
 
         const newVerseDiv = document.createElement('div');
         newVerseDiv.classList.add('verse-container');
-        newVerseDiv.innerHTML = `
-            <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
-            ${match.text}
-            <br>
-            <button onclick="moveVerseUp(this)">&uarr;</button>
-            <button onclick="moveVerseDown(this)">&darr;</button>
-            <button onclick="removeVerse(this)">إزالة</button>
-            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
-        `;
+    newVerseDiv.innerHTML = `
+        <strong>
+            سورة ${match.chapterName} :
+            آية 
+        <input type="number" value="${verseNumberLoc}" min="1" max="${verseNumberLoc}" class="verse-chapter-input" style="width: 5ch; text-align: center;" onchange="updateVerse(this)"> -
+        <input type="number" value="${verseNumberLoc}" min="${verseNumberLoc}" max="${selectedChapterVerseCount}" class="verse-number-input" style="width: 5ch; text-align: center;" onchange="updateVerse(this)">
 
+        </strong><br>
+        <div class="verse-text">${match.text}</div>
+        <br>
+        <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})">عرض</button>
+        <button onclick="removeVerse(this)">إزالة</button>
+        <button onclick="moveVerseDown(this)">&darr;</button>
+        <button onclick="moveVerseUp(this)">&uarr;</button>
+    `;
         const notesTextArea = document.createElement('textarea');
         notesTextArea.placeholder = "ملاحظات ...";
         notesTextArea.rows = 3;

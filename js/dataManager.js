@@ -41,6 +41,28 @@ async function fetchSurahVerses(surahNumber) {
 
 }
 
+
+async function fetchSurahVersesNumber(surahNumber) {
+    const filePath = `data/surah/surah_${surahNumber}.json`;
+
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Extract and return the number of verses
+        return data.verses_count;
+    } catch (error) {
+        console.error('Error fetching Surah data:', error);
+        return null;
+    }
+}
+
+
+
 // Fetch a specific verse (padding for verse number only)
 async function fetchVerse(chapterNumber, verseNumber) {
     const filePath = `data/verses/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;

@@ -350,6 +350,7 @@ p, .verse {
     padding-left: 3%;
     padding-top: 3%;
     border: #000 solid 1px;
+    direction: rtl;
 }
 
 
