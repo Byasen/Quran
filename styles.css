@@ -361,6 +361,7 @@ p, .verse {
 }
 /* Extend the main textarea to be page wide */
 
+.original-verse { color: green; font-weight: bold; }
 
 /* New styles for control container and button alignment */
 .topicControl2 {
