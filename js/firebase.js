@@ -66,9 +66,6 @@ async function loadStateFromFirebase() {
   const projectCode = prompt("أدخل مسمى الموضوع الذي تريد استرجاعه");
   if (!projectCode) return;
 
-  const passcode = prompt("كلمة المرور اللتي تم استخدامها عند الحفظ");
-  if (passcode === null) return;
-
   const projectRef = firebase.database().ref(`projects/${projectCode}`);
 
   try {
@@ -82,18 +79,27 @@ async function loadStateFromFirebase() {
     }
 
     const data = snap.val();
-    if (data.passcode !== passcode) {
-      alert("⛔ كلمة المرور خاطئة - لم ينجح الاسترجاع");
-      return;
+
+    // If a password is stored, prompt for it
+    if (data.passcode) {
+      const passcode = prompt("كلمة المرور اللتي تم استخدامها عند الحفظ");
+      if (passcode === null) return;
+
+      if (data.passcode !== passcode) {
+        alert("⛔ كلمة المرور خاطئة - لم ينجح الاسترجاع");
+        return;
+      }
     }
 
+    // Load the saved state
     if (data.state) {
-      loadState(JSON.stringify(data.state));      // expects a JSON string
+      loadState(JSON.stringify(data.state));
     } else {
       alert("لم ينجح الإسترجاع");
       selectRandomVerse();
       selectRandomWordAndSearch();
     }
+
   } catch (err) {
     console.error(err);
     alert("لم ينجح الاسترجاع");

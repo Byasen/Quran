@@ -110,18 +110,35 @@ async function loadState(jsonString) {
         }
 
         // Add verses using the actual function (in reverse to maintain original order)
-        for (const verseData of [...data.topicVerses].reverse()) {
-            await addVerse(verseData.surahNumber, verseData.verseNumber);
+        for (const verseData of data.topicVerses) {
+      await addVerse(verseData.surahNumber, verseData.verseOrig || verseData.verseStart || verseData.verseNumber);
 
-            // Set the verse note value directly
-            const stackedChildren = stackedVerses.querySelectorAll('.verse-container textarea');
-            if (stackedChildren.length > 0) {
-                stackedChildren[0].value = verseData.verseNotes || '';
-                if (stackedChildren[0].verseData) {
-                    stackedChildren[0].verseData.verseNotes = verseData.verseNotes || '';
+
+        const stackedChildren = stackedVerses.querySelectorAll('.verse-container');
+        const latestContainer = stackedChildren[0];
+
+        if (latestContainer) {
+            const inputs = latestContainer.querySelectorAll('.verse-number-input');
+            if (inputs.length === 2) {
+                inputs[0].value = verseData.verseStart || verseData.verseOrig || verseData.verseNumber;
+                inputs[1].value = verseData.verseEnd || verseData.verseOrig || verseData.verseNumber;
+                updateStackedVerse({ target: inputs[1] });
+            }
+
+            const textarea = latestContainer.querySelector('textarea');
+            if (textarea) {
+                textarea.value = verseData.verseNotes || '';
+                if (textarea.verseData) {
+                    textarea.verseData.verseNotes = verseData.verseNotes || '';
+                    textarea.verseData.verseOrig = verseData.verseOrig || verseData.verseNumber;
+                    textarea.verseData.verseStart = verseData.verseStart || verseData.verseOrig || verseData.verseNumber;
+                    textarea.verseData.verseEnd = verseData.verseEnd || verseData.verseOrig || verseData.verseNumber;
                 }
             }
+
+            latestContainer.dataset.originalVerse = verseData.verseOrig || verseData.verseNumber;
         }
+    }
 
     } catch (err) {
         console.error('[loadState] Failed to load topic:', err);

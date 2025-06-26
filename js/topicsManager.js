@@ -19,46 +19,130 @@ function addCurrentVerse() {
 
 async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const selectedChapter = chapterNumberLoc;
+    const selectedChapterVerseCount = await fetchSurahVersesNumber(chapterNumberLoc);
     const selectedVerse = verseNumberLoc;
     const stackedVerses = document.getElementById('stackedVerses');
 
-  const match = csvData.find(entry =>
-    entry.chapter === String(chapterNumberLoc) &&
-    entry.verse === String(verseNumberLoc)
-);    
+    const match = csvData.find(entry =>
+        entry.chapter === String(chapterNumberLoc) &&
+        entry.verse === String(verseNumberLoc)
+    );
 
-        const newVerseDiv = document.createElement('div');
-        newVerseDiv.classList.add('verse-container');
-        newVerseDiv.innerHTML = `
-            <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
-            ${match.text}
-            <br>
-            <button onclick="moveVerseUp(this)">رتب لأعلى</button>
-            <button onclick="moveVerseDown(this)">رتب لأسفل</button>
-            <button onclick="removeVerse(this)">إزالة</button>
-            <button onclick="selectThisVerse(${selectedChapter}, ${selectedVerse})">عرض</button>
-        `;
+    const newVerseDiv = document.createElement('div');
+    newVerseDiv.classList.add('verse-container');
+    newVerseDiv.dataset.originalVerse = verseNumberLoc; // ✅ STORE HERE
 
-        const notesTextArea = document.createElement('textarea');
-        notesTextArea.placeholder = "ملاحظات ...";
-        notesTextArea.rows = 3;
-        notesTextArea.style.width = '100%';
+    newVerseDiv.innerHTML = `
+        <strong>
+            سورة ${match.chapterName} :
+            آية 
+        <input type="number" value="${verseNumberLoc}" min="1" max="${verseNumberLoc}" class="verse-number-input" style="width: 5ch; text-align: center;" onchange="updateStackedVerse(event)"> -
+        <input type="number" value="${verseNumberLoc}" min="${verseNumberLoc}" max="${selectedChapterVerseCount}" class="verse-number-input" style="width: 5ch; text-align: center;" onchange="updateStackedVerse(event)">
+        </strong>
+        <br>
+        <br>
+        <div class="verse-text" data-original="true" data-original-verse="${verseNumberLoc}">
+        <strong>${verseNumberLoc}. ${match.text}</strong>
+        </div>
+        <br>
+        <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})">عرض</button>
+        <button onclick="removeVerse(this)">إزالة</button>
+        <button onclick="moveVerseDown(this)">&darr;</button>
+        <button onclick="moveVerseUp(this)">&uarr;</button>
+    `;
 
-        const verseObj = { surahNumber: selectedChapter, verseNumber: selectedVerse, verseNotes: "" };
-        topicVerses.push(verseObj);
+    // Optional: add notes box
+    const notesTextArea = document.createElement('textarea');
+    notesTextArea.placeholder = "ملاحظات ...";
+    notesTextArea.rows = 3;
+    notesTextArea.style.width = '100%';
 
-        // Attach the verseObj directly to the textarea
-        notesTextArea.verseData = verseObj;
+    const verseObj = {
+    surahNumber: selectedChapter,
+    verseOrig: selectedVerse,  // ✅ NEW
+    verseStart: selectedVerse,
+    verseEnd: selectedVerse,
+    verseNotes: ""
+    };
 
-        notesTextArea.addEventListener('input', function () {
-            this.verseData.verseNotes = this.value;
-            saveStateToLocal();
-        });
+    topicVerses.push(verseObj);
+    notesTextArea.verseData = verseObj;
 
-        newVerseDiv.appendChild(notesTextArea);
-        stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
-
+    notesTextArea.addEventListener('input', function () {
+        this.verseData.verseNotes = this.value;
         saveStateToLocal();
+    });
+
+    newVerseDiv.appendChild(notesTextArea);
+    stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
+
+    saveStateToLocal();
+}
+
+function updateStackedVerse(event) {
+    const input = event.target;
+    const container = input.closest('.verse-container');
+    const inputs = container.querySelectorAll('.verse-number-input');
+    const verseTextDiv = container.querySelector('.verse-text');
+
+    if (inputs.length < 2 || !verseTextDiv) return;
+
+
+    const start = parseInt(inputs[0].value);
+    const end = parseInt(inputs[1].value);
+
+    // ✅ Sync to verseData inside textarea
+    const textarea = container.querySelector('textarea');
+    if (textarea && textarea.verseData) {
+        textarea.verseData.verseStart = start;
+        textarea.verseData.verseEnd = end;
+        saveStateToLocal();
+    }
+
+    const chapterTitle = container.querySelector('strong')?.textContent || '';
+    const chapterMatch = chapterTitle.match(/سورة\s+(.+?)\s*:/);
+    const chapterName = chapterMatch ? chapterMatch[1].trim() : null;
+
+    if (!chapterName) {
+        verseTextDiv.textContent = '❌ اسم السورة غير صالح';
+        return;
+    }
+
+    const chapterEntry = csvData.find(e => e.chapterName === chapterName);
+    if (!chapterEntry) {
+        verseTextDiv.textContent = '❌ لم يتم العثور على السورة';
+        return;
+    }
+
+    const chapterNumber = chapterEntry.chapter;
+    const originalVerse = parseInt(container.dataset.originalVerse); // ✅ SAFE AND PERSISTENT
+
+    if (isNaN(start) || isNaN(end) || start < 1 || end < 1 || start > end) {
+        verseTextDiv.textContent = '❌ نطاق غير صالح';
+        return;
+    }
+
+    const verses = csvData.filter(entry =>
+        entry.chapter === String(chapterNumber) &&
+        entry.verse >= start &&
+        entry.verse <= end
+    );
+
+    if (verses.length === 0) {
+        verseTextDiv.textContent = '❌ لا توجد آيات في هذا النطاق';
+        return;
+    }
+
+    const verseHTML = verses.map(v => {
+        const isOriginal = parseInt(v.verse) === originalVerse;
+        return isOriginal
+        ? `<strong>${v.verse}. ${v.text}</strong>`
+        : `<span>${v.verse}. ${v.text}</span>`;
+    }).join('<br><br>');
+
+    verseTextDiv.innerHTML = verseHTML;
+
+
 }
 
 
