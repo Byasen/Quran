@@ -94,10 +94,11 @@ function displaySearchResults(label, wordList, matches, clear = true) {
       div.setAttribute('data-word', normalizedLabel);
     
       div.innerHTML = `
-      <button class="select-verse-btn" onclick="selectThisVerse(${match.chapter}, ${match.verse})">
+      <button class="select-verse-btn" style="margin-right: 10px;"
+        onclick="selectThisVerse(${match.chapter}, ${match.verse})">
         عرض الآية
       </button>
-        <strong>سورة ${match.chapterName} : آية ${match.verse}</strong>
+        <strong>سورة ${match.chapterName} : آية ${match.verse}</strong><br>
         <br>
         ${match.text}
       `;
@@ -214,6 +215,7 @@ async function searchInCSV() {
           surahLink.href = '#';
           surahLink.textContent = word;
           surahLink.style.display = 'block';
+          surahLink.style.marginBottom = '4px';
           surahLink.addEventListener('click', (e) => {
             e.preventDefault();
             selectThisVerse(chapterNum, 1);

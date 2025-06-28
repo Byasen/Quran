@@ -1,74 +1,3 @@
-/* === Visual Debug Borders for Layout === */
-
-.pageColoumn {
-    border: 2px dashed red;
-}
-
-.verseColoumn {
-    border: 2px dashed green;
-}
-
-.searchColoumn {
-    border: 2px dashed blue;
-}
-
-.topicColoumn {
-    border: 2px dashed orange;
-}
-
-.foldButtonColoumn {
-    border: 2px dashed purple;
-}
-
-.mainContainer {
-    border: 2px solid black;
-}
-
-.overall {
-    border: 3px double #444;
-}
-
-.pageResults {
-    border: 2px dotted darkred;
-}
-
-.verseResults2 {
-    border: 2px dotted darkgreen;
-}
-
-.searchResults1 {
-    border: 2px dotted darkblue;
-}
-
-.searchResults2 {
-    border: 2px dotted navy;
-}
-
-.topicResults1 {
-    border: 2px dotted darkorange;
-}
-
-.topicResults2 {
-    border: 2px dotted brown;
-}
-
-.playControl {
-    border: 2px dashed teal;
-}
-
-.loadingBarContainer {
-    border: 2px dashed gray;
-}
-
-.mobileColumnSelector {
-    border: 2px dashed black;
-}
-
-.sidebar {
-    border: 2px solid maroon;
-}
-
-
 
 html, body {
     overscroll-behavior-y: none;  /* Prevent pull-to-refresh */
@@ -89,6 +18,8 @@ html, body {
     text-align: right; /* Align text to the right */
     justify-content: flex-start; /* Align items starting from the right */
     height: 100%; /* Set a fixed height */
+    padding-left: 2%; /* Add some padding to the left */
+    padding-right: 2%; /* Add some padding to the right */
 }
 
 
@@ -101,7 +32,7 @@ html, body {
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: auto;
+    font-size: 14px;
     z-index: 1000;  /* Ensure it's on top of other content */
 }
 
@@ -124,6 +55,7 @@ html, body {
 
 #loadingStatus {
     color: rgb(255, 255, 255);
+    margin: 5px 0 0 0;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -132,7 +64,7 @@ html, body {
 
 
 p, .verse {
-    font-size: auto;
+    font-size: 18px;
     direction: rtl; /* RTL text */
     text-align: right; /* Align text to the right */
     font-family: Arial, sans-serif; /* Set font to Arial */
@@ -142,10 +74,16 @@ p, .verse {
     border-top: 1px dashed #333;
 }
 
+.dashedLine{
+    border-top: 1px dashed #333;
+    margin: 2%; /* Add some vertical spacing */
+}
+
 
 .pageColoumn {
     height: 100%;
     width: 22%;
+    margin-right: 1%;
 }
 
 .verseControl1{
@@ -156,6 +94,7 @@ p, .verse {
 }
 
 .pageControl {
+    margin-top: 4%;
     height:fit-content;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
@@ -165,6 +104,7 @@ p, .verse {
 
 .pageResults {
     height: 85%;
+    margin-top: 2%;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -234,6 +174,7 @@ p, .verse {
 .verseColoumn{
     height: 100%;
     /* width:66%; defined in line */
+    margin-right: 1%;
     justify-content: flex-start; /* Align items starting from the right */
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
@@ -245,27 +186,29 @@ p, .verse {
     height: fit-content;
 }
 
+
 .verseControl2{
     height: fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     direction: rtl; /* Set text direction to right-to-left */
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .verseResults2 {
+    margin-top: 1%;
+    margin-bottom: 1%;
     height: 74%;
     width: 100%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+    padding-right: 2%;   
 }
 
 .foldButtonColoumn {
     height: 100%;
     width: 2%;
+    margin-right: 1%;
 }
 
 .foldButton{
@@ -273,7 +216,7 @@ p, .verse {
     width: 100%;
     writing-mode: vertical-rl; /* Makes text vertical from top to bottom */
     text-orientation: sideways;
-    font-size: auto; /* Dynamically adjust font size to fit container */
+    font-size: x-large; /* Dynamically adjust font size to fit container */
 }
 
 .searchColoumn {
@@ -284,16 +227,14 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
+    margin-right: 0.5%;
 }
 
 .searchControl {
-    height: fit-content;
+    height:fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .searchResults1 {
@@ -306,10 +247,13 @@ p, .verse {
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     background: #f9f9f9; /* Light grey background for the search results */
+    padding-right: 1%;
+
     
 }
 
 .searchResults2 {
+    margin-top: 2%;
     height: 60%;
     width: 100%;
     overflow-y: auto; /* Add vertical scrollable slider */
@@ -318,6 +262,7 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
+    padding-right: 1%;
     
 }
 
@@ -333,6 +278,8 @@ p, .verse {
 
 
 .searchVerseResult {
+    margin-bottom: 10px;
+    padding: 10px;
     border: 1px solid #ddd;
     background-color: #ffffff;
 }
@@ -346,6 +293,7 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
+    margin-right: 0.5%;
 }
 
 /* New styles for control container and button alignment */
@@ -363,10 +311,11 @@ p, .verse {
 .topicSelectClass {
     width: fit-content; /* Same as the full width of stacked verses */
     font-family: Arial, sans-serif; /* Match font */
-    font-size: auto; /* Ensure similar font size */
+    font-size: 18px; /* Ensure similar font size */
     text-align: right; /* Align text to the right for Arabic */
     direction: rtl; /* Right-to-left direction for Arabic */
     background-color: #f9f9f9;
+    margin-right: 2%;
     width: 100%;
 }
 
@@ -379,7 +328,9 @@ p, .verse {
     height:fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+    padding-right: 2%;
     width: 100%;
+    margin-bottom: 2%;
 
 }
 
@@ -393,11 +344,16 @@ p, .verse {
     height:90%; /* Fix the height */
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
+    padding-right: 2%;
+    margin-top: 5%;
 }
 
 
 .verse-container{
     background-color: #f1f1f1;
+    padding-right: 3%;
+    padding-left: 3%;
+    padding-top: 3%;
     border: #000 solid 1px;
     direction: rtl;
 }
@@ -418,6 +374,7 @@ p, .verse {
     direction: rtl;
     font-family: Arial, sans-serif;
     height: fit-content;
+    margin-top: 2%;
     width: 100%;
 }
 
@@ -443,15 +400,18 @@ textarea {
 .sidebar a {
     display: block;
     color: white;
+    padding: 10px;
     text-decoration: none;
 }
 
 
 select, button, textarea, input[type="text"] {
-    font-size: auto; /* Reduce font size */
+    padding: 5px; /* Reduce padding inside the box */
+    font-size: 16px; /* Reduce font size */
     height: auto; /* Let the height adjust automatically */
     width: auto; /* Adjust width automatically based on content */
     box-sizing: border-box; /* Ensure padding and border are included in the size */
+    margin: 5px; /* Reduce margin between elements */
 }
 
 
@@ -460,7 +420,7 @@ label {
     text-align: right; /* Align text inside the <label> */
     display: inline-block; /* Prevent the text from centering vertically */
     width: auto; /* Ensure the label doesn't stretch */
-    font-size: auto; /* Ensure similar font size */
+    font-size: 18px; /* Ensure similar font size */
 }
 
 
@@ -479,6 +439,9 @@ label {
     text-align: right;
     width : fit-content;
     height: fit-content;
+    margin-left: auto;
+    padding-right: 2%; /* Reduce padding inside the box */
+    margin-bottom: 0px; /* Reduce margin between elements */
     font-family: Arial, sans-serif; /* Set font to Arial */
 }
 
@@ -503,6 +466,8 @@ label {
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
         height:fit-content;
+        margin-top: 2%;
+
     }
 
     .chapterSelectClass{
@@ -516,6 +481,7 @@ label {
         display: none;
         height: 100%;
         width: 100%;
+        margin: 0;
         overflow-y: auto;
     }
 
@@ -524,16 +490,16 @@ label {
         display: none; 
     }
 
+
     .mobileOnlyVerseContentClass{
-        height: fit-content;
+        height:fit-content;
+        margin-bottom: 2%;
         overflow-y: auto; /* Add vertical scrollable slider */
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     .pageResults {
         height: 80%;
+        margin-top: 2%;
     }
 
     .foldButtonColoumn {

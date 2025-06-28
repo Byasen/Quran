@@ -40,9 +40,11 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         <input type="number" value="${verseNumberLoc}" min="${verseNumberLoc}" max="${selectedChapterVerseCount}" class="verse-number-input" style="width: 5ch; text-align: center;" onchange="updateStackedVerse(event)">
         </strong>
         <br>
+        <br>
         <div class="verse-text" data-original="true" data-original-verse="${verseNumberLoc}">
         <strong>${verseNumberLoc}. ${match.text}</strong>
         </div>
+        <br>
         <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})">عرض</button>
         <button onclick="removeVerse(this)">إزالة</button>
         <button onclick="moveVerseDown(this)">&darr;</button>
@@ -136,7 +138,7 @@ function updateStackedVerse(event) {
         return isOriginal
         ? `<strong>${v.verse}. ${v.text}</strong>`
         : `<span>${v.verse}. ${v.text}</span>`;
-    }).join('<br>');
+    }).join('<br><br>');
 
     verseTextDiv.innerHTML = verseHTML;
 
