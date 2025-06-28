@@ -50,7 +50,7 @@
                 </div>
             </div>   
             <div class="pageControl">
-                <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">اجمع الآية</button></div>
+                <div><button onclick="addCurrentVerse()">اجمع الآية</button></div>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
@@ -112,9 +112,9 @@
             <button onclick="searchInCSVClearCurrent()">ابدأ البحث</button>
             <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن" style="width: 50%;  direction: rtl; text-align: rtl;"/>
         </div>
-        <label style="margin-top: 2%; white-space: nowrap;">كلمات ذات صلة</label>
+        <label style="white-space: nowrap;">كلمات ذات صلة</label>
         <div id="searchResultsContainer1" class="searchResults1"></div>
-        <label style="margin-top: 5%; white-space: nowrap;">نتائج البحث</label>
+        <label style="white-space: nowrap;">نتائج البحث</label>
         <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
     
@@ -125,18 +125,15 @@
             <input id="topicSelect" class="topicSelectClass" placeholder="اسم المجموعة" hidden></input>
         </div>
         <div id="topicResults2Id" class="topicResults2">
-            <label style="direction: rtl; text-align: right; margin-bottom: 2%;">الآيات المجموعة :</label>
+            <label style="direction: rtl; text-align: right;">الآيات المجموعة :</label>
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
-        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ المجموعة</button></div>
-        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع مجموعة</button></div>
+        <div><button onclick="saveStateToFirebase()">حفظ المجموعة</button></div>
+        <div"><button onclick="loadStateFromFirebase()">استرجاع مجموعة</button></div>
         </div>
     </div>
     
-    <div id="sidebarId" class="sidebar">
-        <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
-    </div>   
 </div>
 
 
