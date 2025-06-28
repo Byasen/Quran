@@ -186,13 +186,15 @@ p, .verse {
     height: fit-content;
 }
 
-
 .verseControl2{
     height: fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     direction: rtl; /* Set text direction to right-to-left */
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .verseResults2 {
@@ -231,10 +233,13 @@ p, .verse {
 }
 
 .searchControl {
-    height:fit-content;
+    height: fit-content;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .searchResults1 {
@@ -490,11 +495,13 @@ label {
         display: none; 
     }
 
-
     .mobileOnlyVerseContentClass{
-        height:fit-content;
+        height: fit-content;
         margin-bottom: 2%;
         overflow-y: auto; /* Add vertical scrollable slider */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .pageResults {

@@ -11,7 +11,12 @@
 </head>
 <body id=content>
     <div class="overall">
-
+    <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
+        <button onclick="showMobileColumn('pageColoumn')">المصحف</button>
+        <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
+        <button onclick="showMobileColumn('searchColoumn')">البحث</button>
+        <button onclick="showMobileColumn('topicColoumn')">المجموعة</button>
+    </div>
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
@@ -55,31 +60,10 @@
     </div>
 
     <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
-    <div class="playControl">
-        <div class="playControl1">
-            <select id="reciter">
-                <option value="abdullah_basfar">عبدالله بصفر</option>
-                <option value="al3afasy">العفاسي</option>
-                <option value="alhosary">الحصري</option>
-                <option value="aly_gaber">علي جابر</option>
-                <option value="khalifah_alteneagy">خليفة الطنيجي</option>                           
-            </select>            
-            <button id="stopAudioBtn" title="Stop">توقف</button>
-            <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
-            <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
-        </div>
-        <div class="playControl2">
-            <select id="silenceSelect" class="dropMenu"></select>
-            <label for="silenceSelect">الصمت</label>
-            <select id="repeatSelect"></select>
-            <label for="repeatSelect" class="dropMenu">تكرار الآية</label>
-        </div>
-    </div>
             <div class="verseResults1" hidden>
             <p id="verseDisplay"></p>
         </div>
         <div class="verseControl2">
-            <div class="dashedLine"></div>
             <label for="analysisSelect">التفسير</label>
             <select id="analysisSelect">
                 <option value="ma3any">معاني المفردات</option>
@@ -99,6 +83,26 @@
         <div class="verseResults2">
             <p id="meaningsDisplay"></p>
         </div>
+            <div class="playControl">
+        <div class="playControl1">
+            <select id="reciter">
+                <option value="abdullah_basfar">عبدالله بصفر</option>
+                <option value="al3afasy">العفاسي</option>
+                <option value="alhosary">الحصري</option>
+                <option value="aly_gaber">علي جابر</option>
+                <option value="khalifah_alteneagy">خليفة الطنيجي</option>                           
+            </select>            
+            <button id="stopAudioBtn" title="Stop">توقف</button>
+            <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
+            <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
+        </div>
+        <div class="playControl2">
+            <select id="silenceSelect" class="dropMenu"></select>
+            <label for="silenceSelect">الصمت</label>
+            <select id="repeatSelect"></select>
+            <label for="repeatSelect" class="dropMenu">تكرار الآية</label>
+        </div>
+    </div>
     </div>
 
     <div class="foldButtonColoumn"><button onclick="foldSearch()" class="foldButton">البحث في آيات القرآن</button></div>
@@ -135,12 +139,7 @@
     </div>   
 </div>
 
-<div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
-    <button onclick="showMobileColumn('pageColoumn')">الصفحة</button>
-    <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
-    <button onclick="showMobileColumn('searchColoumn')">البحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">المجموعة</button>
-</div>
+
 
 </div>
 <script src="js/audioManager.js"></script>
