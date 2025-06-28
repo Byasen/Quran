@@ -114,7 +114,7 @@ p, .verse {
 /* Ensure the image container scales properly and keeps the aspect ratio */
 .pageimg {
     position: relative;
-    flex: 0 0 120%;
+    flex: 0 0 100%;
     width: 100%;  /* Full width of the container */
     height: 100%; /* Allow it to scale based on content */
     display: flex;
@@ -198,7 +198,7 @@ p, .verse {
 .verseResults2 {
     margin-top: 1%;
     margin-bottom: 1%;
-    height: 74%;
+    height: 86%;
     width: 100%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
@@ -446,8 +446,6 @@ label {
 }
 
 
-
-
 @media screen and (max-width: 768px) {
     
     .mobile-active {
@@ -466,7 +464,7 @@ label {
         background-color: #f1f1f1;
         border-bottom: 1px solid #ccc;
         height:fit-content;
-        margin-top: 2%;
+        margin-bottom: 4%;
 
     }
 

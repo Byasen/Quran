@@ -93,7 +93,7 @@ async function displayVerseWithAnalyses() {
 
         const analysisContent = verseWithAnalyses.analyses[selected];
         if (analysisContent !== undefined) {
-            meaningsDisplayContent += `<div class="rtl-text">${analysisContent}</div><hr class="dashed-line">`;
+            meaningsDisplayContent += `<div class="rtl-text">${analysisContent}</div>`;
         }
 
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
