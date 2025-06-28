@@ -1,8 +1,17 @@
 // Fetch a specific analysis for a verse (individual fetch)
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
-        const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
+        let filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
         //console.log(`Fetching analysis from: ${filePath}`); // Debugging line
+
+        // If source is 'alkhareet', try fallback to _001.json if file not found
+        if (source === 'alkhareet') {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+            // Try fallback to _001.json
+            filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_001.json`;
+            }
+        }
 
         const response = await fetch(filePath);
         if (response.ok) {
