@@ -45,7 +45,7 @@
                 </div>
             </div>   
             <div class="pageControl">
-                <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">أضف للموضوع</button></div>
+                <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">اجمع الآية</button></div>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
@@ -114,19 +114,19 @@
         <div id="searchResultsContainer2" class="searchResults2"></div>
     </div>
     
-    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">تجميع آيات الموضوع الواحد</button></div>
+    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">الآيات المجموعة</button></div>
     
     <div id="topicResults" class="topicColoumn">
         <div class="topicControl1">
-            <input id="topicSelect" class="topicSelectClass" placeholder="اسم الموضوع"></input>
+            <input id="topicSelect" class="topicSelectClass" placeholder="اسم المجموعة" hidden></input>
         </div>
         <div id="topicResults2Id" class="topicResults2">
-            <label style="direction: rtl; text-align: right; margin-bottom: 2%;">تجميع آيات الموضوع الواحد :</label>
+            <label style="direction: rtl; text-align: right; margin-bottom: 2%;">الآيات المجموعة :</label>
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
-        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ الموضوع</button></div>
-        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع موضوع</button></div>
+        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ المجموعة</button></div>
+        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع مجموعة</button></div>
         </div>
     </div>
     
@@ -139,7 +139,7 @@
     <button onclick="showMobileColumn('pageColoumn')">الصفحة</button>
     <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
     <button onclick="showMobileColumn('searchColoumn')">البحث</button>
-    <button onclick="showMobileColumn('topicColoumn')">الموضوع</button>
+    <button onclick="showMobileColumn('topicColoumn')">المجموعة</button>
 </div>
 
 </div>
