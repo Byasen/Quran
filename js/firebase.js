@@ -31,7 +31,7 @@ async function saveStateToFirebase() {
   const topicInput = document.getElementById("topicSelect");
   const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
 
-  const projectCode = prompt("حفظ الموضوع بقاعدة البيانات تحت مسمى", defaultProjectCode);
+  const projectCode = prompt("حفظ المجموعة في قاعدة البيانات تحت مسمى", defaultProjectCode);
   if (!projectCode) return;
 
   const passcode = prompt("كلمة مرور (يمكن تركها فارغة):");
@@ -46,7 +46,7 @@ async function saveStateToFirebase() {
 
     if (snap.exists()) {
       if (snap.val().passcode !== passcode) {
-        alert("⛔ هناك موضوع بنفس الاسم وكلمة المرور خاطئة - لم ينجح الحفظ");
+        alert("⛔ هناك مجموعة بنفس الاسم وكلمة المرور خاطئة - لم ينجح الحفظ");
         return;
       }
     }
@@ -54,7 +54,7 @@ async function saveStateToFirebase() {
     const stateObj = JSON.parse(saveState());
     await projectRef.set({ passcode, state: stateObj });
 
-    alert("✅ تم حفظ الموضوع بنجاح");
+    alert("✅ تم حفظ المجموعة بنجاح");
   } catch (err) {
     console.error(err);
     alert("لم ينجح الحفظ");
@@ -63,7 +63,7 @@ async function saveStateToFirebase() {
 
 /* ---------- LOAD ---------- */
 async function loadStateFromFirebase() {
-  const projectCode = prompt("أدخل مسمى الموضوع الذي تريد استرجاعه");
+  const projectCode = prompt("أدخل مسمى المجموعة الذي تريد استرجاعها");
   if (!projectCode) return;
 
   const projectRef = firebase.database().ref(`projects/${projectCode}`);
@@ -72,7 +72,7 @@ async function loadStateFromFirebase() {
     const snap = await projectRef.once("value");
 
     if (!snap.exists()) {
-      alert("❗ لا يوجد موضوع بهذا الاسم في قاعدة البيانات.");
+      alert("❗ لا يوجد مجموعة بهذا الاسم في قاعدة البيانات.");
       selectRandomVerse();
       selectRandomWordAndSearch();
       return;
