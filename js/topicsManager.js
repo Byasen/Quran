@@ -34,7 +34,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
 
     newVerseDiv.innerHTML = `
         <strong>
-            سورة ${match.chapterName} :
+           سورة ${chapterNumberLoc}. ${match.chapterName} :
             آية 
         <input type="number" value="${verseNumberLoc}" min="1" max="${verseNumberLoc}" class="verse-number-input" style="width: 5ch; text-align: center;" onchange="updateStackedVerse(event)"> -
         <input type="number" value="${verseNumberLoc}" min="${verseNumberLoc}" max="${selectedChapterVerseCount}" class="verse-number-input" style="width: 5ch; text-align: center;" onchange="updateStackedVerse(event)">
@@ -100,8 +100,10 @@ function updateStackedVerse(event) {
     }
 
     const chapterTitle = container.querySelector('strong')?.textContent || '';
-    const chapterMatch = chapterTitle.match(/سورة\s+(.+?)\s*:/);
-    const chapterName = chapterMatch ? chapterMatch[1].trim() : null;
+    // Match "سورة {number}.{name} :"
+    const chapterMatch = chapterTitle.match(/سورة\s+(\d+)\.(.+?)\s*:/);
+    const chapterNumberParsed = chapterMatch ? chapterMatch[1].trim() : null;
+    const chapterName = chapterMatch ? chapterMatch[2].trim() : null;
 
     if (!chapterName) {
         verseTextDiv.textContent = '❌ اسم السورة غير صالح';
