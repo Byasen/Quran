@@ -34,7 +34,7 @@ async function saveStateToFirebase() {
   const projectCode = prompt("حفظ المجموعة في قاعدة البيانات تحت مسمى", defaultProjectCode);
   if (!projectCode) return;
 
-  const passcode = prompt("كلمة مرور (يمكن تركها فارغة):");
+  const passcode = prompt("كلمة مرور (يمكن تركها فارغة للسماح للآخرين بالتعديل):");
   if (passcode === null) return;
 
   if (topicInput) topicInput.value = projectCode;
@@ -63,12 +63,23 @@ async function saveStateToFirebase() {
 
 /* ---------- LOAD ---------- */
 async function loadStateFromFirebase() {
-  const projectCode = prompt("أدخل مسمى المجموعة الذي تريد استرجاعها");
-  if (!projectCode) return;
-
-  const projectRef = firebase.database().ref(`projects/${projectCode}`);
-
   try {
+    // Fetch all projects from Firebase
+    const allProjectsSnap = await firebase.database().ref("projects").once("value");
+    const allProjects = allProjectsSnap.val() || {};
+
+    // List all project names
+    const projectNames = Object.keys(allProjects);
+    let message = "أدخل مسمى المجموعة الذي تريد استرجاعها";
+    if (projectNames.length > 0) {
+      message += `\n\n📂 المجموعات المتاحة:\n- ${projectNames.join("\n- ")}`;
+    }
+
+    // Ask user for project name
+    const projectCode = prompt(message);
+    if (!projectCode) return;
+
+    const projectRef = firebase.database().ref(`projects/${projectCode}`);
     const snap = await projectRef.once("value");
 
     if (!snap.exists()) {
@@ -80,18 +91,7 @@ async function loadStateFromFirebase() {
 
     const data = snap.val();
 
-    // If a password is stored, prompt for it
-    if (data.passcode) {
-      const passcode = prompt("كلمة المرور اللتي تم استخدامها عند الحفظ");
-      if (passcode === null) return;
-
-      if (data.passcode !== passcode) {
-        alert("⛔ كلمة المرور خاطئة - لم ينجح الاسترجاع");
-        return;
-      }
-    }
-
-    // Load the saved state
+    // Skip password check completely and load state directly
     if (data.state) {
       loadState(JSON.stringify(data.state));
     } else {
@@ -105,3 +105,4 @@ async function loadStateFromFirebase() {
     alert("لم ينجح الاسترجاع");
   }
 }
+
