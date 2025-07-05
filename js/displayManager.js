@@ -182,50 +182,62 @@ function displayNextPreviousPages(pageNumber) {
 
 
 function foldSearch(){
-    const Container = document.getElementById('searchResults');
-    const Container2 = document.getElementById('verseColoumnId');
-    //console.log("the width is :", Container2.style.width);
-    if (Container.style.display === 'block') {
-        Container.style.display = 'none';
-        if (Container2.style.width === "22%") {
-            Container2.style.width = '44%';
-        }
-        if (Container2.style.width === "44%") {
-            Container2.style.width = '66%';
-        }
+    const topic = document.getElementById('topicResults');
+    const search = document.getElementById('searchResults');
+    const verse = document.getElementById('verseColoumnId');
+
+    if (search.style.display == 'block') {
+        search.style.display = 'none';
+
+    if (topic.style.display == 'block') {
+        verse.style.width = '44%';
+    }
+
+    if (topic.style.display == 'none') {
+    verse.style.width = '66%';
+    } 
+
     } else {
-        Container.style.display = 'block';
-        if (Container2.style.width === "44%") {
-            Container2.style.width = "22%";
-        }
-        if (Container2.style.width === "66%") {
-            Container2.style.width = '44%';
-        }
+    search.style.display = 'block';
+
+    if (topic.style.display == 'block') {
+        verse.style.width = '22%';
+    }
+
+    if (topic.style.display == 'none') {
+    verse.style.width = '44%';
+    } 
     }
     saveState();
 }
 
 function foldTopic(){
-    const Container = document.getElementById('topicResults');
-    const Container2 = document.getElementById('verseColoumnId');
+    const topic = document.getElementById('topicResults');
+    const search = document.getElementById('searchResults');
+    const verse = document.getElementById('verseColoumnId');
 
-    if (Container.style.display === 'block') {
-        Container.style.display = 'none';
-        if (Container2.style.width === '22%') {
-            Container2.style.width = '44%';
-        }
-        if (Container2.style.width === '44%') {
-            Container2.style.width = '66%';
-        }
+    if (topic.style.display == 'block') {
+        topic.style.display = 'none';
+
+    if (search.style.display == 'block') {
+        verse.style.width = '44%';
+    }
+
+    if (search.style.display == 'none') {
+    verse.style.width = '66%';
+    } 
+
     } else {
-        Container.style.display = 'block';
-        if (Container2.style.width === '44%') {
-            Container2.style.width = '22%';
-        }
-        if (Container2.style.width === '66%') {
-            Container2.style.width = '44%';
-        }
-    }  
+    topic.style.display = 'block';
+
+    if (search.style.display == 'block') {
+        verse.style.width = '22%';
+    }
+
+    if (search.style.display == 'none') {
+    verse.style.width = '44%';
+    } 
+    }
     saveState();
 }
 
