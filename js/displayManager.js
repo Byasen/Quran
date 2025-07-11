@@ -297,8 +297,8 @@ function renderBoundingBoxes(regions, pageId) {
     const containerHeight = image.clientHeight;
 
     // Determine scale based on the limiting dimension
-    const widthScale = containerWidth / imageWidth;
-    const heightScale = containerHeight / imageHeight;
+    const widthScale = 1;
+    const heightScale = 1;
     const scale = Math.min(widthScale, heightScale);
 
     // Set the overlay size to match the scaled image
