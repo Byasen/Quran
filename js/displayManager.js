@@ -302,8 +302,8 @@ function renderBoundingBoxes(regions, pageId) {
     const scale = Math.min(widthScale, heightScale);
 
     // Set the overlay size to match the scaled image
-    overlay.style.width = `${imageWidth * scale}px`;
-    overlay.style.height = `${imageHeight * scale}px`;
+    overlay.style.width = `${imageWidth * widthScale}px`;
+    overlay.style.height = `${imageHeight * heightScale}px`;
     overlay.style.transform = '';  // Remove transform-based scaling
 
     overlay.innerHTML = '';  // Clear any existing boxes
