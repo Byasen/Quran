@@ -28,6 +28,7 @@ const database = firebase.database();
 
 
 async function saveStateToFirebase() {
+  saveState();
   const topicInput = document.getElementById("topicSelect");
   const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
 
