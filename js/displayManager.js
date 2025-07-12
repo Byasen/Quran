@@ -318,11 +318,11 @@ function renderBoundingBoxes(regions, pageId) {
         const scaledWidth = region.bbox.width * scale;
         const scaledHeight = region.bbox.height * scale;
 
-        // Set box styles
-        box.style.left = `${scaledX}px`;
-        box.style.top = `${scaledY}px`;
-        box.style.width = `${scaledWidth}px`;
-        box.style.height = `${scaledHeight}px`;
+        // Set box styles (border = 2px)
+        box.style.left = `${scaledX - 0.75}px`;
+        box.style.top = `${scaledY - 0.75 + scaledHeight / 8}px`;
+        box.style.width = `${scaledWidth - 1}px`;
+        box.style.height = `${scaledHeight - 1}px`;
 
         box.dataset.chapter = region.chapter;
         box.dataset.verse = region.verse;
