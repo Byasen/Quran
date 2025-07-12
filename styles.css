@@ -201,14 +201,13 @@ p, .verse {
     height: 86%;
     width: 100%;
     overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    padding-right: 2%;   
+    overflow-x: auto; /* Hide horizontal overflow */
 }
 
 .foldButtonColoumn {
     height: 100%;
     width: 2%;
-    margin-right: 1%;
+    margin-rightt: 1%;
 }
 
 .foldButton{
