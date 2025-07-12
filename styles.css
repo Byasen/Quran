@@ -147,7 +147,7 @@ p, .verse {
     position: absolute;
     pointer-events: auto;
     background-color: rgba(0, 0, 0, 0);
-    border: 2px solid transparent;
+    border: 1px solid transparent;
     transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
