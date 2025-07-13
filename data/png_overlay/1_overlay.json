@@ -21,7 +21,7 @@
             "bbox": {
                 "x": 221,
                 "y": 347,
-                "width": 422,
+                "width": 370,
                 "height": 67
             }
         },
@@ -33,7 +33,7 @@
             "bbox": {
                 "x": 441,
                 "y": 415,
-                "width": 219,
+                "width": 210,
                 "height": 67
             }
         },
@@ -57,7 +57,7 @@
             "bbox": {
                 "x": 264,
                 "y": 483,
-                "width": 399,
+                "width": 390,
                 "height": 67
             }
         },
@@ -67,9 +67,9 @@
             "verse": 6,
             "color": "red",
             "bbox": {
-                "x": 103,
+                "x": 120,
                 "y": 483,
-                "width": 128,
+                "width": 110,
                 "height": 67
             }
         },
@@ -81,7 +81,7 @@
             "bbox": {
                 "x": 405,
                 "y": 551,
-                "width": 255,
+                "width": 240,
                 "height": 67
             }
         },
@@ -91,9 +91,9 @@
             "verse": 7,
             "color": "blue",
             "bbox": {
-                "x": 106,
+                "x": 130,
                 "y": 551,
-                "width": 265,
+                "width": 240,
                 "height": 67
             }
         },
@@ -103,9 +103,9 @@
             "verse": 7,
             "color": "blue",
             "bbox": {
-                "x": 124,
+                "x": 180,
                 "y": 619,
-                "width": 518,
+                "width": 420,
                 "height": 67
             }
         },
@@ -117,7 +117,7 @@
             "bbox": {
                 "x": 307,
                 "y": 687,
-                "width": 296,
+                "width": 200,
                 "height": 67
             }
         }
