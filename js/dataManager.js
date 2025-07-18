@@ -258,9 +258,9 @@ async function loadAnalysisOptions() {
     // Insert all loaded <option> elements
     select.innerHTML = htmlText;
 
-    // Select the last option
+    // Select the first option
     if (select.options.length > 0) {
-      select.selectedIndex = select.options.length - 1;
+      select.selectedIndex = 0;
     }
   } catch (e) {
     console.error('Failed to load tafseer.html', e);
