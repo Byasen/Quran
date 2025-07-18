@@ -84,6 +84,7 @@ window.onload = async function () {
     populatePages(); // Initialize the Quran page dropdown
     //populateTafseer(); // Populate the Tafseer dropdown
     loadStateFromLocal(); // Load the state from local storage
+    loadAnalysisOptions();
 };
 
 
