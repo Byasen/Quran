@@ -1,32 +1,33 @@
 // Fetch a specific analysis for a verse (individual fetch)
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
-        let filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
-        //console.log(`Fetching analysis from: ${filePath}`); // Debugging line
+        let currentVerse = verseNumber;
 
-        // If source is 'alkhareet', try fallback to _001.json if file not found
-        if (source === 'alkhareet') {
+        while (currentVerse >= 0) {
+            const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(currentVerse)}.json`;
             const response = await fetch(filePath);
-            if (!response.ok) {
-            // Try fallback to _001.json
-            filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_001.json`;
+
+            if (response.ok) {
+                const analysisData = await response.json();
+                return analysisData.text || ``;
             }
+
+            // If we reached _000 and still not found, show Arabic message
+            if (currentVerse === 0) {
+                return "لا يوجد تفسير لهذه الآية في الكتاب المختار";
+            }
+
+            currentVerse--;
         }
 
-        const response = await fetch(filePath);
-        if (response.ok) {
-            const analysisData = await response.json();
-            //console.log(`Fetched data for ${source}:`, analysisData); // Debugging line
-            return analysisData.text || ``;
-        } else {
-            //console.error(`Failed to fetch ${source} analysis for ${chapterNumber}:${verseNumber}`);
-            return `No ${source} analysis available`;
-        }
+        // Fallback, should never reach here
+        return "لا يوجد تفسير لهذه الآية في الكتاب المختار";
+
     } catch (error) {
-        //console.error(`Error fetching ${source}:`, error);
-        return `No ${source} analysis available`;
+        return "لا يوجد تفسير لهذه الآية في الكتاب المختار";
     }
 }
+
 
 
 async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
