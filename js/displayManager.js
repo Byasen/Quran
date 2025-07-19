@@ -1,7 +1,8 @@
 // Fetch a specific analysis for a verse (individual fetch)
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
-        let currentVerse = verseNumber;
+        const verseNum = Number(verseNumber);
+        let currentVerse = verseNum;
 
         while (currentVerse >= 0) {
             const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(currentVerse)}.json`;
@@ -12,21 +13,38 @@ async function fetchAnalysis(chapterNumber, verseNumber, source) {
                 return analysisData.text || ``;
             }
 
-            // If we reached _000 and still not found, show Arabic message
             if (currentVerse === 0) {
-                return "لا يوجد تفسير لهذه الآية في الكتاب المختار";
+                const bookPath = `data/tafseer/${source}/book`;
+                const response = await fetch(bookPath);
+
+                if (response.ok) {
+                    const bookText = await response.text();
+
+                    const arabicLines = bookText
+                        .split('\n')
+                        .filter(line => /^[\u0600-\u06FF]/.test(line.trim()));
+
+                    if (arabicLines.length > 0) {
+                        return `الكتاب لا يحتوي على تفسير للسورة المطلوبة, قائمة السور في هذا الكتاب : <br>${arabicLines.join('<br>')}`;
+                    } else {
+                        return "لم يتم العثور على سور مدعومة في هذا الكتاب.";
+                    }
+                } else {
+                    return "تعذر تحميل قائمة السور المتوفرة من الكتاب.";
+                }
             }
 
             currentVerse--;
         }
 
-        // Fallback, should never reach here
-        return "لا يوجد تفسير لهذه الآية في الكتاب المختار";
+        return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
 
     } catch (error) {
-        return "لا يوجد تفسير لهذه الآية في الكتاب المختار";
+        return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
     }
 }
+
+
 
 
 
