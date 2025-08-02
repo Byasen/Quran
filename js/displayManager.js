@@ -1,32 +1,64 @@
-// Fetch a specific analysis for a verse (individual fetch)
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
-        let filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(verseNumber)}.json`;
-        //console.log(`Fetching analysis from: ${filePath}`); // Debugging line
+        const verseNum = Number(verseNumber);
+        let currentVerse = verseNum;
 
-        // If source is 'alkhareet', try fallback to _001.json if file not found
-        if (source === 'alkhareet') {
+        // Try going backward from current verse to 0
+        while (currentVerse >= 0) {
+            const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(currentVerse)}.json`;
             const response = await fetch(filePath);
-            if (!response.ok) {
-            // Try fallback to _001.json
-            filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_001.json`;
+
+            if (response.ok) {
+                const analysisData = await response.json();
+                const text = analysisData.text || ``;
+
+                if (currentVerse !== verseNum) {
+                    return `لا يوجد تفسير منفصل لهذه الآية , المعروض هو تفسير آية سابقة<br><hr class="dashed-line"><br>${text}`;
+                }
+
+                return text;
+            }
+
+            currentVerse--;
+        }
+
+        // Try forward search: verseNum + 1 to some reasonable upper limit (e.g. 300)
+        for (let nextVerse = verseNum + 1; nextVerse <= 300; nextVerse++) {
+            const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(nextVerse)}.json`;
+            const response = await fetch(filePath);
+
+            if (response.ok) {
+                return `تفسير السورة في هذا الكتاب يبدأ من الآية رقم ${nextVerse}<br><hr class="dashed-line"><br>`;
             }
         }
 
-        const response = await fetch(filePath);
+        // Try loading the book file if nothing found
+        const bookPath = `data/tafseer/${source}/book`;
+        const response = await fetch(bookPath);
+
         if (response.ok) {
-            const analysisData = await response.json();
-            //console.log(`Fetched data for ${source}:`, analysisData); // Debugging line
-            return analysisData.text || ``;
+            const bookText = await response.text();
+
+            const arabicLines = bookText
+                .split('\n')
+                .filter(line => /^[\u0600-\u06FF]/.test(line.trim()));
+
+            if (arabicLines.length > 0) {
+                return `الكتاب لا يحتوي على تفسير للسورة المطلوبة, قائمة السور في هذا الكتاب : <br><hr class="dashed-line"><br> ${arabicLines.join('<br>')}`;
+            } else {
+                return "لم يتم العثور على سور مدعومة في هذا الكتاب.";
+            }
         } else {
-            //console.error(`Failed to fetch ${source} analysis for ${chapterNumber}:${verseNumber}`);
-            return `No ${source} analysis available`;
+            return "تعذر تحميل قائمة السور المتوفرة من الكتاب.";
         }
+
     } catch (error) {
-        //console.error(`Error fetching ${source}:`, error);
-        return `No ${source} analysis available`;
+        return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
     }
 }
+
+
+
 
 
 async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
@@ -131,9 +163,9 @@ async function displayVerseWithAnalysesNoPageChange() {
 
         const analysisContent = verseWithAnalyses.analyses[selected];
         if (analysisContent !== undefined) {
-            meaningsDisplayContent += `<strong>${selectedText}:</strong><div class="rtl-text">${analysisContent}</div><hr class="dashed-line">`;
+            meaningsDisplayContent += `<div class="rtl-text">${analysisContent}</div>`;
         }
-
+        
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
     } else {

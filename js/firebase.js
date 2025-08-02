@@ -29,16 +29,18 @@ const database = firebase.database();
 
 async function saveStateToFirebase() {
   saveState();
+
   const topicInput = document.getElementById("topicSelect");
   const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
 
   const projectCode = prompt("حفظ المجموعة في قاعدة البيانات تحت مسمى", defaultProjectCode);
   if (!projectCode) return;
 
+  // Save back to input field
+  if (topicInput) topicInput.value = projectCode;
+
   const passcode = prompt("كلمة مرور (يمكن تركها فارغة للسماح للآخرين بالتعديل):");
   if (passcode === null) return;
-
-  if (topicInput) topicInput.value = projectCode;
 
   const projectRef = firebase.database().ref(`projects/${projectCode}`);
 
@@ -58,26 +60,27 @@ async function saveStateToFirebase() {
     alert("✅ تم حفظ المجموعة بنجاح");
   } catch (err) {
     console.error(err);
-    alert("لم ينجح الحفظ");
+    alert("❌ لم ينجح الحفظ");
   }
 }
 
-/* ---------- LOAD ---------- */
+
+
 async function loadStateFromFirebase() {
   try {
-    // Fetch all projects from Firebase
+    const topicInput = document.getElementById("topicSelect");
+
     const allProjectsSnap = await firebase.database().ref("projects").once("value");
     const allProjects = allProjectsSnap.val() || {};
-
-    // List all project names
     const projectNames = Object.keys(allProjects);
+
     let message = "أدخل مسمى المجموعة الذي تريد استرجاعها";
     if (projectNames.length > 0) {
       message += `\n\n📂 المجموعات المتاحة:\n- ${projectNames.join("\n- ")}`;
     }
 
-    // Ask user for project name
-    const projectCode = prompt(message);
+    const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
+    const projectCode = prompt(message, defaultProjectCode);
     if (!projectCode) return;
 
     const projectRef = firebase.database().ref(`projects/${projectCode}`);
@@ -92,18 +95,23 @@ async function loadStateFromFirebase() {
 
     const data = snap.val();
 
-    // Skip password check completely and load state directly
     if (data.state) {
       loadState(JSON.stringify(data.state));
+
+      // ✅ Set it AFTER loading to prevent clearing
+      if (topicInput) topicInput.value = projectCode;
+      topicName = projectCode;
+
     } else {
-      alert("لم ينجح الإسترجاع");
+      alert("❌ لم ينجح الاسترجاع");
       selectRandomVerse();
       selectRandomWordAndSearch();
     }
 
   } catch (err) {
     console.error(err);
-    alert("لم ينجح الاسترجاع");
+    alert("❌ لم ينجح الاسترجاع");
   }
 }
+
 

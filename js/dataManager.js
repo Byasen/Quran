@@ -245,3 +245,24 @@ async function populateTafseer() {
       console.error('Failed to load index.json', err);
     }
   }
+
+
+
+async function loadAnalysisOptions() {
+  const select = document.getElementById('analysisSelect');
+
+  try {
+    const res = await fetch('./data/tafseer/tafseer.html');
+    const htmlText = await res.text();
+
+    // Insert all loaded <option> elements
+    select.innerHTML = htmlText;
+
+    // Select the first option
+    if (select.options.length > 0) {
+      select.selectedIndex = 0;
+    }
+  } catch (e) {
+    console.error('Failed to load tafseer.html', e);
+  }
+}
