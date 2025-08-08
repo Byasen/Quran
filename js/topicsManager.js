@@ -28,6 +28,9 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const selectedChapterVerseCount = await fetchSurahVersesNumber(chapterNumberLoc);
     const selectedVerse = verseNumberLoc;
     const stackedVerses = document.getElementById('stackedVerses');
+    // Scroll topic results container to top
+    const topicResults2 = document.getElementById('topicResults2Id');
+    if (topicResults2) topicResults2.scrollTop = 0;
 
     const match = csvData.find(entry =>
         entry.chapter === String(chapterNumberLoc) &&
@@ -81,6 +84,15 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
 
     newVerseDiv.appendChild(notesTextArea);
     stackedVerses.insertBefore(newVerseDiv, stackedVerses.firstChild);
+
+
+    // ✅ Highlight the newly added verse in yellow
+    newVerseDiv.style.backgroundColor = 'lightblue';
+
+    // ✅ After 3 seconds, remove the inline style to restore class default
+    setTimeout(() => {
+        newVerseDiv.style.backgroundColor = '';
+    }, 1000);
 
     saveStateToLocal();
 }

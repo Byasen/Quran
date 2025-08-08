@@ -314,8 +314,6 @@ p, .verse {
     text-align: right; /* Align text to the right for Arabic */
     direction: rtl; /* Right-to-left direction for Arabic */
     background-color: #f9f9f9;
-    margin-right: 2%;
-    width: 100%;
 }
 
 
@@ -371,6 +369,7 @@ p, .verse {
     padding-top: 3%;
     border: #000 solid 1px;
     direction: rtl;
+    transition: background-color 2s ease; /* smooth fade every second */
 }
 
 
