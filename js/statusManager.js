@@ -232,5 +232,6 @@ async function loadStateFromLocal() {
     } else {
         selectRandomVerse();
         selectRandomWordAndSearch();
+        selectStartingTopic();
     }
 }

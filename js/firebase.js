@@ -100,8 +100,6 @@ async function loadStateFromFirebase() {
 
     if (!snap.exists()) {
       alert("❗ لا يوجد باب بهذا الاسم في قاعدة البيانات.");
-      selectRandomVerse();
-      selectRandomWordAndSearch();
       return;
     }
 
@@ -116,8 +114,6 @@ async function loadStateFromFirebase() {
 
     } else {
       alert("❌ لم ينجح الاسترجاع");
-      selectRandomVerse();
-      selectRandomWordAndSearch();
     }
     alert("✅ تم تحميل البيانات بنجاح");
   } catch (err) {
@@ -127,6 +123,26 @@ async function loadStateFromFirebase() {
 
   
 
+}
+
+
+async function selectStartingTopic() {
+    const topicNameToLoad = "دلائل النبوة";
+    const topicInput = document.getElementById("topicSelect");
+
+    const projectRef = firebase.database().ref(`projects/${topicNameToLoad}`);
+    const snap = await projectRef.once("value");
+
+    const data = snap.val();
+
+    if (data.state) {
+      loadState(JSON.stringify(data.state));
+
+      // ✅ Set it AFTER loading to prevent clearing
+      if (topicInput) topicInput.value = topicNameToLoad;
+      topicName = topicNameToLoad;
+
+    } 
 }
 
 
