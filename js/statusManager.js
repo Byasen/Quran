@@ -16,6 +16,7 @@ function saveState() {
     saveDisplaySettings();
     return JSON.stringify({
         topicName,
+        topicIntro,
         topicVerses,
         currentSearchInput,
         checkedWords,
@@ -64,6 +65,7 @@ async function loadState(jsonString) {
 
         // Update global variables
         topicName = data.topicName || '';
+        topicIntro = data.topicIntro || '';
         topicVerses = data.topicVerses || [];
         currentSearchInput = data.currentSearchInput || '';
         checkedWords = data.checkedWords || [];
@@ -101,6 +103,7 @@ async function loadState(jsonString) {
 
         // Set UI elements
         document.getElementById('topicSelect').value = topicName;
+        document.getElementById('topicIntro').value = topicIntro;
 
         // Set and trigger search
         let field = document.getElementById("verseSearchInput");
@@ -169,7 +172,7 @@ async function loadState(jsonString) {
         
         checkObserver.observe(document.body, { childList: true, subtree: true });
     });
-    
+
 }
 
 

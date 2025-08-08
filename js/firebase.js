@@ -33,24 +33,35 @@ async function saveStateToFirebase() {
   const topicInput = document.getElementById("topicSelect");
   const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
 
-  const projectCode = prompt("حفظ المجموعة في قاعدة البيانات تحت مسمى", defaultProjectCode);
+  const projectCode = prompt("حفظ الباب في قاعدة البيانات تحت مسمى", defaultProjectCode);
   if (!projectCode) return;
 
   // Save back to input field
   if (topicInput) topicInput.value = projectCode;
-
-  const passcode = prompt("كلمة مرور (يمكن تركها فارغة للسماح للآخرين بالتعديل):");
-  if (passcode === null) return;
 
   const projectRef = firebase.database().ref(`projects/${projectCode}`);
 
   try {
     const snap = await projectRef.once("value");
 
+    let passcode;
+
     if (snap.exists()) {
-      if (snap.val().passcode !== passcode) {
-        alert("⛔ هناك مجموعة بنفس الاسم وكلمة المرور خاطئة - لم ينجح الحفظ");
+      // ✅ Topic exists: ask for existing passcode
+      passcode = prompt(`باب "${projectCode}" موجود في قاعدة البيانات.\nالرجاء إدخال كلمة المرور لتعديل بياناته:`);
+      if (passcode === null) return;
+
+      if (passcode !== snap.val().passcode) {
+        alert("⛔ كلمة المرور غير صحيحة. لم يتم الحفظ.");
         return;
+      }
+    } else {
+      // ✅ Topic doesn't exist: ask to set a passcode (not empty)
+      while (true) {
+        passcode = prompt(`الموضوع "${projectCode}" جديد.\nيرجى إدخال كلمة مرور (يجب تذكرها للتعديل مستقبلاً):`);
+        if (passcode === null) return; // user canceled
+        if (passcode.trim() !== '') break;
+        alert("⚠️ لا يمكن ترك كلمة المرور فارغة.");
       }
     }
 
@@ -60,9 +71,10 @@ async function saveStateToFirebase() {
     alert("✅ تم حفظ المجموعة بنجاح");
   } catch (err) {
     console.error(err);
-    alert("❌ لم ينجح الحفظ");
+    alert("❌ حدث خطأ أثناء الحفظ.");
   }
 }
+
 
 
 
@@ -74,9 +86,9 @@ async function loadStateFromFirebase() {
     const allProjects = allProjectsSnap.val() || {};
     const projectNames = Object.keys(allProjects);
 
-    let message = "أدخل مسمى المجموعة الذي تريد استرجاعها";
+    let message = "أدخل اسم الباب لتحميله من قاعدة البيانات";
     if (projectNames.length > 0) {
-      message += `\n\n📂 المجموعات المتاحة:\n- ${projectNames.join("\n- ")}`;
+      message += `\n\n📂 الأبواب المتاحة:\n- ${projectNames.join("\n- ")}`;
     }
 
     const defaultProjectCode = topicInput ? topicInput.value.trim() : "";
@@ -87,7 +99,7 @@ async function loadStateFromFirebase() {
     const snap = await projectRef.once("value");
 
     if (!snap.exists()) {
-      alert("❗ لا يوجد مجموعة بهذا الاسم في قاعدة البيانات.");
+      alert("❗ لا يوجد باب بهذا الاسم في قاعدة البيانات.");
       selectRandomVerse();
       selectRandomWordAndSearch();
       return;
@@ -107,11 +119,14 @@ async function loadStateFromFirebase() {
       selectRandomVerse();
       selectRandomWordAndSearch();
     }
-
+    alert("✅ تم تحميل البيانات بنجاح");
   } catch (err) {
     console.error(err);
-    alert("❌ لم ينجح الاسترجاع");
+    alert("❌ لم ينجح تحميل البيانات");
   }
+
+  
+
 }
 
 
