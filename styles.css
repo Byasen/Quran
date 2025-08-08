@@ -318,6 +318,22 @@ p, .verse {
     width: 100%;
 }
 
+
+.topicIntroClass {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    text-align: right;
+    direction: rtl;
+    background-color: #f9f9f9;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    width: 98%;
+    resize: none; /* Optional: prevent manual resize if using auto-resize with JS */
+    overflow: hidden; /* Hide scrollbars if auto-growing */
+    box-sizing: border-box;
+}
+
+
 /* Sidebar styles */
 .topicResults1 {
     justify-content: flex-start; /* Align items starting from the right */

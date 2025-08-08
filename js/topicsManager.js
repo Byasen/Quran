@@ -1,10 +1,16 @@
 // Global state
 let topicName = "";
+let topicIntro = "";
 let topicVerses = []; // Array of { surahNumber, verseNumber, verseNotes }
 
 
 document.getElementById('topicSelect').addEventListener('input', e => {
     topicName = e.target.value;
+    saveStateToLocal();
+});
+
+document.getElementById('topicIntro').addEventListener('input', e => {
+    topicIntro = e.target.value;
     saveStateToLocal();
 });
 

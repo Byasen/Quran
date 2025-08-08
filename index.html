@@ -131,12 +131,16 @@
             <input id="topicSelect" class="topicSelectClass" placeholder="اسم المجموعة"></input>
         </div>
         <div id="topicResults2Id" class="topicResults2">
+            <label style="direction: rtl; text-align: right; margin-bottom: 2%;">مقدمة المجموعة :</label>
+            <div>
+                <textarea id="topicIntro" class="topicIntroClass" placeholder="مقدمة المجموعة :"></textarea>
+            </div>
             <label style="direction: rtl; text-align: right; margin-bottom: 2%;">الآيات:</label>
             <div id="stackedVerses"></div>
         </div>
         <div class="topicControl2">
         <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ المجموعة</button></div>
-        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">استرجاع مجموعة</button></div>
+        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">تحميل مجموعة</button></div>
         </div>
     </div>
     
