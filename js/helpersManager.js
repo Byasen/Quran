@@ -177,13 +177,3 @@ async function selectRandomWordAndSearch() {
     searchInCSV();
 }
 
-// Select a random word from the 5th column of the Quran CSV and search for it
-async function selectRandomTopic() {
-
-    const select = document.getElementById("topicSelect");
-    if (!select || select.options.length === 0) return; // Ensure the dropdown exists and has options
-
-    const randomIndex = Math.floor(Math.random() * select.options.length);
-    select.selectedIndex = randomIndex; // Select the random option
-    onTopicChange();
-}
