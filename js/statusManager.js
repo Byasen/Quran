@@ -172,7 +172,7 @@ async function loadState(jsonString) {
         
         checkObserver.observe(document.body, { childList: true, subtree: true });
     });
-    
+
 }
 
 

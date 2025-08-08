@@ -5,6 +5,11 @@ textarea.addEventListener('input', () => {
   textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
 });
 
+textarea.addEventListener('focus', () => {
+  textarea.style.height = 'auto'; // Reset height
+  textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
+});
+
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
         const verseNum = Number(verseNumber);
