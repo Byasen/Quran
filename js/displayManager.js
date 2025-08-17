@@ -10,64 +10,94 @@ textarea.addEventListener('focus', () => {
   textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
 });
 
+// Global cache: { source: { chapterNumber: [availableVerses] } }
+const tafseerCache = {};
+
+async function loadAvailableVerses(chapterNumber, source) {
+    if (tafseerCache[source]?.[chapterNumber]) {
+        return tafseerCache[source][chapterNumber];
+    }
+
+    const availableVerses = [];
+
+    // Check up to 300 verses
+    const checks = [];
+    for (let v = 1; v <= 300; v++) {
+        const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(v)}.json`;
+        // Use HEAD request to check existence without downloading content
+        checks.push(
+            fetch(filePath, { method: 'HEAD' })
+                .then(res => (res.ok ? v : null))
+                .catch(() => null)
+        );
+    }
+
+    const results = await Promise.all(checks);
+    results.forEach(v => {
+        if (v !== null) availableVerses.push(v);
+    });
+
+    // Cache it
+    if (!tafseerCache[source]) tafseerCache[source] = {};
+    tafseerCache[source][chapterNumber] = availableVerses;
+
+    return availableVerses;
+}
+
+
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
         const verseNum = Number(verseNumber);
-        let currentVerse = verseNum;
+        const availableVerses = await loadAvailableVerses(chapterNumber, source);
 
-        // Try going backward from current verse to 0
-        while (currentVerse >= 0) {
-            const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(currentVerse)}.json`;
-            const response = await fetch(filePath);
+        if (availableVerses.length === 0) {
+            // no verses at all → fall back to book
+            const bookPath = `data/tafseer/${source}/book`;
+            const response = await fetch(bookPath);
 
             if (response.ok) {
-                const analysisData = await response.json();
-                const text = analysisData.text || ``;
+                const bookText = await response.text();
+                const arabicLines = bookText
+                    .split('\n')
+                    .filter(line => /^[\u0600-\u06FF]/.test(line.trim()));
 
-                if (currentVerse !== verseNum) {
-                    return `لا يوجد تفسير منفصل لهذه الآية , المعروض هو تفسير آية سابقة<br><hr class="dashed-line"><br>${text}`;
+                if (arabicLines.length > 0) {
+                    return `الكتاب لا يحتوي على تفسير للسورة المطلوبة, قائمة السور في هذا الكتاب : <br><hr class="dashed-line"><br>${arabicLines.join('<br>')}`;
+                } else {
+                    return "لم يتم العثور على سور مدعومة في هذا الكتاب.";
                 }
-
-                return text;
             }
-
-            currentVerse--;
-        }
-
-        // Try forward search: verseNum + 1 to some reasonable upper limit (e.g. 300)
-        for (let nextVerse = verseNum + 1; nextVerse <= 300; nextVerse++) {
-            const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(nextVerse)}.json`;
-            const response = await fetch(filePath);
-
-            if (response.ok) {
-                return `تفسير السورة في هذا الكتاب يبدأ من الآية رقم ${nextVerse}<br><hr class="dashed-line"><br>`;
-            }
-        }
-
-        // Try loading the book file if nothing found
-        const bookPath = `data/tafseer/${source}/book`;
-        const response = await fetch(bookPath);
-
-        if (response.ok) {
-            const bookText = await response.text();
-
-            const arabicLines = bookText
-                .split('\n')
-                .filter(line => /^[\u0600-\u06FF]/.test(line.trim()));
-
-            if (arabicLines.length > 0) {
-                return `الكتاب لا يحتوي على تفسير للسورة المطلوبة, قائمة السور في هذا الكتاب : <br><hr class="dashed-line"><br> ${arabicLines.join('<br>')}`;
-            } else {
-                return "لم يتم العثور على سور مدعومة في هذا الكتاب.";
-            }
-        } else {
             return "تعذر تحميل قائمة السور المتوفرة من الكتاب.";
         }
+
+        // Find closest verse ≤ verseNum
+        let chosen = availableVerses.filter(v => v <= verseNum).pop();
+
+        if (chosen !== undefined) {
+            const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(chosen)}.json`;
+            const response = await fetch(filePath);
+            const analysisData = await response.json();
+            const text = analysisData.text || ``;
+
+            if (chosen !== verseNum) {
+                return `لا يوجد تفسير منفصل لهذه الآية , المعروض هو تفسير آية سابقة<br><hr class="dashed-line"><br>${text}`;
+            }
+            return text;
+        }
+
+        // Otherwise pick first larger verse (forward search)
+        const next = availableVerses.find(v => v > verseNum);
+        if (next !== undefined) {
+            return `تفسير السورة في هذا الكتاب يبدأ من الآية رقم ${next}<br><hr class="dashed-line"><br>`;
+        }
+
+        return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
 
     } catch (error) {
         return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
     }
 }
+
 
 
 
