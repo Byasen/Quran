@@ -189,6 +189,7 @@ function selectThisVerse(chapterNumber, verseNumber) {
         displayVerseWithAnalyses(); // Update the verse display
     });
     showMobileColumn('pageColoumn');
+    handleAudioVerseChange(chapterNumber, verseNumber);
 }
 
 
@@ -202,6 +203,7 @@ function selectThisVerseNoPageChange(chapterNumber, verseNumber) {
         // Call displayVerseWithAnalyses to update the verse and analyses automatically
         displayVerseWithAnalysesNoPageChange(); // Update the verse display
     });
+    handleAudioVerseChange(chapterNumber, verseNumber);
 }
 
 

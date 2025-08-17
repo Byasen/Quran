@@ -5,7 +5,7 @@ let autoPlay = false;
 let repeat = 3;
 let silence = 5000; // milliseconds
 let reciter = 'khalifah_alteneagy';
-
+let playCount = 0; // keep globally
 
 const reciterSelect = document.getElementById('reciter');
 reciterSelect.addEventListener('change', () => {
@@ -47,12 +47,10 @@ for (let i = 0; i <= 60; i++) {
     silenceOptions.appendChild(option);
 });
 
-
-
 silenceSelect.appendChild(silenceOptions);
 
-// Set initial silence value
-silenceSelect.value = silence / 1000;
+// Set initial silence value (safe check)
+silenceSelect.value = typeof silence === 'number' ? silence / 1000 : silence;
 
 silenceSelect.addEventListener('change', () => {
     const value = silenceSelect.value;
@@ -71,8 +69,9 @@ const playOneBtn = document.getElementById('playOneAudioBtn');
 playBtn.addEventListener('click', () => {
     if (!autoPlay) {
         autoPlay = true;
+        loadVerseAudio(getCurrentChapter(), getCurrentVerse());        
         initAudioPlayer();
-        showMobileColumn('pageColoumn');
+        showMobileColumn('pageColoumn'); // fixed typo
     }
 });
 
@@ -83,40 +82,37 @@ stopBtn.addEventListener('click', () => {
 
 playOneBtn.addEventListener('click', () => {
     autoPlay = false;
+    loadVerseAudio(getCurrentChapter(), getCurrentVerse());
     initAudioPlayer();
     showMobileColumn('pageColoumn');
 });
 
 function initAudioPlayer() {
-    stopAudio(); // Stop old audio
-
     if (!audioPlayer) {
         audioPlayer = new Audio();
     }
 
-    loadCurrentVerse();
-
     stopBtn.classList.add('playing');
 
-    let playCount = 0;
-
-    audioPlayer.addEventListener('ended', async function handler() {
+    // Reset listeners
+    audioPlayer.onended = async function () {
         playCount++;
+
         if (playCount < repeat) {
             // Repeat same verse after silence
-            let delay = getSilenceDelay();
             setTimeout(() => {
                 audioPlayer.currentTime = 0;
-                audioPlayer.play();
-            }, delay);
+                audioPlayer.play().catch(err => {
+                    console.warn("Play blocked:", err);
+                });
+            }, getSilenceDelay());
         } else if (autoPlay) {
             const isLastVerse = isAtLastVerse();
             if (!isLastVerse) {
                 incrementVerse();
                 setTimeout(() => {
-                    loadCurrentVerse();
                     playCount = 0;
-                    audioPlayer.play();
+                    handleAudioVerseChange(getCurrentChapter(), getCurrentVerse());
                 }, getSilenceDelay());
             } else {
                 autoPlay = false;
@@ -125,55 +121,26 @@ function initAudioPlayer() {
         } else {
             stopBtn.classList.remove('playing');
         }
-    });
+    };
 }
 
 // Calculates silence delay based on selected option
 function getSilenceDelay() {
     if (typeof silence === 'string' && silence.endsWith('X')) {
-        const multiplier = parseInt(silence[0]);
+        const multiplier = parseInt(silence.replace('X', ''), 10);
         if (audioPlayer && !isNaN(audioPlayer.duration)) {
             return Math.round(audioPlayer.duration * 1000 * multiplier);
         }
-        return 1000; // fallback if duration not ready
+        return 1000; // fallback
     } else {
         return silence;
-    }
-}
-
-function loadCurrentVerse() {
-    const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
-    const reciterSelect = document.getElementById('reciter'); // Get the reciter dropdown
-    const chapter = chapterSelect.value;
-    const verse = verseSelect.value;
-    const reciter = reciterSelect.value; // Get the selected reciter
-    const chapter_padded = padNumber(chapter);
-    const verse_padded = padNumber(verse);
-    const audioPath = `data/sounds/${reciter}/${chapter_padded}${verse_padded}.mp3`;
-
-    if (audioPlayer) {
-        showLoadingStatus(`Loading ${chapter}:${verse}...`);
-        audioPlayer.src = audioPath;
-        audioPlayer.load();
-        audioPlayer.addEventListener('canplaythrough', () => {
-            hideLoadingStatus();
-            if (autoPlay || !autoPlay) { // both for single play and auto
-                audioPlayer.play();
-            }
-        }, { once: true });
-        audioPlayer.addEventListener('error', () => {
-            console.error(`Failed to load: ${audioPath}`);
-            hideLoadingStatus();
-            stopBtn.classList.remove('playing');
-        }, { once: true });
     }
 }
 
 function stopAudio() {
     if (audioPlayer) {
         audioPlayer.pause();
-        audioPlayer.removeAttribute('src');
+        audioPlayer.src = "";
         audioPlayer.load();
         audioPlayer = null;
     }
@@ -192,18 +159,99 @@ function incrementVerse() {
     }
 }
 
-// Helper: Pad numbers to 3 digits
 function padNumber(num) {
     return num.toString().padStart(3, '0');
 }
 
 // Dummy functions
-function showLoadingStatus(msg) {
-    console.log(msg);
+function showLoadingStatus(msg) { console.log(msg); }
+function hideLoadingStatus() { console.log("Loaded"); }
+
+// Helpers to get current chapter/verse from UI
+function getCurrentChapter() {
+    return parseInt(document.getElementById('chapterSelect').value);
 }
-function hideLoadingStatus() {
-    console.log("Loaded");
+function getCurrentVerse() {
+    return parseInt(document.getElementById('verseSelect').value);
 }
-function saveStateToLocal() {
-    // Save repeat/silence values if needed
+
+function handleAudioVerseChange(chapter, verse) {
+    stopAudio();
+
+    if (!audioPlayer) {
+        audioPlayer = new Audio();
+    }
+
+    const chapter_padded = padNumber(chapter);
+    const verse_padded = padNumber(verse);
+    const audioPath = `data/sounds/${reciter}/${chapter_padded}${verse_padded}.mp3`;
+
+    audioPlayer.src = audioPath;
+    audioPlayer.load();
+
+    showLoadingStatus(`Loading verse ${chapter}:${verse}...`);
+
+    audioPlayer.addEventListener('canplaythrough', () => {
+        hideLoadingStatus();
+
+        // 🔑 Only play if already in play mode (autoPlay or playOne)
+        if (autoPlay || stopBtn.classList.contains("playing")) {
+            audioPlayer.play().catch(err => {
+                console.warn("Autoplay blocked, waiting for user gesture:", err);
+            });
+        }
+    }, { once: true });
+
+    audioPlayer.addEventListener('error', () => {
+        console.error(`Failed to load: ${audioPath}`);
+        hideLoadingStatus();
+        stopBtn.classList.remove('playing');
+    }, { once: true });
+
+    playCount = 0; // reset repeat counter
+    initAudioPlayer();
 }
+
+
+function loadVerseAudio(chapter, verse) {
+    if (!audioPlayer) {
+        audioPlayer = new Audio();
+    }
+
+    const chapter_padded = padNumber(chapter);
+    const verse_padded = padNumber(verse);
+    const audioPath = `data/sounds/${reciter}/${chapter_padded}${verse_padded}.mp3`;
+
+    audioPlayer.src = audioPath;
+    audioPlayer.load();
+
+    showLoadingStatus(`Loading verse ${chapter}:${verse}...`);
+
+    audioPlayer.addEventListener('canplaythrough', () => {
+        hideLoadingStatus();
+
+        // only play if in play mode
+        if (autoPlay || stopBtn.classList.contains("playing")) {
+            audioPlayer.play().catch(err => {
+                console.warn("Autoplay blocked, waiting for user gesture:", err);
+            });
+        }
+    }, { once: true });
+
+    audioPlayer.addEventListener('error', () => {
+        console.error(`Failed to load: ${audioPath}`);
+        hideLoadingStatus();
+        stopBtn.classList.remove('playing');
+    }, { once: true });
+}
+
+function handleAudioVerseChange(chapter, verse) {
+    playCount = 0;      // reset repeat counter
+    loadVerseAudio(chapter, verse);
+
+    // 🔑 only set up repeat/autoplay loop if in play mode
+    if (autoPlay || stopBtn.classList.contains("playing")) {
+        initAudioPlayer();
+    }
+}
+
