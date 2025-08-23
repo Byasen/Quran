@@ -463,7 +463,7 @@ function checkMobileMode() {
     const mobileColumnSelector = document.getElementById('mobileColumnSelectorID');
     const container = document.getElementById("mobileOnlyVerseContent");
     const verseColumn = document.getElementById('verseColoumnId');
-    if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
+    if (1==1) { // Adjust the width as per your mobile breakpoint
         mobileColumnSelector.style.display = 'block';
         verseColumn.style.width = '100%'; // Set verseColoumn width to 100%
         if (container.children.length === 0) {

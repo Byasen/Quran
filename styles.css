@@ -519,7 +519,7 @@ label {
     }
 
 
-@media screen and (max-width: 768px) {
+
     
     .mobile-active {
         display: flex !important;
@@ -582,4 +582,3 @@ label {
     button[onclick="uncheckAll()"] {
         display: none;
     }
-}
