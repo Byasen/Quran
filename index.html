@@ -24,10 +24,41 @@
         <button onclick="showMobileColumn('topicColoumn')">التبويب</button>
     </div>
 
-
     <div class="mainContainer">
         <div class="pageColoumn">
             <div id="mobileOnlyVerseContent" class="mobileOnlyVerseContentClass"></div>
+
+            <!-- PlayControl1 fixed right, slim vertical -->
+            <div class="playControl1">
+                <button id="playOneAudioBtn" title="PlayOne">▶</button>
+                <button id="playAudioBtn" title="AutoPlay">⏭</button>
+                <button id="stopAudioBtn" title="Stop">⏹</button>
+                <button id="settingsBtn" title="Settings">⚙</button>
+            </div>
+
+            <!-- PlayControl2 overlay (hidden until settings clicked) -->
+            <div class="playControl2" id="playControl2">
+                <div>
+                    <select id="reciter" style="width: fit-content;">
+                        <option value="abdullah_basfar">عبدالله بصفر</option>
+                        <option value="al3afasy">العفاسي</option>
+                        <option value="alhosary">الحصري</option>
+                        <option value="aly_gaber">علي جابر</option>
+                        <option value="khalifah_alteneagy">خليفة الطنيجي</option>
+                    </select>
+                    <label for="reciter">القارئ</label>
+                </div>
+                <div>
+                    <select id="silenceSelect" class="dropMenu" style="width: fit-content;"></select>
+                    <label for="silenceSelect">الصمت</label>
+                </div>
+                <div>
+                    <select id="repeatSelect" style="width: fit-content;"></select>
+                    <label for="repeatSelect">تكرار</label>
+                </div>
+            </div>
+
+            <!-- rest unchanged -->
             <div class="verseControl1">
                 <button onclick="incrementVerse()">&#60;</button>
                 <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
@@ -36,29 +67,29 @@
                 <select id="chapterSelect" class="chapterSelectClass" style="direction: rtl;" onchange="onChapterChange()"></select>
                 <label for="verseSelect">السورة</label>
             </div>
+
             <div id="pageResultsId" class="pageResults">
                 <div id="previousPage" class="pageimg">
                     <img src="data/png/dummy.png" />
                     <div class="overlay-layer"></div>
                 </div>
-                
                 <div id="currentPage" class="pageimg">
                     <img src="data/png/dummy.png" />
                     <div class="overlay-layer"></div>
                 </div>
-                
                 <div id="nextPage" class="pageimg">
                     <img src="data/png/dummy.png" />
                     <div class="overlay-layer"></div>
                 </div>
             </div>   
+
             <div class="pageControl">
                 <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">تبويب الآية</button></div>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
                 <label for="pageSelect">الصفحة</label>
-                
+            </div>
         </div>
     </div>
 
@@ -86,27 +117,6 @@
         </div>
         <div class="verseResults2">
             <p id="meaningsDisplay"></p>
-        </div>
-
-
-            <div class="playControl">
-        <div class="playControl1">
-            <select id="reciter">
-                <option value="abdullah_basfar">عبدالله بصفر</option>
-                <option value="al3afasy">العفاسي</option>
-                <option value="alhosary">الحصري</option>
-                <option value="aly_gaber">علي جابر</option>
-                <option value="khalifah_alteneagy">خليفة الطنيجي</option>                           
-            </select>            
-            <button id="stopAudioBtn" title="Stop">توقف</button>
-            <button id="playAudioBtn" title="AutoPlay">إقرأ السورة</button>
-            <button id="playOneAudioBtn" title="Play">إقرأ الآية</button>
-        </div>
-        <div class="playControl2">
-            <select id="silenceSelect" class="dropMenu"></select>
-            <label for="silenceSelect">الصمت</label>
-            <select id="repeatSelect"></select>
-            <label for="repeatSelect" class="dropMenu">تكرار الآية</label>
         </div>
     </div>
     </div>
