@@ -2,9 +2,9 @@ let audioPlayer = null;
 let autoPlay = false;
 
 // Global variables
-let repeat = 3;
-let silence = 5000; // milliseconds
-let reciter = 'khalifah_alteneagy';
+let repeat = 1;
+let silence = 0; // milliseconds
+let reciter = 'abdullah_basfar';
 let playCount = 0; // keep globally
 
 const reciterSelect = document.getElementById('reciter');
@@ -85,6 +85,11 @@ playOneBtn.addEventListener('click', () => {
     loadVerseAudio(getCurrentChapter(), getCurrentVerse());
     initAudioPlayer();
     showMobileColumn('pageColoumn');
+});
+
+
+document.getElementById("settingsBtn").addEventListener("click", () => {
+    document.getElementById("playControl2").classList.toggle("show");
 });
 
 function initAudioPlayer() {

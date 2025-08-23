@@ -460,6 +460,59 @@ label {
 }
 
 
+    /* PlayControl1: slim, fixed right, vertically centered */
+    .playControl1 {
+        position: fixed;
+        top: 50%;
+        right: 0; /* flush against screen edge */
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.9);
+        border-radius: 8px 0 0 8px;
+        box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column; /* vertical stack */
+        z-index: 1000;
+        align-items: center;
+        width: fit-content; /* slim fixed width */
+    }
+
+    .playControl1 button {
+        font-size: 16px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* PlayControl2: overlay, vertically centered left */
+    .playControl2 {
+        position: fixed;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.95);
+        border-radius: 0 8px 8px 0;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        display: none; /* hidden by default */
+        flex-direction: column;
+        z-index: 1001;
+        align-items: flex-start;
+        min-width: 140px;
+    }
+
+    .playControl2.show {
+        display: flex; /* show when toggled */
+    }
+
+    .playControl2 select {
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+
+
 @media screen and (max-width: 768px) {
     
     .mobile-active {
