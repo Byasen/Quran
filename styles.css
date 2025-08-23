@@ -485,6 +485,12 @@ label {
         text-align: center;
     }
 
+    .playControl1 button img {
+    width: 14px;      /* icon size */
+    height: 14px;
+    display: block;   /* remove inline spacing */
+    }
+
     /* PlayControl2: overlay, vertically centered left */
     .playControl2 {
         position: fixed;
