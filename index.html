@@ -10,13 +10,13 @@
 
 </head>
 <body id=content>
-    <div class="overall">
+<div class="overall">
 
     <div id="loadingBarContainerId" class="loadingBarContainer">
         <progress id="loadingBarId" value="0" max="100"></progress>
         <p id="loadingStatus">Loading...</p> <!-- Hide text after loading is complete -->
     </div>
-    
+
     <div class="mobileColumnSelector" style="display: none;" id="mobileColumnSelectorID">
         <button onclick="showMobileColumn('pageColoumn')">المصحف</button>
         <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
@@ -25,7 +25,9 @@
     </div>
 
     <div class="mainContainer">
+
         <div class="pageColoumn">
+
             <div id="mobileOnlyVerseContent" class="mobileOnlyVerseContentClass"></div>
 
             <!-- PlayControl1 fixed right, slim vertical -->
@@ -58,7 +60,7 @@
                 </div>
             </div>
 
-            <!-- rest unchanged -->
+            <!-- Verse controls -->
             <div class="verseControl1">
                 <button onclick="incrementVerse()">&#60;</button>
                 <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
@@ -81,79 +83,90 @@
                     <img src="data/png/dummy.png" />
                     <div class="overlay-layer"></div>
                 </div>
-            </div>   
+            </div>
 
             <div class="pageControl">
-                <div style="margin-top: 0%;"><button onclick="addCurrentVerse()">تبويب الآية</button></div>
+                <div style="margin-top: 0%;">
+                    <button onclick="addCurrentVerse()">تبويب الآية</button>
+                </div>
                 <button onclick="incrementPage()">&#60;</button>
                 <select id="pageSelect" onchange="onPageChange()"></select>
                 <button onclick="decrementPage()">&#62;</button>
                 <label for="pageSelect">الصفحة</label>
             </div>
-        </div>
-    </div>
 
-    <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
+        </div> <!-- end pageColoumn -->
 
+        <div id="verseColoumnId" class="verseColoumn" style="width: 66%;">
             <div class="verseResults1" hidden>
-            <p id="verseDisplay"></p>
-        </div>
-        <div class="verseControl2">
-            <label for="analysisSelect">التفسير</label>
-            <select id="analysisSelect">
-                <option value="ma3any">معاني المفردات</option>
-                <option value="baghawy">البغوي</option>
-                <option value="e3rab">الإعراب</option>
-                <option value="katheer">ابن كثير</option>
-                <option value="muyassar">الميسر</option>
-                <option value="qortoby">القرطبي</option>
-                <option value="sa3dy">السعدي</option>
-                <option value="tabary">الطبري</option>
-                <option value="tanweer">التنوير</option>
-                <option value="waseet">الوسيط</option>
-                <option value="alkhareet">خرائط القرآن</option>
-            </select>
-
-        </div>
-        <div class="verseResults2">
-            <p id="meaningsDisplay"></p>
-        </div>
-    </div>
-    </div>
-
-    <div class="foldButtonColoumn"><button onclick="foldSearch()" class="foldButton">البحث </button></div>
-    
-    <div id="searchResults" class="searchColoumn">
-        <div class="searchControl">
-            <button onclick="searchInCSVClearCurrent()">ابحث</button>
-            <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن" style="width: 50%;  direction: rtl; text-align: rtl;"/>
-        </div>
-        <label style="margin-top: 2%; white-space: nowrap;">كلمات ذات صلة</label>
-        <div id="searchResultsContainer1" class="searchResults1"></div>
-        <label style="margin-top: 5%; white-space: nowrap;">نتائج البحث</label>
-        <div id="searchResultsContainer2" class="searchResults2"></div>
-    </div>
-    
-    <div class="foldButtonColoumn"><button onclick="foldTopic()" class="foldButton">التبويب</button></div>
-    
-    <div id="topicResults" class="topicColoumn">
-        <div class="topicControl1">
-            <label style="direction: rtl; text-align: right; width : fit-content; margin-left: 2%;">اسم الباب :</label>            
-            <input id="topicSelect" class="topicSelectClass" placeholder=""></input>
-        </div>
-        <div id="topicResults2Id" class="topicResults2">
-            <div>
-                <textarea id="topicIntro" class="topicIntroClass" placeholder="المقدمة ..."></textarea>
+                <p id="verseDisplay"></p>
             </div>
-            <label style="direction: rtl; text-align: right; margin-bottom: 2%;">الآيات ذات الصلة :</label>
-            <div id="stackedVerses"></div>
+            <div class="verseControl2">
+                <label for="analysisSelect">التفسير</label>
+                <select id="analysisSelect">
+                    <option value="ma3any">معاني المفردات</option>
+                    <option value="baghawy">البغوي</option>
+                    <option value="e3rab">الإعراب</option>
+                    <option value="katheer">ابن كثير</option>
+                    <option value="muyassar">الميسر</option>
+                    <option value="qortoby">القرطبي</option>
+                    <option value="sa3dy">السعدي</option>
+                    <option value="tabary">الطبري</option>
+                    <option value="tanweer">التنوير</option>
+                    <option value="waseet">الوسيط</option>
+                    <option value="alkhareet">خرائط القرآن</option>
+                </select>
+            </div>
+            <div class="verseResults2">
+                <p id="meaningsDisplay"></p>
+            </div>
+        </div> <!-- end verseColoumn -->
+
+        <div class="foldButtonColoumn">
+            <button onclick="foldSearch()" class="foldButton">البحث</button>
         </div>
-        <div class="topicControl2">
-        <div style="margin-top: 0%;"><button onclick="saveStateToFirebase()">حفظ الباب</button></div>
-        <div style="margin-top: 0%;"><button onclick="loadStateFromFirebase()">اختيار باب</button></div>
+
+        <div id="searchResults" class="searchColoumn">
+            <div class="searchControl">
+                <button onclick="searchInCSVClearCurrent()">ابحث</button>
+                <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن" style="width: 50%; direction: rtl; text-align: rtl;"/>
+            </div>
+            <label style="margin-top: 2%; white-space: nowrap;">كلمات ذات صلة</label>
+            <div id="searchResultsContainer1" class="searchResults1"></div>
+            <label style="margin-top: 5%; white-space: nowrap;">نتائج البحث</label>
+            <div id="searchResultsContainer2" class="searchResults2"></div>
         </div>
-    </div>
-    
+
+        <div class="foldButtonColoumn">
+            <button onclick="foldTopic()" class="foldButton">التبويب</button>
+        </div>
+
+        <div id="topicResults" class="topicColoumn">
+            <div class="topicControl1">
+                <label style="direction: rtl; text-align: right; width: fit-content; margin-left: 2%;">اسم الباب :</label>
+                <input id="topicSelect" class="topicSelectClass" placeholder="">
+            </div>
+            <div id="topicResults2Id" class="topicResults2">
+                <div>
+                    <textarea id="topicIntro" class="topicIntroClass" placeholder="المقدمة ..."></textarea>
+                </div>
+                <label style="direction: rtl; text-align: right; margin-bottom: 2%;">الآيات ذات الصلة :</label>
+                <div id="stackedVerses"></div>
+            </div>
+            <div class="topicControl2">
+                <div style="margin-top: 0%;">
+                    <button onclick="saveStateToFirebase()">حفظ الباب</button>
+                </div>
+                <div style="margin-top: 0%;">
+                    <button onclick="loadStateFromFirebase()">اختيار باب</button>
+                </div>
+            </div>
+        </div> <!-- end topicColoumn -->
+
+    </div> <!-- end mainContainer -->
+
+</div> <!-- end overall -->
+
     <div id="sidebarId" class="sidebar">
         <div><button class="close-btn" onclick="toggleSidebar()">&times;</button></div>
     </div>   
