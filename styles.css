@@ -28,6 +28,7 @@ flex-direction: column;
 
 }
 
+
 .mainContainer {
     display: flex; /* Ensure it uses flexbox for layout */
     flex-direction: row-reverse; /* Reverse the order for RTL alignment */
@@ -230,7 +231,7 @@ p, .verse {
 }
 
 .searchResults1 {
-    height: 20%;
+    height: 8%;
     width: 96%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
@@ -243,7 +244,7 @@ p, .verse {
 }
 
 .searchResults2 {
-    height: 60%;
+    flex: 1;
     width: 96%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
@@ -255,6 +256,12 @@ p, .verse {
     margin-top: 2%;
 }
 
+    .searchResults2 button img {
+    width: 14px;      /* icon size */
+    height: 14px;
+    display: block;   /* remove inline spacing */
+    }
+
 
 .suggested-words-label {
     font-weight: bold;
@@ -264,6 +271,13 @@ p, .verse {
 
 }
 
+.word-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow words to wrap to the next line */
+    gap: 8px; /* Space between words */
+    margin-top: 5px;
+    direction: rtl; /* Set text direction to right-to-left */
+}
 
 .searchVerseResult {
     margin-bottom: 10px;
@@ -352,6 +366,7 @@ p, .verse {
     height: 14px;
     display: block;   /* remove inline spacing */
     }
+    
 
 #stackedVerses {
     display: flex;
