@@ -54,17 +54,19 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         <strong>${verseNumberLoc}. ${match.text}</strong>
         </div>
         <br>
-        <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})">عرض</button>
-        <button onclick="removeVerse(this)">إزالة</button>
-        <button onclick="moveVerseDown(this)">&darr;</button>
-        <button onclick="moveVerseUp(this)">&uarr;</button>
+        <div class="verse-actions">
+        <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})"><img src="assets/book-open.svg" alt="book"></button>
+        <button onclick="removeVerse(this)"><img src="assets/x.svg" alt="x"></button>
+        <button onclick="moveVerseUp(this)"><img src="assets/arrow-turn-up.svg" alt="up"></button>
+        <button onclick="moveVerseDown(this)"><img src="assets/arrow-turn-down.svg" alt="down"></button>
+        </div>
     `;
 
     // Optional: add notes box
     const notesTextArea = document.createElement('textarea');
     notesTextArea.placeholder = "ملاحظات ...";
     notesTextArea.rows = 3;
-    notesTextArea.style.width = '98%';
+    notesTextArea.style.width = '95%';
 
     const verseObj = {
     surahNumber: selectedChapter,

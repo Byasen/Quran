@@ -130,6 +130,7 @@ p, .verse {
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    position: relative; /* For positioning the action buttons */
 }
 
 /* Ensure the image container scales properly and keeps the aspect ratio */
@@ -238,7 +239,7 @@ p, .verse {
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     background: #f9f9f9; /* Light grey background for the search results */
-    padding-right: 1%;
+    padding: 10px;
 }
 
 .searchResults2 {
@@ -250,6 +251,8 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */ 
+    padding-right: 10px;
+    margin-top: 2%;
 }
 
 
@@ -298,9 +301,8 @@ p, .verse {
     text-align: right;
     direction: rtl;
     background-color: #f9f9f9;
-    margin-right: 2%;
-    margin-bottom: 1%;
-    width: 100%;
+    padding-right: 10px;
+    width: 98%;
     resize: none; /* Optional: prevent manual resize if using auto-resize with JS */
     overflow: hidden; /* Hide scrollbars if auto-growing */
     box-sizing: border-box;
@@ -319,17 +321,37 @@ p, .verse {
     margin-top: 2%;
 }
 
-
 .verse-container{
     background-color: #f1f1f1;
-    padding-right: 1%;
-    padding-left: 1%;
-    padding-top: 3%;
-    border: #000 solid 1px;
+    padding-right: 10px;
+    padding-left: 50px;
+    padding-top: 10px;
     direction: rtl;
     transition: background-color 2s ease; /* smooth fade every second */
+    position: relative; /* For positioning the action buttons */
+    border: #000 1px solid;
 }
 
+.verse-actions{
+        position: absolute;
+        top: 50%;
+        left: 0; /* flush against screen edge */
+        transform: translateY(-50%);
+        background: #f1f1f1;
+        border-radius: 8px 0 0 8px;
+        box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column; /* vertical stack */
+        z-index: 1000;
+        align-items: center;
+        width: fit-content; /* slim fixed width */
+}
+
+    .verse-actions button img {
+    width: 14px;      /* icon size */
+    height: 14px;
+    display: block;   /* remove inline spacing */
+    }
 
 #stackedVerses {
     display: flex;
@@ -394,6 +416,8 @@ label {
     width: auto; /* Ensure the label doesn't stretch */
     font-size: 18px; /* Ensure similar font size */
 }
+
+
 
 
     /* PlayControl1: slim, fixed right, vertically centered */
