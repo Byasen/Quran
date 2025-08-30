@@ -95,9 +95,7 @@ function displaySearchResults(label, wordList, matches, clear = true) {
     
       div.innerHTML = `
       <button class="select-verse-btn" style="margin-right: 10px;"
-        onclick="selectThisVerse(${match.chapter}, ${match.verse})">
-        عرض الآية
-      </button>
+        onclick="selectThisVerse(${match.chapter}, ${match.verse})"><img src="assets/book-open.svg" alt="book"></button>
       <strong>سورة ${match.chapter}. ${match.chapterName} : آية ${match.verse}</strong><br>
         <br>
         ${match.text}
@@ -148,6 +146,7 @@ async function searchInCSV() {
   // Two separate containers
   const surahLinksContainer = document.createElement('div');
   const rootWordsContainer = document.createElement('div');
+  rootWordsContainer.classList.add('word-list');
   rootContainer.appendChild(surahLinksContainer);
   rootContainer.appendChild(rootWordsContainer);
 
@@ -169,8 +168,8 @@ async function searchInCSV() {
     mainLabel.htmlFor = `rootWord-${query}`;
     mainLabel.textContent = `${input} [${initialMatches.length}]`;
 
-    rootWordsContainer.appendChild(mainLabel);
     rootWordsContainer.appendChild(mainCheckbox);
+    rootWordsContainer.appendChild(mainLabel);
     rootWordsContainer.appendChild(document.createElement('br'));
 
     displaySearchResults(query, [query], initialMatches, false);
@@ -258,8 +257,8 @@ async function searchInCSV() {
         }
       });
 
-      rootWordsContainer.appendChild(label);
       rootWordsContainer.appendChild(checkbox);
+      rootWordsContainer.appendChild(label);
       rootWordsContainer.appendChild(document.createElement('br'));
     }
   }

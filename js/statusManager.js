@@ -29,37 +29,9 @@ function saveState() {
     }, null, 2);
 }
 
-function loadDisplaySettings() {
-    const displaySettings = JSON.parse(localStorage.getItem('displaySettings') || '{}');
-    const mobileColumnSelector = document.querySelector('.mobileColumnSelector');
-    const isMobileMode = mobileColumnSelector.style.display === 'block';
-  
-    let hasFlex = false;
 
-    Object.keys(displaySettings).forEach(className => {
-      const el = document.querySelector(`.${className}`);
-      if (!el) return;
-      const displayValue = displaySettings[className];
-      if (displayValue === 'flex') {
-        hasFlex = true;
-        showMobileColumn(className);
-      } else if (displayValue === 'block' && className === 'searchColoumn' && isMobileMode==0) {
-                foldSearch();
-      } else if (displayValue === 'block' && className === 'topicColoumn' && isMobileMode==0) {
-                foldTopic();
-      } 
-    });
-
-    if (!hasFlex && isMobileMode) {
-        showMobileColumn('pageColoumn');
-    }
-
-}
-  
-  
 
 async function loadState(jsonString) {
-    loadDisplaySettings() ;
     try {
         const data = JSON.parse(jsonString);
 

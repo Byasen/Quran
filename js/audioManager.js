@@ -71,7 +71,6 @@ playBtn.addEventListener('click', () => {
         autoPlay = true;
         loadVerseAudio(getCurrentChapter(), getCurrentVerse());        
         initAudioPlayer();
-        showMobileColumn('pageColoumn'); // fixed typo
     }
 });
 
@@ -84,13 +83,31 @@ playOneBtn.addEventListener('click', () => {
     autoPlay = false;
     loadVerseAudio(getCurrentChapter(), getCurrentVerse());
     initAudioPlayer();
-    showMobileColumn('pageColoumn');
+});
+
+const playControl1 = document.getElementById("playControl1"); // the button bar
+const playControl2 = document.getElementById("playControl2"); // the panel
+const settingsBtn  = document.getElementById("settingsBtn");
+
+// Toggle playControl2 when settingsBtn is clicked
+settingsBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent triggering the document click
+    playControl2.classList.toggle("show");
+});
+
+// Prevent clicks inside playControl2 from closing it
+playControl2.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+
+// Hide when clicking anywhere else on the page
+document.addEventListener("click", (e) => {
+    if (playControl2.classList.contains("show")) {
+        playControl2.classList.remove("show");
+    }
 });
 
 
-document.getElementById("settingsBtn").addEventListener("click", () => {
-    document.getElementById("playControl2").classList.toggle("show");
-});
 
 function initAudioPlayer() {
     if (!audioPlayer) {

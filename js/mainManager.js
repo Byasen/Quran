@@ -79,7 +79,6 @@ document.getElementById('verseSelect').addEventListener('change', function () {
 
 window.onload = async function () {
     loadAnalysisOptions();
-    checkMobileMode();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
     populatePages(); // Initialize the Quran page dropdown

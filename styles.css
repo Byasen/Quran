@@ -3,10 +3,33 @@ html, body {
     overscroll-behavior-y: none;  /* Prevent pull-to-refresh */
 }
 
-.overall{
+.overall {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;    /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
     margin-top: 2vh;
     height: 94vh;
+}
 
+
+.mobile-active {
+display: flex !important;
+flex-direction: column;
+}
+
+
+.mobileColumnSelector {
+        position: relative;
+        top: 0;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.95);
+        border-radius: 0 8px 8px 0;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        display: flex; /* hidden by default */
+        width: fit-content;
+        justify-content: center;
+        align-items: center;
 }
 
 
@@ -17,11 +40,21 @@ html, body {
     direction: ltr; /* Set text direction to right-to-left */
     text-align: right; /* Align text to the right */
     justify-content: flex-start; /* Align items starting from the right */
-    height: 100%; /* Set a fixed height */
-    padding-left: 2%; /* Add some padding to the left */
-    padding-right: 2%; /* Add some padding to the right */
+    height: 90%; /* Set a fixed height */
+    width: 100%; /* Full width */
 }
 
+.pageColoumn,
+.verseColoumn,
+.searchColoumn,
+.topicColoumn {
+    display: none;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow-y: auto;
+    align-items: center;
+}
 
 .popup {
     position: fixed;
@@ -80,35 +113,28 @@ p, .verse {
 }
 
 
-.pageColoumn {
-    height: 100%;
-    width: 22%;
-    margin-right: 1%;
-}
-
 .verseControl1{
     /* height: 20%; */
-    height:fit-content;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
+    height:6%;
 }
 
 .pageControl {
-    margin-top: 4%;
-    height:fit-content;
+    margin-top: 2%;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
+    height:6%;
 }
 
 
 .pageResults {
-    height: 85%;
+    flex: 1;
     margin-top: 2%;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    position: relative; /* For positioning the action buttons */
 }
 
 /* Ensure the image container scales properly and keeps the aspect ratio */
@@ -171,74 +197,45 @@ p, .verse {
 }
 
 
-.verseColoumn{
-    height: 100%;
-    width: 66%;
-    margin-right: 1%;
-    justify-content: flex-start; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: ltr; /* Set text direction to right-to-left */
-    align-items: flex-end; /* Align items to the bottom */
+.VerseControl2{
+    margin-top: 2%;
+    height:fit-content;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    height:6%;
 }
-
-
-.playControl{
-    height: fit-content;
-}
-
-
-.verseControl2{
-    height: fit-content;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    direction: rtl; /* Set text direction to right-to-left */
-    width: 100%;
-}
-
 .verseResults2 {
     margin-top: 1%;
     margin-bottom: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
     height: 86%;
-    width: 100%;
+    width: 94%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: auto; /* Hide horizontal overflow */
 }
 
-.foldButtonColoumn {
-    height: 100%;
-    width: 2%;
-    margin-right: 1%;
-}
-
-.foldButton{
-    height: 100%;
-    width: 100%;
-    writing-mode: vertical-rl; /* Makes text vertical from top to bottom */
-    text-orientation: sideways;
-    font-size: x-large; /* Dynamically adjust font size to fit container */
-}
 
 .searchColoumn {
-    display: none;
-    height: 100%;
-    width: 22%;
-    justify-content: flex-start; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
-    margin-right: 0.5%;
 }
 
 .searchControl {
-    height:fit-content;
+    display: flex; 
+    height:8%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
-    width: 100%;
+    width: 96%;
+    justify-content: center; /* Align items starting from the right */
+    text-align: right; /* Align text to the right */
+    direction: rtl; /* Set text direction to right-to-left */
+    align-items: center; /* Align items to the bottom */
 }
 
 .searchResults1 {
-    height: 20%;
-    width: 100%;
+    height: 8%;
+    width: 96%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     justify-content: flex-start; /* Align items starting from the right */
@@ -246,24 +243,27 @@ p, .verse {
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
     background: #f9f9f9; /* Light grey background for the search results */
-    padding-right: 1%;
-
-    
+    padding: 10px;
 }
 
 .searchResults2 {
-    margin-top: 2%;
-    height: 60%;
-    width: 100%;
+    flex: 1;
+    width: 96%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
     justify-content: flex-start; /* Align items starting from the right */
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
-    align-items: flex-end; /* Align items to the bottom */
-    padding-right: 1%;
-    
+    align-items: flex-end; /* Align items to the bottom */ 
+    padding-right: 10px;
+    margin-top: 2%;
 }
+
+    .searchResults2 button img {
+    width: 14px;      /* icon size */
+    height: 14px;
+    display: block;   /* remove inline spacing */
+    }
 
 
 .suggested-words-label {
@@ -274,7 +274,13 @@ p, .verse {
 
 }
 
-
+.word-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow words to wrap to the next line */
+    gap: 8px; /* Space between words */
+    margin-top: 5px;
+    direction: rtl; /* Set text direction to right-to-left */
+}
 
 .searchVerseResult {
     margin-bottom: 10px;
@@ -284,26 +290,15 @@ p, .verse {
 }
 
 
-.topicColoumn {
-    display: none;
-    height: 100%;
-    width: 22%;
-    justify-content: flex-start; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: ltr; /* Set text direction to right-to-left */
-    align-items: flex-end; /* Align items to the bottom */
-    margin-right: 0.5%;
-}
-
 /* New styles for control container and button alignment */
 .topicControl1 {
     display: flex;
-    justify-content: flex-start; /* Align items starting from the right */
+    justify-content: center; /* Align items starting from the right */
     text-align: right; /* Align text to the right */
     direction: rtl; /* Set text direction to right-to-left */
-    align-items: flex-end; /* Align items to the bottom */
+    align-items: center; /* Align items to the bottom */
     font-family: Arial, sans-serif; /* Set font to Arial */
-    height:fit-content;
+    height:6%;
     width: 100%;
 }
 
@@ -323,30 +318,12 @@ p, .verse {
     text-align: right;
     direction: rtl;
     background-color: #f9f9f9;
-    margin-right: 2%;
-    margin-bottom: 2%;
+    padding-right: 10px;
     width: 98%;
     resize: none; /* Optional: prevent manual resize if using auto-resize with JS */
     overflow: hidden; /* Hide scrollbars if auto-growing */
     box-sizing: border-box;
 }
-
-
-/* Sidebar styles */
-.topicResults1 {
-    justify-content: flex-start; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: ltr; /* Set text direction to right-to-left */
-    align-items: flex-end; /* Align items to the bottom */
-    height:fit-content;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    padding-right: 2%;
-    width: 100%;
-    margin-bottom: 2%;
-
-}
-
 
 /* Sidebar styles */
 .topicResults2 {
@@ -354,24 +331,45 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
-    height:90%; /* Fix the height */
+    flex: 1;
+    width: 94%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */
-    padding-right: 2%;
-    margin-top: 5%;
+    margin-top: 2%;
 }
-
 
 .verse-container{
     background-color: #f1f1f1;
-    padding-right: 3%;
-    padding-left: 3%;
-    padding-top: 3%;
-    border: #000 solid 1px;
+    padding-right: 10px;
+    padding-left: 50px;
+    padding-top: 10px;
     direction: rtl;
     transition: background-color 2s ease; /* smooth fade every second */
+    position: relative; /* For positioning the action buttons */
+    border: #000 1px solid;
 }
 
+.verse-actions{
+        position: absolute;
+        top: 50%;
+        left: 0; /* flush against screen edge */
+        transform: translateY(-50%);
+        background: #f1f1f1;
+        border-radius: 8px 0 0 8px;
+        box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column; /* vertical stack */
+        z-index: 1000;
+        align-items: center;
+        width: fit-content; /* slim fixed width */
+}
+
+    .verse-actions button img {
+    width: 14px;      /* icon size */
+    height: 14px;
+    display: block;   /* remove inline spacing */
+    }
+    
 
 #stackedVerses {
     display: flex;
@@ -438,26 +436,6 @@ label {
 }
 
 
-/* Style only for Quran dropdown */
-.pageSelectClass + .choices .choices__list--dropdown {
-    background-color: #7300ff;
-  }
-  
-  /* Style only for other dropdown */
-  .verseSelectClass + .choices .choices__list--dropdown {
-    background-color: #ff0dae;
-  }
-
-.chapterSelectClass + .choices {
-    direction: rtl;
-    text-align: right;
-    width : fit-content;
-    height: fit-content;
-    margin-left: auto;
-    padding-right: 2%; /* Reduce padding inside the box */
-    margin-bottom: 0px; /* Reduce margin between elements */
-    font-family: Arial, sans-serif; /* Set font to Arial */
-}
 
 
     /* PlayControl1: slim, fixed right, vertically centered */
@@ -517,69 +495,3 @@ label {
         border: 1px solid #ccc;
         width: 100%;
     }
-
-
-@media screen and (max-width: 768px) {
-    
-    .mobile-active {
-        display: flex !important;
-        flex-direction: column;
-    }
-
-    .mainContainer{
-        height: 92%;
-    }
-
-    .mobileColumnSelector {
-        direction: rtl;
-        text-align: center;
-        align-items: right;
-        background-color: #f1f1f1;
-        border-bottom: 1px solid #ccc;
-        height:fit-content;
-        margin-bottom: 4%;
-
-    }
-
-    .chapterSelectClass{
-        width: fit-content;
-    }
-
-    .pageColoumn,
-    .verseColoumn,
-    .searchColoumn,
-    .topicColoumn {
-        display: none;
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        overflow-y: auto;
-    }
-
-    
-    .verseControl1{
-        display: none; 
-    }
-
-
-    .mobileOnlyVerseContentClass{
-        height:fit-content;
-        margin-bottom: 2%;
-        overflow-y: auto; /* Add vertical scrollable slider */
-    }
-
-    .pageResults {
-        height: 80%;
-        margin-top: 2%;
-    }
-
-    .foldButtonColoumn {
-        display: none;
-    }
-
-    /* Hide specific buttons */
-    button[onclick="checkAll()"],
-    button[onclick="uncheckAll()"] {
-        display: none;
-    }
-}

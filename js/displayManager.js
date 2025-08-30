@@ -458,6 +458,7 @@ function showMobileColumn(className) {
 }
 
 
+
 // Show the mobileColumnSelector only in mobile mode
 function checkMobileMode() {
     const mobileColumnSelector = document.getElementById('mobileColumnSelectorID');
