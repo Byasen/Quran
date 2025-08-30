@@ -120,7 +120,6 @@ p, .verse {
 
 .pageControl {
     margin-top: 2%;
-    height:fit-content;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -129,7 +128,7 @@ p, .verse {
 
 
 .pageResults {
-    height: 84%;
+    flex: 1;
     margin-top: 2%;
     overflow-y: auto;
     overflow-x: hidden;
