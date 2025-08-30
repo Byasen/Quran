@@ -71,7 +71,6 @@ playBtn.addEventListener('click', () => {
         autoPlay = true;
         loadVerseAudio(getCurrentChapter(), getCurrentVerse());        
         initAudioPlayer();
-        showMobileColumn('pageColoumn'); // fixed typo
     }
 });
 
@@ -84,7 +83,6 @@ playOneBtn.addEventListener('click', () => {
     autoPlay = false;
     loadVerseAudio(getCurrentChapter(), getCurrentVerse());
     initAudioPlayer();
-    showMobileColumn('pageColoumn');
 });
 
 const playControl1 = document.getElementById("playControl1"); // the button bar

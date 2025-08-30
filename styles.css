@@ -331,7 +331,7 @@ p, .verse {
     text-align: right; /* Align text to the right */
     direction: ltr; /* Set text direction to right-to-left */
     align-items: flex-end; /* Align items to the bottom */
-    height:90%; /* Fix the height */
+    flex: 1;
     width: 94%;
     overflow-y: auto; /* Add vertical scrollable slider */
     overflow-x: hidden; /* Hide horizontal overflow */

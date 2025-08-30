@@ -121,7 +121,7 @@ async function loadStateFromFirebase() {
     alert("❌ لم ينجح تحميل البيانات");
   }
 
-  
+  showMobileColumn('topicColoumn');
 
 }
 
