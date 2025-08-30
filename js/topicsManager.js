@@ -64,7 +64,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
     const notesTextArea = document.createElement('textarea');
     notesTextArea.placeholder = "ملاحظات ...";
     notesTextArea.rows = 3;
-    notesTextArea.style.width = '100%';
+    notesTextArea.style.width = '98%';
 
     const verseObj = {
     surahNumber: selectedChapter,

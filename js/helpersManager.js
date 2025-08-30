@@ -27,19 +27,6 @@ function hideLoadingStatus() {
 
 
 
-// Check all checkboxes
-function checkAll() {
-    const checkboxes = document.querySelectorAll('.verseControl2 input[type="checkbox"]');
-    checkboxes.forEach(checkbox => checkbox.checked = true);
-    displayVerseWithAnalyses();
-}
-
-// Uncheck all checkboxes
-function uncheckAll() {
-    const checkboxes = document.querySelectorAll('.verseControl2 input[type="checkbox"]');
-    checkboxes.forEach(checkbox => checkbox.checked = false);
-    displayVerseWithAnalyses();
-}
 
 
 // Normalize Arabic text for consistent searching
