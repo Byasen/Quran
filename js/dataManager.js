@@ -144,29 +144,9 @@ function initializeVersesSelect() {
 
 
 
-// Populate Quran pages dropdown
-function populatePages() {
-    const pageSelect = document.getElementById('pageSelect');
-    pageSelect.innerHTML = ''; // Clear previous options
 
-    for (let i = 1; i <= 604; i++) { // Quran has 604 pages
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = `${i}`;
-        pageSelect.appendChild(option);
-    }
-}
 
-function initializePageSelect() {
-    const element = document.getElementById('pageSelect');
-    new Choices(element, {
-      searchEnabled: true,
-      itemSelectText: '',
-      shouldSort: false,
-      placeholder: true,
-      placeholderValue: 'رقم الصفحة'
-    });
-}
+
 
 async function selectRandomVerse() {
     const randomChapter = Math.floor(Math.random() * 114) + 1;

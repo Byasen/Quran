@@ -173,7 +173,7 @@ async function displayVerseWithAnalyses() {
         verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
         meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
 
-        displayQuranPagesWithHighlight(verseWithAnalyses.verseData.page, selectedVerse);
+        displayQuranPagesWithHighlight(chapterSelect.value, selectedVerse);
     } else {
         verseDisplay.textContent = 'Verse or analyses not available.';
         meaningsDisplay.textContent = 'Verse or analyses not available.';
@@ -218,181 +218,107 @@ async function displayVerseWithAnalysesNoPageChange() {
 }
 
 
+async function displayQuranPagesWithHighlight(surahNumber, selectedVerse = null) {
+    try {
+        // Load the surah JSON
+        const response = await fetch(`data/surah/surah_${surahNumber}.json`);
+        const surahData = await response.json();
+        console.log('Loaded surah data:', surahData);
 
+        const startPage = surahData.start_page;
+        const endPage = surahData.end_page;
 
-function displayQuranPagesWithHighlight(pageNumber, selectedVerse) {
-    const currentPagePath = `data/png/${pageNumber}.png`;
-    const currentPageContainer = document.getElementById('currentPage');
-    const nextPageContainer = document.getElementById('nextPage');
-    const previousPageContainer = document.getElementById('previousPage');
+        const pagesContainer = document.getElementById('pageResultsId'); 
+        pagesContainer.innerHTML = ''; // clear previous pages
 
-    // Update the image sources for the current, next, and previous pages
-    const nextPagePath = `data/png/${pageNumber + 1}.png`;
-    const previousPagePath = `data/png/${pageNumber - 1}.png`;
+                // Loop through all pages in this surah
+        for (let page = startPage; page <= endPage; page++) {
+            const pageDiv = document.createElement('div');
+            pageDiv.classList.add('pageimg');
+            pageDiv.id = `page_${page}`;
 
-    // Set the image sources dynamically
-    currentPageContainer.querySelector('img').src = currentPagePath;
-    nextPageContainer.querySelector('img').src = nextPagePath;
-    previousPageContainer.querySelector('img').src = previousPagePath;
+            const img = document.createElement('img');
+            img.src = `data/png/${page}.png`;
+            img.alt = `Page ${page}`;
 
-    // Update the page select dropdown
-    const pageSelect = document.getElementById('pageSelect');
-    pageSelect.value = pageNumber;
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay-layer');
 
-    // Call the function to handle page navigation (next and previous)
-    displayNextPreviousPages(pageNumber);
-    initializeVerseHighlighting();
-}
+            pageDiv.appendChild(img);
+            pageDiv.appendChild(overlay);
+            pagesContainer.appendChild(pageDiv);
 
-function displayNextPreviousPages(pageNumber) {
-    const nextPagePath = `data/png/${pageNumber + 1}.png`;
-    const previousPagePath = `data/png/${pageNumber - 1}.png`;
-
-    const previousPageContainer = document.getElementById('previousPage');
-    const nextPageContainer = document.getElementById('nextPage');
-
-    // You can perform additional logic for these containers if needed
-}
-
-
-function foldSearch(){
-    const topic = document.getElementById('topicResults');
-    const search = document.getElementById('searchResults');
-    const verse = document.getElementById('verseColoumnId');
-
-    if (search.style.display == 'block') {
-        search.style.display = 'none';
-
-    if (topic.style.display == 'block') {
-        verse.style.width = '44%';
-    }
-
-    if (topic.style.display == 'none') {
-    verse.style.width = '66%';
-    } 
-
-    } else {
-    search.style.display = 'block';
-
-    if (topic.style.display == 'block') {
-        verse.style.width = '22%';
-    }
-
-    if (topic.style.display == 'none') {
-    verse.style.width = '44%';
-    } 
-    }
-    saveState();
-}
-
-function foldTopic(){
-    const topic = document.getElementById('topicResults');
-    const search = document.getElementById('searchResults');
-    const verse = document.getElementById('verseColoumnId');
-
-    if (topic.style.display == 'block') {
-        topic.style.display = 'none';
-
-    if (search.style.display == 'block') {
-        verse.style.width = '44%';
-    }
-
-    if (search.style.display == 'none') {
-    verse.style.width = '66%';
-    } 
-
-    } else {
-    topic.style.display = 'block';
-
-    if (search.style.display == 'block') {
-        verse.style.width = '22%';
-    }
-
-    if (search.style.display == 'none') {
-    verse.style.width = '44%';
-    } 
-    }
-    saveState();
-}
-
-
-function initializeVerseHighlighting() {
-    const pageIds = ["previousPage", "currentPage", "nextPage"];
-
-    pageIds.forEach(pageId => {
-        const imageContainer = document.getElementById(pageId);
-        const image = imageContainer.querySelector('img');
-
-        if (image) {
-            const imageFilename = image.src.split('/').pop();
-            fetchOverlayData(imageFilename, pageId);
-        } else {
-            //console.warn(`No image found in the ${pageId} container.`);
+            // Initialize highlighting overlays for this page
+            initializeVerseHighlightingForPage(img, pageDiv.id);
         }
-    });
+
+        // Initialize verse highlighting (if needed)
+        initializeVerseHighlighting(selectedVerse);
+
+    } catch (err) {
+        console.error(`Error loading surah ${surahNumber}:`, err);
+    }
 }
 
-function fetchOverlayData(imageFilename, pageId) {
+
+function initializeVerseHighlightingForPage(imageElement, containerId) {
+    if (!imageElement) return;
+
+    const imageFilename = imageElement.src.split('/').pop();
     const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";
+
     fetch(jsonFile)
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Overlay JSON not found for ${pageId}`);
+                throw new Error(`Overlay JSON not found for ${containerId}`);
             }
             return response.json();
         })
         .then(data => {
-            renderBoundingBoxes(data.regions, pageId);
+            renderBoundingBoxesForPage(data.regions, imageElement, containerId);
         })
         .catch(error => {
-            const imageContainer = document.getElementById(pageId);
+            const imageContainer = document.getElementById(containerId);
             const overlay = imageContainer?.querySelector('.overlay-layer');
             if (overlay) {
                 overlay.innerHTML = '';
             }
-            window[`lastRenderedRegions_${pageId}`] = [];
+            window[`lastRenderedRegions_${containerId}`] = [];
         });
 }
 
-
-function renderBoundingBoxes(regions, pageId) {
-    const imageContainer = document.getElementById(pageId);
-    const image = imageContainer.querySelector('img');
+function renderBoundingBoxesForPage(regions, imageElement, containerId) {
+    const imageContainer = document.getElementById(containerId);
     const overlay = imageContainer.querySelector('.overlay-layer');
 
-    if (!image.complete) {
-        image.onload = () => renderBoundingBoxes(regions, pageId);
+    if (!imageElement.complete) {
+        imageElement.onload = () => renderBoundingBoxesForPage(regions, imageElement, containerId);
         return;
     }
 
-    const imageWidth = image.naturalWidth;
-    const imageHeight = image.naturalHeight;
-    const containerWidth = image.clientWidth;
-    const containerHeight = image.clientHeight;
+    const imageWidth = imageElement.naturalWidth;
+    const imageHeight = imageElement.naturalHeight;
+    const containerWidth = imageElement.clientWidth;
+    const containerHeight = imageElement.clientHeight;
 
-    // Determine scale based on the limiting dimension
     const widthScale = containerWidth / imageWidth;
     const heightScale = containerHeight / imageHeight;
     const scale = Math.min(widthScale, heightScale);
 
-    // Set the overlay size to match the scaled image
     overlay.style.width = `${imageWidth * scale}px`;
     overlay.style.height = `${imageHeight * scale}px`;
-    overlay.style.transform = '';  // Remove transform-based scaling
-
-    overlay.innerHTML = '';  // Clear any existing boxes
+    overlay.style.transform = '';
+    overlay.innerHTML = '';
 
     regions.forEach(region => {
         const box = document.createElement('div');
         box.className = 'overlay-box blue-hover';
 
-        // Scale position and size
         const scaledX = region.bbox.x * scale;
         const scaledY = region.bbox.y * scale;
         const scaledWidth = region.bbox.width * scale;
         const scaledHeight = region.bbox.height * scale;
 
-        // Set box styles (border = 2px)
         box.style.left = `${scaledX - 0.75}px`;
         box.style.top = `${scaledY - 0.75 + scaledHeight / 8}px`;
         box.style.width = `${scaledWidth - 1}px`;
@@ -403,7 +329,7 @@ function renderBoundingBoxes(regions, pageId) {
 
         box.addEventListener('click', () => {
             const allBoxes = document.querySelectorAll('.overlay-box');
-            allBoxes.forEach(box => box.classList.remove('highlighted'));
+            allBoxes.forEach(b => b.classList.remove('highlighted'));
 
             allBoxes.forEach(otherBox => {
                 if (otherBox.dataset.chapter === box.dataset.chapter && 
@@ -418,7 +344,7 @@ function renderBoundingBoxes(regions, pageId) {
         overlay.appendChild(box);
     });
 
-    window[`lastRenderedRegions_${pageId}`] = regions;
+    window[`lastRenderedRegions_${containerId}`] = regions;
     highlightSelectedChapterAndVerse();
 }
 

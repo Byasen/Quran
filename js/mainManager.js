@@ -37,15 +37,6 @@ function onVerseChange() {
     displayVerseWithAnalyses();
 }
 
-// Handle page change
-function onPageChange() {
-    const pageSelect = document.getElementById('pageSelect');
-    const selectedPage = parseInt(pageSelect.value);
-
-    // Display Quran pages and highlight the current one
-    displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
-
-}
 
 
 
@@ -62,12 +53,6 @@ function onTopicChange() {
 
 
 
-// Automatically detect changes in the dropdown menus
-document.getElementById('pageSelect').addEventListener('change', function () {
-    const selectedPage = parseInt(this.value);
-    displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
-});
-
 document.getElementById('chapterSelect').addEventListener('change', function () {
     onChapterChange(); // Trigger chapter change logic
 });
@@ -81,7 +66,6 @@ window.onload = async function () {
     loadAnalysisOptions();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
-    populatePages(); // Initialize the Quran page dropdown
     loadStateFromLocal(); // Load the state from local storage
 };
 

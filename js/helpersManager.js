@@ -37,30 +37,8 @@ function normalizeArabic(text) {
 
 
 
-// Decrement Quran page
-function decrementPage() {
-    const pageSelect = document.getElementById('pageSelect');
-    const currentIndex = pageSelect.selectedIndex;
-
-    if (currentIndex > 0) {
-        pageSelect.selectedIndex = currentIndex - 1;
-        onPageChange();
-    }
-}
 
 
-
-
-// Increment Quran page
-function incrementPage() {
-    const pageSelect = document.getElementById('pageSelect');
-    const currentIndex = pageSelect.selectedIndex;
-
-    if (currentIndex < pageSelect.options.length - 1) {
-        pageSelect.selectedIndex = currentIndex + 1;
-        onPageChange();
-    }
-}
 
 
 // Function to increment the verse
