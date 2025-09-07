@@ -10,72 +10,71 @@ textarea.addEventListener('focus', () => {
   textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
 });
 
-// Global cache: { source: { chapterNumber: [availableVerses] } }
+
+// Global cache: { source: { index: {...}, [chapterNumber]: [availableVerses] } }
 const tafseerCache = {};
 
+/**
+ * Load available verses for a given chapter and tafseer source
+ */
 async function loadAvailableVerses(chapterNumber, source) {
+    // Return from cache if available
     if (tafseerCache[source]?.[chapterNumber]) {
         return tafseerCache[source][chapterNumber];
     }
 
-    const availableVerses = [];
-
-    // Check up to 300 verses
-    const checks = [];
-    for (let v = 1; v <= 300; v++) {
-        const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(v)}.json`;
-        // Use HEAD request to check existence without downloading content
-        checks.push(
-            fetch(filePath, { method: 'HEAD' })
-                .then(res => (res.ok ? v : null))
-                .catch(() => null)
-        );
+    // Load the index JSON once per source
+    if (!tafseerCache[source]?.index) {
+        try {
+            const response = await fetch(`data/tafseer/${source}/tafseer_index.json`);
+            const indexData = await response.json();
+            tafseerCache[source] = tafseerCache[source] || {};
+            tafseerCache[source].index = indexData.surahs || {};
+        } catch (err) {
+            console.error(`Failed to load tafseer index for ${source}:`, err);
+            tafseerCache[source].index = {};
+        }
     }
 
-    const results = await Promise.all(checks);
-    results.forEach(v => {
-        if (v !== null) availableVerses.push(v);
-    });
+    const chapterEntry = tafseerCache[source].index[chapterNumber];
+    const availableVerses = chapterEntry?.verses || [];
 
-    // Cache it
-    if (!tafseerCache[source]) tafseerCache[source] = {};
+    // Cache available verses per chapter
     tafseerCache[source][chapterNumber] = availableVerses;
-
     return availableVerses;
 }
 
-
+/**
+ * Fetch tafseer analysis for a specific chapter and verse
+ */
 async function fetchAnalysis(chapterNumber, verseNumber, source) {
     try {
         const verseNum = Number(verseNumber);
         const availableVerses = await loadAvailableVerses(chapterNumber, source);
 
         if (availableVerses.length === 0) {
-            // no verses at all → fall back to book
-            const bookPath = `data/tafseer/${source}/book`;
-            const response = await fetch(bookPath);
+            // Chapter has no tafseer → list all chapters in the book
+            const allChapters = tafseerCache[source].index;
+            const arabicLines = Object.keys(allChapters).map(ch => {
+                const entry = allChapters[ch];
+                return `${ch}: ${entry.name}`;
+            });
 
-            if (response.ok) {
-                const bookText = await response.text();
-                const arabicLines = bookText
-                    .split('\n')
-                    .filter(line => /^[\u0600-\u06FF]/.test(line.trim()));
-
-                if (arabicLines.length > 0) {
-                    return `الكتاب لا يحتوي على تفسير للسورة المطلوبة, قائمة السور في هذا الكتاب : <br><hr class="dashed-line"><br>${arabicLines.join('<br>')}`;
-                } else {
-                    return "لم يتم العثور على سور مدعومة في هذا الكتاب.";
-                }
+            if (arabicLines.length > 0) {
+                return `الكتاب لا يحتوي على تفسير للسورة المطلوبة, قائمة السور في هذا الكتاب : <br><hr class="dashed-line"><br>${arabicLines.join('<br>')}`;
+            } else {
+                return "لم يتم العثور على سور مدعومة في هذا الكتاب.";
             }
-            return "تعذر تحميل قائمة السور المتوفرة من الكتاب.";
         }
 
-        // Find closest verse ≤ verseNum
+        // Find closest verse ≤ requested verse
         let chosen = availableVerses.filter(v => v <= verseNum).pop();
 
         if (chosen !== undefined) {
             const filePath = `data/tafseer/${source}/${padNumber(chapterNumber)}_${padNumber(chosen)}.json`;
             const response = await fetch(filePath);
+            if (!response.ok) throw new Error("Tafseer file not found");
+
             const analysisData = await response.json();
             const text = analysisData.text || ``;
 
@@ -92,15 +91,10 @@ async function fetchAnalysis(chapterNumber, verseNumber, source) {
         }
 
         return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
-
     } catch (error) {
         return "لا يوجد تفسير لهذه الآية في كتاب التفسير المختار";
     }
 }
-
-
-
-
 
 
 async function fetchVerseWithAnalyses(chapterNumber, verseNumber) {
@@ -217,72 +211,69 @@ async function displayVerseWithAnalysesNoPageChange() {
     updateChapterVerse();
 }
 
-
 async function displayQuranPagesWithHighlight(surahNumber, selectedVerse = null) {
     try {
-        // Load the surah JSON
         const response = await fetch(`data/surah/surah_${surahNumber}.json`);
         const surahData = await response.json();
-        console.log('Loaded surah data:', surahData);
 
-        const startPage = surahData.start_page;
-        const endPage = surahData.end_page;
-
-        const pagesContainer = document.getElementById('pageResultsId'); 
+        const pagesContainer = document.getElementById('pageResultsId');
         pagesContainer.innerHTML = ''; // clear previous pages
 
-                // Loop through all pages in this surah
-        for (let page = startPage; page <= endPage; page++) {
-            const pageDiv = document.createElement('div');
-            pageDiv.classList.add('pageimg');
-            pageDiv.id = `page_${page}`;
+        let selectedPage;
 
-            const img = document.createElement('img');
-            img.src = `data/png/${page}.png`;
-            img.alt = `Page ${page}`;
-
-            const overlay = document.createElement('div');
-            overlay.classList.add('overlay-layer');
-
-            pageDiv.appendChild(img);
-            pageDiv.appendChild(overlay);
-            pagesContainer.appendChild(pageDiv);
-
-            // Initialize highlighting overlays for this page
-            initializeVerseHighlightingForPage(img, pageDiv.id);
+        if (selectedVerse) {
+            const verseInfo = surahData.verses.find(v => v.number === parseInt(selectedVerse));
+            selectedPage = verseInfo ? verseInfo.page : surahData.start_page;
+        } else {
+            selectedPage = surahData.start_page;
         }
+
+        // Pages to load: previous, current, next
+        let pagesToLoad = [selectedPage - 1, selectedPage, selectedPage + 1];
+        pagesToLoad = pagesToLoad.filter(
+            p => p >= surahData.start_page && p <= surahData.end_page
+        );
+
+        for (let page of pagesToLoad) {
+            await loadQuranPage(page, pagesContainer);
+        }
+
+        // Store range of loaded pages for dynamic expansion
+        pagesContainer.dataset.loadedStart = Math.min(...pagesToLoad);
+        pagesContainer.dataset.loadedEnd = Math.max(...pagesToLoad);
 
     } catch (err) {
         console.error(`Error loading surah ${surahNumber}:`, err);
     }
 }
 
+async function loadQuranPage(page, pagesContainer, prepend = false) {
+    // Avoid duplicate loading
+    if (document.getElementById(`page_${page}`)) return;
 
-function initializeVerseHighlightingForPage(imageElement, containerId) {
-    if (!imageElement) return;
+    const pageDiv = document.createElement('div');
+    pageDiv.classList.add('pageimg');
+    pageDiv.id = `page_${page}`;
 
-    const imageFilename = imageElement.src.split('/').pop();
-    const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";
+    const img = document.createElement('img');
+    img.src = `data/png/${page}.png`;
+    img.alt = `Page ${page}`;
 
-    fetch(jsonFile)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Overlay JSON not found for ${containerId}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            renderBoundingBoxesForPage(data.regions, imageElement, containerId);
-        })
-        .catch(error => {
-            const imageContainer = document.getElementById(containerId);
-            const overlay = imageContainer?.querySelector('.overlay-layer');
-            if (overlay) {
-                overlay.innerHTML = '';
-            }
-            window[`lastRenderedRegions_${containerId}`] = [];
-        });
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay-layer');
+
+    pageDiv.appendChild(img);
+    pageDiv.appendChild(overlay);
+
+    if (prepend) {
+        pagesContainer.insertBefore(pageDiv, pagesContainer.firstChild);
+    } else {
+        pagesContainer.appendChild(pageDiv);
+    }
+
+    initializeVerseHighlightingForPage(img, pageDiv.id);
 }
+
 
 function renderBoundingBoxesForPage(regions, imageElement, containerId) {
     const imageContainer = document.getElementById(containerId);
@@ -323,19 +314,35 @@ function renderBoundingBoxesForPage(regions, imageElement, containerId) {
 
         box.dataset.chapter = region.chapter;
         box.dataset.verse = region.verse;
+        box.dataset.page = region.page; // assuming your overlay has page info
 
         box.addEventListener('click', () => {
             const allBoxes = document.querySelectorAll('.overlay-box');
             allBoxes.forEach(b => b.classList.remove('highlighted'));
 
             allBoxes.forEach(otherBox => {
-                if (otherBox.dataset.chapter === box.dataset.chapter && 
+                if (otherBox.dataset.chapter === box.dataset.chapter &&
                     otherBox.dataset.verse === box.dataset.verse) {
                     otherBox.classList.add('highlighted');
                 }
             });
 
             selectThisVerseNoPageChange(region.chapter, region.verse);
+
+            // === NEW: Expand pages dynamically if needed ===
+            const pagesContainer = document.getElementById('pageResultsId');
+            const currentPage = parseInt(box.dataset.page);
+
+            const loadedStart = parseInt(pagesContainer.dataset.loadedStart);
+            const loadedEnd = parseInt(pagesContainer.dataset.loadedEnd);
+
+            if (currentPage === loadedStart) {
+                loadQuranPage(loadedStart - 1, pagesContainer, true); // prepend
+                pagesContainer.dataset.loadedStart = loadedStart - 1;
+            } else if (currentPage === loadedEnd) {
+                loadQuranPage(loadedEnd + 1, pagesContainer, false); // append
+                pagesContainer.dataset.loadedEnd = loadedEnd + 1;
+            }
         });
 
         overlay.appendChild(box);
@@ -345,6 +352,32 @@ function renderBoundingBoxesForPage(regions, imageElement, containerId) {
     highlightSelectedChapterAndVerse();
 }
 
+
+function initializeVerseHighlightingForPage(imageElement, containerId) {
+    if (!imageElement) return;
+
+    const imageFilename = imageElement.src.split('/').pop();
+    const jsonFile = "data/png_overlay/" + imageFilename.replace(/\.[^/.]+$/, "") + "_overlay.json";
+
+    fetch(jsonFile)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Overlay JSON not found for ${containerId}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            renderBoundingBoxesForPage(data.regions, imageElement, containerId);
+        })
+        .catch(error => {
+            const imageContainer = document.getElementById(containerId);
+            const overlay = imageContainer?.querySelector('.overlay-layer');
+            if (overlay) {
+                overlay.innerHTML = '';
+            }
+            window[`lastRenderedRegions_${containerId}`] = [];
+        });
+}
 
 
 function highlightSelectedChapterAndVerse() {

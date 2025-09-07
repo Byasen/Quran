@@ -1,7 +1,0 @@
-Matched Surah Labels (Original -- Matched):
--------------------------------------------
-الفاتحة -- الفاتحة
-البقرة -- البقرة
-
-Unmatched Labels (from provided list):
---------------------------------------
