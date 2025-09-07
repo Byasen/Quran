@@ -18,10 +18,20 @@
     </div>
 
     <div class="mobileColumnSelector" id="mobileColumnSelectorID">
-        <button onclick="showMobileColumn('topicColoumn')">التبويب</button>
-        <button onclick="showMobileColumn('searchColoumn')">البحث</button>
-        <button onclick="showMobileColumn('verseColoumn')">التفسير</button>
-        <button onclick="showMobileColumn('pageColoumn')">المصحف</button>
+
+        <button onclick="showMobileColumn('pageColoumn')">
+            <img src="assets/book-open.svg" alt="Settings">
+        </button>        
+        <button onclick="showMobileColumn('verseColoumn')">
+            <img src="assets/book-quran.svg" alt="Stop">
+        </button>
+        <button onclick="showMobileColumn('searchColoumn')">
+            <img src="assets/magnifying-glass.svg" alt="Forward">
+        </button>
+        <button onclick="showMobileColumn('topicColoumn')">
+            <img src="assets/box-archive.svg" alt="Play">
+        </button>
+
     </div>
 
     <div class="mainContainer">
@@ -67,7 +77,6 @@
 
             <!-- Verse controls -->
             <div class="verseControl1">
-            <button onclick="addCurrentVerse()">تبويب الآية</button>
             <button onclick="incrementVerse()">&#60;</button>
             <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
             <button onclick="decrementVerse()">&#62;</button>
@@ -117,23 +126,27 @@
 
         <div id="topicResults" class="topicColoumn">
             <div class="topicControl1">
-                <label style="direction: rtl; text-align: right; margin-left: 2%;">اسم الباب :</label>
-                <input id="topicSelect" class="topicSelectClass" placeholder="">
+            <button onclick="addCurrentVerse()">
+                <img src="assets/plus.svg" alt="Settings">
+            </button> 
+
+            <button onclick="saveStateToFirebase()">
+                <img src="assets/save.svg" alt="Settings">
+            </button>   
+            <button onclick="loadStateFromFirebase()">
+                <img src="assets/repeat.svg" alt="Settings">
+            </button>               
             </div>
             <div id="topicResults2Id" class="topicResults2">
+                <input id="topicSelect" class="topicSelectClass" placeholder="">
+                <label style="direction: rtl; text-align: right; margin-left: 2%;">اسم الباب :</label>
                 <div>
                     <textarea id="topicIntro" class="topicIntroClass" placeholder="المقدمة ..."></textarea>
                 </div>
                 <label style="direction: rtl; text-align: right; margin-bottom: 1%; margin-top: 1%;">الآيات ذات الصلة :</label>
                 <div id="stackedVerses"></div>
             </div>
-            <div class="topicControl2">
-                <div style="margin-top: 0%;">
-                    <button onclick="saveStateToFirebase()">حفظ التغييرات</button>
-                </div>
-                <div style="margin-top: 0%;">
-                    <button onclick="loadStateFromFirebase()">اختيار باب آخر</button>
-                </div>
+
             </div>
         </div> <!-- end topicColoumn -->
 

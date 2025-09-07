@@ -18,18 +18,29 @@ display: flex !important;
 flex-direction: column;
 }
 
-
+/* PlayControl1: slim, fixed right, vertically centered */
 .mobileColumnSelector {
-        position: relative;
-        top: 0;
-        transform: translateY(-50%);
-        background: rgba(255,255,255,0.95);
-        border-radius: 0 8px 8px 0;
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-        display: flex; /* hidden by default */
-        width: fit-content;
-        justify-content: center;
-        align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 0; /* flush against screen edge */
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column; /* vertical stack */
+    z-index: 1000;
+    align-items: center;
+    width: 32px; /* slim fixed width */
+}
+
+.mobileColumnSelector button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
 }
 
 
@@ -113,10 +124,31 @@ p, .verse {
 }
 
 
-.verseControl1{
-    /* height: 20%; */
-    height:6%;
+/* PlayControl1: slim, fixed right, vertically centered */
+.verseControl1 {
+    position: fixed;
+    top: 0;              /* flush to screen top edge */
+    left: 50%;           /* move to horizontal center */
+    transform: translateX(-50%); /* adjust to center */
+    background: rgba(255,255,255,0.9);
+    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row; /* or column, depending on layout */
+    z-index: 1000;
+    align-items: center;
+    width: fit-content;  /* slim width */
 }
+
+.verseControl1 button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
 
 .pageControl {
     margin-top: 2%;
@@ -197,14 +229,32 @@ p, .verse {
 }
 
 
-.VerseControl2{
-    margin-top: 2%;
-    height:fit-content;
-    display: flex; /* Use flexbox for centering */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    height:6%;
+/* PlayControl1: slim, fixed right, vertically centered */
+.verseControl2 {
+    position: fixed;
+    top: 0;              /* flush to screen top edge */
+    left: 50%;           /* move to horizontal center */
+    transform: translateX(-50%); /* adjust to center */
+    background: rgba(255,255,255,0.9);
+    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row; /* or column, depending on layout */
+    z-index: 1000;
+    align-items: center;
+    width: fit-content;  /* slim width */
 }
+
+.verseControl2 button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+
 .verseResults2 {
     margin-top: 1%;
     margin-bottom: 1%;
@@ -217,20 +267,27 @@ p, .verse {
 }
 
 
+
+
+
 .searchColoumn {
     align-items: flex-end; /* Align items to the bottom */
 }
 
+/* PlayControl1: slim, fixed top center */
 .searchControl {
-    display: flex; 
-    height:8%;
-    overflow-y: auto; /* Add vertical scrollable slider */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    width: 96%;
-    justify-content: center; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: rtl; /* Set text direction to right-to-left */
-    align-items: center; /* Align items to the bottom */
+    position: fixed;
+    top: 0;              /* flush to screen top edge */
+    left: 50%;           /* move to horizontal center */
+    transform: translateX(-50%); /* adjust to center */
+    background: rgba(255,255,255,0.9);
+    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row; /* or column, depending on layout */
+    z-index: 1000;
+    align-items: center;
+    width: fit-content;  /* slim width */
 }
 
 .searchResults1 {
@@ -259,11 +316,11 @@ p, .verse {
     margin-top: 2%;
 }
 
-    .searchResults2 button img {
-    width: 14px;      /* icon size */
-    height: 14px;
-    display: block;   /* remove inline spacing */
-    }
+.searchResults2 button img {
+width: 14px;      /* icon size */
+height: 14px;
+display: block;   /* remove inline spacing */
+}
 
 
 .suggested-words-label {
@@ -290,17 +347,40 @@ p, .verse {
 }
 
 
-/* New styles for control container and button alignment */
+
+/* PlayControl1: slim, fixed right, vertically centered */
 .topicControl1 {
+    position: fixed;
+    top:50%;
+    right: 0; /* flush to screen top edge */
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
     display: flex;
-    justify-content: center; /* Align items starting from the right */
-    text-align: right; /* Align text to the right */
-    direction: rtl; /* Set text direction to right-to-left */
-    align-items: center; /* Align items to the bottom */
-    font-family: Arial, sans-serif; /* Set font to Arial */
-    height:6%;
-    width: 100%;
+    flex-direction: column; /* vertical stack */
+    z-index: 1000;
+    align-items: center;
+    width: fit-content; /* slim fixed width */
 }
+
+.topicControl1 button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+
+.topicControl1 button img {
+width: 18px;      /* icon size */
+height: 18px;
+display: block;   /* remove inline spacing */
+}
+
+
 
 .topicSelectClass {
     width: fit-content; /* Same as the full width of stacked verses */
@@ -377,18 +457,34 @@ p, .verse {
     gap: 20px; /* Add spacing between each container */
 }
 
-/* New styles for control container and button alignment */
+/* PlayControl1: slim, fixed right, vertically centered */
 .topicControl2 {
+    position: fixed;
+    top: 0;              /* flush to screen top edge */
+    left: 50%;           /* move to horizontal center */
+    transform: translateX(-50%); /* adjust to center */
+    background: rgba(255,255,255,0.9);
+    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     display: flex;
-    justify-content: center;
+    flex-direction: row; /* or column, depending on layout */
+    z-index: 1000;
     align-items: center;
-    text-align: center;
-    direction: rtl;
-    font-family: Arial, sans-serif;
-    height: fit-content;
-    margin-top: 2%;
-    width: 100%;
+    width: fit-content;  /* slim width */
 }
+
+.topicControl2 button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+
 
 textarea {
     /* Make the text box span the full width */
@@ -451,7 +547,7 @@ label {
         flex-direction: column; /* vertical stack */
         z-index: 1000;
         align-items: center;
-        width: fit-content; /* slim fixed width */
+        width: 24px; /* slim fixed width */
     }
 
     .playControl1 button {
@@ -463,11 +559,6 @@ label {
         text-align: center;
     }
 
-    .playControl1 button img {
-    width: 14px;      /* icon size */
-    height: 14px;
-    display: block;   /* remove inline spacing */
-    }
 
     /* PlayControl2: overlay, vertically centered left */
     .playControl2 {
