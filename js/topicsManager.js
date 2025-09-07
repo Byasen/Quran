@@ -19,7 +19,6 @@ function addCurrentVerse() {
     const chapterNumberLoc = document.getElementById('chapterSelect').value;
     const verseNumberLoc = document.getElementById('verseSelect').value;
     addVerse(chapterNumberLoc, verseNumberLoc);
-    showMobileColumn('topicColoumn');
 }
 
 
@@ -56,9 +55,9 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         <br>
         <div class="verse-actions">
         <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})"><img src="assets/book-open.svg" alt="book"></button>
-        <button onclick="removeVerse(this)"><img src="assets/x.svg" alt="x"></button>
         <button onclick="moveVerseUp(this)"><img src="assets/arrow-turn-up.svg" alt="up"></button>
         <button onclick="moveVerseDown(this)"><img src="assets/arrow-turn-down.svg" alt="down"></button>
+        <button onclick="removeVerse(this)"><img src="assets/x.svg" alt="x"></button>
         </div>
     `;
 

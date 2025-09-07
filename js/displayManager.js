@@ -252,9 +252,6 @@ async function displayQuranPagesWithHighlight(surahNumber, selectedVerse = null)
             initializeVerseHighlightingForPage(img, pageDiv.id);
         }
 
-        // Initialize verse highlighting (if needed)
-        initializeVerseHighlighting(selectedVerse);
-
     } catch (err) {
         console.error(`Error loading surah ${surahNumber}:`, err);
     }
@@ -378,7 +375,6 @@ function showMobileColumn(className) {
 
     const target = document.querySelector(`.${className}`);
     if (target) target.classList.add('mobile-active');
-    initializeVerseHighlighting(); // Re-initialize highlighting after changing columns
     saveState();
     
 }
