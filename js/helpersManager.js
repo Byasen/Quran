@@ -80,39 +80,26 @@ function decrementVerse() {
 }
 
 function handleScrollMid() {
-    let container = document.getElementById("pageResultsId");
-    if (!container) return;
+    const container = document.getElementById("pageResultsId");
+    const images = container.querySelectorAll("img");
 
-    function scrollMid() {
+    // Wait for all images to load
+    const imagePromises = Array.from(images).map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+            img.onload = img.onerror = () => resolve();
+        });
+    });
+
+    Promise.all(imagePromises).then(() => {
+        // Use requestAnimationFrame to ensure layout is updated
         requestAnimationFrame(() => {
-            //console.log("Before scroll:", container.scrollTop);
-
             if (container.scrollHeight > container.clientHeight) {
                 container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
             }
-
-            //console.log("After scroll:", container.scrollTop);
         });
-    }
-
-    function debounce(func, delay) {
-        let timer;
-        return function (...args) {
-            clearTimeout(timer);
-            timer = setTimeout(() => func(...args), delay);
-        };
-    }
-
-    let observer = new MutationObserver(debounce(scrollMid, 100));
-
-    observer.observe(container, { childList: true, subtree: true, characterData: true });
-
-    // Initial scroll after a short delay to ensure content is ready
-    setTimeout(scrollMid, 200);
+    });
 }
-
-// Start after full page load
-window.addEventListener("load", handleScrollMid);
 
 
 

@@ -95,7 +95,7 @@ function displaySearchResults(label, wordList, matches, clear = true) {
     
       div.innerHTML = `
       <button class="select-verse-btn" style="margin-right: 10px;"
-        onclick="selectThisVerse(${match.chapter}, ${match.verse})"><img src="assets/book-open.svg" alt="book"></button>
+        onclick="selectThisVerseAndScrollMid(${match.chapter}, ${match.verse})"><img src="assets/book-open.svg" alt="book"></button>
       <strong>سورة ${match.chapter}. ${match.chapterName} : آية ${match.verse}</strong><br>
         <br>
         ${match.text}
@@ -217,7 +217,7 @@ async function searchInCSV() {
           surahLink.style.marginBottom = '4px';
           surahLink.addEventListener('click', (e) => {
             e.preventDefault();
-            selectThisVerse(chapterNum, 1);
+            selectThisVerseAndScrollMid(chapterNum, 1);
           });
 
           surahLinksContainer.appendChild(surahLink);

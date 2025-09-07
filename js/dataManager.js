@@ -155,8 +155,16 @@ async function selectRandomVerse() {
     tempSurah = await response.json();
     const tempVerseCount =  tempSurah.verses.length;
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-    selectThisVerse(randomChapter, randomVerse);
+    selectThisVerseAndScrollMid(randomChapter, randomVerse);
 }
+
+
+// Function to handle selecting a stacked verse
+function selectThisVerseAndScrollMid(chapterNumber, verseNumber) {
+    selectThisVerse(chapterNumber, verseNumber);
+    handleScrollMid();
+}
+
 
 // Function to handle selecting a stacked verse
 function selectThisVerse(chapterNumber, verseNumber) {
@@ -171,22 +179,6 @@ function selectThisVerse(chapterNumber, verseNumber) {
     showMobileColumn('pageColoumn');
     handleAudioVerseChange(chapterNumber, verseNumber);
 }
-
-
-// Function to handle selecting a stacked verse
-function selectThisVerseNoPageChange(chapterNumber, verseNumber) {
-    // Set the dropdowns to the correct Surah and Verse
-    document.getElementById('chapterSelect').value = chapterNumber;
-    fetchSurahVerses(chapterNumber).then(() => {
-        document.getElementById('verseSelect').value = verseNumber;
-
-        // Call displayVerseWithAnalyses to update the verse and analyses automatically
-        displayVerseWithAnalysesNoPageChange(); // Update the verse display
-    });
-    handleAudioVerseChange(chapterNumber, verseNumber);
-}
-
-
 
 
 // Function to batch fetch verses

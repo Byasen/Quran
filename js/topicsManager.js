@@ -15,7 +15,6 @@ document.getElementById('topicIntro').addEventListener('input', e => {
 });
 
 function addCurrentVerse() {
-    const topicResults2 = document.getElementById('topicResults2Id').scrollTop = 0;
     const chapterNumberLoc = document.getElementById('chapterSelect').value;
     const verseNumberLoc = document.getElementById('verseSelect').value;
     addVerse(chapterNumberLoc, verseNumberLoc);
@@ -54,7 +53,7 @@ async function addVerse(chapterNumberLoc, verseNumberLoc) {
         </div>
         <br>
         <div class="verse-actions">
-        <button onclick="selectThisVerse(${chapterNumberLoc}, ${verseNumberLoc})"><img src="assets/book-open.svg" alt="book"></button>
+        <button onclick="selectThisVerseAndScrollMid(${chapterNumberLoc}, ${verseNumberLoc})"><img src="assets/book-open.svg" alt="book"></button>
         <button onclick="moveVerseUp(this)"><img src="assets/arrow-turn-up.svg" alt="up"></button>
         <button onclick="moveVerseDown(this)"><img src="assets/arrow-turn-down.svg" alt="down"></button>
         <button onclick="removeVerse(this)"><img src="assets/x.svg" alt="x"></button>

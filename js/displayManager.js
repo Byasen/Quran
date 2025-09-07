@@ -175,41 +175,6 @@ async function displayVerseWithAnalyses() {
     updateChapterVerse();
 }
 
-async function displayVerseWithAnalysesNoPageChange() {
-    const chapterSelect = document.getElementById('chapterSelect');
-    const verseSelect = document.getElementById('verseSelect');
-    const verseDisplay = document.getElementById('verseDisplay');
-    const meaningsDisplay = document.getElementById('meaningsDisplay');
-
-    const selectedChapter = chapterSelect.value;
-    const selectedVerse = verseSelect.value;
-
-    const verseWithAnalyses = await fetchVerseWithAnalyses(selectedChapter, selectedVerse);
-
-    if (verseWithAnalyses) {
-        let verseDisplayContent = '<hr class="dashed-line">';
-        let meaningsDisplayContent = '';
-
-        // Always display the main verse text
-        verseDisplayContent += `<div class="rtl-text">${verseWithAnalyses.verseData.text.ar}</div><hr class="dashed-line">`;
-
-        const analysisSelect = document.getElementById('analysisSelect');
-        const selected = analysisSelect.value;
-        const selectedText = analysisSelect.options[analysisSelect.selectedIndex]?.text || '';
-
-        const analysisContent = verseWithAnalyses.analyses[selected];
-        if (analysisContent !== undefined) {
-            meaningsDisplayContent += `<div class="rtl-text">${analysisContent}</div>`;
-        }
-        
-        verseDisplay.innerHTML = verseDisplayContent || 'No content selected.';
-        meaningsDisplay.innerHTML = meaningsDisplayContent || 'No content selected.';
-    } else {
-        verseDisplay.textContent = 'Verse or analyses not available.';
-        meaningsDisplay.textContent = 'Verse or analyses not available.';
-    }
-    updateChapterVerse();
-}
 
 async function displayQuranPagesWithHighlight(surahNumber, selectedVerse = null) {
     try {
@@ -245,6 +210,7 @@ async function displayQuranPagesWithHighlight(surahNumber, selectedVerse = null)
     } catch (err) {
         console.error(`Error loading surah ${surahNumber}:`, err);
     }
+    
 }
 
 async function loadQuranPage(page, pagesContainer, prepend = false) {
@@ -266,12 +232,27 @@ async function loadQuranPage(page, pagesContainer, prepend = false) {
     pageDiv.appendChild(overlay);
 
     if (prepend) {
-        pagesContainer.insertBefore(pageDiv, pagesContainer.firstChild);
+        const firstChild = pagesContainer.firstChild;
+
+        // Record scroll position relative to container
+        const prevScrollTop = pagesContainer.scrollTop;
+        const prevFirstChildOffset = firstChild ? firstChild.offsetTop : 0;
+
+        // Prepend the new page
+        pagesContainer.insertBefore(pageDiv, firstChild);
+
+        // Wait for image to load before initializing overlays
+        img.onload = () => {
+            initializeVerseHighlightingForPage(img, pageDiv.id);
+
+            // Adjust scrollTop so previous content stays in view
+            const newFirstChildOffset = firstChild.offsetTop;
+            pagesContainer.scrollTop = prevScrollTop + (newFirstChildOffset - prevFirstChildOffset);
+        };
     } else {
         pagesContainer.appendChild(pageDiv);
+        img.onload = () => initializeVerseHighlightingForPage(img, pageDiv.id);
     }
-
-    initializeVerseHighlightingForPage(img, pageDiv.id);
 }
 
 
@@ -327,7 +308,7 @@ function renderBoundingBoxesForPage(regions, imageElement, containerId) {
                 }
             });
 
-            selectThisVerseNoPageChange(region.chapter, region.verse);
+            selectThisVerse(region.chapter, region.verse);
 
             // === NEW: Expand pages dynamically if needed ===
             const pagesContainer = document.getElementById('pageResultsId');

@@ -43,7 +43,7 @@ async function loadState(jsonString) {
         checkedWords = data.checkedWords || [];
         chapterNumberGlobal = data.chapterNumberGlobal || '';
         verseNumberGlobal = data.verseNumberGlobal || '';
-        selectThisVerse(chapterNumberGlobal, verseNumberGlobal);
+        selectThisVerseAndScrollMid(chapterNumberGlobal, verseNumberGlobal);
 
         // New: Load repeat and silence (with fallback values)
         repeat = data.repeat !== undefined ? data.repeat : 3;
