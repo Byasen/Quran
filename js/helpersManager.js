@@ -5,15 +5,7 @@ function padNumber(num) {
 
 // Show the loading bar and status
 function showLoadingStatus(message) {
-    const loadingBar = document.getElementById('loadingBarId');
-    const loadingStatus = document.getElementById('loadingStatus');
-    const loadingBarContainer = document.getElementById('loadingBarContainerId');
 
-    loadingBarContainer.style.display = 'block';
-
-    // Simulate progress (for demonstration, you can adjust it)
-    loadingBar.value += 10;
-    if (loadingBar.value > 100) loadingBar.value = 0; // Reset if it exceeds 100
 }
 
 
@@ -21,8 +13,7 @@ function showLoadingStatus(message) {
 
 // Hide the loading bar once loading is complete
 function hideLoadingStatus() {
-    const loadingBarContainer = document.getElementById('loadingBarContainerId');
-    loadingBarContainer.style.display = 'none';
+
 }
 
 

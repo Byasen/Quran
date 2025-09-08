@@ -319,6 +319,8 @@ function renderBoundingBoxesForPage(regions, imageElement, containerId) {
                     .then(() => {
                         selectThisVerseAndScrollMid(region.chapter, region.verse);
                     });
+            }else {
+                selectThisVerseAndScrollMid(region.chapter, region.verse);
             }
 
         });
