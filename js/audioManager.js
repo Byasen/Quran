@@ -184,11 +184,9 @@ function incrementVerse() {
 function padNumber(num) {
     return num.toString().padStart(3, '0');
 }
-
 // Dummy functions
 function showLoadingStatus(msg) { console.log(msg); }
 function hideLoadingStatus() { console.log("Loaded"); }
-
 // Helpers to get current chapter/verse from UI
 function getCurrentChapter() {
     return parseInt(document.getElementById('chapterSelect').value);
@@ -210,12 +208,9 @@ function handleAudioVerseChange(chapter, verse) {
 
     audioPlayer.src = audioPath;
     audioPlayer.load();
-
     showLoadingStatus(`Loading verse ${chapter}:${verse}...`);
-
     audioPlayer.addEventListener('canplaythrough', () => {
         hideLoadingStatus();
-
         // 🔑 Only play if already in play mode (autoPlay or playOne)
         if (autoPlay || stopBtn.classList.contains("playing")) {
             audioPlayer.play().catch(err => {
@@ -246,12 +241,9 @@ function loadVerseAudio(chapter, verse) {
 
     audioPlayer.src = audioPath;
     audioPlayer.load();
-
     showLoadingStatus(`Loading verse ${chapter}:${verse}...`);
-
     audioPlayer.addEventListener('canplaythrough', () => {
         hideLoadingStatus();
-
         // only play if in play mode
         if (autoPlay || stopBtn.classList.contains("playing")) {
             audioPlayer.play().catch(err => {
@@ -262,7 +254,7 @@ function loadVerseAudio(chapter, verse) {
 
     audioPlayer.addEventListener('error', () => {
         console.error(`Failed to load: ${audioPath}`);
-        hideLoadingStatus();
+        hideLoadingStatus();        
         stopBtn.classList.remove('playing');
     }, { once: true });
 }

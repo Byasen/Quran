@@ -9,8 +9,7 @@ tafseerSelect.addEventListener('change', () => {
 // Fetch Quran metadata (list of Surahs)
 async function loadMetadata() {
     try {
-        showLoadingStatus('Loading metadata...');
-        const response = await fetch('data/metadata.json');
+        showLoadingStatus('Loading metadata...');        const response = await fetch('data/metadata.json');
         if (!response.ok) {
             throw new Error('Metadata file not found');
         }
@@ -19,13 +18,12 @@ async function loadMetadata() {
         hideLoadingStatus(); // Hide the loading text once the metadata is loaded
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-    }
+    }        
 }
 
 // Fetch the verses of a selected Surah (no padding for Surah number)
 async function fetchSurahVerses(surahNumber) {
     const filePath = `data/surah/surah_${surahNumber}.json`;
-
     try {
         showLoadingStatus(`Loading Surah ${surahNumber}...`);
         const response = await fetch(filePath);
@@ -37,7 +35,7 @@ async function fetchSurahVerses(surahNumber) {
         hideLoadingStatus(); // Hide the loading text once verses are loaded
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-    }
+    }        
 
 }
 
@@ -143,11 +141,6 @@ function initializeVersesSelect() {
 }
 
 
-
-
-
-
-
 async function selectRandomVerse() {
     const randomChapter = Math.floor(Math.random() * 114) + 1;
     const tempPath = `data/surah/surah_${randomChapter}.json`;
@@ -175,6 +168,7 @@ function selectThisVerse(chapterNumber, verseNumber) {
 
         // Call displayVerseWithAnalyses to update the verse and analyses automatically
         displayVerseWithAnalyses(); // Update the verse display
+        displayQuranPagesWithHighlight(chapterNumber, verseNumber);
     });
     showMobileColumn('pageColoumn');
     handleAudioVerseChange(chapterNumber, verseNumber);

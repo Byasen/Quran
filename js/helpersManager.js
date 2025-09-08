@@ -38,44 +38,31 @@ function normalizeArabic(text) {
 
 
 
-
-
-
 // Function to increment the verse
 function incrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
+    const chapterNumber = document.getElementById('chapterSelect');
     const currentVerseIndex = verseSelect.selectedIndex;
     
     if (currentVerseIndex < verseSelect.options.length - 1) {
         // Move to the next verse
         verseSelect.selectedIndex = currentVerseIndex + 1;
         displayVerseWithAnalyses();
-    }
-}
-
-
-
-// Function to increment the verse
-function incrementVerse() {
-    const verseSelect = document.getElementById('verseSelect');
-    const currentVerseIndex = verseSelect.selectedIndex;
-    
-    if (currentVerseIndex < verseSelect.options.length - 1) {
-        // Move to the next verse
-        verseSelect.selectedIndex = currentVerseIndex + 1;
-        displayVerseWithAnalyses();
+        displayQuranPagesWithHighlight(chapterNumber.value, verseNumber.value);
     }
 }
 
 // Function to decrement the verse
 function decrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
+    const chapterNumber = document.getElementById('chapterSelect');
     const currentVerseIndex = verseSelect.selectedIndex;
     
     if (currentVerseIndex > 0) {
         // Move to the previous verse
         verseSelect.selectedIndex = currentVerseIndex - 1;
         displayVerseWithAnalyses();
+        displayQuranPagesWithHighlight(chapterNumber.value, verseNumber.value);
     }
 }
 
@@ -98,6 +85,46 @@ function handleScrollMid() {
                 container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
             }
         });
+    });
+}
+
+
+
+function handleScroll(direction) { 
+    return new Promise((resolve) => {
+        const duration = 2000;
+        const container = document.getElementById("pageResultsId");
+        const start = container.scrollTop;
+        let target;
+
+        if (direction === "top") {
+            target = 0;
+        } else if (direction === "bottom") {
+            target = container.scrollHeight - container.clientHeight;
+        }
+
+        const distance = target - start;
+        const startTime = performance.now();
+
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
+
+        function step(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1); // 0 → 1
+            const easedProgress = easeInOutQuad(progress);
+
+            container.scrollTop = start + distance * easedProgress;
+
+            if (elapsed < duration) {
+                requestAnimationFrame(step);
+            } else {
+                resolve(); // ✅ animation finished
+            }
+        }
+
+        requestAnimationFrame(step);
     });
 }
 

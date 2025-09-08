@@ -28,15 +28,17 @@ function onChapterChange() {
         }
         // Display the selected verse with analyses (the first verse)
         displayVerseWithAnalyses();
+        displayQuranPagesWithHighlight(chapterSelect.value, verseSelect.value);
     });
 }
 
 
 function onVerseChange() {
+    const chapterSelect = document.getElementById('chapterSelect');    
     const verseSelect = document.getElementById('verseSelect');
     displayVerseWithAnalyses();
+    displayQuranPagesWithHighlight(chapterSelect.value, verseSelect.value);
 }
-
 
 
 
@@ -50,16 +52,6 @@ function onTopicChange() {
 
 }
 
-
-
-
-document.getElementById('chapterSelect').addEventListener('change', function () {
-    onChapterChange(); // Trigger chapter change logic
-});
-
-document.getElementById('verseSelect').addEventListener('change', function () {
-    onVerseChange(); // Trigger verse change logic
-});
 
 
 window.onload = async function () {
