@@ -3,6 +3,8 @@ let topicName = "";
 let topicIntro = "";
 let topicVerses = []; // Array of { surahNumber, verseNumber, verseNotes }
 
+document.getElementById('chapterSelect').addEventListener("change", () => {document.getElementById('topicChapterSelect').value = document.getElementById('chapterSelect').value;});
+document.getElementById('verseSelect').addEventListener("change", () => {document.getElementById('topicVerseSelect').value = document.getElementById('verseSelect').value;});
 
 document.getElementById('topicSelect').addEventListener('input', e => {
     topicName = e.target.value;
@@ -15,8 +17,8 @@ document.getElementById('topicIntro').addEventListener('input', e => {
 });
 
 function addCurrentVerse() {
-    const chapterNumberLoc = document.getElementById('chapterSelect').value;
-    const verseNumberLoc = document.getElementById('verseSelect').value;
+    const chapterNumberLoc = document.getElementById('topicChapterSelect').value;
+    const verseNumberLoc = document.getElementById('topicVerseSelect').value;
     addVerse(chapterNumberLoc, verseNumberLoc);
 }
 

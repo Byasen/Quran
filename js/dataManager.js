@@ -94,6 +94,7 @@ function populateChapters() {
         option.textContent = `${surah.number}.${surah.name.ar}`;
         chapterSelect.appendChild(option);
     }); // Close forEach and add semicolon
+    document.getElementById('topicChapterSelect').innerHTML = document.getElementById('chapterSelect').innerHTML;    
 }
 
 
@@ -127,6 +128,7 @@ function populateVerses(verses) {
         });
 
     }
+    document.getElementById('topicVerseSelect').innerHTML = document.getElementById('verseSelect').innerHTML;
 }
 
 function initializeVersesSelect() {
@@ -163,15 +165,18 @@ function selectThisVerseAndScrollMid(chapterNumber, verseNumber) {
 function selectThisVerse(chapterNumber, verseNumber) {
     // Set the dropdowns to the correct Surah and Verse
     document.getElementById('chapterSelect').value = chapterNumber;
+    document.getElementById('topicChapterSelect').value = chapterNumber
+    
     fetchSurahVerses(chapterNumber).then(() => {
         document.getElementById('verseSelect').value = verseNumber;
+        document.getElementById('topicVerseSelect').value = verseNumber
 
         // Call displayVerseWithAnalyses to update the verse and analyses automatically
         displayVerseWithAnalyses(); // Update the verse display
         displayQuranPagesWithHighlight(chapterNumber, verseNumber);
     });
     showMobileColumn('pageColoumn');
-    handleAudioVerseChange(chapterNumber, verseNumber);
+    handleAudioVerseChange(chapterNumber, verseNumber);   
 }
 
 

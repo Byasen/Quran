@@ -290,6 +290,22 @@ p, .verse {
     width: fit-content;  /* slim width */
 }
 
+.searchControl button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+
+    .searchControl button img {
+    width: 18px;      /* icon size */
+    height: 18px;
+    display: block;   /* remove inline spacing */
+    }
+
 .searchResults1 {
     height: 8%;
     width: 96%;
@@ -351,17 +367,17 @@ display: block;   /* remove inline spacing */
 /* PlayControl1: slim, fixed right, vertically centered */
 .topicControl1 {
     position: fixed;
-    top:50%;
-    right: 0; /* flush to screen top edge */
-    transform: translateY(-50%);
+    top: 0;              /* flush to screen top edge */
+    left: 50%;           /* move to horizontal center */
+    transform: translateX(-50%); /* adjust to center */
     background: rgba(255,255,255,0.9);
-    border-radius: 8px 0 0 8px;
-    box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     display: flex;
-    flex-direction: column; /* vertical stack */
+    flex-direction: row; /* or column, depending on layout */
     z-index: 1000;
     align-items: center;
-    width: fit-content; /* slim fixed width */
+    width: fit-content;  /* slim width */
 }
 
 .topicControl1 button {
