@@ -112,7 +112,7 @@
                 <button onclick="searchInCSVClearCurrent()">
                     <img src="assets/magnifying-glass.svg" alt="Play">
                 </button>                
-                <input type="text" id="verseSearchInput" placeholder="ابحث في القرآن" style="direction: rtl; text-align: rtl;"/>
+                <input type="text" id="verseSearchInput" placeholder="ابحث عن كلمة" style="direction: rtl; text-align: rtl;"/>
             </div>
             <label style="margin-top: 1%; white-space: nowrap; padding-right: 20px;">كلمات ذات صلة</label>
             <div id="searchResultsContainer1" class="searchResults1"></div>
@@ -121,20 +121,20 @@
 
         <div id="topicResults" class="topicColoumn">
             <div class="topicControl1">
-                <button onclick="loadStateFromFirebase()">
-                    <img src="assets/repeat.svg" alt="Settings">
-                </button>               
-                <button onclick="saveStateToFirebase()">
-                    <img src="assets/save.svg" alt="Settings">
-                </button>   
                 <button onclick="addCurrentVerse()">
                     <img src="assets/plus.svg" alt="Settings">
                 </button> 
-                <button onclick="incrementTopicVerse()">&#60;</button>
                 <select id="topicVerseSelect" class="verseSelectClass"></select>
-                <button onclick="decrementTopicVerse()">&#62;</button>
                 <select id="topicChapterSelect" class="chapterSelectClass"></select>
             </div>
+            <div class="topicControl2">
+                <button onclick="saveStateToFirebase()">
+                    <img src="assets/save.svg" alt="Settings">
+                </button>
+                <button onclick="loadStateFromFirebase()">
+                    <img src="assets/repeat.svg" alt="Settings">
+                </button>               
+            </div>            
             <div id="topicResults2Id" class="topicResults2">
                 <input id="topicSelect" class="topicSelectClass" placeholder="">
                 <label style="direction: rtl; text-align: right; margin-left: 2%;">اسم الباب :</label>

@@ -447,8 +447,8 @@ display: block;   /* remove inline spacing */
 
 .verse-actions {
     position: absolute;
-    top: 0;              /* flush to screen top edge */
-    left: 0;             /* flush to screen left edge */
+    left: 0;              /* flush to screen top edge */
+    top: 0;             /* flush to screen left edge */
     background: rgba(255,255,255,0.9);
     border-radius: 0 0 8px 8px;  /* rounded bottom corners */
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
@@ -476,17 +476,17 @@ display: block;   /* remove inline spacing */
 /* PlayControl1: slim, fixed right, vertically centered */
 .topicControl2 {
     position: fixed;
-    top: 0;              /* flush to screen top edge */
-    left: 50%;           /* move to horizontal center */
-    transform: translateX(-50%); /* adjust to center */
+    top: 50%;
+    right: 0; /* flush against screen edge */
+    transform: translateY(-50%);
     background: rgba(255,255,255,0.9);
-    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
     display: flex;
-    flex-direction: row; /* or column, depending on layout */
+    flex-direction: column; /* vertical stack */
     z-index: 1000;
     align-items: center;
-    width: fit-content;  /* slim width */
+    width: 24px; /* slim fixed width */
 }
 
 .topicControl2 button {
@@ -498,6 +498,12 @@ display: block;   /* remove inline spacing */
     text-align: center;
 }
 
+
+.topicControl2 button img {
+width: 18px;      /* icon size */
+height: 18px;
+display: block;   /* remove inline spacing */
+}
 
 
 
