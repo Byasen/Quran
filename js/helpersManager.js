@@ -29,17 +29,19 @@ function normalizeArabic(text) {
 
 
 
+
+
 // Function to increment the verse
 function incrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
-    const chapterNumber = document.getElementById('chapterSelect');
+    const chapterNumber = document.getElementById('chapterSelect');       
     const currentVerseIndex = verseSelect.selectedIndex;
     
     if (currentVerseIndex < verseSelect.options.length - 1) {
         // Move to the next verse
         verseSelect.selectedIndex = currentVerseIndex + 1;
         displayVerseWithAnalyses();
-        displayQuranPagesWithHighlight(chapterNumber.value, verseNumber.value);
+        displayQuranPagesWithHighlight(chapterNumber.value, verseSelect.value);
     }
 }
 
@@ -53,7 +55,7 @@ function decrementVerse() {
         // Move to the previous verse
         verseSelect.selectedIndex = currentVerseIndex - 1;
         displayVerseWithAnalyses();
-        displayQuranPagesWithHighlight(chapterNumber.value, verseNumber.value);
+        displayQuranPagesWithHighlight(chapterNumber.value, verseSelect.value);
     }
 }
 
