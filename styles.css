@@ -31,7 +31,6 @@ flex-direction: column;
     flex-direction: column; /* vertical stack */
     z-index: 1000;
     align-items: center;
-    width: 32px; /* slim fixed width */
 }
 
 .mobileColumnSelector button {
@@ -39,9 +38,16 @@ flex-direction: column;
     background: none;
     border: none;
     cursor: pointer;
-    width: 100%;
     text-align: center;
 }
+
+.mobileColumnSelector button img {
+    width: 18px;      /* icon size */
+    height: 18px;
+    display: block;   /* remove inline spacing */
+}
+
+
 
 
 .mainContainer {
@@ -267,9 +273,6 @@ p, .verse {
 }
 
 
-
-
-
 .searchColoumn {
     align-items: flex-end; /* Align items to the bottom */
 }
@@ -385,14 +388,13 @@ display: block;   /* remove inline spacing */
     background: none;
     border: none;
     cursor: pointer;
-    width: 100%;
     text-align: center;
 }
 
 
 .topicControl1 button img {
-width: 18px;      /* icon size */
-height: 18px;
+width: 10px;      /* icon size */
+height: 10px;
 display: block;   /* remove inline spacing */
 }
 
@@ -442,27 +444,30 @@ display: block;   /* remove inline spacing */
     direction: rtl;
     transition: background-color 2s ease; /* smooth fade every second */
     position: relative; /* For positioning the action buttons */
-    border: #000 1px solid;
+    border: #000000 1px solid;
+    margin-bottom: 46px;
 }
 
 .verse-actions {
     position: absolute;
-    left: 0;              /* flush to screen top edge */
-    top: 0;             /* flush to screen left edge */
+    left: 10%;                 /* stick to left edge of parent */
+    bottom: 100%;            /* element’s bottom aligns with parent’s top */
     background: rgba(255,255,255,0.9);
-    border-radius: 0 0 8px 8px;  /* rounded bottom corners */
+    border-radius: 0 0 8px 8px;  
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     display: flex;
-    flex-direction: row; /* or column, depending on layout */
+    flex-direction: row;     /* or column */
     z-index: 1000;
     align-items: center;
-    width: fit-content;  /* slim width */
+    width: fit-content;
+    border: #000000 1px solid;
 }
 
 
+
     .verse-actions button img {
-    width: 14px;      /* icon size */
-    height: 14px;
+    width: 12px;      /* icon size */
+    height: 12px;
     display: block;   /* remove inline spacing */
     }
     
@@ -486,7 +491,6 @@ display: block;   /* remove inline spacing */
     flex-direction: column; /* vertical stack */
     z-index: 1000;
     align-items: center;
-    width: 24px; /* slim fixed width */
 }
 
 .topicControl2 button {
@@ -494,7 +498,6 @@ display: block;   /* remove inline spacing */
     background: none;
     border: none;
     cursor: pointer;
-    width: 100%;
     text-align: center;
 }
 
@@ -569,7 +572,6 @@ label {
         flex-direction: column; /* vertical stack */
         z-index: 1000;
         align-items: center;
-        width: 24px; /* slim fixed width */
     }
 
     .playControl1 button {
@@ -577,8 +579,14 @@ label {
         background: none;
         border: none;
         cursor: pointer;
-        width: 100%;
         text-align: center;
+    }
+
+
+    .playControl1 button img {
+    width: 14px;      /* icon size */
+    height: 14px;
+    display: block;   /* remove inline spacing */
     }
 
 
