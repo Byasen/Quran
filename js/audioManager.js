@@ -1,9 +1,7 @@
 let audioPlayer = document.getElementById('audioPlayer');
 let autoPlay = false;
-
-// Global variables
 let repeat = 1;
-let silence = 0; // milliseconds
+let silence = 0; // seconds or "1X", "2X", "3X"
 let reciter = 'abdullah_basfar';
 let playCount = 0; // repeat counter
 
@@ -17,14 +15,15 @@ const playOneBtn = document.getElementById('playOneAudioBtn');
 const settingsBtn = document.getElementById("settingsBtn");
 const playControl2 = document.getElementById("playControl2");
 
-// --------- Event Listeners ---------
+// ------------------ Setup UI ------------------
 
+// Reciter change
 reciterSelect.addEventListener('change', () => {
     reciter = reciterSelect.value;
     saveStateToLocal();
 });
 
-// Populate Repeat dropdown
+// Repeat dropdown
 for (let i = 1; i <= 10; i++) {
     const option = document.createElement('option');
     option.value = i;
@@ -37,28 +36,21 @@ repeatSelect.addEventListener('change', () => {
     saveStateToLocal();
 });
 
-// Populate Silence dropdown
-const silenceOptions = document.createDocumentFragment();
-for (let i = 0; i <= 60; i++) {
+// Silence dropdown
+const silenceOptionsSec = [0,5,10,15,20,25,30,45,60];
+silenceOptionsSec.forEach(sec => {
     const option = document.createElement('option');
-    option.value = i;
-    option.textContent = `${i} sec`;
-    silenceOptions.appendChild(option);
-}
-['1X', '2X', '3X'].forEach(x => {
-    const option = document.createElement('option');
-    option.value = x;
-    option.textContent = x;
-    silenceOptions.appendChild(option);
+    option.value = sec;
+    option.textContent = `${sec} sec`;
+    silenceSelect.appendChild(option);
 });
-silenceSelect.appendChild(silenceOptions);
-silenceSelect.value = typeof silence === 'number' ? silence / 1000 : silence;
+silenceSelect.value = typeof silence === 'number' ? silence : '0';
 silenceSelect.addEventListener('change', () => {
     const value = silenceSelect.value;
     if (value.endsWith('X')) {
-        silence = value; // store as "1X", "2X"
+        silence = value;
     } else {
-        silence = parseInt(value) * 1000; // milliseconds
+        silence = parseInt(value);
     }
     saveStateToLocal();
 });
@@ -93,7 +85,7 @@ document.addEventListener("click", () => {
     if (playControl2.classList.contains("show")) playControl2.classList.remove("show");
 });
 
-// --------- Audio Functions ---------
+// ------------------ Audio Functions ------------------
 
 function initAudioPlayer() {
     if (!audioPlayer) return;
@@ -104,14 +96,18 @@ function initAudioPlayer() {
         playCount++;
 
         if (playCount < repeat) {
-            // Repeat same verse immediately
-            audioPlayer.currentTime = 0;
-            audioPlayer.play().catch(err => console.warn("Play blocked:", err));
+            // Repeat current verse after silence
+            playSilence(getSilenceSeconds(), () => {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play().catch(err => console.warn("Play blocked:", err));
+            });
         } else if (autoPlay) {
             if (!isAtLastVerse()) {
                 incrementVerse();
                 playCount = 0;
-                handleAudioVerseChange(getCurrentChapter(), getCurrentVerse());
+                playSilence(getSilenceSeconds(), () => {
+                    handleAudioVerseChange(getCurrentChapter(), getCurrentVerse());
+                });
             } else {
                 autoPlay = false;
                 stopBtn.classList.remove('playing');
@@ -122,17 +118,38 @@ function initAudioPlayer() {
     };
 }
 
-// Calculates silence delay
-function getSilenceDelay() {
+function getSilenceSeconds() {
     if (typeof silence === 'string' && silence.endsWith('X')) {
-        const multiplier = parseInt(silence.replace('X', ''), 10);
+        const multiplier = parseInt(silence.replace('X',''),10);
         if (audioPlayer && !isNaN(audioPlayer.duration)) {
-            return Math.round(audioPlayer.duration * 1000 * multiplier);
+            return Math.round(audioPlayer.duration * multiplier);
         }
-        return 1000;
+        return 1; // fallback
     } else {
         return silence;
     }
+}
+
+function playSilence(seconds, callback) {
+    if (seconds <= 0) {
+        callback();
+        return;
+    }
+
+    const silentAudio = new Audio('data/sounds/silence1s.mp3');
+    let played = 0;
+
+    silentAudio.onended = function () {
+        played++;
+        if (played < seconds) {
+            silentAudio.currentTime = 0;
+            silentAudio.play().catch(err => console.warn("Silence blocked:", err));
+        } else {
+            callback();
+        }
+    };
+
+    silentAudio.play().catch(err => console.warn("Silence blocked:", err));
 }
 
 function stopAudio() {
@@ -157,7 +174,7 @@ function incrementVerse() {
 }
 
 function padNumber(num) {
-    return num.toString().padStart(3, '0');
+    return num.toString().padStart(3,'0');
 }
 
 // Dummy loading functions
@@ -171,7 +188,6 @@ function getCurrentVerse() {
     return parseInt(document.getElementById('verseSelect').value);
 }
 
-// Load verse audio
 function loadVerseAudio(chapter, verse) {
     if (!audioPlayer) return;
 
@@ -189,7 +205,7 @@ function loadVerseAudio(chapter, verse) {
             audioPlayer.play().catch(err => console.warn("Autoplay blocked:", err));
         }
 
-        // Optional: Media Session API for background playback
+        // Optional Media Session API
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: `Verse ${chapter}:${verse}`,
@@ -225,4 +241,9 @@ function handleAudioVerseChange(chapter, verse) {
     if (autoPlay || stopBtn.classList.contains("playing")) {
         initAudioPlayer();
     }
+}
+
+// Dummy saveStateToLocal
+function saveStateToLocal() {
+    // implement your localStorage save if needed
 }
