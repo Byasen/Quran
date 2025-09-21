@@ -369,3 +369,25 @@ function showMobileColumn(className) {
 
 
 
+
+// Show the mobileColumnSelector only in mobile mode
+function checkMobileMode() {
+    const mobileColumnSelector = document.getElementById('mobileColumnSelectorID');
+    const container = document.getElementById("mobileOnlyVerseContent");
+    const verseColumn = document.getElementById('verseColoumnId');
+    if (window.innerWidth <= 768) { // Adjust the width as per your mobile breakpoint
+        mobileColumnSelector.style.display = 'block';
+        verseColumn.style.width = '100%'; // Set verseColoumn width to 100%
+        if (container.children.length === 0) {
+            container.innerHTML = `
+            <button onclick="incrementVerse()">&#60;</button>
+            <select id="verseSelect" class="verseSelectClass" onchange="onVerseChange()"></select>
+            <button onclick="decrementVerse()">&#62;</button>
+            <select id="chapterSelect" class="chapterSelectClass" onchange="onChapterChange()"></select>
+            `;
+            // Default to showing the page column
+        }
+    } else {
+        mobileColumnSelector.style.display = 'none';
+    }
+}
