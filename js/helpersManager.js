@@ -5,15 +5,7 @@ function padNumber(num) {
 
 // Show the loading bar and status
 function showLoadingStatus(message) {
-    const loadingBar = document.getElementById('loadingBarId');
-    const loadingStatus = document.getElementById('loadingStatus');
-    const loadingBarContainer = document.getElementById('loadingBarContainerId');
 
-    loadingBarContainer.style.display = 'block';
-
-    // Simulate progress (for demonstration, you can adjust it)
-    loadingBar.value += 10;
-    if (loadingBar.value > 100) loadingBar.value = 0; // Reset if it exceeds 100
 }
 
 
@@ -21,8 +13,7 @@ function showLoadingStatus(message) {
 
 // Hide the loading bar once loading is complete
 function hideLoadingStatus() {
-    const loadingBarContainer = document.getElementById('loadingBarContainerId');
-    loadingBarContainer.style.display = 'none';
+
 }
 
 
@@ -37,104 +28,105 @@ function normalizeArabic(text) {
 
 
 
-// Decrement Quran page
-function decrementPage() {
-    const pageSelect = document.getElementById('pageSelect');
-    const currentIndex = pageSelect.selectedIndex;
-
-    if (currentIndex > 0) {
-        pageSelect.selectedIndex = currentIndex - 1;
-        onPageChange();
-    }
-}
-
-
-
-
-// Increment Quran page
-function incrementPage() {
-    const pageSelect = document.getElementById('pageSelect');
-    const currentIndex = pageSelect.selectedIndex;
-
-    if (currentIndex < pageSelect.options.length - 1) {
-        pageSelect.selectedIndex = currentIndex + 1;
-        onPageChange();
-    }
-}
-
-
-// Function to increment the verse
-function incrementVerse() {
-    const verseSelect = document.getElementById('verseSelect');
-    const currentVerseIndex = verseSelect.selectedIndex;
-    
-    if (currentVerseIndex < verseSelect.options.length - 1) {
-        // Move to the next verse
-        verseSelect.selectedIndex = currentVerseIndex + 1;
-        displayVerseWithAnalyses();
-    }
-}
 
 
 
 // Function to increment the verse
 function incrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
+    const chapterNumber = document.getElementById('chapterSelect');       
     const currentVerseIndex = verseSelect.selectedIndex;
     
     if (currentVerseIndex < verseSelect.options.length - 1) {
         // Move to the next verse
         verseSelect.selectedIndex = currentVerseIndex + 1;
         displayVerseWithAnalyses();
+        displayQuranPagesWithHighlight(chapterNumber.value, verseSelect.value);
     }
 }
 
 // Function to decrement the verse
 function decrementVerse() {
     const verseSelect = document.getElementById('verseSelect');
+    const chapterNumber = document.getElementById('chapterSelect');
     const currentVerseIndex = verseSelect.selectedIndex;
     
     if (currentVerseIndex > 0) {
         // Move to the previous verse
         verseSelect.selectedIndex = currentVerseIndex - 1;
         displayVerseWithAnalyses();
+        displayQuranPagesWithHighlight(chapterNumber.value, verseSelect.value);
+    }
+}
+
+function scrollToMiddle(container) {
+    if (container.scrollHeight > container.clientHeight) {
+        container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
     }
 }
 
 function handleScrollMid() {
-    let container = document.getElementById("pageResultsId");
-    if (!container) return;
+    const container = document.getElementById("pageResultsId");
+    const images = container.querySelectorAll("img");
 
-    function scrollMid() {
-        requestAnimationFrame(() => {
-            //console.log("Before scroll:", container.scrollTop);
+    const imagePromises = Array.from(images).map(img =>
+        img.complete ? Promise.resolve() : new Promise(resolve => {
+            img.onload = img.onerror = resolve;
+        })
+    );
 
-            if (container.scrollHeight > container.clientHeight) {
-                container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
+    Promise.all(imagePromises).then(() => {
+        // Try a few times to account for late layout changes
+        let attempts = 0;
+        function attempt() {
+            scrollToMiddle(container);
+            if (attempts++ < 5) {
+                requestAnimationFrame(attempt);
             }
-
-            //console.log("After scroll:", container.scrollTop);
-        });
-    }
-
-    function debounce(func, delay) {
-        let timer;
-        return function (...args) {
-            clearTimeout(timer);
-            timer = setTimeout(() => func(...args), delay);
-        };
-    }
-
-    let observer = new MutationObserver(debounce(scrollMid, 100));
-
-    observer.observe(container, { childList: true, subtree: true, characterData: true });
-
-    // Initial scroll after a short delay to ensure content is ready
-    setTimeout(scrollMid, 200);
+        }
+        requestAnimationFrame(attempt);
+    });
 }
 
-// Start after full page load
-window.addEventListener("load", handleScrollMid);
+
+
+function handleScroll(direction) { 
+    return new Promise((resolve) => {
+        const duration = 2000;
+        const container = document.getElementById("pageResultsId");
+        const start = container.scrollTop;
+        let target;
+
+        if (direction === "top") {
+            target = 0;
+        } else if (direction === "bottom") {
+            target = container.scrollHeight - container.clientHeight;
+        }
+
+        const distance = target - start;
+        const startTime = performance.now();
+
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
+
+        function step(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1); // 0 → 1
+            const easedProgress = easeInOutQuad(progress);
+
+            container.scrollTop = start + distance * easedProgress;
+
+            if (elapsed < duration) {
+                requestAnimationFrame(step);
+            } else {
+                resolve(); // ✅ animation finished
+            }
+        }
+
+        requestAnimationFrame(step);
+    });
+}
 
 
 

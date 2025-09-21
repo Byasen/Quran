@@ -9,8 +9,7 @@ tafseerSelect.addEventListener('change', () => {
 // Fetch Quran metadata (list of Surahs)
 async function loadMetadata() {
     try {
-        showLoadingStatus('Loading metadata...');
-        const response = await fetch('data/metadata.json');
+        showLoadingStatus('Loading metadata...');        const response = await fetch('data/metadata.json');
         if (!response.ok) {
             throw new Error('Metadata file not found');
         }
@@ -19,13 +18,12 @@ async function loadMetadata() {
         hideLoadingStatus(); // Hide the loading text once the metadata is loaded
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-    }
+    }        
 }
 
 // Fetch the verses of a selected Surah (no padding for Surah number)
 async function fetchSurahVerses(surahNumber) {
     const filePath = `data/surah/surah_${surahNumber}.json`;
-
     try {
         showLoadingStatus(`Loading Surah ${surahNumber}...`);
         const response = await fetch(filePath);
@@ -37,7 +35,7 @@ async function fetchSurahVerses(surahNumber) {
         hideLoadingStatus(); // Hide the loading text once verses are loaded
     } catch (error) {
         hideLoadingStatus(); // Hide the loading text in case of error
-    }
+    }        
 
 }
 
@@ -96,6 +94,7 @@ function populateChapters() {
         option.textContent = `${surah.number}.${surah.name.ar}`;
         chapterSelect.appendChild(option);
     }); // Close forEach and add semicolon
+    document.getElementById('topicChapterSelect').innerHTML = document.getElementById('chapterSelect').innerHTML;    
 }
 
 
@@ -129,6 +128,7 @@ function populateVerses(verses) {
         });
 
     }
+    document.getElementById('topicVerseSelect').innerHTML = document.getElementById('verseSelect').innerHTML;
 }
 
 function initializeVersesSelect() {
@@ -143,31 +143,6 @@ function initializeVersesSelect() {
 }
 
 
-
-// Populate Quran pages dropdown
-function populatePages() {
-    const pageSelect = document.getElementById('pageSelect');
-    pageSelect.innerHTML = ''; // Clear previous options
-
-    for (let i = 1; i <= 604; i++) { // Quran has 604 pages
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = `${i}`;
-        pageSelect.appendChild(option);
-    }
-}
-
-function initializePageSelect() {
-    const element = document.getElementById('pageSelect');
-    new Choices(element, {
-      searchEnabled: true,
-      itemSelectText: '',
-      shouldSort: false,
-      placeholder: true,
-      placeholderValue: 'رقم الصفحة'
-    });
-}
-
 async function selectRandomVerse() {
     const randomChapter = Math.floor(Math.random() * 114) + 1;
     const tempPath = `data/surah/surah_${randomChapter}.json`;
@@ -175,38 +150,34 @@ async function selectRandomVerse() {
     tempSurah = await response.json();
     const tempVerseCount =  tempSurah.verses.length;
     const randomVerse = Math.floor(Math.random() * tempVerseCount) + 1;
-    selectThisVerse(randomChapter, randomVerse);
+    selectThisVerseAndScrollMid(randomChapter, randomVerse);
 }
+
+
+// Function to handle selecting a stacked verse
+function selectThisVerseAndScrollMid(chapterNumber, verseNumber) {
+    selectThisVerse(chapterNumber, verseNumber);
+    handleScrollMid();
+}
+
 
 // Function to handle selecting a stacked verse
 function selectThisVerse(chapterNumber, verseNumber) {
     // Set the dropdowns to the correct Surah and Verse
     document.getElementById('chapterSelect').value = chapterNumber;
+    document.getElementById('topicChapterSelect').value = chapterNumber
+    
     fetchSurahVerses(chapterNumber).then(() => {
         document.getElementById('verseSelect').value = verseNumber;
+        document.getElementById('topicVerseSelect').value = verseNumber
 
         // Call displayVerseWithAnalyses to update the verse and analyses automatically
         displayVerseWithAnalyses(); // Update the verse display
+        displayQuranPagesWithHighlight(chapterNumber, verseNumber);
     });
     showMobileColumn('pageColoumn');
-    handleAudioVerseChange(chapterNumber, verseNumber);
+    handleAudioVerseChange(chapterNumber, verseNumber);   
 }
-
-
-// Function to handle selecting a stacked verse
-function selectThisVerseNoPageChange(chapterNumber, verseNumber) {
-    // Set the dropdowns to the correct Surah and Verse
-    document.getElementById('chapterSelect').value = chapterNumber;
-    fetchSurahVerses(chapterNumber).then(() => {
-        document.getElementById('verseSelect').value = verseNumber;
-
-        // Call displayVerseWithAnalyses to update the verse and analyses automatically
-        displayVerseWithAnalysesNoPageChange(); // Update the verse display
-    });
-    handleAudioVerseChange(chapterNumber, verseNumber);
-}
-
-
 
 
 // Function to batch fetch verses

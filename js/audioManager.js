@@ -1,20 +1,29 @@
-let audioPlayer = null;
+let audioPlayer = document.getElementById('audioPlayer');
 let autoPlay = false;
-
-// Global variables
 let repeat = 1;
-let silence = 0; // milliseconds
+let silence = 0; // seconds or "1X", "2X", "3X"
 let reciter = 'abdullah_basfar';
-let playCount = 0; // keep globally
+let playCount = 0; // repeat counter
 
+// DOM elements
 const reciterSelect = document.getElementById('reciter');
+const repeatSelect = document.getElementById('repeatSelect');
+const silenceSelect = document.getElementById('silenceSelect');
+const playBtn = document.getElementById('playAudioBtn');
+const stopBtn = document.getElementById('stopAudioBtn');
+const playOneBtn = document.getElementById('playOneAudioBtn');
+const settingsBtn = document.getElementById("settingsBtn");
+const playControl2 = document.getElementById("playControl2");
+
+// ------------------ Setup UI ------------------
+
+// Reciter change
 reciterSelect.addEventListener('change', () => {
     reciter = reciterSelect.value;
     saveStateToLocal();
 });
 
-// Populate Repeat dropdown
-const repeatSelect = document.getElementById('repeatSelect');
+// Repeat dropdown
 for (let i = 1; i <= 10; i++) {
     const option = document.createElement('option');
     option.value = i;
@@ -27,49 +36,30 @@ repeatSelect.addEventListener('change', () => {
     saveStateToLocal();
 });
 
-// Populate Silence dropdown
-const silenceSelect = document.getElementById('silenceSelect');
-const silenceOptions = document.createDocumentFragment();
-
-// Add normal second options
-for (let i = 0; i <= 60; i++) {
+// Silence dropdown
+const silenceOptionsSec = [0,5,10,15,20,25,30,45,60];
+silenceOptionsSec.forEach(sec => {
     const option = document.createElement('option');
-    option.value = i;
-    option.textContent = `${i} sec`;
-    silenceOptions.appendChild(option);
-}
-
-// Add X multiplier options
-['1X', '2X', '3X'].forEach(x => {
-    const option = document.createElement('option');
-    option.value = x;
-    option.textContent = x;
-    silenceOptions.appendChild(option);
+    option.value = sec;
+    option.textContent = `${sec} sec`;
+    silenceSelect.appendChild(option);
 });
-
-silenceSelect.appendChild(silenceOptions);
-
-// Set initial silence value (safe check)
-silenceSelect.value = typeof silence === 'number' ? silence / 1000 : silence;
-
+silenceSelect.value = typeof silence === 'number' ? silence : '0';
 silenceSelect.addEventListener('change', () => {
     const value = silenceSelect.value;
     if (value.endsWith('X')) {
-        silence = value; // Store as "1X", "2X", etc.
+        silence = value;
     } else {
-        silence = parseInt(value) * 1000; // Store as milliseconds
+        silence = parseInt(value);
     }
     saveStateToLocal();
 });
 
-const playBtn = document.getElementById('playAudioBtn');
-const stopBtn = document.getElementById('stopAudioBtn');
-const playOneBtn = document.getElementById('playOneAudioBtn');
-
+// Play / Stop buttons
 playBtn.addEventListener('click', () => {
     if (!autoPlay) {
         autoPlay = true;
-        loadVerseAudio(getCurrentChapter(), getCurrentVerse());        
+        loadVerseAudio(getCurrentChapter(), getCurrentVerse());
         initAudioPlayer();
     }
 });
@@ -85,57 +75,39 @@ playOneBtn.addEventListener('click', () => {
     initAudioPlayer();
 });
 
-const playControl1 = document.getElementById("playControl1"); // the button bar
-const playControl2 = document.getElementById("playControl2"); // the panel
-const settingsBtn  = document.getElementById("settingsBtn");
-
-// Toggle playControl2 when settingsBtn is clicked
-settingsBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent triggering the document click
+// Settings toggle
+settingsBtn.addEventListener("click", e => {
+    e.stopPropagation();
     playControl2.classList.toggle("show");
 });
-
-// Prevent clicks inside playControl2 from closing it
-playControl2.addEventListener("click", (e) => {
-    e.stopPropagation();
+playControl2.addEventListener("click", e => e.stopPropagation());
+document.addEventListener("click", () => {
+    if (playControl2.classList.contains("show")) playControl2.classList.remove("show");
 });
 
-// Hide when clicking anywhere else on the page
-document.addEventListener("click", (e) => {
-    if (playControl2.classList.contains("show")) {
-        playControl2.classList.remove("show");
-    }
-});
-
-
+// ------------------ Audio Functions ------------------
 
 function initAudioPlayer() {
-    if (!audioPlayer) {
-        audioPlayer = new Audio();
-    }
+    if (!audioPlayer) return;
 
     stopBtn.classList.add('playing');
 
-    // Reset listeners
-    audioPlayer.onended = async function () {
+    audioPlayer.onended = function () {
         playCount++;
 
         if (playCount < repeat) {
-            // Repeat same verse after silence
-            setTimeout(() => {
+            // Repeat current verse after silence
+            playSilence(getSilenceSeconds(), () => {
                 audioPlayer.currentTime = 0;
-                audioPlayer.play().catch(err => {
-                    console.warn("Play blocked:", err);
-                });
-            }, getSilenceDelay());
+                audioPlayer.play().catch(err => console.warn("Play blocked:", err));
+            });
         } else if (autoPlay) {
-            const isLastVerse = isAtLastVerse();
-            if (!isLastVerse) {
+            if (!isAtLastVerse()) {
                 incrementVerse();
-                setTimeout(() => {
-                    playCount = 0;
+                playCount = 0;
+                playSilence(getSilenceSeconds(), () => {
                     handleAudioVerseChange(getCurrentChapter(), getCurrentVerse());
-                }, getSilenceDelay());
+                });
             } else {
                 autoPlay = false;
                 stopBtn.classList.remove('playing');
@@ -146,17 +118,38 @@ function initAudioPlayer() {
     };
 }
 
-// Calculates silence delay based on selected option
-function getSilenceDelay() {
+function getSilenceSeconds() {
     if (typeof silence === 'string' && silence.endsWith('X')) {
-        const multiplier = parseInt(silence.replace('X', ''), 10);
+        const multiplier = parseInt(silence.replace('X',''),10);
         if (audioPlayer && !isNaN(audioPlayer.duration)) {
-            return Math.round(audioPlayer.duration * 1000 * multiplier);
+            return Math.round(audioPlayer.duration * multiplier);
         }
-        return 1000; // fallback
+        return 1; // fallback
     } else {
         return silence;
     }
+}
+
+function playSilence(seconds, callback) {
+    if (seconds <= 0) {
+        callback();
+        return;
+    }
+
+    const silentAudio = new Audio('data/sounds/silence1s.mp3');
+    let played = 0;
+
+    silentAudio.onended = function () {
+        played++;
+        if (played < seconds) {
+            silentAudio.currentTime = 0;
+            silentAudio.play().catch(err => console.warn("Silence blocked:", err));
+        } else {
+            callback();
+        }
+    };
+
+    silentAudio.play().catch(err => console.warn("Silence blocked:", err));
 }
 
 function stopAudio() {
@@ -164,7 +157,6 @@ function stopAudio() {
         audioPlayer.pause();
         audioPlayer.src = "";
         audioPlayer.load();
-        audioPlayer = null;
     }
     stopBtn.classList.remove('playing');
 }
@@ -182,14 +174,13 @@ function incrementVerse() {
 }
 
 function padNumber(num) {
-    return num.toString().padStart(3, '0');
+    return num.toString().padStart(3,'0');
 }
 
-// Dummy functions
+// Dummy loading functions
 function showLoadingStatus(msg) { console.log(msg); }
 function hideLoadingStatus() { console.log("Loaded"); }
 
-// Helpers to get current chapter/verse from UI
 function getCurrentChapter() {
     return parseInt(document.getElementById('chapterSelect').value);
 }
@@ -197,48 +188,8 @@ function getCurrentVerse() {
     return parseInt(document.getElementById('verseSelect').value);
 }
 
-function handleAudioVerseChange(chapter, verse) {
-    stopAudio();
-
-    if (!audioPlayer) {
-        audioPlayer = new Audio();
-    }
-
-    const chapter_padded = padNumber(chapter);
-    const verse_padded = padNumber(verse);
-    const audioPath = `data/sounds/${reciter}/${chapter_padded}${verse_padded}.mp3`;
-
-    audioPlayer.src = audioPath;
-    audioPlayer.load();
-
-    showLoadingStatus(`Loading verse ${chapter}:${verse}...`);
-
-    audioPlayer.addEventListener('canplaythrough', () => {
-        hideLoadingStatus();
-
-        // 🔑 Only play if already in play mode (autoPlay or playOne)
-        if (autoPlay || stopBtn.classList.contains("playing")) {
-            audioPlayer.play().catch(err => {
-                console.warn("Autoplay blocked, waiting for user gesture:", err);
-            });
-        }
-    }, { once: true });
-
-    audioPlayer.addEventListener('error', () => {
-        console.error(`Failed to load: ${audioPath}`);
-        hideLoadingStatus();
-        stopBtn.classList.remove('playing');
-    }, { once: true });
-
-    playCount = 0; // reset repeat counter
-    initAudioPlayer();
-}
-
-
 function loadVerseAudio(chapter, verse) {
-    if (!audioPlayer) {
-        audioPlayer = new Audio();
-    }
+    if (!audioPlayer) return;
 
     const chapter_padded = padNumber(chapter);
     const verse_padded = padNumber(verse);
@@ -246,16 +197,32 @@ function loadVerseAudio(chapter, verse) {
 
     audioPlayer.src = audioPath;
     audioPlayer.load();
-
     showLoadingStatus(`Loading verse ${chapter}:${verse}...`);
 
     audioPlayer.addEventListener('canplaythrough', () => {
         hideLoadingStatus();
-
-        // only play if in play mode
         if (autoPlay || stopBtn.classList.contains("playing")) {
-            audioPlayer.play().catch(err => {
-                console.warn("Autoplay blocked, waiting for user gesture:", err);
+            audioPlayer.play().catch(err => console.warn("Autoplay blocked:", err));
+        }
+
+        // Optional Media Session API
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: `Verse ${chapter}:${verse}`,
+                artist: reciter,
+                album: "Quran"
+            });
+
+            navigator.mediaSession.setActionHandler("nexttrack", () => {
+                incrementVerse();
+                handleAudioVerseChange(getCurrentChapter(), getCurrentVerse());
+            });
+            navigator.mediaSession.setActionHandler("previoustrack", () => {
+                const verseSelect = document.getElementById('verseSelect');
+                if (verseSelect.selectedIndex > 0) {
+                    verseSelect.selectedIndex--;
+                    handleAudioVerseChange(getCurrentChapter(), getCurrentVerse());
+                }
             });
         }
     }, { once: true });
@@ -268,12 +235,15 @@ function loadVerseAudio(chapter, verse) {
 }
 
 function handleAudioVerseChange(chapter, verse) {
-    playCount = 0;      // reset repeat counter
+    playCount = 0;
     loadVerseAudio(chapter, verse);
 
-    // 🔑 only set up repeat/autoplay loop if in play mode
     if (autoPlay || stopBtn.classList.contains("playing")) {
         initAudioPlayer();
     }
 }
 
+// Dummy saveStateToLocal
+function saveStateToLocal() {
+    // implement your localStorage save if needed
+}

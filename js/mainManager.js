@@ -28,23 +28,18 @@ function onChapterChange() {
         }
         // Display the selected verse with analyses (the first verse)
         displayVerseWithAnalyses();
+        displayQuranPagesWithHighlight(chapterSelect.value, verseSelect.value);
+        handleScrollMid();
     });
 }
 
 
 function onVerseChange() {
+    const chapterSelect = document.getElementById('chapterSelect');    
     const verseSelect = document.getElementById('verseSelect');
     displayVerseWithAnalyses();
-}
-
-// Handle page change
-function onPageChange() {
-    const pageSelect = document.getElementById('pageSelect');
-    const selectedPage = parseInt(pageSelect.value);
-
-    // Display Quran pages and highlight the current one
-    displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
-
+    displayQuranPagesWithHighlight(chapterSelect.value, verseSelect.value);
+    handleScrollMid();
 }
 
 
@@ -61,27 +56,10 @@ function onTopicChange() {
 
 
 
-
-// Automatically detect changes in the dropdown menus
-document.getElementById('pageSelect').addEventListener('change', function () {
-    const selectedPage = parseInt(this.value);
-    displayQuranPagesWithHighlight(selectedPage, null); // Null since no specific verse is selected
-});
-
-document.getElementById('chapterSelect').addEventListener('change', function () {
-    onChapterChange(); // Trigger chapter change logic
-});
-
-document.getElementById('verseSelect').addEventListener('change', function () {
-    onVerseChange(); // Trigger verse change logic
-});
-
-
 window.onload = async function () {
     loadAnalysisOptions();
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
-    populatePages(); // Initialize the Quran page dropdown
     loadStateFromLocal(); // Load the state from local storage
 };
 
