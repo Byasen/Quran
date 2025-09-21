@@ -59,25 +59,32 @@ function decrementVerse() {
     }
 }
 
+function scrollToMiddle(container) {
+    if (container.scrollHeight > container.clientHeight) {
+        container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
+    }
+}
+
 function handleScrollMid() {
     const container = document.getElementById("pageResultsId");
     const images = container.querySelectorAll("img");
 
-    // Wait for all images to load
-    const imagePromises = Array.from(images).map(img => {
-        if (img.complete) return Promise.resolve();
-        return new Promise(resolve => {
-            img.onload = img.onerror = () => resolve();
-        });
-    });
+    const imagePromises = Array.from(images).map(img =>
+        img.complete ? Promise.resolve() : new Promise(resolve => {
+            img.onload = img.onerror = resolve;
+        })
+    );
 
     Promise.all(imagePromises).then(() => {
-        // Use requestAnimationFrame to ensure layout is updated
-        requestAnimationFrame(() => {
-            if (container.scrollHeight > container.clientHeight) {
-                container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
+        // Try a few times to account for late layout changes
+        let attempts = 0;
+        function attempt() {
+            scrollToMiddle(container);
+            if (attempts++ < 5) {
+                requestAnimationFrame(attempt);
             }
-        });
+        }
+        requestAnimationFrame(attempt);
     });
 }
 
