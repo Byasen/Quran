@@ -11,10 +11,6 @@ document.getElementById('topicSelect').addEventListener('input', e => {
     saveStateToLocal();
 });
 
-document.getElementById('topicIntro').addEventListener('input', e => {
-    topicIntro = e.target.value;
-    saveStateToLocal();
-});
 
 function addCurrentVerse() {
     const chapterNumberLoc = document.getElementById('topicChapterSelect').value;

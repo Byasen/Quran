@@ -61,6 +61,7 @@ window.onload = async function () {
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
     loadStateFromLocal(); // Load the state from local storage
+    handleScrollMid(); // Ensure the verse is centered on load
 };
 
 
