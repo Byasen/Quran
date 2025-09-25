@@ -1,15 +1,3 @@
-const textarea = document.getElementById('topicIntro');
-
-textarea.addEventListener('input', () => {
-  textarea.style.height = 'auto'; // Reset height
-  textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
-});
-
-textarea.addEventListener('focus', () => {
-  textarea.style.height = 'auto'; // Reset height
-  textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
-});
-
 
 // Global cache: { source: { index: {...}, [chapterNumber]: [availableVerses] } }
 const tafseerCache = {};

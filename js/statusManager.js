@@ -46,8 +46,8 @@ async function loadState(jsonString) {
         selectThisVerseAndScrollMid(chapterNumberGlobal, verseNumberGlobal);
 
         // New: Load repeat and silence (with fallback values)
-        repeat = data.repeat !== undefined ? data.repeat : 3;
-        silence = data.silence !== undefined ? data.silence : 10000;
+        repeat = data.repeat !== undefined ? data.repeat : 1;
+        silence = data.silence !== undefined ? data.silence : 0;
         reciter = data.reciter || 'khalifah_alteneagy';
 
         tafseer = data.tafseer !== undefined ? data.tafseer : "ma3any";
@@ -61,11 +61,7 @@ async function loadState(jsonString) {
         }
         if (document.getElementById('silenceSelect')) {
             const silenceSelect = document.getElementById('silenceSelect');
-            if (typeof silence === 'string' && silence.endsWith('X')) {
                 silenceSelect.value = silence; // Set directly if it's "1X", "2X", etc.
-            } else {
-                silenceSelect.value = silence / 1000; // Set as seconds otherwise
-            }
         }
 
         // Clear stacked verses
@@ -75,7 +71,6 @@ async function loadState(jsonString) {
 
         // Set UI elements
         document.getElementById('topicSelect').value = topicName;
-        document.getElementById('topicIntro').value = topicIntro;
 
         // Set and trigger search
         let field = document.getElementById("verseSearchInput");
