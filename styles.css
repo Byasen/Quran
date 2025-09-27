@@ -34,10 +34,8 @@ flex-direction: column;
 }
 
 .mobileColumnSelector button {
-    font-size: 16px;
     background: none;
     border: none;
-    cursor: pointer;
     text-align: center;
 }
 
@@ -277,6 +275,15 @@ p, .verse {
     align-items: flex-end; /* Align items to the bottom */
 }
 
+
+.verseSearchInputclass {
+    width:fit-content;
+    text-align: rtl;
+    direction: rtl;
+    border: #000000 1px solid;
+}
+
+
 /* PlayControl1: slim, fixed top center */
 .searchControl {
     position: fixed;
@@ -336,8 +343,8 @@ p, .verse {
 }
 
 .searchResults2 button img {
-width: 14px;      /* icon size */
-height: 14px;
+width: 18px;      /* icon size */
+height: 18px;
 display: block;   /* remove inline spacing */
 }
 
@@ -393,8 +400,8 @@ display: block;   /* remove inline spacing */
 
 
 .topicControl1 button img {
-width: 10px;      /* icon size */
-height: 10px;
+width: 18px;      /* icon size */
+height: 18px;
 display: block;   /* remove inline spacing */
 }
 
@@ -584,8 +591,8 @@ label {
 
 
     .playControl1 button img {
-    width: 14px;      /* icon size */
-    height: 14px;
+    width: 16px;      /* icon size */
+    height: 16px;
     display: block;   /* remove inline spacing */
     }
 
