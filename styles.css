@@ -414,6 +414,7 @@ display: block;   /* remove inline spacing */
     text-align: right; /* Align text to the right for Arabic */
     direction: rtl; /* Right-to-left direction for Arabic */
     background-color: #f9f9f9;
+    margin-bottom: 20px;
 }
 
 
@@ -448,6 +449,7 @@ display: block;   /* remove inline spacing */
     padding-right: 10px;
     padding-left: 50px;
     padding-top: 10px;
+    border-radius: 16px 16px 16px 16px;  
     direction: rtl;
     transition: background-color 2s ease; /* smooth fade every second */
     position: relative; /* For positioning the action buttons */
@@ -457,11 +459,11 @@ display: block;   /* remove inline spacing */
 
 .verse-actions {
     position: absolute;
-    left: 10%;                 /* stick to left edge of parent */
+    left: 5%;                 /* stick to left edge of parent */
     bottom: 100%;            /* element’s bottom aligns with parent’s top */
     background: rgba(255,255,255,0.9);
-    border-radius: 0 0 8px 8px;  
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border-radius: 16px 16px 16px 16px;  
+    box-shadow: 0 6px 6px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: row;     /* or column */
     z-index: 1000;
@@ -470,7 +472,13 @@ display: block;   /* remove inline spacing */
     border: #000000 1px solid;
 }
 
-
+    .verse-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    }
+    
 
     .verse-actions button img {
     width: 12px;      /* icon size */
@@ -501,7 +509,6 @@ display: block;   /* remove inline spacing */
 }
 
 .topicControl2 button {
-    font-size: 16px;
     background: none;
     border: none;
     cursor: pointer;
@@ -510,8 +517,8 @@ display: block;   /* remove inline spacing */
 
 
 .topicControl2 button img {
-width: 18px;      /* icon size */
-height: 18px;
+width: 16px;      /* icon size */
+height: 16px;
 display: block;   /* remove inline spacing */
 }
 
@@ -582,7 +589,6 @@ label {
     }
 
     .playControl1 button {
-        font-size: 16px;
         background: none;
         border: none;
         cursor: pointer;
@@ -591,8 +597,8 @@ label {
 
 
     .playControl1 button img {
-    width: 16px;      /* icon size */
-    height: 16px;
+    width: 14px;      /* icon size */
+    height: 14px;
     display: block;   /* remove inline spacing */
     }
 

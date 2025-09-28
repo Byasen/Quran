@@ -29,7 +29,6 @@ function onChapterChange() {
         // Display the selected verse with analyses (the first verse)
         displayVerseWithAnalyses();
         displayQuranPagesWithHighlight(chapterSelect.value, verseSelect.value);
-        handleScrollMid();
     });
 }
 
@@ -39,7 +38,6 @@ function onVerseChange() {
     const verseSelect = document.getElementById('verseSelect');
     displayVerseWithAnalyses();
     displayQuranPagesWithHighlight(chapterSelect.value, verseSelect.value);
-    handleScrollMid();
 }
 
 
@@ -61,7 +59,6 @@ window.onload = async function () {
     await loadMetadata(); // Initialize the page by loading metadata
     await loadCSVData(); // Load `quranText.csv` file
     loadStateFromLocal(); // Load the state from local storage
-    handleScrollMid(); // Ensure the verse is centered on load
 };
 
 
