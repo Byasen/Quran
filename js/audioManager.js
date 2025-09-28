@@ -1,7 +1,7 @@
 let audioPlayer = document.getElementById('audioPlayer');
 let autoPlay = false;
-let repeat = 1;
-let silence = 0; // seconds or "1X", "2X", "3X"
+let repeat = 2;
+let silence = 5; // seconds or "1X", "2X", "3X"
 let reciter = 'alhosary';
 let playCount = 0; // repeat counter
 
