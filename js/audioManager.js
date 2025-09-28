@@ -2,7 +2,7 @@ let audioPlayer = document.getElementById('audioPlayer');
 let autoPlay = false;
 let repeat = 1;
 let silence = 0; // seconds or "1X", "2X", "3X"
-let reciter = 'abdullah_basfar';
+let reciter = 'alhosary';
 let playCount = 0; // repeat counter
 
 // DOM elements
