@@ -308,7 +308,7 @@ function renderBoundingBoxesForPage(regions, imageElement, containerId) {
                         selectThisVerseAndScrollMid(region.chapter, region.verse);
                     });
             }else {
-                selectThisVerseAndScrollMid(region.chapter, region.verse);
+                selectThisVerseAndScrollMidNoPageLoad(region.chapter, region.verse);
             }
 
         });
@@ -378,4 +378,20 @@ function checkMobileMode() {
     } else {
         mobileColumnSelector.style.display = 'none';
     }
+}
+
+
+
+const container = document.getElementById("pageResultsId");
+
+const observer = new MutationObserver(() => {
+  setTimeout(() => scrollToMiddle(container), 0);
+});
+
+observer.observe(container, { childList: true, subtree: true });
+
+function scrollToMiddle(el) {
+  if (el.scrollHeight > el.clientHeight) {
+    el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
+  }
 }

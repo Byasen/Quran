@@ -59,40 +59,14 @@ function decrementVerse() {
     }
 }
 
-function scrollToMiddle(container) {
-    if (container.scrollHeight > container.clientHeight) {
-        container.scrollTop = (container.scrollHeight - container.clientHeight) / 2;
-    }
-}
 
-function handleScrollMid() {
-    const container = document.getElementById("pageResultsId");
-    const images = container.querySelectorAll("img");
 
-    const imagePromises = Array.from(images).map(img =>
-        img.complete ? Promise.resolve() : new Promise(resolve => {
-            img.onload = img.onerror = resolve;
-        })
-    );
 
-    Promise.all(imagePromises).then(() => {
-        // Try a few times to account for late layout changes
-        let attempts = 0;
-        function attempt() {
-            scrollToMiddle(container);
-            if (attempts++ < 5) {
-                requestAnimationFrame(attempt);
-            }
-        }
-        requestAnimationFrame(attempt);
-    });
-}
 
 
 
 function handleScroll(direction) { 
     return new Promise((resolve) => {
-        const duration = 2000;
         const container = document.getElementById("pageResultsId");
         const start = container.scrollTop;
         let target;
@@ -101,9 +75,18 @@ function handleScroll(direction) {
             target = 0;
         } else if (direction === "bottom") {
             target = container.scrollHeight - container.clientHeight;
+        } else if (direction === "middle") {
+            target = (container.scrollHeight - container.clientHeight) / 2;
+        } else {
+            resolve();
+            return;
         }
 
-        const distance = target - start;
+        const distance = Math.abs(target - start);
+
+        // Duration proportional to distance (e.g., 1ms per pixel), with min/max
+        const duration = distance*3;
+
         const startTime = performance.now();
 
         function easeInOutQuad(t) {
@@ -112,10 +95,10 @@ function handleScroll(direction) {
 
         function step(currentTime) {
             const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1); // 0 → 1
+            const progress = Math.min(elapsed / duration, 1);
             const easedProgress = easeInOutQuad(progress);
 
-            container.scrollTop = start + distance * easedProgress;
+            container.scrollTop = start + (target - start) * easedProgress;
 
             if (elapsed < duration) {
                 requestAnimationFrame(step);

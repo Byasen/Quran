@@ -154,10 +154,28 @@ async function selectRandomVerse() {
 }
 
 
+
+// Function to handle selecting a stacked verse
+function selectThisVerseAndScrollMidNoPageLoad(chapterNumber, verseNumber) {
+    // Set the dropdowns to the correct Surah and Verse
+    document.getElementById('chapterSelect').value = chapterNumber;
+    document.getElementById('topicChapterSelect').value = chapterNumber
+    
+    fetchSurahVerses(chapterNumber).then(() => {
+        document.getElementById('verseSelect').value = verseNumber;
+        document.getElementById('topicVerseSelect').value = verseNumber
+
+        // Call displayVerseWithAnalyses to update the verse and analyses automatically
+        displayVerseWithAnalyses(); // Update the verse display
+    });
+    showMobileColumn('pageColoumn');
+    handleAudioVerseChange(chapterNumber, verseNumber);   
+}
+
+
 // Function to handle selecting a stacked verse
 function selectThisVerseAndScrollMid(chapterNumber, verseNumber) {
     selectThisVerse(chapterNumber, verseNumber);
-    handleScrollMid();
 }
 
 
