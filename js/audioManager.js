@@ -37,23 +37,19 @@ repeatSelect.addEventListener('change', () => {
 });
 
 // Silence dropdown
-const silenceOptionsSec = [0,5,10,15,20,25,30,45,60];
+const silenceOptionsSec = [5, 10, 15, 25, 40, 60];
 silenceOptionsSec.forEach(sec => {
     const option = document.createElement('option');
     option.value = sec;
     option.textContent = `${sec} sec`;
     silenceSelect.appendChild(option);
 });
-silenceSelect.value = typeof silence === 'number' ? silence : '0';
+silenceSelect.value = typeof silence === 'number' ? silence : '5';
 silenceSelect.addEventListener('change', () => {
-    const value = silenceSelect.value;
-    if (value.endsWith('X')) {
-        silence = value;
-    } else {
-        silence = parseInt(value);
-    }
+    silence = parseInt(silenceSelect.value);
     saveStateToLocal();
 });
+
 
 // Play / Stop buttons
 playBtn.addEventListener('click', () => {
@@ -136,21 +132,27 @@ function playSilence(seconds, callback) {
         return;
     }
 
-    const silentAudio = new Audio('data/sounds/silence1s.mp3');
-    let played = 0;
+    // Match available silence files (5,10,15,25,40,60)
+    const availableSilences = [5, 10, 15, 25, 40, 60];
+    let closest = availableSilences.reduce((a, b) =>
+        Math.abs(b - seconds) < Math.abs(a - seconds) ? b : a
+    );
 
-    silentAudio.onended = function () {
-        played++;
-        if (played < seconds) {
-            silentAudio.currentTime = 0;
-            silentAudio.play().catch(err => console.warn("Silence blocked:", err));
-        } else {
-            callback();
-        }
+    const silenceFile = `data/sounds/silence${closest}s.mp3`;
+    const silentAudio = new Audio(silenceFile);
+
+    silentAudio.onended = () => callback();
+    silentAudio.onerror = () => {
+        console.warn(`Missing silence file: ${silenceFile}`);
+        callback();
     };
 
-    silentAudio.play().catch(err => console.warn("Silence blocked:", err));
+    silentAudio.play().catch(err => {
+        console.warn("Silence playback blocked:", err);
+        callback();
+    });
 }
+
 
 function stopAudio() {
     if (audioPlayer) {
