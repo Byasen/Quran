@@ -24,12 +24,13 @@ reciterSelect.addEventListener('change', () => {
 });
 
 // Repeat dropdown
-for (let i = 1; i <= 10; i++) {
+const repeatOptions = [1, 2, 3, 5, 7, 10, 20];
+repeatOptions.forEach(num => {
     const option = document.createElement('option');
-    option.value = i;
-    option.textContent = i;
+    option.value = num;
+    option.textContent = num;
     repeatSelect.appendChild(option);
-}
+});
 repeatSelect.value = repeat;
 repeatSelect.addEventListener('change', () => {
     repeat = parseInt(repeatSelect.value);
@@ -37,7 +38,7 @@ repeatSelect.addEventListener('change', () => {
 });
 
 // Silence dropdown
-const silenceOptionsSec = [5, 10, 15, 25, 40, 60];
+const silenceOptionsSec = [0, 5, 10, 15, 25, 40, 60];
 silenceOptionsSec.forEach(sec => {
     const option = document.createElement('option');
     option.value = sec;
