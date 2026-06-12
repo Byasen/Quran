@@ -1,148 +1,195 @@
 """
-Quran Numerical Pattern Search
-===============================
-Properties to match:
-  - 114 surahs, orders fixed: 1..114
-  - Each surah has a verse count: 1..286
-  - For each surah: compute (order + verse_count) -> classify as even or odd
-  - S_even = sum of (order + verse_count) for surahs where the sum is even
-  - S_odd  = sum of (order + verse_count) for surahs where the sum is odd
-  - O_total = sum of all orders (fixed = 1+2+...+114 = 6555)
-  - V_total = sum of all verse counts
-  - Target: two matched pairs from {S_even, S_odd, O_total, V_total}
-    i.e. S_odd == O_total AND S_even == V_total  (as seen in the Quran)
-    OR   S_even == O_total AND S_odd == V_total
+Quran Numerical Pattern — Smart Constructor
+============================================
+Instead of random brute-force, this script CONSTRUCTS valid solutions
+mathematically, achieving a ~50% success rate per attempt.
 
-In the Quran:
-  O_total  = 6555  (fixed, sum of 1..114)
-  V_total  = 6236
-  S_odd    = 6555
-  S_even   = 6236
-  -> S_odd == O_total  and  S_even == V_total   (the two matched pairs)
+Properties enforced:
+  S_odd  == O_total (6555)
+  S_even == V_total
 
-We search for random verse-count assignments that reproduce this structure.
+Key insight:
+  S_odd = sum of (order+verse) where (order+verse) is odd
+  S_odd = OA + VA   where OA = sum of orders in group A,
+                          VA = sum of verses in group A
+  => We need  VA = 6555 - OA  (controllable by choosing verse values!)
+
+So we:
+  1. Randomly split surahs into group A (target: odd sum) and B (even sum)
+  2. Compute OA; derive needed VA = 6555 - OA
+  3. Assign verse parities to match group membership
+  4. Distribute VA across group A verses — guaranteed valid if feasible
+  5. Group B verses are free (just correct parity, random values)
 """
 
 import random
 import time
 from datetime import datetime
 
-# ── constants ────────────────────────────────────────────────────────────────
-NUM_SURAHS   = 114
-MAX_VERSES   = 286
-MIN_VERSES   = 1
-O_TOTAL      = sum(range(1, NUM_SURAHS + 1))   # 6555, always fixed
-QURAN_VTOTAL = 6236                             # target V_total from the image
+SUCCESS_FILE = "smart_successes.txt"
+O_TOTAL = sum(range(1, 115))   # 6555
 
-SUCCESS_FILE = "successes.txt"
+# ── core math ────────────────────────────────────────────────────────────────
 
-# ── helpers ──────────────────────────────────────────────────────────────────
+def parity_range(order, need_odd_sum):
+    """Return (lo, hi, step) for verse value given constraints."""
+    if need_odd_sum:
+        return (4, 286, 2) if order % 2 == 1 else (3, 285, 2)
+    else:
+        return (3, 285, 2) if order % 2 == 1 else (4, 286, 2)
 
-def evaluate(verse_counts):
+
+def build_solution():
     """
-    Given a list of 114 verse counts, compute the four sums and
-    check whether they form two matched pairs.
-
-    Returns (s_odd, s_even, v_total, matched_pair) where matched_pair is
-    a string describing the pair or None.
+    Construct a valid verse assignment. Returns verse_counts (list of 114)
+    or None if the random grouping was infeasible.
     """
-    orders = list(range(1, NUM_SURAHS + 1))
-    s_odd  = 0
-    s_even = 0
-    v_total = sum(verse_counts)
+    orders = list(range(1, 115))
+    in_A   = [random.random() < 0.5 for _ in orders]
 
-    for order, verses in zip(orders, verse_counts):
-        total = order + verses
-        if total % 2 == 0:
-            s_even += total
+    group_A = [o for o, a in zip(orders, in_A) if     a]
+    group_B = [o for o, a in zip(orders, in_A) if not a]
+
+    if not group_A:
+        return None
+
+    OA        = sum(group_A)
+    VA_needed = O_TOTAL - OA
+
+    A_ranges = [parity_range(o, True) for o in group_A]
+    A_min    = sum(r[0] for r in A_ranges)
+    A_max    = sum(r[1] for r in A_ranges)
+
+    if not (A_min <= VA_needed <= A_max):
+        return None
+    if (VA_needed - A_min) % 2 != 0:   # parity check
+        return None
+
+    # Distribute VA_needed greedily with shuffle for variety
+    vers_A    = [r[0] for r in A_ranges]
+    remaining = VA_needed - sum(vers_A)
+    indices   = list(range(len(group_A)))
+    random.shuffle(indices)
+    for i in indices:
+        _, hi, _ = A_ranges[i]
+        add       = min(remaining, hi - vers_A[i])
+        add       = (add // 2) * 2      # keep step-2 parity
+        vers_A[i] += add
+        remaining  -= add
+        if remaining == 0:
+            break
+    if remaining != 0:
+        return None
+
+    # Group B: random verses with correct parity
+    vers_B = []
+    for o in group_B:
+        lo, hi, step = parity_range(o, False)
+        vers_B.append(random.randrange(lo, hi + 1, step))
+
+    # Assemble
+    verse_counts = [0] * 114
+    for o, v in zip(group_A, vers_A):
+        verse_counts[o - 1] = v
+    for o, v in zip(group_B, vers_B):
+        verse_counts[o - 1] = v
+
+    return verse_counts
+
+
+def verify(verse_counts):
+    V_total = sum(verse_counts)
+    S_odd = S_even = 0
+    for order in range(1, 115):
+        v = verse_counts[order - 1]
+        s = order + v
+        if s % 2 == 1:
+            S_odd  += s
         else:
-            s_odd  += total
-
-    # Check for matched pairs
-    pair = None
-    if s_odd == O_TOTAL and s_even == v_total:
-        pair = f"S_odd({s_odd}) == O_total({O_TOTAL})  AND  S_even({s_even}) == V_total({v_total})"
-    elif s_even == O_TOTAL and s_odd == v_total:
-        pair = f"S_even({s_even}) == O_total({O_TOTAL})  AND  S_odd({s_odd}) == V_total({v_total})"
-    elif s_odd == v_total and s_even == O_TOTAL:
-        pair = f"S_odd({s_odd}) == V_total({v_total})  AND  S_even({s_even}) == O_total({O_TOTAL})"
-
-    return s_odd, s_even, v_total, pair
+            S_even += s
+    matched = (S_odd == O_TOTAL and S_even == V_total)
+    return V_total, S_odd, S_even, matched
 
 
-def random_verses():
-    return [random.randint(MIN_VERSES, MAX_VERSES) for _ in range(NUM_SURAHS)]
+def log_success(count, trial, verse_counts, V_total, S_odd, S_even):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-
-def log_success(trial_num, verse_counts, s_odd, s_even, v_total, pair_desc):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(SUCCESS_FILE, "a") as f:
+    # ── main log file ────────────────────────────────────────────────────────
+    with open(SUCCESS_FILE, "a", encoding="utf-8") as f:
         f.write("=" * 70 + "\n")
-        f.write(f"[SUCCESS #{trial_num}]  Found at {timestamp}\n")
-        f.write(f"  Matched pair : {pair_desc}\n")
-        f.write(f"  O_total      : {O_TOTAL}\n")
-        f.write(f"  V_total      : {v_total}\n")
-        f.write(f"  S_odd        : {s_odd}\n")
-        f.write(f"  S_even       : {s_even}\n")
-        f.write(f"  Verse counts : {verse_counts}\n\n")
+        f.write(f"[SUCCESS #{count}]  trial={trial:,}  at {ts}\n")
+        f.write(f"  O_total  = {O_TOTAL}\n")
+        f.write(f"  V_total  = {V_total}\n")
+        f.write(f"  S_odd    = {S_odd}   (== O_total [OK])\n")
+        f.write(f"  S_even   = {S_even}  (== V_total [OK])\n")
+        f.write(f"  verses   = {verse_counts}\n\n")
+
+    # ── per-success CSV: order, verse_count ──────────────────────────────────
+    csv_file = f"success_{count:04d}_trial_{trial}.csv"
+    with open(csv_file, "w", encoding="utf-8") as f:
+        f.write("order,verse_count\n")
+        for order, verses in enumerate(verse_counts, start=1):
+            f.write(f"{order},{verses}\n")
+    print(f"  Saved detail file: {csv_file}")
 
 
-# ── main loop ────────────────────────────────────────────────────────────────
+# ── main ─────────────────────────────────────────────────────────────────────
 
 def main():
     print("=" * 70)
-    print("  Quran Numerical Pattern Search")
-    print(f"  Surahs: {NUM_SURAHS}  |  Max verses: {MAX_VERSES}")
-    print(f"  Fixed O_total = {O_TOTAL}")
-    print(f"  Looking for: S_odd==O_total & S_even==V_total  (or symmetric)")
+    print("  Quran Pattern — SMART Constructor  (~50% hit rate per attempt)")
+    print(f"  O_total fixed = {O_TOTAL}")
+    print(f"  Target: S_odd == O_total  AND  S_even == V_total")
     print("=" * 70)
     print()
 
-    trial        = 0
+    trial         = 0
     success_count = 0
-    start_time   = time.time()
-    report_every = 100_000      # print a status line every N trials
+    report_every  = 10_000
+    start         = time.time()
 
     try:
         while True:
             trial += 1
-            verses = random_verses()
-            s_odd, s_even, v_total, pair = evaluate(verses)
+            vc = build_solution()
+            if vc is None:
+                continue
 
-            # ── progress report ──────────────────────────────────────────────
+            V_total, S_odd, S_even, ok = verify(vc)
+
             if trial % report_every == 0:
-                elapsed = time.time() - start_time
-                rate    = trial / elapsed
+                elapsed = time.time() - start
                 print(
-                    f"Trial {trial:>12,} | "
-                    f"elapsed {elapsed:>8.1f}s | "
-                    f"rate {rate:>10,.0f}/s | "
+                    f"Trial {trial:>10,} | "
+                    f"{elapsed:>7.1f}s | "
+                    f"rate {trial/elapsed:>9,.0f}/s | "
                     f"successes {success_count}"
                 )
 
-            # ── success check ────────────────────────────────────────────────
-            if pair:
+            if ok:
                 success_count += 1
-                elapsed = time.time() - start_time
+                elapsed = time.time() - start
                 print()
                 print("★" * 70)
-                print(f"  ✅  SUCCESS #{success_count}  at trial {trial:,}  ({elapsed:.2f}s)")
-                print(f"  {pair}")
-                print(f"  V_total = {v_total}  |  O_total = {O_TOTAL}")
-                print(f"  S_odd   = {s_odd}  |  S_even  = {s_even}")
+                print(f"  ✅  SUCCESS #{success_count}  at trial {trial:,}  ({elapsed:.2f}s elapsed)")
+                print(f"  O_total = {O_TOTAL}  |  V_total = {V_total}")
+                print(f"  S_odd   = {S_odd}   |  S_even  = {S_even}")
+                print(f"  Pair 1: S_odd == O_total  →  {S_odd} == {O_TOTAL}")
+                print(f"  Pair 2: S_even == V_total →  {S_even} == {V_total}")
                 print("★" * 70)
                 print()
-                log_success(trial, verses, s_odd, s_even, v_total, pair)
+                log_success(success_count, trial, vc, V_total, S_odd, S_even)
+
+                if success_count >= 10:
+                    print("Found 10 solutions. Stopping.")
+                    break
 
     except KeyboardInterrupt:
-        elapsed = time.time() - start_time
-        print()
-        print("-" * 70)
-        print(f"Stopped after {trial:,} trials in {elapsed:.1f}s")
-        print(f"Total successes found: {success_count}")
+        elapsed = time.time() - start
+        print(f"\nStopped after {trial:,} trials in {elapsed:.1f}s")
+        print(f"Successes: {success_count}")
         if success_count:
-            print(f"Results saved to: {SUCCESS_FILE}")
-        print("-" * 70)
+            print(f"Saved to: {SUCCESS_FILE}")
 
 
 if __name__ == "__main__":
